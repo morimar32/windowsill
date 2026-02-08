@@ -205,3 +205,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# local db files
+*.duckdb
+*.wal
+
+# local python venv
+ws/
+
+# processing files
+intermediates/
+
+# you dont get to see my notebooks
+*.ipynb
+*.png
