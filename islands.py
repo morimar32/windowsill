@@ -308,6 +308,7 @@ def compute_island_stats(con, generation=0):
             avg_jacc, max_jacc, min_jacc,
             None, parent_island_id, None,
             n_core_words, median_depth,
+            None, None,
         ))
 
     df = pd.DataFrame(stats_rows, columns=[
@@ -315,6 +316,7 @@ def compute_island_stats(con, generation=0):
         "avg_internal_jaccard", "max_internal_jaccard", "min_internal_jaccard",
         "modularity_contribution", "parent_island_id", "island_name",
         "n_core_words", "median_word_depth",
+        "arch_column", "arch_bit",
     ])
     con.execute("INSERT INTO island_stats SELECT * FROM df")
     print(f"    Computed stats for {len(stats_rows)} islands")
@@ -491,7 +493,7 @@ def compute_archipelago_encoding(con):
     # Clear existing bit positions
     con.execute("UPDATE island_stats SET arch_column = NULL, arch_bit = NULL")
 
-    # Gen-0: arch_column='archipelago', arch_bit=island_id (0-3)
+    # Gen-0: low bits of archipelago column
     con.execute("""
         UPDATE island_stats
         SET arch_column = 'archipelago', arch_bit = island_id
@@ -500,18 +502,37 @@ def compute_archipelago_encoding(con):
     gen0_count = con.execute(
         "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
     ).fetchone()[0]
-    print(f"      Gen-0: {gen0_count} archipelagos (bits 0-{gen0_count - 1})")
+    print(f"      Gen-0: {gen0_count} archipelagos (archipelago bits 0-{gen0_count - 1})")
 
-    # Gen-1: arch_column='archipelago', arch_bit=4+island_id
-    con.execute("""
-        UPDATE island_stats
-        SET arch_column = 'archipelago', arch_bit = 4 + island_id
-        WHERE generation = 1 AND island_id >= 0
-    """)
+    # Gen-1: split evenly across archipelago (after gen-0 bits) and archipelago_ext
     gen1_count = con.execute(
         "SELECT COUNT(*) FROM island_stats WHERE generation = 1 AND island_id >= 0"
     ).fetchone()[0]
-    print(f"      Gen-1: {gen1_count} islands (bits 4-{4 + gen1_count - 1})")
+    gen1_half = (gen1_count + 1) // 2
+
+    # First half in archipelago, offset by gen0_count
+    con.execute("""
+        UPDATE island_stats
+        SET arch_column = 'archipelago', arch_bit = ? + island_id
+        WHERE generation = 1 AND island_id >= 0 AND island_id < ?
+    """, [gen0_count, gen1_half])
+
+    # Second half in archipelago_ext
+    con.execute("""
+        UPDATE island_stats
+        SET arch_column = 'archipelago_ext', arch_bit = island_id - ?
+        WHERE generation = 1 AND island_id >= 0 AND island_id >= ?
+    """, [gen1_half, gen1_half])
+
+    gen1_first = min(gen1_half, gen1_count)
+    gen1_second = gen1_count - gen1_first
+    max_bit_arch = gen0_count + gen1_first - 1
+    if max_bit_arch >= 64:
+        raise ValueError(f"Archipelago column overflow: need bit {max_bit_arch}, max is 63")
+    if gen1_second > 64:
+        raise ValueError(f"Archipelago_ext column overflow: need {gen1_second} bits, max is 64")
+    print(f"      Gen-1: {gen1_count} islands ({gen1_first} in archipelago bits {gen0_count}-{max_bit_arch}"
+          + (f", {gen1_second} in archipelago_ext bits 0-{gen1_second - 1})" if gen1_second > 0 else ")"))
 
     # Gen-2: group by gen-0 grandparent, assign reef_N columns
     # Find each gen-2 island's grandparent via gen-1 parent -> gen-0 grandparent
@@ -524,22 +545,32 @@ def compute_archipelago_encoding(con):
         ORDER BY gen0_grandparent, s2.island_id
     """).fetchall()
 
-    # Group by grandparent and assign bit positions within each group
+    # Group by grandparent and assign bit positions within each group.
+    # Each BIGINT column holds at most 64 bits; overflow groups spill into the next column.
     from collections import defaultdict
     grandparent_groups = defaultdict(list)
     for island_id, gen1_parent, gen0_grandparent in gen2_islands:
         grandparent_groups[gen0_grandparent].append(island_id)
 
+    reef_columns = ["reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]
+    col_idx = 0
     for gp_id, island_ids in sorted(grandparent_groups.items()):
-        base_id = min(island_ids)
-        for island_id in island_ids:
-            bit = island_id - base_id
-            con.execute("""
-                UPDATE island_stats
-                SET arch_column = ?, arch_bit = ?
-                WHERE island_id = ? AND generation = 2
-            """, [f"reef_{gp_id}", bit, island_id])
-        print(f"      Gen-2 reef_{gp_id}: {len(island_ids)} reefs (bits 0-{len(island_ids) - 1})")
+        for chunk_start in range(0, len(island_ids), 64):
+            if col_idx >= len(reef_columns):
+                raise ValueError(
+                    f"Reef column overflow: need more than {len(reef_columns)} columns "
+                    f"({sum(len(v) for v in grandparent_groups.values())} total reefs)"
+                )
+            chunk = island_ids[chunk_start:chunk_start + 64]
+            col_name = reef_columns[col_idx]
+            for i, island_id in enumerate(chunk):
+                con.execute("""
+                    UPDATE island_stats
+                    SET arch_column = ?, arch_bit = ?
+                    WHERE island_id = ? AND generation = 2
+                """, [col_name, i, island_id])
+            print(f"      Gen-2 {col_name}: {len(chunk)} reefs for arch {gp_id} (bits 0-{len(chunk) - 1})")
+            col_idx += 1
 
     total_assigned = con.execute(
         "SELECT COUNT(*) FROM island_stats WHERE arch_column IS NOT NULL"
@@ -547,36 +578,53 @@ def compute_archipelago_encoding(con):
     print(f"      Total: {total_assigned} bit positions assigned")
 
     # === Phase B: Bulk-compute bitmasks on words ===
-    print("    Phase B: Computing word bitmasks...")
+    min_depth = config.REEF_MIN_DEPTH
+    print(f"    Phase B: Computing word bitmasks (min depth = {min_depth})...")
 
     con.execute("""
-        UPDATE words SET archipelago = 0, reef_0 = 0, reef_1 = 0, reef_2 = 0, reef_3 = 0
+        UPDATE words SET archipelago = 0, archipelago_ext = 0,
+            reef_0 = 0, reef_1 = 0, reef_2 = 0, reef_3 = 0, reef_4 = 0, reef_5 = 0
     """)
 
-    con.execute("""
-        WITH bit_positions AS (
+    # DuckDB's signed BIGINT overflows on 1::BIGINT << 63, so use a safe expression
+    # that handles the sign bit explicitly (bit 63 = MIN_BIGINT = -9223372036854775808)
+    SAFE_BIT = "(CASE WHEN arch_bit = 63 THEN (-9223372036854775808)::BIGINT ELSE 1::BIGINT << arch_bit END)"
+
+    cols = ["archipelago", "archipelago_ext", "reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]
+    bit_or_exprs = ",\n                ".join(
+        f"BIT_OR(CASE WHEN arch_column = '{c}' THEN {SAFE_BIT} END) as {c}" for c in cols
+    )
+    coalesce_sets = ",\n            ".join(f"{c} = COALESCE(wm.{c}, 0)" for c in cols)
+
+    con.execute(f"""
+        WITH word_island_depth AS (
+            -- For each word + island (any generation), count activated dims
+            SELECT m.word_id, di.island_id, di.generation
+            FROM dim_memberships m
+            JOIN dim_islands di ON m.dim_id = di.dim_id
+            WHERE di.island_id >= 0
+            GROUP BY m.word_id, di.island_id, di.generation
+            HAVING COUNT(*) >= {min_depth}
+        ),
+        bit_positions AS (
             SELECT m.word_id, s.arch_column, s.arch_bit
             FROM dim_memberships m
             JOIN dim_islands di ON m.dim_id = di.dim_id
             JOIN island_stats s ON di.island_id = s.island_id AND di.generation = s.generation
-            WHERE di.island_id >= 0 AND s.arch_column IS NOT NULL
+            JOIN word_island_depth wid
+                ON m.word_id = wid.word_id
+                AND di.island_id = wid.island_id
+                AND di.generation = wid.generation
+            WHERE s.arch_column IS NOT NULL
         ),
         word_masks AS (
             SELECT word_id,
-                BIT_OR(CASE WHEN arch_column = 'archipelago' THEN 1::BIGINT << arch_bit END) as archipelago,
-                BIT_OR(CASE WHEN arch_column = 'reef_0' THEN 1::BIGINT << arch_bit END) as reef_0,
-                BIT_OR(CASE WHEN arch_column = 'reef_1' THEN 1::BIGINT << arch_bit END) as reef_1,
-                BIT_OR(CASE WHEN arch_column = 'reef_2' THEN 1::BIGINT << arch_bit END) as reef_2,
-                BIT_OR(CASE WHEN arch_column = 'reef_3' THEN 1::BIGINT << arch_bit END) as reef_3
+                {bit_or_exprs}
             FROM bit_positions
             GROUP BY word_id
         )
         UPDATE words SET
-            archipelago = COALESCE(wm.archipelago, 0),
-            reef_0 = COALESCE(wm.reef_0, 0),
-            reef_1 = COALESCE(wm.reef_1, 0),
-            reef_2 = COALESCE(wm.reef_2, 0),
-            reef_3 = COALESCE(wm.reef_3, 0)
+            {coalesce_sets}
         FROM word_masks wm WHERE words.word_id = wm.word_id
     """)
 
@@ -586,25 +634,28 @@ def compute_archipelago_encoding(con):
     counts = con.execute("""
         SELECT
             COUNT(*) FILTER (WHERE archipelago != 0) as n_arch,
+            COUNT(*) FILTER (WHERE archipelago_ext != 0) as n_arch_ext,
             COUNT(*) FILTER (WHERE reef_0 != 0) as n_r0,
             COUNT(*) FILTER (WHERE reef_1 != 0) as n_r1,
             COUNT(*) FILTER (WHERE reef_2 != 0) as n_r2,
-            COUNT(*) FILTER (WHERE reef_3 != 0) as n_r3
+            COUNT(*) FILTER (WHERE reef_3 != 0) as n_r3,
+            COUNT(*) FILTER (WHERE reef_4 != 0) as n_r4,
+            COUNT(*) FILTER (WHERE reef_5 != 0) as n_r5
         FROM words
     """).fetchone()
     print(f"      Words with non-zero archipelago: {counts[0]:,}")
-    print(f"      Words with non-zero reef_0: {counts[1]:,}")
-    print(f"      Words with non-zero reef_1: {counts[2]:,}")
-    print(f"      Words with non-zero reef_2: {counts[3]:,}")
-    print(f"      Words with non-zero reef_3: {counts[4]:,}")
+    print(f"      Words with non-zero archipelago_ext: {counts[1]:,}")
+    for i in range(6):
+        print(f"      Words with non-zero reef_{i}: {counts[2 + i]:,}")
 
     # Spot-check: top-5 words by total_dims
-    spot = con.execute("""
+    gen0_mask = (1 << gen0_count) - 1
+    spot = con.execute(f"""
         SELECT w.word, w.total_dims,
-            bit_count(w.archipelago & 15) as n_arch,
-            bit_count(w.archipelago >> 4) as n_islands,
-            bit_count(w.reef_0) + bit_count(w.reef_1) +
-            bit_count(w.reef_2) + bit_count(w.reef_3) as n_reefs,
+            bit_count(w.archipelago & {gen0_mask}) as n_arch,
+            bit_count(w.archipelago >> {gen0_count}) + bit_count(w.archipelago_ext) as n_islands,
+            bit_count(w.reef_0) + bit_count(w.reef_1) + bit_count(w.reef_2) +
+            bit_count(w.reef_3) + bit_count(w.reef_4) + bit_count(w.reef_5) as n_reefs,
             (SELECT COUNT(DISTINCT di.island_id)
              FROM dim_memberships m
              JOIN dim_islands di ON m.dim_id = di.dim_id
@@ -620,6 +671,441 @@ def compute_archipelago_encoding(con):
         print(f"        {word}: {td} dims, {na} arch(actual={actual}), {ni} islands, {nr} reefs")
 
     print("  Archipelago encoding complete")
+
+
+def generate_island_names(con):
+    """Generate descriptive names bottom-up: reefs -> islands -> archipelagos.
+
+    Reefs (gen-2) are named from their exclusive + PMI words.
+    Islands (gen-1) are named by synthesizing their child reef names.
+    Archipelagos (gen-0) are named by synthesizing their child island names.
+    """
+    import anthropic
+    import time
+
+    client = anthropic.Anthropic()
+
+    # Preload word_id -> word text mapping (single words only)
+    word_lookup = {}
+    rows = con.execute(
+        f"SELECT word_id, word FROM words WHERE {_SINGLE_WORD_FILTER}"
+    ).fetchall()
+    for wid, word in rows:
+        word_lookup[wid] = word
+    print(f"  Loaded {len(word_lookup):,} single-word lookups")
+
+    # Step 1: Name gen-2 reefs (most specific — exclusive + PMI words)
+    print("\n  === Step 1: Naming gen-2 reefs (bottom level) ===")
+    n_reefs = _name_reefs(con, client, word_lookup)
+
+    # Step 2: Name gen-1 islands (synthesize from child reef names)
+    print("\n  === Step 2: Naming gen-1 islands (from reef composition) ===")
+    n_islands = _name_from_children(con, client, parent_generation=0, child_generation=1)
+
+    # Step 3: Name gen-0 archipelagos (synthesize from child island names)
+    print("\n  === Step 3: Naming gen-0 archipelagos (from island composition) ===")
+    n_archs = _name_from_children(con, client, parent_generation=None, child_generation=0)
+
+    print(f"\n  Naming complete: {n_archs} archipelagos + {n_islands} islands + {n_reefs} reefs")
+    _print_naming_summary(con)
+
+
+def _name_reefs(con, client, word_lookup):
+    """Name gen-2 reefs using exclusive words + PMI, batched by parent island."""
+    import time
+
+    # Get all gen-1 islands that have child reefs
+    parents = con.execute("""
+        SELECT s.island_id, s.island_name, s.n_dims, s.n_words
+        FROM island_stats s
+        WHERE s.generation = 1 AND s.island_id >= 0
+        AND EXISTS (
+            SELECT 1 FROM island_stats c
+            WHERE c.generation = 2 AND c.parent_island_id = s.island_id AND c.island_id >= 0
+        )
+        ORDER BY s.island_id
+    """).fetchall()
+
+    total_named = 0
+
+    for parent_id, parent_name, parent_ndims, parent_nwords in parents:
+        # Get child reefs
+        children = con.execute("""
+            SELECT island_id, n_dims, n_words, n_core_words
+            FROM island_stats
+            WHERE generation = 2 AND parent_island_id = ? AND island_id >= 0
+            ORDER BY island_id
+        """, [parent_id]).fetchall()
+
+        if not children:
+            continue
+
+        child_ids = [c[0] for c in children]
+
+        # Compute exclusive words for all sibling reefs at once
+        exclusive_map, word_dims_map = _compute_exclusive_words(
+            con, parent_id, child_generation=2
+        )
+
+        # Get PMI words for each reef
+        pmi_map = {}
+        for child_id in child_ids:
+            pmi_words = con.execute("""
+                SELECT word, pmi FROM island_characteristic_words
+                WHERE island_id = ? AND generation = 2
+                ORDER BY pmi DESC LIMIT 20
+            """, [child_id]).fetchall()
+            pmi_map[child_id] = [w for w, _ in pmi_words]
+
+        # Build per-reef data
+        child_data = []
+        for child_id, n_dims, n_words, n_core in children:
+            exc_word_ids = exclusive_map.get(child_id, set())
+            reef_dims = word_dims_map.get(child_id, {})
+
+            exc_ranked = sorted(
+                [(word_lookup[wid], reef_dims.get(wid, 0))
+                 for wid in exc_word_ids if wid in word_lookup],
+                key=lambda x: x[1], reverse=True
+            )[:20]
+
+            child_data.append({
+                "id": child_id,
+                "n_dims": n_dims,
+                "n_words": n_words,
+                "n_core": n_core or 0,
+                "n_exclusive_total": len(exc_word_ids),
+                "exclusive": [w for w, _ in exc_ranked],
+                "pmi": pmi_map.get(child_id, []),
+            })
+
+        prompt = _build_reef_naming_prompt(child_data)
+
+        parent_label = parent_name or f"island {parent_id}"
+        print(f"\n    {parent_label} -> {len(children)} reefs...")
+
+        names = _call_claude_for_names(client, prompt, child_ids)
+
+        for child_id, name in names.items():
+            con.execute(
+                "UPDATE island_stats SET island_name = ? WHERE island_id = ? AND generation = 2",
+                [name, child_id],
+            )
+            print(f"      [{child_id}] {name}")
+            total_named += 1
+
+        time.sleep(0.5)
+
+    return total_named
+
+
+def _name_from_children(con, client, parent_generation, child_generation):
+    """Name entities at child_generation by synthesizing their children's names.
+
+    For gen-1 islands: looks at child reef names to synthesize.
+    For gen-0 archipelagos: looks at child island names to synthesize.
+    """
+    import time
+
+    grandchild_generation = child_generation + 1
+    gen_label = {0: "archipelago", 1: "island"}[child_generation]
+    child_label = {1: "reef", 2: "reef"}  # what the children of children are called
+
+    if parent_generation is not None:
+        # Gen-1 islands: batch by parent archipelago
+        parents = con.execute("""
+            SELECT s.island_id, s.island_name
+            FROM island_stats s
+            WHERE s.generation = ? AND s.island_id >= 0
+            AND EXISTS (
+                SELECT 1 FROM island_stats c
+                WHERE c.generation = ? AND c.parent_island_id = s.island_id AND c.island_id >= 0
+            )
+            ORDER BY s.island_id
+        """, [parent_generation, child_generation]).fetchall()
+    else:
+        # Gen-0 archipelagos: no parent, process all together
+        parents = [(None, None)]
+
+    total_named = 0
+
+    for parent_id, parent_name in parents:
+        # Get the entities we need to name
+        if parent_id is not None:
+            entities = con.execute("""
+                SELECT island_id, n_dims, n_words
+                FROM island_stats
+                WHERE generation = ? AND parent_island_id = ? AND island_id >= 0
+                ORDER BY island_id
+            """, [child_generation, parent_id]).fetchall()
+        else:
+            entities = con.execute("""
+                SELECT island_id, n_dims, n_words
+                FROM island_stats
+                WHERE generation = ? AND island_id >= 0
+                ORDER BY island_id
+            """, [child_generation]).fetchall()
+
+        if not entities:
+            continue
+
+        entity_ids = [e[0] for e in entities]
+
+        # For each entity, get its children's names (or PMI words as fallback)
+        entity_data = []
+        for entity_id, n_dims, n_words in entities:
+            children_names = con.execute("""
+                SELECT island_id, island_name, n_dims, n_words
+                FROM island_stats
+                WHERE generation = ? AND parent_island_id = ? AND island_id >= 0
+                ORDER BY n_dims DESC
+            """, [grandchild_generation, entity_id]).fetchall()
+
+            # Fallback: PMI words for entities without children
+            pmi_words = []
+            if not children_names:
+                pmi_rows = con.execute("""
+                    SELECT word FROM island_characteristic_words
+                    WHERE island_id = ? AND generation = ?
+                    ORDER BY pmi DESC LIMIT 20
+                """, [entity_id, child_generation]).fetchall()
+                pmi_words = [w for (w,) in pmi_rows]
+
+            entity_data.append({
+                "id": entity_id,
+                "n_dims": n_dims,
+                "n_words": n_words,
+                "children": [
+                    {"id": cid, "name": cname or f"(unnamed {cid})", "n_dims": cd, "n_words": cw}
+                    for cid, cname, cd, cw in children_names
+                ],
+                "pmi_words": pmi_words,
+            })
+
+        prompt = _build_synthesis_naming_prompt(
+            gen_label, entity_data, parent_name
+        )
+
+        batch_label = parent_name or f"all {gen_label}s"
+        n_entities = len(entities)
+        print(f"\n    {batch_label} -> {n_entities} {gen_label}s...")
+
+        names = _call_claude_for_names(client, prompt, entity_ids)
+
+        for entity_id, name in names.items():
+            con.execute(
+                "UPDATE island_stats SET island_name = ? WHERE island_id = ? AND generation = ?",
+                [name, entity_id, child_generation],
+            )
+            print(f"      [{entity_id}] {name}")
+            total_named += 1
+
+        time.sleep(0.5)
+
+    return total_named
+
+
+def _compute_exclusive_words(con, parent_id, child_generation):
+    """Compute words exclusive to each child among siblings of the same parent.
+
+    Returns:
+        exclusive_map: {child_id: set of exclusive word_ids}
+        word_dims_map: {child_id: {word_id: n_dims_in_child}}
+    """
+    from collections import defaultdict
+
+    rows = con.execute(f"""
+        SELECT di.island_id, dm.word_id, COUNT(*) as n_dims
+        FROM dim_islands di
+        JOIN dim_memberships dm ON dm.dim_id = di.dim_id
+        JOIN words w ON dm.word_id = w.word_id
+        WHERE di.generation = ? AND di.parent_island_id = ? AND di.island_id >= 0
+        AND w.{_SINGLE_WORD_FILTER}
+        GROUP BY di.island_id, dm.word_id
+    """, [child_generation, parent_id]).fetchall()
+
+    child_words = defaultdict(set)
+    word_dims_map = defaultdict(dict)
+    for child_id, word_id, n_dims in rows:
+        child_words[child_id].add(word_id)
+        word_dims_map[child_id][word_id] = n_dims
+
+    all_child_ids = list(child_words.keys())
+    exclusive_map = {}
+    for child_id in all_child_ids:
+        sibling_words = set()
+        for other_id in all_child_ids:
+            if other_id != child_id:
+                sibling_words |= child_words[other_id]
+        exclusive_map[child_id] = child_words[child_id] - sibling_words
+
+    return exclusive_map, word_dims_map
+
+
+def _build_reef_naming_prompt(child_data):
+    """Build prompt for naming reefs from their exclusive + PMI words."""
+    sections = []
+    for cd in child_data:
+        exc_str = ", ".join(cd["exclusive"]) if cd["exclusive"] else "(none — high overlap with siblings)"
+        pmi_str = ", ".join(cd["pmi"]) if cd["pmi"] else "(none)"
+        exc_count = cd["n_exclusive_total"]
+
+        section = (
+            f"### Reef {cd['id']} "
+            f"({cd['n_dims']} dims, {cd['n_words']:,} words, {cd['n_core']} core words)\n"
+            f"Exclusive words ({exc_count:,} total, top 20):\n"
+            f"  {exc_str}\n\n"
+            f"Top PMI words (may overlap with siblings):\n"
+            f"  {pmi_str}"
+        )
+        sections.append(section)
+
+    siblings_text = "\n\n".join(sections)
+    example_id = str(child_data[0]["id"])
+
+    return f"""You are naming semantic clusters discovered in a word embedding space. Each reef is a tight cluster of embedding dimensions that share similar word activation patterns.
+
+## Task
+Name each of the following {len(child_data)} sibling reefs. Each name should be:
+- 2-4 words, lowercase
+- Descriptive of the semantic theme these words share
+- Distinct from sibling names (these reefs are all under the same parent island, so contrast matters)
+- The exclusive words are words that appear ONLY in this reef and not in any sibling reef — they are the strongest signal for what makes this reef unique
+- The PMI words show what's most statistically overrepresented in the reef overall
+- Prefer readable, informative names over obscure technical terms
+
+## Reef data
+
+{siblings_text}
+
+## Response format
+Return ONLY a JSON object mapping reef IDs to names. No markdown, no commentary.
+Example: {{"{example_id}": "example name"}}"""
+
+
+def _build_synthesis_naming_prompt(gen_label, entity_data, parent_name=None):
+    """Build prompt for naming entities by synthesizing their children's names."""
+    child_label = "reef" if gen_label == "island" else "island"
+
+    sections = []
+    for ed in entity_data:
+        if ed["children"]:
+            children_list = "\n".join(
+                f"    - {c['name']} ({c['n_dims']} dims, {c['n_words']:,} words)"
+                for c in ed["children"]
+            )
+            section = (
+                f"### {gen_label.title()} {ed['id']} "
+                f"({ed['n_dims']} dims, {ed['n_words']:,} words)\n"
+                f"  Constituent {child_label}s:\n{children_list}"
+            )
+        else:
+            # Fallback: show PMI words for childless entities
+            pmi_str = ", ".join(ed.get("pmi_words", [])) or "(no data)"
+            section = (
+                f"### {gen_label.title()} {ed['id']} "
+                f"({ed['n_dims']} dims, {ed['n_words']:,} words)\n"
+                f"  No sub-clusters. Top characteristic words:\n"
+                f"    {pmi_str}"
+            )
+        sections.append(section)
+
+    siblings_text = "\n\n".join(sections)
+    example_id = str(entity_data[0]["id"])
+
+    context = ""
+    if parent_name:
+        context = f"\nParent: \"{parent_name}\"\n"
+
+    return f"""You are naming semantic clusters in a word embedding space. Each {gen_label} is composed of smaller {child_label}s listed below (or, for smaller clusters, characterized by their top words). Your job is to find the overarching theme.
+{context}
+## Task
+Name each of the following {len(entity_data)} {gen_label}s. Each name should be:
+- 2-4 words, lowercase
+- For {gen_label}s with sub-clusters: a broader theme that encompasses its children
+- For {gen_label}s with only word lists: a theme that captures what the words share
+- Distinct from sibling {gen_label} names
+- More general than any single child name, but specific enough to be informative
+
+## {gen_label.title()} data
+
+{siblings_text}
+
+## Response format
+Return ONLY a JSON object mapping {gen_label} IDs to names. No markdown, no commentary.
+Example: {{"{example_id}": "example name"}}"""
+
+
+def _call_claude_for_names(client, prompt, expected_ids):
+    """Call Claude API and parse the JSON response into {id: name} mapping."""
+    import json
+
+    response = client.messages.create(
+        model="claude-sonnet-4-5-20250929",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    text = response.content[0].text.strip()
+
+    # Strip markdown code fences if present
+    if text.startswith("```"):
+        text = text.split("\n", 1)[1]
+        text = text.rsplit("```", 1)[0].strip()
+
+    try:
+        names = json.loads(text)
+    except json.JSONDecodeError:
+        print(f"      WARNING: Failed to parse response: {text[:200]}")
+        return {}
+
+    result = {}
+    for key, name in names.items():
+        kid = int(key)
+        if kid in expected_ids:
+            result[kid] = name
+        else:
+            print(f"      WARNING: Unexpected ID {kid} in response")
+
+    missing = set(expected_ids) - set(result.keys())
+    if missing:
+        print(f"      WARNING: Missing names for IDs: {missing}")
+
+    return result
+
+
+def _print_naming_summary(con):
+    """Print the full hierarchy with names."""
+    print("\n  === Island & Reef Naming Summary ===\n")
+
+    gen0 = con.execute("""
+        SELECT island_id, island_name, n_dims
+        FROM island_stats WHERE generation = 0 AND island_id >= 0
+        ORDER BY island_id
+    """).fetchall()
+
+    for arch_id, arch_name, arch_dims in gen0:
+        print(f"  [{arch_id}] {arch_name or '(unnamed)'} ({arch_dims} dims)")
+
+        gen1 = con.execute("""
+            SELECT island_id, island_name, n_dims, n_words
+            FROM island_stats WHERE generation = 1 AND parent_island_id = ? AND island_id >= 0
+            ORDER BY island_id
+        """, [arch_id]).fetchall()
+
+        for isl_id, isl_name, isl_dims, isl_words in gen1:
+            print(f"    [{isl_id}] {isl_name or '(unnamed)'} ({isl_dims} dims, {isl_words:,} words)")
+
+            gen2 = con.execute("""
+                SELECT island_id, island_name, n_dims, n_words
+                FROM island_stats WHERE generation = 2 AND parent_island_id = ? AND island_id >= 0
+                ORDER BY island_id
+            """, [isl_id]).fetchall()
+
+            for reef_id, reef_name, reef_dims, reef_words in gen2:
+                print(f"      [{reef_id}] {reef_name or '(unnamed)'} ({reef_dims} dims, {reef_words:,} words)")
+
+        print()
 
 
 def run_island_detection(con):

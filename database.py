@@ -7,10 +7,10 @@ import pandas as pd
 import config
 
 
-def get_connection(db_path=None):
+def get_connection(db_path=None, read_only=False):
     if db_path is None:
         db_path = config.DB_PATH
-    return duckdb.connect(db_path)
+    return duckdb.connect(db_path, read_only=read_only)
 
 
 def create_schema(con):
@@ -36,13 +36,6 @@ def create_schema(con):
             kurtosis DOUBLE,
             threshold DOUBLE,
             threshold_method TEXT,
-            is_bimodal BOOLEAN,
-            bic_1 DOUBLE,
-            bic_2 DOUBLE,
-            gmm_mean_low DOUBLE,
-            gmm_mean_high DOUBLE,
-            gmm_std_low DOUBLE,
-            gmm_std_high DOUBLE,
             n_members INTEGER,
             selectivity DOUBLE
         )
@@ -73,7 +66,6 @@ def create_indexes(con):
     con.execute("CREATE INDEX IF NOT EXISTS idx_dm_dim ON dim_memberships(dim_id)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_words_total ON words(total_dims DESC)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_ds_selectivity ON dim_stats(selectivity)")
-    con.execute("CREATE INDEX IF NOT EXISTS idx_ds_bimodal ON dim_stats(is_bimodal)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wpo_a ON word_pair_overlap(word_id_a)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wpo_b ON word_pair_overlap(word_id_b)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wpo_shared ON word_pair_overlap(shared_dims DESC)")
@@ -176,7 +168,7 @@ def migrate_schema(con):
             pass
 
     # Add archipelago bitmask columns to words
-    for col in ["archipelago", "reef_0", "reef_1", "reef_2", "reef_3"]:
+    for col in ["archipelago", "archipelago_ext", "reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]:
         try:
             con.execute(f"ALTER TABLE words ADD COLUMN {col} BIGINT DEFAULT 0")
         except duckdb.CatalogException:
@@ -496,7 +488,6 @@ def rebuild_indexes(con):
         ("idx_dm_dim", "CREATE INDEX idx_dm_dim ON dim_memberships(dim_id)", None),
         ("idx_words_total", "CREATE INDEX idx_words_total ON words(total_dims DESC)", None),
         ("idx_ds_selectivity", "CREATE INDEX idx_ds_selectivity ON dim_stats(selectivity)", None),
-        ("idx_ds_bimodal", "CREATE INDEX idx_ds_bimodal ON dim_stats(is_bimodal)", None),
         ("idx_wpo_a", "CREATE INDEX idx_wpo_a ON word_pair_overlap(word_id_a)", None),
         ("idx_wpo_b", "CREATE INDEX idx_wpo_b ON word_pair_overlap(word_id_b)", None),
         ("idx_wpo_shared", "CREATE INDEX idx_wpo_shared ON word_pair_overlap(shared_dims DESC)", None),

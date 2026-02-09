@@ -76,7 +76,7 @@ def run_phase5(con=None, embeddings=None, word_ids=None, db_path=None):
     return con
 
 
-def run_phase6(con=None, db_path=None, pair_threshold=None, skip_pair_overlap=False):
+def run_phase6(con=None, db_path=None, skip_pair_overlap=False):
     print("\n=== Phase 6: Post-Processing ===")
     import database
     import post_process
@@ -89,7 +89,7 @@ def run_phase6(con=None, db_path=None, pair_threshold=None, skip_pair_overlap=Fa
     post_process.create_views(con)
 
     if not skip_pair_overlap:
-        post_process.materialize_word_pair_overlap(con, threshold=pair_threshold)
+        post_process.materialize_word_pair_overlap(con)
     else:
         print("  Skipping word pair overlap materialization")
 
@@ -201,6 +201,17 @@ def run_phase9b(con=None, db_path=None):
     return con
 
 
+def run_phase9c(con=None, db_path=None):
+    print("\n=== Phase 9c: Island & Reef Naming ===")
+    import database, islands
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    islands.generate_island_names(con)
+    return con
+
+
 def run_phase7(con=None, db_path=None):
     print("\n=== Phase 7: Database Maintenance ===")
     import database
@@ -224,7 +235,7 @@ def run_phase8(con=None, db_path=None):
     import explore
 
     if con is None:
-        con = database.get_connection(db_path)
+        con = database.get_connection(db_path, read_only=True)
 
     print("Commands:")
     print("  what_is <word>              — dimensions a word belongs to")
@@ -298,15 +309,13 @@ def run_phase8(con=None, db_path=None):
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "7", "8"]
+PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9c", "7", "8"]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b)")
+    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c)")
     parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
-    parser.add_argument("--pair-threshold", type=int, default=config.PAIR_OVERLAP_THRESHOLD,
-                        help=f"Min shared dims for pair overlap (default: {config.PAIR_OVERLAP_THRESHOLD})")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
     parser.add_argument("--no-resume", action="store_true",
@@ -345,7 +354,6 @@ def main():
         elif phase == "6":
             con = run_phase6(
                 con=con, db_path=args.db,
-                pair_threshold=args.pair_threshold,
                 skip_pair_overlap=args.skip_pair_overlap,
             )
         elif phase == "6b":
@@ -354,6 +362,8 @@ def main():
             con = run_phase9(con=con, db_path=args.db)
         elif phase == "9b":
             con = run_phase9b(con=con, db_path=args.db)
+        elif phase == "9c":
+            con = run_phase9c(con=con, db_path=args.db)
         elif phase == "7":
             con = run_phase7(con=con, db_path=args.db)
         elif phase == "8":

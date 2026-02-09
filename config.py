@@ -5,12 +5,8 @@ TRUST_REMOTE_CODE = True
 BATCH_SIZE = 256
 INTERMEDIATE_SAVE_INTERVAL = 50
 DB_PATH = "vector_distillery.duckdb"
-GMM_BIC_THRESHOLD = 10  # Min BIC improvement for 2-component over 1-component
 ZSCORE_THRESHOLD = 2.0
-GMM_RANDOM_STATE = 42
-GMM_MAX_ITER = 200
-GMM_REG_COVAR = 1e-6
-PAIR_OVERLAP_THRESHOLD = 50
+PAIR_OVERLAP_THRESHOLD = 3
 COMMIT_INTERVAL = 50
 INTERMEDIATE_DIR = "intermediates"
 SENSE_EMBEDDING_PREFIX = "classification: "
@@ -26,3 +22,4 @@ ISLAND_CHARACTERISTIC_WORDS_N = 100  # Top N PMI-ranked words stored per island
 ISLAND_MIN_COMMUNITY_SIZE = 2        # Communities smaller than this become noise (island_id = -1)
 ISLAND_SUB_LEIDEN_RESOLUTION = 1.5   # Leiden resolution for sub-island detection (higher = more splitting)
 ISLAND_MIN_DIMS_FOR_SUBDIVISION = 10 # Don't subdivide islands with fewer dims than this
+REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef/island/archipelago to be encoded

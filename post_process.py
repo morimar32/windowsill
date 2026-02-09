@@ -74,27 +74,26 @@ def create_views(con):
         ORDER BY ds.selectivity ASC
     """)
 
-    con.execute("""
-        CREATE OR REPLACE VIEW v_bimodal_dims AS
-        SELECT ds.*
-        FROM dim_stats ds
-        WHERE ds.is_bimodal = true
-        ORDER BY (ds.bic_1 - ds.bic_2) DESC
-    """)
-
-    con.execute("""
+    gen0_count = con.execute(
+        "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
+    ).fetchone()[0] if con.execute(
+        "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'island_stats'"
+    ).fetchone()[0] > 0 else 6
+    gen0_mask = (1 << gen0_count) - 1
+    con.execute(f"""
         CREATE OR REPLACE VIEW v_archipelago_profile AS
         SELECT w.word_id, w.word, w.total_dims,
-            bit_count(w.archipelago & 15) as n_archipelagos,
-            bit_count(w.archipelago >> 4) as n_islands,
-            bit_count(w.reef_0) + bit_count(w.reef_1) +
-            bit_count(w.reef_2) + bit_count(w.reef_3) as n_reefs,
-            w.archipelago, w.reef_0, w.reef_1, w.reef_2, w.reef_3
+            bit_count(w.archipelago & {gen0_mask}::BIGINT) as n_archipelagos,
+            bit_count(w.archipelago >> {gen0_count}) + bit_count(w.archipelago_ext) as n_islands,
+            bit_count(w.reef_0) + bit_count(w.reef_1) + bit_count(w.reef_2) +
+            bit_count(w.reef_3) + bit_count(w.reef_4) + bit_count(w.reef_5) as n_reefs,
+            w.archipelago, w.archipelago_ext,
+            w.reef_0, w.reef_1, w.reef_2, w.reef_3, w.reef_4, w.reef_5
         FROM words w
-        WHERE w.archipelago != 0
+        WHERE w.archipelago != 0 OR w.archipelago_ext != 0
     """)
 
-    print("  Views created: v_unique_words, v_universal_words, v_selective_dims, v_bimodal_dims, v_archipelago_profile")
+    print("  Views created: v_unique_words, v_universal_words, v_selective_dims, v_archipelago_profile")
 
 
 def materialize_word_pair_overlap(con, threshold=None):
@@ -153,9 +152,6 @@ def print_summary(con):
     word_count = con.execute("SELECT COUNT(*) FROM words").fetchone()[0]
     dim_count = con.execute("SELECT COUNT(*) FROM dim_stats").fetchone()[0]
     membership_count = con.execute("SELECT COUNT(*) FROM dim_memberships").fetchone()[0]
-    bimodal_count = con.execute("SELECT COUNT(*) FROM dim_stats WHERE is_bimodal").fetchone()[0]
-    gmm_count = con.execute("SELECT COUNT(*) FROM dim_stats WHERE threshold_method = 'gmm'").fetchone()[0]
-
     avg_members = con.execute("SELECT AVG(n_members) FROM dim_stats").fetchone()[0]
     avg_selectivity = con.execute("SELECT AVG(selectivity) FROM dim_stats").fetchone()[0]
 
@@ -175,8 +171,6 @@ def print_summary(con):
     print(f"Words:              {word_count:,}")
     print(f"Dimensions:         {dim_count}")
     print(f"Total memberships:  {membership_count:,}")
-    print(f"Bimodal dims:       {bimodal_count} ({bimodal_count/dim_count*100:.1f}%)" if dim_count > 0 else "")
-    print(f"GMM thresholds:     {gmm_count}")
     print(f"Avg members/dim:    {avg_members:.1f}" if avg_members else "")
     print(f"Avg selectivity:    {avg_selectivity:.4f}" if avg_selectivity else "")
     print(f"Avg dims/word:      {avg_dims:.1f}" if avg_dims else "")

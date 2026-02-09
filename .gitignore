@@ -209,6 +209,8 @@ __marimo__/
 # local db files
 *.duckdb
 *.wal
+*.bz2
+*.parquet
 
 # local python venv
 ws/
@@ -218,4 +220,3 @@ intermediates/
 
 # you dont get to see my notebooks
 *.ipynb
-*.png

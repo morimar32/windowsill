@@ -8,11 +8,11 @@ A vector space distillation engine that decomposes word embeddings into interpre
 
 Windowsill embeds the entire WordNet vocabulary (~146K lemmas) using [nomic-embed-text-v1.5](https://huggingface.co/nomic-ai/nomic-embed-text-v1.5), then statistically analyzes each of the 768 embedding dimensions to determine which words "activate" in that dimension. The result is a database where every word has a discrete set of dimension memberships, and every dimension has a characterized set of member words -- turning opaque floating-point vectors into an inspectable symbolic structure.
 
-The core insight: embedding dimensions are not random. Each dimension has a small set of high-activation words (typically ~2% of the vocabulary) that often correspond to a coherent semantic concept. Windowsill identifies these clusters via statistical thresholding, determines per-dimension membership boundaries, and records the results.
+The core insight: embedding dimensions are not random. Each dimension has a small set of high-activation words (typically ~1-2% of the vocabulary) that often correspond to a coherent semantic concept. Windowsill identifies these clusters via z-score thresholding (mean + 2.0σ), determines per-dimension membership boundaries, and records the results.
 
 ### Beyond basic embeddings
 
-The enrichment pipeline adds three layers of analysis on top of the base embedding decomposition:
+The enrichment pipeline adds six layers of analysis on top of the base embedding decomposition:
 
 1. **Sense disambiguation** -- The ~8% of words with multiple parts-of-speech in WordNet (e.g., "bank" as noun vs verb) get separate sense-specific embeddings using WordNet glosses as context. Each sense gets its own dimension profile, revealing that "bank (financial institution)" and "bank (river edge)" activate completely different dimensions.
 
@@ -20,9 +20,17 @@ The enrichment pipeline adds three layers of analysis on top of the base embeddi
 
 3. **Contamination detection** -- When "attack" is a member of a cardiac-related dimension, is that because of the word "attack" itself, or because "heart attack" drags it there? Compound contamination scoring answers this by checking whether the residual (`"heart attack" - "attack"`) still activates that dimension.
 
-4. **Island detection** -- Many of the 768 dimensions share dense word overlap, forming natural "islands" (communities of co-activated dimensions). Pairwise Jaccard similarity between dimension member sets is computed, then a hypergeometric z-score filters edges: for each pair, the expected intersection under random assignment is subtracted and normalized by the standard deviation, so only pairs with statistically significant overlap (z >= 3) form edges. Jaccard values weight edges for Leiden community detection, and PMI scoring identifies characteristic words per island. The hierarchy is three generations deep: 4 gen-0 **archipelagos** subdivide into 55 gen-1 **islands**, which further subdivide into 192 gen-2 **reefs**.
+4. **Island detection** -- Many of the 768 dimensions share dense word overlap, forming natural "islands" (communities of co-activated dimensions). Pairwise Jaccard similarity between dimension member sets is computed, then a hypergeometric z-score filters edges: for each pair, the expected intersection under random assignment is subtracted and normalized by the standard deviation, so only pairs with statistically significant overlap (z >= 3) form edges. Jaccard values weight edges for Leiden community detection, and PMI scoring identifies characteristic words per island. The hierarchy is three generations deep: gen-0 **archipelagos** subdivide into gen-1 **islands**, which further subdivide into gen-2 **reefs**. (Exact counts depend on the z-score threshold; see Distillation Results.)
 
-5. **Archipelago encoding** -- The three-generation island hierarchy is pivoted from normalized tables into 5 BIGINT bitmask columns on the `words` table (251 bits across 320 available). One AND operation replaces multi-table JOINs: checking whether two words share a reef is `(a.reef_0 & b.reef_0) | ... != 0`. The encoding also enables instant relationship classification between any two words (same reef / reef neighbors / island neighbors / different archipelagos).
+5. **Archipelago encoding** -- The three-generation island hierarchy is pivoted from normalized tables into 8 BIGINT bitmask columns on the `words` table (512 bits available). The `archipelago` column packs gen-0 archipelago bits in the low positions and the first half of gen-1 island bits above them; `archipelago_ext` holds the second half of gen-1 islands. Each `reef_N` column is dedicated to one gen-0 archipelago's gen-2 reefs. One AND operation replaces multi-table JOINs: checking whether two words share a reef is `(a.reef_0 & b.reef_0) | ... != 0`. The encoding also enables instant relationship classification between any two words (same reef / reef neighbors / island neighbors / different archipelagos).
+
+6. **Island & reef naming** -- Every entity in the three-generation hierarchy gets a human-readable name via a bottom-up LLM-assisted pipeline. Reefs are named from their most exclusive words (words present in that reef but absent from all sibling reefs), islands are named by synthesizing their child reef names, and archipelagos are named from their child island names. This bottom-up approach ensures names are grounded in the most specific, distinctive vocabulary rather than diluted by shared terms.
+
+### The Big Picture - Archipelagos, Islands, and Reefs
+
+![Full island hierarchy: 52 named islands decomposed into 208 reefs across 4 archipelagos](great_chart.png)
+
+The complete 3-generation decomposition of nomic-embed-text-v1.5's 768 dimensions into interpretable semantic structure. Each row is a named gen-1 **island**, segmented into its gen-2 **reefs** (numbers show reef size in dimensions). Rows are grouped by their gen-0 **archipelago**: *natural sciences and taxonomy* (blue), *physical world and materiality* (orange), *abstract processes and systems* (green), and *social order and assessment* (red). Gray segments are noise dimensions that didn't form a reef community. The chart reads as a table of contents for the embedding space -- every dimension in the model has an address in this hierarchy, and every structure has a human-readable name derived from its most characteristic words.
 
 ## Quick Start
 
@@ -35,8 +43,10 @@ pip3 install -r requirements.txt
 
 start the extraction
 ```bash
-python3 main.py --from 2 --pair-threshold 10
+python3 main.py --from 2
 ```
+
+The database that is created is approximately `2.6 gb`
 
 ## Data Characteristics
 
@@ -49,25 +59,21 @@ Key numbers discovered through investigation of the WordNet source data:
 | Unambiguous POS | ~135K (92%) | Single part-of-speech in WordNet |
 | Ambiguous POS | ~11.7K (8%) | Multiple POS, need sense-specific embedding |
 | Embedding dimensions | 768 | Matryoshka dimensionality |
-| Bimodal dimensions | varies | Detected via GMM-BIC comparison |
 
 ### Distillation Results
 
-Output from a full pipeline run (`--pair-threshold 10`):
+Output from a full pipeline run (z-score threshold = 2.0, REEF_MIN_DEPTH = 2):
 
-| Metric | Value |
-|--------|-------|
-| Total memberships | 2,564,399 |
-| Avg members/dim | 3,339 |
-| Avg selectivity | 2.28% |
-| Avg dims/word | 25.9 |
-| Min dims/word | 6 |
-| Max dims/word | 54 |
-| Word pairs (shared >= 10) | 96,766 |
-| Gen-0 archipelagos | 4 |
-| Gen-1 islands | 55 |
-| Gen-2 reefs | 192 |
-| Archipelago encoding bits | 251 (5 BIGINT columns) |
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Total memberships | ~2.56M | 3x increase from z=2.45 (~800K) |
+| Avg members/dim | ~3,339 | Per dimension |
+| Avg dims/word | ~17.5 | Up from ~6 at z=2.45 |
+| Gen-0 archipelagos | 4 | Leiden community detection |
+| Gen-1 islands | 52 | Sub-island subdivision |
+| Gen-2 reefs | 208 | Sub-island subdivision |
+| All structures named | Yes | Bottom-up LLM naming (phase 9c) |
+| Archipelago encoding bits | 264 used | Across 8 BIGINT columns (512 available) |
 
 ### Word categories
 
@@ -90,18 +96,19 @@ Phase 2:  Word list curation          (extract + clean WordNet lemmas)
 Phase 3:  Embedding generation         (nomic-embed-text-v1.5, CPU, ~30 min)
 Phase 4:  Database schema + bulk load  (create tables, insert words + embeddings)
 Phase 4b: Schema migration + backfill  (POS/category/components on existing DB)
-Phase 5:  Statistical analysis         (per-dimension GMM-BIC + threshold)
+Phase 5:  Statistical analysis         (per-dimension z-score threshold)
 Phase 5b: Sense embedding generation   (gloss-contextualized, ~5 min CPU)
 Phase 5c: Sense analysis               (apply existing thresholds to senses)
 Phase 6:  Post-processing              (dim counts, specificity bands, views, pair overlap)
 Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality)
 Phase 9:  Island detection             (Jaccard matrix, Leiden clustering, 3-gen hierarchy, encoding)
 Phase 9b: Archipelago encoding         (standalone bitmask encoding for existing island data)
+Phase 9c: Island & reef naming         (LLM-assisted naming via Claude API, bottom-up)
 Phase 7:  Database maintenance         (integrity checks, reindex, ANALYZE, CHECKPOINT)
 Phase 8:  Interactive explorer         (REPL for querying the database)
 ```
 
-Phase order: `2 -> 3 -> 4 -> 4b -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 7 -> 8`
+Phase order: `2 -> 3 -> 4 -> 4b -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9c -> 7 -> 8`
 
 Phases 4b/5b/5c/6b are enrichment phases designed to run on an already-populated database. They use ALTER TABLE to add columns, so they're safe to run without re-running the expensive embedding pipeline.
 
@@ -112,6 +119,7 @@ Phases 4b/5b/5c/6b are enrichment phases designed to run on an already-populated
 - Phase 6b requires 4b (needs category/components populated)
 - Phase 9 requires phase 5 (needs dim_memberships populated)
 - Phase 9b requires phase 9 (needs island hierarchy; standalone re-encoding if schema changes)
+- Phase 9c requires phase 9 (needs island hierarchy + characteristic words; requires `ANTHROPIC_API_KEY`)
 
 ### File Layout
 
@@ -120,26 +128,26 @@ config.py        Constants: model name, thresholds, batch sizes, paths
 database.py      DuckDB schema, migrations, insert/load functions
 word_list.py     WordNet extraction, cleaning, POS/category classification
 embedder.py      Sentence-transformers encoding, checkpointing, sense embedding
-analyzer.py      Per-dimension statistical analysis, sense analysis
+analyzer.py      Per-dimension z-score thresholding, sense analysis
 post_process.py  Dim counts, specificity bands, views, pair overlap, POS enrichment,
                  contamination, compositionality
 islands.py       Island detection: Jaccard matrix, Leiden clustering, PMI scoring,
-                 archipelago encoding
+                 archipelago encoding, LLM-assisted bottom-up naming
 main.py          Pipeline orchestration, CLI argument parsing, explorer REPL
 explore.py       Interactive query functions (what_is, words_like, archipelago,
-                 relationship, senses, etc.)
+                 relationship, senses, etc.) -- outputs include island/reef names
 ```
 
 ### Key Design Decisions
 
 - **DuckDB** for storage -- embeddings stored as `FLOAT[768]` arrays directly in the DB, enabling SQL queries alongside vector operations without a separate vector store.
-- **Dual thresholding** -- Bimodality is detected by comparing BIC scores of 1-component vs 2-component Gaussian Mixture Models (GMM). When the 2-component model is a significantly better fit (BIC improvement > 10), the GMM intersection is used as the threshold. Otherwise, dimensions fall back to mean + 2*std (z-score). This captures the natural structure of each dimension without relying on the Hartigan dip test, which has p-value calibration issues at large sample sizes (N>72K).
+- **Z-score thresholding (mean + 2.0σ)** -- Each dimension's membership threshold is `mean + 2.0 * std`. The threshold was lowered from 2.45σ (~6 dims/word, ~800K memberships) to 2.0σ (~17 dims/word, ~2.5M memberships) to provide richer data for island/reef clustering. At 2.45σ, dimension-pair Jaccard similarities were too sparse for coherent reef formation — semantically related dimensions (e.g., musical instrument dims) had jaccard < 0.01 and couldn't cluster together. At 2.0σ, the 3x membership increase raises pairwise Jaccard into the significant range (hyper_z 5-15 for related dims), producing tighter, more semantically coherent reefs. The noise introduced by the lower threshold is addressed by a secondary **reef depth filter** (`REEF_MIN_DEPTH = 2`): a word's reef bit is only encoded if the word appears in ≥ 2 of the reef's dimensions. At 2.0σ, genuine concept membership manifests as multi-dimension overlap (e.g., "guitar" activates 7/17 music-related dims), while noise connections are single-dim and get pruned.
 - **Matryoshka at 768** -- nomic-embed-text-v1.5 supports Matryoshka dimensionality reduction. We use the full 768 for maximum resolution.
 - **`"classification: "` prefix** -- The Nomic model uses task-specific prefixes. All words are embedded with this prefix to activate the classification head, which produces more discriminative dimensions.
 - **Sense embedding format** -- Ambiguous words are re-embedded as `"classification: {word}: {gloss}"` where the gloss comes from WordNet. This contextualizes the word without changing the embedding space.
 - **Compositionality via Jaccard** -- A compound is compositional if the Jaccard similarity between its dimension set and the union of its components' dimension sets is >= 0.20. Below that threshold, it's idiomatic (meaning not derivable from parts).
 - **Contamination via residual activation** -- For a component word W in dimension D, compound_support counts how many compounds containing W are also in D AND whose residual (compound_embedding - W_embedding) still exceeds D's threshold. High support means D might be compound-derived, not intrinsic to W.
-- **Archipelago bitmask encoding** -- The 3-generation island hierarchy (4 archipelagos -> 55 islands -> 192 reefs) is encoded as 5 BIGINT columns (320 bits, 251 used). The `archipelago` column packs gen-0 bits (0-3) and gen-1 bits (4-58) together, enabling `& 15` to mask archipelagos and `>> 4` to mask islands. Each `reef_N` column is dedicated to one gen-0 archipelago's reefs, keeping per-archipelago masking as clean bit ranges. One AND replaces a multi-table JOIN for relationship checks.
+- **Archipelago bitmask encoding** -- The 3-generation island hierarchy is encoded as 8 BIGINT columns (512 bits available). The `archipelago` column packs gen-0 bits in the low positions and the first half of gen-1 islands above them; `archipelago_ext` holds the second half of gen-1 islands. Gen-1 islands are split evenly across the two columns for headroom. Masking gen-0: `& ((1 << gen0_count) - 1)`; masking gen-1: `>> gen0_count` on `archipelago` plus all of `archipelago_ext`. Each `reef_N` column (0-5) is dedicated to one gen-0 archipelago's reefs, keeping per-archipelago masking as clean bit ranges. One AND replaces a multi-table JOIN for relationship checks.
 - **Specificity bands** -- Words are classified into sigma-based bands (`+2` to `-2`) based on their `total_dims` distance from the population mean. This replaces the original hardcoded thresholds in `v_unique_words` (was `<= 15`) and `v_universal_words` (was `>= 36`) with statistically derived boundaries that adapt to the actual distribution.
 
 ## Database Schema
@@ -156,23 +164,22 @@ pos           TEXT          Part-of-speech (NULL if ambiguous across POS)
 category      TEXT          'single' | 'compound' | 'taxonomic' | 'phrasal_verb' | 'named_entity'
 word_count    INTEGER       Number of space-separated tokens
 specificity   INTEGER       Sigma band: +2/+1/0/-1/-2 (positive = specific, negative = universal)
-archipelago   BIGINT        Bitmask: gen-0 (bits 0-3) + gen-1 (bits 4-58)
-reef_0        BIGINT        Bitmask: gen-2 reefs for archipelago 0
-reef_1        BIGINT        Bitmask: gen-2 reefs for archipelago 1
-reef_2        BIGINT        Bitmask: gen-2 reefs for archipelago 2
-reef_3        BIGINT        Bitmask: gen-2 reefs for archipelago 3
+archipelago       BIGINT    Bitmask: gen-0 (low bits) + gen-1 first half (above gen-0)
+archipelago_ext   BIGINT    Bitmask: gen-1 second half (bits 0+)
+reef_0            BIGINT    Bitmask: gen-2 reefs for archipelago 0
+reef_1            BIGINT    Bitmask: gen-2 reefs for archipelago 1
+reef_2            BIGINT    Bitmask: gen-2 reefs for archipelago 2
+reef_3            BIGINT    Bitmask: gen-2 reefs for archipelago 3
+reef_4            BIGINT    Bitmask: gen-2 reefs for archipelago 4
+reef_5            BIGINT    Bitmask: gen-2 reefs for archipelago 5
 ```
 
 **`dim_stats`** -- One row per embedding dimension (768 total)
 ```
 dim_id           INTEGER PK    Dimension index (0-767)
 mean, std, min_val, max_val, median, skewness, kurtosis   -- distribution stats
-threshold        DOUBLE        Activation threshold for membership
-threshold_method TEXT          'gmm' or 'zscore'
-is_bimodal       BOOLEAN       GMM-BIC comparison result
-bic_1            DOUBLE        BIC score for 1-component GMM
-bic_2            DOUBLE        BIC score for 2-component GMM (lower = better fit)
-gmm_mean_low, gmm_mean_high, gmm_std_low, gmm_std_high   -- GMM parameters (NULL if zscore)
+threshold        DOUBLE        Activation threshold for membership (mean + 2.0σ)
+threshold_method TEXT          'zscore'
 n_members        INTEGER       How many words exceed the threshold
 selectivity      DOUBLE        n_members / total_words
 verb_enrichment  DOUBLE        Ratio of verb rate in dim vs corpus base rate
@@ -277,10 +284,10 @@ max_internal_jaccard   DOUBLE
 min_internal_jaccard   DOUBLE
 modularity_contribution DOUBLE    Placeholder (NULL for now)
 parent_island_id       INTEGER
-island_name            TEXT       Human-readable label (set via set_island_name())
+island_name            TEXT       Human-readable label (set by phase 9c naming pipeline)
 n_core_words           INTEGER    Words in >= max(2, ceil(n_dims*0.10)) island dims
 median_word_depth      DOUBLE     Median island-dim count per word
-arch_column            TEXT       Encoding column: 'archipelago' | 'reef_0'..'reef_3'
+arch_column            TEXT       Encoding column: 'archipelago' | 'archipelago_ext' | 'reef_0'..'reef_5'
 arch_bit               INTEGER    Bit position within that column
 ```
 
@@ -301,8 +308,7 @@ n_dims_in_island   INTEGER    How many island dims contain this word
 - `v_unique_words` -- Words with positive specificity (1σ+ fewer dims than mean; specific words)
 - `v_universal_words` -- Words with negative specificity (1σ+ more dims than mean; general words)
 - `v_selective_dims` -- Dimensions with selectivity < 5% (sharp concepts)
-- `v_bimodal_dims` -- All bimodal dimensions ordered by BIC improvement
-- `v_archipelago_profile` -- Words with non-zero encoding: archipelago/island/reef counts via `bit_count()`
+- `v_archipelago_profile` -- Words with non-zero encoding: archipelago/island/reef counts via `bit_count()` (spans all 8 bitmask columns)
 
 ### Indexes
 
@@ -311,7 +317,6 @@ idx_dm_word        dim_memberships(word_id)
 idx_dm_dim         dim_memberships(dim_id)
 idx_words_total    words(total_dims DESC)
 idx_ds_selectivity dim_stats(selectivity)
-idx_ds_bimodal     dim_stats(is_bimodal)
 idx_wpo_a/b/shared word_pair_overlap indexes
 idx_wp_word        word_pos(word_id)
 idx_wc_compound    word_components(compound_word_id)
@@ -364,6 +369,20 @@ python main.py --phase 9b            # Just re-encode bitmasks (if islands alrea
 
 Phase 9 now runs the full three-generation hierarchy and encodes the result into bitmask columns. Phase 9b is a lightweight standalone step that re-runs only the encoding -- useful if you've modified island assignments and need to refresh the bitmasks without recomputing the Jaccard matrix or re-running Leiden.
 
+### Island & reef naming
+
+```bash
+python main.py --phase 9c            # Generate names for all islands and reefs via Claude API
+```
+
+Phase 9c generates human-readable names for all gen-1 islands and gen-2 reefs using a bottom-up approach:
+
+1. **Reefs first** -- For each island, computes words exclusive to each child reef (present in that reef's dimensions but absent from all sibling reefs). These exclusive words plus PMI-ranked characteristic words are sent to Claude to generate a 2-4 word descriptive name per reef.
+2. **Islands next** -- Each island is named by synthesizing the names of its constituent reefs. Claude sees all reef names and generates a broader label.
+3. **Archipelagos last** -- Each archipelago is named by synthesizing its constituent island names.
+
+Islands without child reefs fall back to their PMI-ranked characteristic words for naming. Requires `ANTHROPIC_API_KEY` environment variable. Names are stored in `island_stats.island_name` and are idempotent (re-running overwrites previous names).
+
 ### Database maintenance
 
 Phase 7 optimizes the database before the interactive explorer session. It runs automatically as part of the pipeline, or standalone:
@@ -381,33 +400,32 @@ This phase performs:
 ### CLI options
 
 ```
---phase PHASE          Run only this phase (2, 3, 4, 4b, 5, 5b, 5c, 6, 6b, 9, 9b, 7, 8)
+--phase PHASE          Run only this phase (2, 3, 4, 4b, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 7, 8)
 --from PHASE           Run from this phase through the end
 --db PATH              Database path (default: vector_distillery.duckdb)
---pair-threshold N     Min shared dims for pair overlap (default: 50)
 --skip-pair-overlap    Skip the expensive pair overlap materialization
 --no-resume            Don't resume from intermediate .npy checkpoint files
 ```
 
 ### Interactive Explorer
 
-Phase 8 launches a REPL with these commands:
+Phase 8 launches a REPL with a read-only database connection. Commands:
 
 ```
-what_is <word>                Show all dimensions a word belongs to
+what_is <word>                Show all dimensions a word belongs to + island/reef summary
 words_like <word> [n]         Find similar words by shared dimensions
-dim <id> [n]                  List top members of a dimension
+dim <id> [n]                  List top members of a dimension + cluster name
 compare <word1> <word2>       Jaccard similarity, shared/unique dims
 disambiguate <word>           Cluster dimensions into potential senses
 bridges <word1> <word2> [n]   Words that share dims with both inputs
-dim_info <id>                 Full statistical profile of a dimension
+dim_info <id>                 Full statistical profile + island hierarchy with names
 search <pattern>              SQL LIKE search over vocabulary
 senses <word>                 WordNet senses with per-sense dimension profiles
 compositionality <compound>   Compositional vs idiomatic analysis
 contamination <word>          Which dims have compound contamination support
 pos_dims <pos>                Dimensions most enriched for verb/adj/adv
-archipelago <word>            Island hierarchy position (archipelagos, islands, reefs)
-relationship <word1> <word2>  Classify relationship: same reef / neighbors / distant
+archipelago <word>            Nested island hierarchy with per-dimension stats
+relationship <word1> <word2>  Classify relationship + named shared structures
 ```
 
 Multi-word inputs work naturally: `what_is heart attack`, `senses bank`.
@@ -498,7 +516,7 @@ SELECT arch_column, arch_bit, COUNT(*) FROM island_stats
 WHERE arch_column IS NOT NULL GROUP BY 1, 2 HAVING COUNT(*) > 1;
 
 -- Encoding coverage
-SELECT COUNT(*) FILTER (WHERE archipelago != 0) as encoded,
+SELECT COUNT(*) FILTER (WHERE archipelago != 0 OR archipelago_ext != 0) as encoded,
        COUNT(*) as total FROM words;
 
 -- Specificity distribution
@@ -509,15 +527,29 @@ FROM words GROUP BY specificity ORDER BY specificity DESC;
 SELECT word, n_archipelagos, n_islands, n_reefs
 FROM v_archipelago_profile ORDER BY n_reefs DESC LIMIT 20;
 
+-- Naming coverage: expect all non-noise islands named after phase 9c
+SELECT generation, COUNT(*) as total,
+       COUNT(island_name) as named, COUNT(*) - COUNT(island_name) as unnamed
+FROM island_stats WHERE island_id >= 0 GROUP BY generation ORDER BY generation;
+
+-- Sample names per generation
+SELECT generation, island_id, island_name
+FROM island_stats WHERE island_id >= 0 AND island_name IS NOT NULL
+ORDER BY generation, island_id LIMIT 20;
+
 -- Relationship check via bitwise AND
+-- gen0_mask and shift depend on actual gen0_count from island_stats
+-- example below assumes 6 gen-0 archipelagos (gen0_count=6, mask=63)
 SELECT
     CASE
         WHEN (a.reef_0 & b.reef_0) | (a.reef_1 & b.reef_1) |
-             (a.reef_2 & b.reef_2) | (a.reef_3 & b.reef_3) != 0
+             (a.reef_2 & b.reef_2) | (a.reef_3 & b.reef_3) |
+             (a.reef_4 & b.reef_4) | (a.reef_5 & b.reef_5) != 0
             THEN 'same reef'
-        WHEN (a.archipelago & b.archipelago & ~15::BIGINT) != 0
+        WHEN ((a.archipelago & b.archipelago) >> 6) |
+             (a.archipelago_ext & b.archipelago_ext) != 0
             THEN 'reef neighbors'
-        WHEN (a.archipelago & b.archipelago & 15) != 0
+        WHEN (a.archipelago & b.archipelago & 63) != 0
             THEN 'island neighbors'
         ELSE 'different archipelagos'
     END as relationship
@@ -532,10 +564,11 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 - **sentence-transformers** -- Embedding model loading and encoding
 - **nltk** -- WordNet access (auto-downloads `wordnet` and `omw-1.4` corpora)
 - **scipy** -- Skewness/kurtosis statistics
-- **scikit-learn** -- Gaussian Mixture Models, Agglomerative Clustering
+- **scikit-learn** -- Agglomerative Clustering (sense disambiguation)
 - **tqdm** -- Progress bars
 - **leidenalg** -- Leiden community detection algorithm (may require a C compiler on some systems)
 - **python-igraph** -- Graph library used by leidenalg
+- **anthropic** -- Claude API client for LLM-assisted island/reef naming (phase 9c only)
 
 ## Configuration Reference
 
@@ -548,12 +581,8 @@ All constants are in `config.py`:
 | `MATRYOSHKA_DIM` | `768` | Embedding dimensionality |
 | `BATCH_SIZE` | `256` | Words per embedding batch |
 | `DB_PATH` | `vector_distillery.duckdb` | Default database file |
-| `GMM_BIC_THRESHOLD` | `10` | Min BIC improvement for 2-component over 1-component |
-| `ZSCORE_THRESHOLD` | `2.0` | Fallback threshold: mean + N*std |
-| `GMM_RANDOM_STATE` | `42` | Reproducible GMM fitting |
-| `GMM_MAX_ITER` | `200` | GMM convergence iterations |
-| `GMM_REG_COVAR` | `1e-6` | GMM regularization |
-| `PAIR_OVERLAP_THRESHOLD` | `50` | Min shared dims for pair table |
+| `ZSCORE_THRESHOLD` | `2.0` | Membership threshold: mean + N*std |
+| `PAIR_OVERLAP_THRESHOLD` | `3` | Min shared dims for pair table |
 | `COMMIT_INTERVAL` | `50` | Dimensions per DB batch commit |
 | `INTERMEDIATE_DIR` | `intermediates` | Checkpoint directory for embeddings |
 | `SENSE_EMBEDDING_PREFIX` | `"classification: "` | Same prefix, context from gloss |
@@ -567,6 +596,7 @@ All constants are in `config.py`:
 | `ISLAND_MIN_COMMUNITY_SIZE` | `2` | Communities smaller than this become noise (island_id = -1) |
 | `ISLAND_SUB_LEIDEN_RESOLUTION` | `1.5` | Leiden resolution for sub-island detection (higher = more splitting) |
 | `ISLAND_MIN_DIMS_FOR_SUBDIVISION` | `10` | Don't subdivide islands with fewer dims than this |
+| `REEF_MIN_DEPTH` | `2` | Min dims a word must activate in a reef/island/archipelago to be encoded |
 
 ## File Artifacts
 

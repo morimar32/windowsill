@@ -1,5 +1,7 @@
 import numpy as np
 
+import config
+
 
 def _resolve_word_id(con, word):
     row = con.execute(
@@ -8,6 +10,23 @@ def _resolve_word_id(con, word):
     if row is None:
         return None, None
     return row[0], row[1]
+
+
+def _dim_island_label(con, dim_id):
+    """Return a compact island hierarchy label for a dimension, e.g. 'reef: skin disease pathology'."""
+    rows = con.execute("""
+        SELECT di.generation, s.island_name, s.island_id
+        FROM dim_islands di
+        JOIN island_stats s ON di.island_id = s.island_id AND di.generation = s.generation
+        WHERE di.dim_id = ? AND di.island_id >= 0
+        ORDER BY di.generation DESC
+    """, [dim_id]).fetchall()
+    if not rows:
+        return None
+    # Return the most specific (highest generation) name
+    gen, name, iid = rows[0]
+    gen_label = {0: "archipelago", 1: "island", 2: "reef"}[gen]
+    return f"{gen_label}: {name}" if name else f"{gen_label} {iid}"
 
 
 def _has_pair_overlap_table(con):
@@ -29,18 +48,40 @@ def what_is(con, word):
     ).fetchone()[0]
 
     rows = con.execute("""
-        SELECT dm.dim_id, dm.value, dm.z_score, ds.threshold_method, ds.is_bimodal, ds.n_members
+        SELECT dm.dim_id, dm.value, dm.z_score, ds.threshold_method, ds.n_members
         FROM dim_memberships dm
         JOIN dim_stats ds ON dm.dim_id = ds.dim_id
         WHERE dm.word_id = ?
         ORDER BY dm.z_score DESC
     """, [word_id]).fetchall()
 
+    # Get archipelago profile summary
+    profile = con.execute("""
+        SELECT archipelago, archipelago_ext, reef_0, reef_1, reef_2, reef_3, reef_4, reef_5
+        FROM words WHERE word_id = ?
+    """, [word_id]).fetchone()
+    arch, arch_ext, r0, r1, r2, r3, r4, r5 = profile
+    has_encoding = arch != 0 or arch_ext != 0 or r0 != 0 or r1 != 0 or r2 != 0 or r3 != 0 or r4 != 0 or r5 != 0
+
     print(f"\n'{canonical}' — member of {total} dimensions")
-    print(f"{'Dim':>5}  {'Value':>8}  {'Z-score':>8}  {'Method':>7}  {'Bimodal':>7}  {'Members':>7}")
-    print("-" * 55)
+
+    if has_encoding:
+        reef_count = con.execute("""
+            SELECT bit_count(?::BIGINT) + bit_count(?::BIGINT) + bit_count(?::BIGINT) +
+                   bit_count(?::BIGINT) + bit_count(?::BIGINT) + bit_count(?::BIGINT)
+        """, [r0, r1, r2, r3, r4, r5]).fetchone()[0]
+        gen0_count = con.execute(
+            "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
+        ).fetchone()[0]
+        island_count = con.execute(
+            "SELECT bit_count(?::BIGINT >> ?) + bit_count(?::BIGINT)", [arch, gen0_count, arch_ext]
+        ).fetchone()[0]
+        print(f"  Clusters: {island_count} islands, {reef_count} reefs")
+
+    print(f"\n{'Dim':>5}  {'Value':>8}  {'Z-score':>8}  {'Method':>7}  {'Members':>7}")
+    print("-" * 45)
     for r in rows:
-        print(f"{r[0]:>5}  {r[1]:>8.4f}  {r[2]:>8.2f}  {r[3]:>7}  {'yes' if r[4] else 'no':>7}  {r[5]:>7}")
+        print(f"{r[0]:>5}  {r[1]:>8.4f}  {r[2]:>8.2f}  {r[3]:>7}  {r[4]:>7}")
 
 
 def words_like(con, word, top_n=20):
@@ -99,9 +140,11 @@ def dimension_members(con, dim_id, top_n=50):
     """, [dim_id, top_n]).fetchall()
 
     method = stats["threshold_method"]
-    bimodal = "bimodal" if stats["is_bimodal"] else "unimodal"
-    print(f"\nDimension {dim_id} — {bimodal}, {method} threshold={stats['threshold']:.4f}")
+    print(f"\nDimension {dim_id} — {method} threshold={stats['threshold']:.4f}")
     print(f"  Members: {stats['n_members']}, Selectivity: {stats['selectivity']:.4f}")
+    island_label = _dim_island_label(con, dim_id)
+    if island_label:
+        print(f"  Cluster: {island_label}")
     print(f"\n{'Word':<30}  {'Value':>8}  {'Z-score':>8}")
     print("-" * 50)
     for r in rows:
@@ -286,6 +329,21 @@ def dim_info(con, dim_id):
             print(f"  {k:>20}: {v:.6f}")
         else:
             print(f"  {k:>20}: {v}")
+
+    # Show island hierarchy for this dimension
+    island_rows = con.execute("""
+        SELECT di.generation, s.island_id, s.island_name, s.n_dims, s.n_words
+        FROM dim_islands di
+        JOIN island_stats s ON di.island_id = s.island_id AND di.generation = s.generation
+        WHERE di.dim_id = ? AND di.island_id >= 0
+        ORDER BY di.generation
+    """, [dim_id]).fetchall()
+    if island_rows:
+        print(f"\n  Island hierarchy:")
+        for gen, iid, name, ndims, nwords in island_rows:
+            gen_label = {0: "archipelago", 1: "island", 2: "reef"}[gen]
+            name_str = name or f"(unnamed {iid})"
+            print(f"    {gen_label:>12}: [{iid}] {name_str} ({ndims} dims, {nwords:,} words)")
 
     print("\n  Top 20 members:")
     dimension_members(con, dim_id, top_n=20)
@@ -487,6 +545,140 @@ def pos_dims(con, pos):
         print(f"{dim_id:>5}  {enr:>11.2f}  {noun_pct:>6.1%}  {n_members:>7}  {sel:>11.4f}")
 
 
+def _build_archipelago_tree(rows):
+    """Build nested tree from raw SQL rows: arch -> island -> reef -> dims."""
+    from collections import OrderedDict
+
+    tree = OrderedDict()
+    for row in rows:
+        (dim_id, value, z_score, threshold, threshold_method, selectivity,
+         arch_id, arch_name, island_id, island_name, reef_id, reef_name) = row
+
+        # Normalize noise/null to None keys
+        a_key = None if (arch_id is None or arch_id < 0) else arch_id
+        i_key = None if (island_id is None or island_id < 0) else island_id
+        r_key = None if (reef_id is None or reef_id < 0) else reef_id
+
+        if a_key not in tree:
+            tree[a_key] = {"name": arch_name, "islands": OrderedDict()}
+        arch_node = tree[a_key]
+
+        if i_key not in arch_node["islands"]:
+            arch_node["islands"][i_key] = {"name": island_name, "reefs": OrderedDict()}
+        island_node = arch_node["islands"][i_key]
+
+        if r_key not in island_node["reefs"]:
+            island_node["reefs"][r_key] = {"name": reef_name, "dims": []}
+        reef_node = island_node["reefs"][r_key]
+
+        margin = value - threshold if (value is not None and threshold is not None) else None
+        sel_pct = selectivity * 100 if selectivity is not None else None
+
+        reef_node["dims"].append({
+            "dim_id": dim_id, "value": value, "z_score": z_score,
+            "threshold": threshold, "margin": margin,
+            "sel_pct": sel_pct,
+        })
+
+    return tree
+
+
+def _count_tree_nodes(tree):
+    """Count non-None archipelagos, islands, and reefs in the tree."""
+    n_arch = sum(1 for k in tree if k is not None)
+    n_islands = 0
+    n_reefs = 0
+    for arch_node in tree.values():
+        for i_key, island_node in arch_node["islands"].items():
+            if i_key is not None:
+                n_islands += 1
+            for r_key in island_node["reefs"]:
+                if r_key is not None:
+                    n_reefs += 1
+    return n_arch, n_islands, n_reefs
+
+
+def _prune_tree_by_depth(tree, qualifying):
+    """Remove tree nodes where word-structure depth is below REEF_MIN_DEPTH.
+
+    qualifying: set of (island_id, generation) tuples that pass the depth filter.
+    Named reefs are filtered by reef-level depth, unassigned-to-reef dims by
+    island-level depth, and unassigned-to-island dims by archipelago-level depth.
+    """
+    pruned_dims = 0
+
+    for a_key in list(tree.keys()):
+        arch_node = tree[a_key]
+
+        for i_key in list(arch_node["islands"].keys()):
+            island_node = arch_node["islands"][i_key]
+
+            for r_key in list(island_node["reefs"].keys()):
+                should_prune = False
+                if r_key is not None:
+                    should_prune = (r_key, 2) not in qualifying
+                elif i_key is not None:
+                    should_prune = (i_key, 1) not in qualifying
+                elif a_key is not None:
+                    should_prune = (a_key, 0) not in qualifying
+
+                if should_prune:
+                    pruned_dims += len(island_node["reefs"][r_key]["dims"])
+                    del island_node["reefs"][r_key]
+
+            if not island_node["reefs"]:
+                del arch_node["islands"][i_key]
+
+        if not arch_node["islands"]:
+            del tree[a_key]
+
+    return pruned_dims
+
+
+def _render_archipelago_tree(tree, canonical, n_arch, n_islands, n_reefs):
+    """Print the nested archipelago tree with dimension-level detail."""
+    # ANSI: bold + color for hierarchy names, reset after
+    _ARCH  = "\033[1;36m"  # bold cyan
+    _ISLE  = "\033[1;32m"  # bold green
+    _REEF  = "\033[1;35m"  # bold magenta
+    _RST   = "\033[0m"
+
+    print(f"\n'{canonical}' — archipelago profile ({n_arch} archipelagos, {n_islands} islands, {n_reefs} reefs)")
+    print()
+
+    for a_key, arch_node in tree.items():
+        if a_key is not None:
+            a_label = arch_node["name"] if arch_node["name"] else "(unnamed)"
+            print(f"{_ARCH}{a_label}{_RST} [arch {a_key}]")
+        else:
+            print("(unassigned to archipelago)")
+
+        for i_key, island_node in arch_node["islands"].items():
+            if i_key is not None:
+                i_label = island_node["name"] if island_node["name"] else "(unnamed)"
+                print(f"  {_ISLE}{i_label}{_RST} [island {i_key}]")
+            else:
+                print("  (unassigned to island)")
+
+            for r_key, reef_node in island_node["reefs"].items():
+                if r_key is not None:
+                    r_label = reef_node["name"] if reef_node["name"] else "(unnamed)"
+                    print(f"    {_REEF}{r_label}{_RST} [reef {r_key}]")
+                else:
+                    print("    (unassigned to reef)")
+
+                for d in reef_node["dims"]:
+                    val_s = f"val={d['value']:.4f}" if d["value"] is not None else "val=?"
+                    z_s = f"z={d['z_score']:.2f}" if d["z_score"] is not None else "z=?"
+                    thr_s = f"thr={d['threshold']:.4f}" if d["threshold"] is not None else "thr=?"
+                    if d["margin"] is not None:
+                        margin_s = f"\u0394={d['margin']:+.4f}"
+                    else:
+                        margin_s = "\u0394=?"
+                    sel_s = f"sel={d['sel_pct']:.1f}%" if d["sel_pct"] is not None else "sel=?"
+                    print(f"      dim {d['dim_id']}  {val_s}  {z_s}  {thr_s}  {margin_s}  {sel_s}")
+
+
 def archipelago(con, word):
     word_id, canonical = _resolve_word_id(con, word)
     if word_id is None:
@@ -494,81 +686,61 @@ def archipelago(con, word):
         return
 
     row = con.execute("""
-        SELECT archipelago, reef_0, reef_1, reef_2, reef_3
+        SELECT archipelago, archipelago_ext, reef_0, reef_1, reef_2, reef_3, reef_4, reef_5
         FROM words WHERE word_id = ?
     """, [word_id]).fetchone()
 
-    arch, r0, r1, r2, r3 = row
-    if arch == 0 and r0 == 0 and r1 == 0 and r2 == 0 and r3 == 0:
+    arch, arch_ext, r0, r1, r2, r3, r4, r5 = row
+    if arch == 0 and arch_ext == 0 and r0 == 0 and r1 == 0 and r2 == 0 and r3 == 0 and r4 == 0 and r5 == 0:
         print(f"'{canonical}' has no archipelago encoding. Run phase 9b first.")
         return
 
-    counts = con.execute("""
+    # Compute word's depth at each (island_id, generation)
+    min_depth = config.REEF_MIN_DEPTH
+    depth_rows = con.execute("""
+        SELECT di.island_id, di.generation, COUNT(*) as depth
+        FROM dim_memberships dm
+        JOIN dim_islands di ON dm.dim_id = di.dim_id
+        WHERE dm.word_id = ? AND di.island_id >= 0
+        GROUP BY di.island_id, di.generation
+    """, [word_id]).fetchall()
+    qualifying = {(iid, gen) for iid, gen, d in depth_rows if d >= min_depth}
+
+    rows = con.execute("""
         SELECT
-            bit_count(?::BIGINT & 15) as n_arch,
-            bit_count(?::BIGINT >> 4) as n_islands,
-            bit_count(?::BIGINT) + bit_count(?::BIGINT) +
-            bit_count(?::BIGINT) + bit_count(?::BIGINT) as n_reefs
-    """, [arch, arch, r0, r1, r2, r3]).fetchone()
-    n_arch, n_islands, n_reefs = counts
+            dm.dim_id, dm.value, dm.z_score,
+            ds.threshold, ds.threshold_method, ds.selectivity,
+            di0.island_id AS arch_id,   s0.island_name AS arch_name,
+            di1.island_id AS island_id, s1.island_name AS island_name,
+            di2.island_id AS reef_id,   s2.island_name AS reef_name
+        FROM dim_memberships dm
+        JOIN dim_stats ds ON dm.dim_id = ds.dim_id
+        LEFT JOIN dim_islands di0 ON dm.dim_id = di0.dim_id AND di0.generation = 0
+        LEFT JOIN island_stats s0  ON di0.island_id = s0.island_id AND s0.generation = 0
+        LEFT JOIN dim_islands di1 ON dm.dim_id = di1.dim_id AND di1.generation = 1
+        LEFT JOIN island_stats s1  ON di1.island_id = s1.island_id AND s1.generation = 1
+        LEFT JOIN dim_islands di2 ON dm.dim_id = di2.dim_id AND di2.generation = 2
+        LEFT JOIN island_stats s2  ON di2.island_id = s2.island_id AND s2.generation = 2
+        WHERE dm.word_id = ?
+        ORDER BY
+            CASE WHEN di0.island_id IS NULL OR di0.island_id < 0 THEN 1 ELSE 0 END,
+            di0.island_id,
+            CASE WHEN di1.island_id IS NULL OR di1.island_id < 0 THEN 1 ELSE 0 END,
+            di1.island_id,
+            CASE WHEN di2.island_id IS NULL OR di2.island_id < 0 THEN 1 ELSE 0 END,
+            di2.island_id,
+            dm.value DESC
+    """, [word_id]).fetchall()
 
-    print(f"\n'{canonical}' — archipelago profile")
-    print(f"  Archipelagos (gen-0): {n_arch}")
-    print(f"  Islands (gen-1):      {n_islands}")
-    print(f"  Reefs (gen-2):        {n_reefs}")
-
-    # List specific island names using bit positions
-    # Gen-0 archipelagos
-    gen0_names = con.execute("""
-        SELECT s.island_id, s.island_name
-        FROM island_stats s
-        WHERE s.generation = 0 AND s.island_id >= 0
-          AND s.arch_column = 'archipelago'
-          AND (?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
-        ORDER BY s.island_id
-    """, [arch]).fetchall()
-    if gen0_names:
-        print(f"\n  Archipelagos:")
-        for iid, name in gen0_names:
-            name_str = name if name else f"(island {iid})"
-            print(f"    [{iid}] {name_str}")
-
-    # Gen-1 islands
-    gen1_names = con.execute("""
-        SELECT s.island_id, s.island_name, s.parent_island_id
-        FROM island_stats s
-        WHERE s.generation = 1 AND s.island_id >= 0
-          AND s.arch_column = 'archipelago'
-          AND (?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
-        ORDER BY s.parent_island_id, s.island_id
-    """, [arch]).fetchall()
-    if gen1_names:
-        print(f"\n  Islands:")
-        for iid, name, parent in gen1_names:
-            name_str = name if name else f"(island {iid})"
-            print(f"    [{iid}] {name_str} (parent: {parent})")
-
-    # Gen-2 reefs per archipelago
-    reef_cols = [("reef_0", r0), ("reef_1", r1), ("reef_2", r2), ("reef_3", r3)]
-    any_reefs = False
-    for col_name, col_val in reef_cols:
-        if col_val == 0:
-            continue
-        reef_names = con.execute("""
-            SELECT s.island_id, s.island_name, s.parent_island_id
-            FROM island_stats s
-            WHERE s.generation = 2 AND s.island_id >= 0
-              AND s.arch_column = ?
-              AND (?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
-            ORDER BY s.island_id
-        """, [col_name, col_val]).fetchall()
-        if reef_names:
-            if not any_reefs:
-                print(f"\n  Reefs:")
-                any_reefs = True
-            for iid, name, parent in reef_names:
-                name_str = name if name else f"(reef {iid})"
-                print(f"    [{iid}] {name_str} (parent island: {parent})")
+    tree = _build_archipelago_tree(rows)
+    pruned_dims = _prune_tree_by_depth(tree, qualifying)
+    n_arch, n_islands, n_reefs = _count_tree_nodes(tree)
+    _render_archipelago_tree(tree, canonical, n_arch, n_islands, n_reefs)
+    if pruned_dims > 0:
+        total_dims = con.execute(
+            "SELECT total_dims FROM words WHERE word_id = ?", [word_id]
+        ).fetchone()[0]
+        print(f"\n  ({pruned_dims}/{total_dims} dims below depth {min_depth} not shown)")
 
 
 def relationship(con, word_a, word_b):
@@ -583,23 +755,28 @@ def relationship(con, word_a, word_b):
 
     row = con.execute("""
         SELECT
-            a.archipelago, a.reef_0, a.reef_1, a.reef_2, a.reef_3,
-            b.archipelago, b.reef_0, b.reef_1, b.reef_2, b.reef_3
+            a.archipelago, a.archipelago_ext, a.reef_0, a.reef_1, a.reef_2, a.reef_3, a.reef_4, a.reef_5,
+            b.archipelago, b.archipelago_ext, b.reef_0, b.reef_1, b.reef_2, b.reef_3, b.reef_4, b.reef_5
         FROM words a, words b
         WHERE a.word_id = ? AND b.word_id = ?
     """, [id_a, id_b]).fetchone()
 
-    a_arch, a_r0, a_r1, a_r2, a_r3 = row[0], row[1], row[2], row[3], row[4]
-    b_arch, b_r0, b_r1, b_r2, b_r3 = row[5], row[6], row[7], row[8], row[9]
+    a_arch, a_arch_ext, a_r0, a_r1, a_r2, a_r3, a_r4, a_r5 = row[0:8]
+    b_arch, b_arch_ext, b_r0, b_r1, b_r2, b_r3, b_r4, b_r5 = row[8:16]
 
-    if a_arch == 0 and b_arch == 0:
+    if a_arch == 0 and a_arch_ext == 0 and b_arch == 0 and b_arch_ext == 0:
         print("Neither word has archipelago encoding. Run phase 9b first.")
         return
 
+    gen0_count = con.execute(
+        "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
+    ).fetchone()[0]
+    gen0_mask = (1 << gen0_count) - 1
+
     # Classify relationship
-    reef_overlap = (a_r0 & b_r0) | (a_r1 & b_r1) | (a_r2 & b_r2) | (a_r3 & b_r3)
-    island_overlap = a_arch & b_arch & ~15  # bits 4+ (gen-1)
-    arch_overlap = a_arch & b_arch & 15  # bits 0-3 (gen-0)
+    reef_overlap = (a_r0 & b_r0) | (a_r1 & b_r1) | (a_r2 & b_r2) | (a_r3 & b_r3) | (a_r4 & b_r4) | (a_r5 & b_r5)
+    island_overlap = ((a_arch & b_arch) >> gen0_count) | (a_arch_ext & b_arch_ext)  # gen-1 bits
+    arch_overlap = a_arch & b_arch & gen0_mask  # gen-0 bits
 
     if reef_overlap != 0:
         classification = "same reef (closest)"
@@ -613,15 +790,68 @@ def relationship(con, word_a, word_b):
     # Shared structure counts
     counts = con.execute("""
         SELECT
-            bit_count((?::BIGINT & ?::BIGINT) & 15::BIGINT) as shared_arch,
-            bit_count((?::BIGINT & ?::BIGINT) >> 4) as shared_islands,
+            bit_count((?::BIGINT & ?::BIGINT) & ?::BIGINT) as shared_arch,
+            bit_count((?::BIGINT & ?::BIGINT) >> ?) + bit_count(?::BIGINT & ?::BIGINT) as shared_islands,
+            bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) +
             bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) +
             bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) as shared_reefs
-    """, [a_arch, b_arch, a_arch, b_arch,
-          a_r0, b_r0, a_r1, b_r1, a_r2, b_r2, a_r3, b_r3]).fetchone()
+    """, [a_arch, b_arch, gen0_mask,
+          a_arch, b_arch, gen0_count, a_arch_ext, b_arch_ext,
+          a_r0, b_r0, a_r1, b_r1, a_r2, b_r2, a_r3, b_r3, a_r4, b_r4, a_r5, b_r5]).fetchone()
     shared_arch, shared_islands, shared_reefs = counts
 
     print(f"\n'{name_a}' <-> '{name_b}': {classification}")
     print(f"  Shared archipelagos: {shared_arch}")
     print(f"  Shared islands:      {shared_islands}")
     print(f"  Shared reefs:        {shared_reefs}")
+
+    # Show names of shared structures
+    if shared_arch > 0:
+        shared_arch_names = con.execute("""
+            SELECT s.island_id, s.island_name
+            FROM island_stats s
+            WHERE s.generation = 0 AND s.island_id >= 0
+              AND s.arch_column = 'archipelago'
+              AND (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
+            ORDER BY s.island_id
+        """, [a_arch, b_arch]).fetchall()
+        if shared_arch_names:
+            names = [n or f"archipelago {i}" for i, n in shared_arch_names]
+            print(f"  Shared archipelago names: {', '.join(names)}")
+
+    if shared_islands > 0:
+        shared_island_names = con.execute("""
+            SELECT s.island_id, s.island_name
+            FROM island_stats s
+            WHERE s.generation = 1 AND s.island_id >= 0
+              AND s.arch_column IN ('archipelago', 'archipelago_ext')
+              AND (CASE WHEN s.arch_column = 'archipelago'
+                   THEN (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
+                   ELSE (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
+                   END)
+            ORDER BY s.island_id
+        """, [a_arch, b_arch, a_arch_ext, b_arch_ext]).fetchall()
+        if shared_island_names:
+            names = [n or f"island {i}" for i, n in shared_island_names]
+            print(f"  Shared island names: {', '.join(names)}")
+
+    if shared_reefs > 0:
+        shared_reef_names = []
+        for col_name, a_val, b_val in [("reef_0", a_r0, b_r0), ("reef_1", a_r1, b_r1),
+                                         ("reef_2", a_r2, b_r2), ("reef_3", a_r3, b_r3),
+                                         ("reef_4", a_r4, b_r4), ("reef_5", a_r5, b_r5)]:
+            overlap = a_val & b_val
+            if overlap == 0:
+                continue
+            reefs = con.execute("""
+                SELECT s.island_id, s.island_name
+                FROM island_stats s
+                WHERE s.generation = 2 AND s.island_id >= 0
+                  AND s.arch_column = ?
+                  AND (?::BIGINT & (CASE WHEN s.arch_bit = 63 THEN (-9223372036854775808)::BIGINT ELSE 1::BIGINT << s.arch_bit END)) != 0
+                ORDER BY s.island_id
+            """, [col_name, overlap]).fetchall()
+            for i, n in reefs:
+                shared_reef_names.append(n or f"reef {i}")
+        if shared_reef_names:
+            print(f"  Shared reef names: {', '.join(shared_reef_names)}")
