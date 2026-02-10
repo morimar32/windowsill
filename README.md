@@ -162,6 +162,8 @@ explore.py       Interactive query functions (what_is, words_like, archipelago,
 
 ## Database Schema
 
+> For full column-level detail — types, nullability, value ranges, example values, FK relationships, and join patterns — see the [Data Dictionary](data_dictionary.md).
+
 ### Core Tables (Phases 2-6)
 
 **`words`** -- One row per vocabulary entry
