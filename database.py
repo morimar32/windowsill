@@ -174,6 +174,19 @@ def migrate_schema(con):
         except duckdb.CatalogException:
             pass
 
+    # Universal word analytics columns
+    for col, typedef in [("universal_pct", "DOUBLE"), ("dim_weight", "DOUBLE")]:
+        try:
+            con.execute(f"ALTER TABLE dim_stats ADD COLUMN {col} {typedef}")
+        except duckdb.CatalogException:
+            pass
+
+    for col, typedef in [("sense_spread", "INTEGER"), ("polysemy_inflated", "BOOLEAN DEFAULT FALSE"), ("arch_concentration", "DOUBLE")]:
+        try:
+            con.execute(f"ALTER TABLE words ADD COLUMN {col} {typedef}")
+        except duckdb.CatalogException:
+            pass
+
     # word_pos table
     con.execute("""
         CREATE TABLE IF NOT EXISTS word_pos (

@@ -170,9 +170,12 @@ def run_phase6b(con=None, db_path=None):
     if con is None:
         con = database.get_connection(db_path)
 
+    database.migrate_schema(con)
     post_process.compute_pos_enrichment(con)
     post_process.score_compound_contamination(con)
     post_process.compute_compositionality(con)
+    post_process.compute_dimension_abstractness(con)
+    post_process.compute_sense_spread(con)
     print("  Phase 6b complete")
     return con
 
@@ -209,6 +212,20 @@ def run_phase9c(con=None, db_path=None):
         con = database.get_connection(db_path)
 
     islands.generate_island_names(con)
+    return con
+
+
+def run_phase9d(con=None, db_path=None):
+    print("\n=== Phase 9d: Universal Word Analytics (post-island) ===")
+    import database, post_process
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    post_process.compute_arch_concentration(con)
+    post_process.create_views(con)
+    print("  Phase 9d complete")
     return con
 
 
@@ -252,6 +269,8 @@ def run_phase8(con=None, db_path=None):
     print("  pos_dims <pos>              — dimensions enriched for POS")
     print("  archipelago <word>          — island hierarchy position")
     print("  relationship <w1> <w2>      — classify word relationship")
+    print("  exclusion <w1> <w2>         — shared reef exclusions (universal words)")
+    print("  bridge_profile <word>       — reef distribution & cross-arch bridges")
     print("  quit                        — exit")
 
     while True:
@@ -303,18 +322,22 @@ def run_phase8(con=None, db_path=None):
                 explore.archipelago(con, " ".join(parts[1:]))
             elif cmd == "relationship" and len(parts) >= 3:
                 explore.relationship(con, parts[1], parts[2])
+            elif cmd == "exclusion" and len(parts) >= 3:
+                explore.exclusion(con, parts[1], parts[2])
+            elif cmd == "bridge_profile" and len(parts) >= 2:
+                explore.bridge_profile(con, " ".join(parts[1:]))
             else:
                 print(f"Unknown command: {cmd}")
         except Exception as e:
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9c", "7", "8"]
+PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9c", "9d", "7", "8"]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c)")
+    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c, 9d)")
     parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
@@ -364,6 +387,8 @@ def main():
             con = run_phase9b(con=con, db_path=args.db)
         elif phase == "9c":
             con = run_phase9c(con=con, db_path=args.db)
+        elif phase == "9d":
+            con = run_phase9d(con=con, db_path=args.db)
         elif phase == "7":
             con = run_phase7(con=con, db_path=args.db)
         elif phase == "8":

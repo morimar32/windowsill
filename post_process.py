@@ -93,7 +93,31 @@ def create_views(con):
         WHERE w.archipelago != 0 OR w.archipelago_ext != 0
     """)
 
-    print("  Views created: v_unique_words, v_universal_words, v_selective_dims, v_archipelago_profile")
+    con.execute(f"""
+        CREATE OR REPLACE VIEW v_abstract_dims AS
+        SELECT ds.* FROM dim_stats ds
+        WHERE ds.universal_pct >= {config.ABSTRACT_DIM_THRESHOLD}
+        ORDER BY ds.universal_pct DESC
+    """)
+
+    con.execute(f"""
+        CREATE OR REPLACE VIEW v_concrete_dims AS
+        SELECT ds.* FROM dim_stats ds
+        WHERE ds.universal_pct IS NOT NULL AND ds.universal_pct <= {config.CONCRETE_DIM_THRESHOLD}
+        ORDER BY ds.universal_pct ASC
+    """)
+
+    con.execute(f"""
+        CREATE OR REPLACE VIEW v_domain_generals AS
+        SELECT w.word_id, w.word, w.total_dims, w.specificity,
+               w.arch_concentration, w.sense_spread, w.polysemy_inflated
+        FROM words w
+        WHERE w.specificity < 0 AND w.arch_concentration >= {config.DOMAIN_GENERAL_THRESHOLD}
+        ORDER BY w.arch_concentration DESC
+    """)
+
+    print("  Views created: v_unique_words, v_universal_words, v_selective_dims, "
+          "v_archipelago_profile, v_abstract_dims, v_concrete_dims, v_domain_generals")
 
 
 def materialize_word_pair_overlap(con, threshold=None):
@@ -295,6 +319,93 @@ def compute_pos_enrichment(con):
         WHERE dim_id = ?
     """, updates)
     print(f"  Updated POS enrichment for {len(updates)} dimensions")
+
+
+def compute_dimension_abstractness(con):
+    """Compute universal_pct and dim_weight for each dimension."""
+    con.execute("""
+        UPDATE dim_stats SET universal_pct = sub.upct,
+            dim_weight = -log2(GREATEST(sub.upct, 0.01))
+        FROM (SELECT dm.dim_id, COUNT(*) FILTER (WHERE w.specificity < 0)::DOUBLE / COUNT(*) as upct
+              FROM dim_memberships dm JOIN words w ON dm.word_id = w.word_id GROUP BY dm.dim_id) sub
+        WHERE dim_stats.dim_id = sub.dim_id
+    """)
+
+    stats = con.execute("""
+        SELECT MIN(universal_pct), MAX(universal_pct), MIN(dim_weight), MAX(dim_weight)
+        FROM dim_stats WHERE universal_pct IS NOT NULL
+    """).fetchone()
+    count = con.execute("SELECT COUNT(*) FROM dim_stats WHERE universal_pct IS NOT NULL").fetchone()[0]
+    print(f"  Dimension abstractness: {count} dims, universal_pct range [{stats[0]:.3f}, {stats[1]:.3f}], "
+          f"dim_weight range [{stats[2]:.2f}, {stats[3]:.2f}]")
+
+
+def compute_sense_spread(con):
+    """Compute sense_spread and polysemy_inflated for words with multiple senses."""
+    # Check if word_senses table exists and has data
+    try:
+        sense_count = con.execute("SELECT COUNT(*) FROM word_senses").fetchone()[0]
+    except Exception:
+        print("  Sense spread: skipped (word_senses table not found, run phase 5b first)")
+        return
+
+    if sense_count == 0:
+        print("  Sense spread: skipped (word_senses table is empty, run phase 5b first)")
+        return
+
+    con.execute("""
+        UPDATE words SET sense_spread = sub.spread
+        FROM (
+            SELECT ws.word_id, MAX(ws.total_dims) - MIN(ws.total_dims) as spread
+            FROM word_senses ws
+            GROUP BY ws.word_id
+            HAVING COUNT(*) >= 2
+        ) sub
+        WHERE words.word_id = sub.word_id
+    """)
+
+    con.execute(f"""
+        UPDATE words SET polysemy_inflated = TRUE
+        WHERE specificity < 0 AND sense_spread >= {config.SENSE_SPREAD_INFLATED_THRESHOLD}
+    """)
+
+    stats = con.execute("""
+        SELECT COUNT(*), AVG(sense_spread)
+        FROM words WHERE sense_spread IS NOT NULL
+    """).fetchone()
+    inflated = con.execute("SELECT COUNT(*) FROM words WHERE polysemy_inflated = TRUE").fetchone()[0]
+    print(f"  Sense spread: {stats[0]} words with spread, avg={stats[1]:.1f}, {inflated} polysemy-inflated")
+
+
+def compute_arch_concentration(con):
+    """Compute arch_concentration for universal words (needs island data)."""
+    con.execute("""
+        UPDATE words SET arch_concentration = sub.concentration
+        FROM (
+            SELECT dm.word_id, MAX(arch_count)::DOUBLE / SUM(arch_count) as concentration
+            FROM (
+                SELECT dm.word_id, di.island_id, COUNT(*) as arch_count
+                FROM dim_memberships dm
+                JOIN dim_islands di ON dm.dim_id = di.dim_id
+                WHERE di.generation = 0 AND di.island_id >= 0
+                GROUP BY dm.word_id, di.island_id
+            ) dm
+            GROUP BY dm.word_id HAVING SUM(arch_count) >= 2
+        ) sub
+        JOIN words w ON w.word_id = sub.word_id
+        WHERE words.word_id = sub.word_id AND w.specificity < 0
+    """)
+
+    stats = con.execute("""
+        SELECT COUNT(*), MIN(arch_concentration), MAX(arch_concentration)
+        FROM words WHERE arch_concentration IS NOT NULL
+    """).fetchone()
+    generals = con.execute(f"""
+        SELECT COUNT(*) FROM words
+        WHERE arch_concentration >= {config.DOMAIN_GENERAL_THRESHOLD}
+    """).fetchone()[0]
+    print(f"  Arch concentration: {stats[0]} universal words, range [{stats[1]:.3f}, {stats[2]:.3f}], "
+          f"{generals} domain generals (>= {config.DOMAIN_GENERAL_THRESHOLD})")
 
 
 def score_compound_contamination(con):

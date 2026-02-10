@@ -23,3 +23,9 @@ ISLAND_MIN_COMMUNITY_SIZE = 2        # Communities smaller than this become nois
 ISLAND_SUB_LEIDEN_RESOLUTION = 1.5   # Leiden resolution for sub-island detection (higher = more splitting)
 ISLAND_MIN_DIMS_FOR_SUBDIVISION = 10 # Don't subdivide islands with fewer dims than this
 REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef/island/archipelago to be encoded
+
+# Universal word analytics
+SENSE_SPREAD_INFLATED_THRESHOLD = 15   # Min sense_spread to flag as polysemy-inflated
+DOMAIN_GENERAL_THRESHOLD = 0.75        # Min arch_concentration for v_domain_generals
+ABSTRACT_DIM_THRESHOLD = 0.30          # Min universal_pct for v_abstract_dims
+CONCRETE_DIM_THRESHOLD = 0.15          # Max universal_pct for v_concrete_dims

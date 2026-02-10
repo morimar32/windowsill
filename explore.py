@@ -855,3 +855,182 @@ def relationship(con, word_a, word_b):
                 shared_reef_names.append(n or f"reef {i}")
         if shared_reef_names:
             print(f"  Shared reef names: {', '.join(shared_reef_names)}")
+
+
+def exclusion(con, word_a, word_b):
+    id_a, name_a = _resolve_word_id(con, word_a)
+    id_b, name_b = _resolve_word_id(con, word_b)
+    if id_a is None:
+        print(f"Word '{word_a}' not found.")
+        return
+    if id_b is None:
+        print(f"Word '{word_b}' not found.")
+        return
+
+    # Verify both are universal
+    specs = con.execute(
+        "SELECT word_id, specificity FROM words WHERE word_id IN (?, ?)", [id_a, id_b]
+    ).fetchall()
+    spec_map = {r[0]: r[1] for r in specs}
+    if spec_map.get(id_a, 0) >= 0:
+        print(f"'{name_a}' is not a universal word (specificity={spec_map.get(id_a, 0)})")
+        return
+    if spec_map.get(id_b, 0) >= 0:
+        print(f"'{name_b}' is not a universal word (specificity={spec_map.get(id_b, 0)})")
+        return
+
+    min_depth = config.REEF_MIN_DEPTH
+
+    # Get all reef IDs (generation=2)
+    all_reefs = set(r[0] for r in con.execute(
+        "SELECT island_id FROM island_stats WHERE generation = 2 AND island_id >= 0"
+    ).fetchall())
+
+    if not all_reefs:
+        print("No reefs found. Run phase 9 first.")
+        return
+
+    # Get reefs where each word has sufficient depth
+    def word_reefs(word_id):
+        rows = con.execute("""
+            SELECT di.island_id, COUNT(*) as depth
+            FROM dim_memberships dm
+            JOIN dim_islands di ON dm.dim_id = di.dim_id
+            WHERE dm.word_id = ? AND di.generation = 2 AND di.island_id >= 0
+            GROUP BY di.island_id
+            HAVING COUNT(*) >= ?
+        """, [word_id, min_depth]).fetchall()
+        return set(r[0] for r in rows)
+
+    reefs_a = word_reefs(id_a)
+    reefs_b = word_reefs(id_b)
+
+    excl_a = all_reefs - reefs_a
+    excl_b = all_reefs - reefs_b
+    shared_excl = excl_a & excl_b
+    incl_shared = reefs_a & reefs_b
+    incl_union = reefs_a | reefs_b
+
+    excl_union = excl_a | excl_b
+    excl_jaccard = len(shared_excl) / len(excl_union) if excl_union else 0.0
+    incl_jaccard = len(incl_shared) / len(incl_union) if incl_union else 0.0
+
+    print(f"\nExclusion fingerprint: '{name_a}' vs '{name_b}'")
+    print(f"  Total reefs:           {len(all_reefs)}")
+    print(f"  '{name_a}' active in:  {len(reefs_a)} reefs")
+    print(f"  '{name_b}' active in:  {len(reefs_b)} reefs")
+    print(f"  '{name_a}' excluded:   {len(excl_a)} reefs")
+    print(f"  '{name_b}' excluded:   {len(excl_b)} reefs")
+    print(f"  Shared exclusions:     {len(shared_excl)} reefs")
+    print(f"  Exclusion Jaccard:     {excl_jaccard:.4f}")
+    print(f"  Inclusion Jaccard:     {incl_jaccard:.4f}")
+
+    # Show sample of shared-exclusion reefs grouped by archipelago
+    if shared_excl:
+        sample_ids = sorted(shared_excl)[:30]
+        placeholders = ",".join(["?"] * len(sample_ids))
+        reef_info = con.execute(f"""
+            SELECT s2.island_id, s2.island_name,
+                   s0.island_id as arch_id, s0.island_name as arch_name
+            FROM island_stats s2
+            JOIN dim_islands di ON di.island_id = s2.island_id AND di.generation = 2
+            JOIN dim_islands di0 ON di0.dim_id = di.dim_id AND di0.generation = 0
+            JOIN island_stats s0 ON s0.island_id = di0.island_id AND s0.generation = 0
+            WHERE s2.island_id IN ({placeholders}) AND s2.generation = 2
+            GROUP BY s2.island_id, s2.island_name, s0.island_id, s0.island_name
+            ORDER BY s0.island_id, s2.island_id
+        """, sample_ids).fetchall()
+
+        print(f"\n  Shared exclusion reefs (sample of {len(sample_ids)}):")
+        current_arch = None
+        for reef_id, reef_name, arch_id, arch_name in reef_info:
+            if arch_id != current_arch:
+                current_arch = arch_id
+                a_label = arch_name or f"archipelago {arch_id}"
+                print(f"    [{a_label}]")
+            r_label = reef_name or f"reef {reef_id}"
+            print(f"      {r_label}")
+
+
+def bridge_profile(con, word):
+    word_id, canonical = _resolve_word_id(con, word)
+    if word_id is None:
+        print(f"Word '{word}' not found.")
+        return
+
+    spec = con.execute("SELECT specificity FROM words WHERE word_id = ?", [word_id]).fetchone()[0]
+    if spec >= 0:
+        print(f"'{canonical}' is not a universal word (specificity={spec})")
+        return
+
+    min_depth = config.REEF_MIN_DEPTH
+
+    # Get reefs where word has sufficient depth, with hierarchy info
+    rows = con.execute("""
+        SELECT s2.island_id as reef_id, s2.island_name as reef_name,
+               s1.island_id as island_id, s1.island_name as island_name,
+               s0.island_id as arch_id, s0.island_name as arch_name,
+               COUNT(DISTINCT dm.dim_id) as dim_count
+        FROM dim_memberships dm
+        JOIN dim_islands di2 ON dm.dim_id = di2.dim_id AND di2.generation = 2
+        JOIN island_stats s2 ON di2.island_id = s2.island_id AND s2.generation = 2
+        JOIN dim_islands di1 ON dm.dim_id = di1.dim_id AND di1.generation = 1
+        JOIN island_stats s1 ON di1.island_id = s1.island_id AND s1.generation = 1
+        JOIN dim_islands di0 ON dm.dim_id = di0.dim_id AND di0.generation = 0
+        JOIN island_stats s0 ON di0.island_id = s0.island_id AND s0.generation = 0
+        WHERE dm.word_id = ? AND di2.island_id >= 0
+        GROUP BY s2.island_id, s2.island_name, s1.island_id, s1.island_name,
+                 s0.island_id, s0.island_name
+        HAVING COUNT(DISTINCT dm.dim_id) >= ?
+        ORDER BY s0.island_id, s1.island_id, dim_count DESC
+    """, [word_id, min_depth]).fetchall()
+
+    if not rows:
+        print(f"'{canonical}' has no reefs with depth >= {min_depth}. Run phase 9 first.")
+        return
+
+    # Group by archipelago for display
+    from collections import OrderedDict
+    arch_groups = OrderedDict()
+    reef_arch_map = {}  # reef_id -> arch_id for bridge detection
+    for reef_id, reef_name, island_id, island_name, arch_id, arch_name, dim_count in rows:
+        if arch_id not in arch_groups:
+            arch_groups[arch_id] = {"name": arch_name, "reefs": []}
+        arch_groups[arch_id]["reefs"].append({
+            "reef_id": reef_id, "reef_name": reef_name,
+            "island_name": island_name, "dim_count": dim_count,
+        })
+        reef_arch_map[reef_id] = arch_id
+
+    n_archs = len(arch_groups)
+    n_reefs = sum(len(g["reefs"]) for g in arch_groups.values())
+
+    print(f"\n'{canonical}' — bridge profile ({n_archs} archipelagos, {n_reefs} reefs)")
+
+    for arch_id, group in arch_groups.items():
+        a_label = group["name"] or f"archipelago {arch_id}"
+        total_dims = sum(r["dim_count"] for r in group["reefs"])
+        print(f"\n  [{a_label}] ({total_dims} dims across {len(group['reefs'])} reefs)")
+        for r in group["reefs"]:
+            r_label = r["reef_name"] or f"reef {r['reef_id']}"
+            print(f"    {r_label}: {r['dim_count']} dims")
+
+    # Identify cross-archipelago bridge pairs
+    if n_archs >= 2:
+        reef_list = [(r["reef_id"], r["reef_name"], arch_id, group["name"])
+                     for arch_id, group in arch_groups.items()
+                     for r in group["reefs"]]
+        bridges = []
+        for i in range(len(reef_list)):
+            for j in range(i + 1, len(reef_list)):
+                if reef_list[i][2] != reef_list[j][2]:  # different archipelagos
+                    bridges.append((reef_list[i], reef_list[j]))
+
+        if bridges:
+            print(f"\n  Cross-archipelago bridges ({min(len(bridges), 15)} of {len(bridges)}):")
+            for (r1_id, r1_name, a1_id, a1_name), (r2_id, r2_name, a2_id, a2_name) in bridges[:15]:
+                r1_label = r1_name or f"reef {r1_id}"
+                r2_label = r2_name or f"reef {r2_id}"
+                a1_label = a1_name or f"arch {a1_id}"
+                a2_label = a2_name or f"arch {a2_id}"
+                print(f"    {r1_label} ({a1_label}) <-> {r2_label} ({a2_label})")

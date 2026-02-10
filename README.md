@@ -26,6 +26,8 @@ The enrichment pipeline adds six layers of analysis on top of the base embedding
 
 6. **Island & reef naming** -- Every entity in the three-generation hierarchy gets a human-readable name via a bottom-up LLM-assisted pipeline. Reefs are named from their most exclusive words (words present in that reef but absent from all sibling reefs), islands are named by synthesizing their child reef names, and archipelagos are named from their child island names. This bottom-up approach ensures names are grounded in the most specific, distinctive vocabulary rather than diluted by shared terms.
 
+7. **Universal word analytics** -- Universal words (specificity < 0, ~24,651 words appearing in 23-44 dims) carry meaningful signal: dimensions they avoid are biological taxonomy (5.8% universal), dimensions they dominate are abstract/social concepts (48.7% universal). Six features leverage this: per-dimension **abstractness** (`universal_pct` + information-theoretic `dim_weight`), **sense spread** detecting polysemy-inflated universals, **arch concentration** identifying "domain generals" (universal words concentrated in one archipelago), **exclusion fingerprints** (shared reef avoidance between universal word pairs), and **bridge profiles** (cross-archipelago reef distributions).
+
 ### The Big Picture - Archipelagos, Islands, and Reefs
 
 ![Full island hierarchy: 52 named islands decomposed into 208 reefs across 4 archipelagos](great_chart.png)
@@ -74,6 +76,11 @@ Output from a full pipeline run (z-score threshold = 2.0, REEF_MIN_DEPTH = 2):
 | Gen-2 reefs | 208 | Sub-island subdivision |
 | All structures named | Yes | Bottom-up LLM naming (phase 9c) |
 | Archipelago encoding bits | 264 used | Across 8 BIGINT columns (512 available) |
+| Universal words | 24,651 | specificity < 0 (23-44 dims) |
+| Abstract dims | 128 | universal_pct >= 30% |
+| Concrete dims | 46 | universal_pct <= 15% |
+| Domain generals | 111 | Universal words with arch_concentration >= 0.75 |
+| Polysemy-inflated | 293 | Universal + sense_spread >= 15 |
 
 ### Word categories
 
@@ -100,26 +107,28 @@ Phase 5:  Statistical analysis         (per-dimension z-score threshold)
 Phase 5b: Sense embedding generation   (gloss-contextualized, ~5 min CPU)
 Phase 5c: Sense analysis               (apply existing thresholds to senses)
 Phase 6:  Post-processing              (dim counts, specificity bands, views, pair overlap)
-Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality)
+Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality, dimension abstractness, sense spread)
 Phase 9:  Island detection             (Jaccard matrix, Leiden clustering, 3-gen hierarchy, encoding)
 Phase 9b: Archipelago encoding         (standalone bitmask encoding for existing island data)
 Phase 9c: Island & reef naming         (LLM-assisted naming via Claude API, bottom-up)
+Phase 9d: Universal word analytics     (arch concentration, domain generals -- needs island data)
 Phase 7:  Database maintenance         (integrity checks, reindex, ANALYZE, CHECKPOINT)
 Phase 8:  Interactive explorer         (REPL for querying the database)
 ```
 
-Phase order: `2 -> 3 -> 4 -> 4b -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9c -> 7 -> 8`
+Phase order: `2 -> 3 -> 4 -> 4b -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9c -> 9d -> 7 -> 8`
 
-Phases 4b/5b/5c/6b are enrichment phases designed to run on an already-populated database. They use ALTER TABLE to add columns, so they're safe to run without re-running the expensive embedding pipeline.
+Phases 4b/5b/5c/6b/9d are enrichment phases designed to run on an already-populated database. They use ALTER TABLE to add columns, so they're safe to run without re-running the expensive embedding pipeline.
 
 **Dependency notes:**
 - Phases 4b (POS backfill) is independent of 5b/5c (senses) and 6b (compounds)
 - Phase 5b requires 4b to have run (needs `pos IS NULL` to identify ambiguous words)
 - Phase 5c requires 5b (needs sense embeddings in the DB)
-- Phase 6b requires 4b (needs category/components populated)
+- Phase 6b requires 4b (needs category/components populated); sense spread gracefully skips if 5b hasn't run
 - Phase 9 requires phase 5 (needs dim_memberships populated)
 - Phase 9b requires phase 9 (needs island hierarchy; standalone re-encoding if schema changes)
 - Phase 9c requires phase 9 (needs island hierarchy + characteristic words; requires `ANTHROPIC_API_KEY`)
+- Phase 9d requires phase 9 (needs island hierarchy for arch_concentration); also re-creates views
 
 ### File Layout
 
@@ -130,12 +139,13 @@ word_list.py     WordNet extraction, cleaning, POS/category classification
 embedder.py      Sentence-transformers encoding, checkpointing, sense embedding
 analyzer.py      Per-dimension z-score thresholding, sense analysis
 post_process.py  Dim counts, specificity bands, views, pair overlap, POS enrichment,
-                 contamination, compositionality
+                 contamination, compositionality, dimension abstractness, sense spread,
+                 arch concentration
 islands.py       Island detection: Jaccard matrix, Leiden clustering, PMI scoring,
                  archipelago encoding, LLM-assisted bottom-up naming
 main.py          Pipeline orchestration, CLI argument parsing, explorer REPL
 explore.py       Interactive query functions (what_is, words_like, archipelago,
-                 relationship, senses, etc.) -- outputs include island/reef names
+                 relationship, exclusion, bridge_profile, senses, etc.)
 ```
 
 ### Key Design Decisions
@@ -163,7 +173,10 @@ embedding     FLOAT[768]    Raw embedding vector
 pos           TEXT          Part-of-speech (NULL if ambiguous across POS)
 category      TEXT          'single' | 'compound' | 'taxonomic' | 'phrasal_verb' | 'named_entity'
 word_count    INTEGER       Number of space-separated tokens
-specificity   INTEGER       Sigma band: +2/+1/0/-1/-2 (positive = specific, negative = universal)
+specificity        INTEGER    Sigma band: +2/+1/0/-1/-2 (positive = specific, negative = universal)
+sense_spread       INTEGER    MAX(total_dims) - MIN(total_dims) across senses (NULL if < 2 senses)
+polysemy_inflated  BOOLEAN    TRUE if universal (specificity < 0) and sense_spread >= 15
+arch_concentration DOUBLE     Max fraction of dims in any single archipelago (universal words only)
 archipelago       BIGINT    Bitmask: gen-0 (low bits) + gen-1 first half (above gen-0)
 archipelago_ext   BIGINT    Bitmask: gen-1 second half (bits 0+)
 reef_0            BIGINT    Bitmask: gen-2 reefs for archipelago 0
@@ -186,6 +199,8 @@ verb_enrichment  DOUBLE        Ratio of verb rate in dim vs corpus base rate
 adj_enrichment   DOUBLE        Same for adjectives
 adv_enrichment   DOUBLE        Same for adverbs
 noun_pct         DOUBLE        Fraction of dim members that are nouns
+universal_pct    DOUBLE        Fraction of dim members that are universal words (specificity < 0)
+dim_weight       DOUBLE        -log2(max(universal_pct, 0.01)) — information-theoretic weight
 ```
 
 **`dim_memberships`** -- Which words belong to which dimensions
@@ -309,6 +324,9 @@ n_dims_in_island   INTEGER    How many island dims contain this word
 - `v_universal_words` -- Words with negative specificity (1σ+ more dims than mean; general words)
 - `v_selective_dims` -- Dimensions with selectivity < 5% (sharp concepts)
 - `v_archipelago_profile` -- Words with non-zero encoding: archipelago/island/reef counts via `bit_count()` (spans all 8 bitmask columns)
+- `v_abstract_dims` -- Dimensions where >= 30% of members are universal words (dominated by abstract/social concepts)
+- `v_concrete_dims` -- Dimensions where <= 15% of members are universal words (concrete/taxonomic domains)
+- `v_domain_generals` -- Universal words with arch_concentration >= 0.75 (concentrated in one archipelago)
 
 ### Indexes
 
@@ -357,7 +375,7 @@ If you already have the base pipeline done (phases 2-6), run the enrichment:
 python main.py --phase 4b          # ~1 min: POS, categories, components
 python main.py --phase 5b          # ~5 min: sense embeddings (needs model)
 python main.py --phase 5c          # ~30 sec: sense analysis
-python main.py --phase 6b          # ~2-5 min: POS enrichment, contamination, compositionality
+python main.py --phase 6b          # ~2-5 min: POS enrichment, contamination, compositionality, dim abstractness, sense spread
 ```
 
 ### Island detection + encoding
@@ -368,6 +386,14 @@ python main.py --phase 9b            # Just re-encode bitmasks (if islands alrea
 ```
 
 Phase 9 now runs the full three-generation hierarchy and encodes the result into bitmask columns. Phase 9b is a lightweight standalone step that re-runs only the encoding -- useful if you've modified island assignments and need to refresh the bitmasks without recomputing the Jaccard matrix or re-running Leiden.
+
+### Universal word analytics (post-island)
+
+```bash
+python main.py --phase 9d            # Arch concentration + domain general views
+```
+
+Phase 9d computes `arch_concentration` for all universal words (requires island data from phase 9). This measures how concentrated each universal word's dimensions are within a single archipelago -- a value of 0.75+ means the word is a "domain general" (universal but topically focused). Also re-creates views to include `v_domain_generals`.
 
 ### Island & reef naming
 
@@ -400,7 +426,7 @@ This phase performs:
 ### CLI options
 
 ```
---phase PHASE          Run only this phase (2, 3, 4, 4b, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 7, 8)
+--phase PHASE          Run only this phase (2, 3, 4, 4b, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 9d, 7, 8)
 --from PHASE           Run from this phase through the end
 --db PATH              Database path (default: vector_distillery.duckdb)
 --skip-pair-overlap    Skip the expensive pair overlap materialization
@@ -426,6 +452,8 @@ contamination <word>          Which dims have compound contamination support
 pos_dims <pos>                Dimensions most enriched for verb/adj/adv
 archipelago <word>            Nested island hierarchy with per-dimension stats
 relationship <word1> <word2>  Classify relationship + named shared structures
+exclusion <word1> <word2>     Shared reef exclusions between universal words (Jaccard of avoided reefs)
+bridge_profile <word>         Reef distribution by archipelago + cross-archipelago bridge pairs
 ```
 
 Multi-word inputs work naturally: `what_is heart attack`, `senses bank`.
@@ -537,6 +565,29 @@ SELECT generation, island_id, island_name
 FROM island_stats WHERE island_id >= 0 AND island_name IS NOT NULL
 ORDER BY generation, island_id LIMIT 20;
 
+-- Universal word analytics: dimension abstractness (expect 768)
+SELECT COUNT(*) FROM dim_stats WHERE universal_pct IS NOT NULL;
+
+-- Most abstract dims (highest universal word fraction)
+SELECT dim_id, universal_pct, dim_weight FROM dim_stats
+ORDER BY universal_pct DESC LIMIT 10;
+
+-- Most concrete dims (lowest universal word fraction)
+SELECT dim_id, universal_pct, dim_weight FROM dim_stats
+WHERE universal_pct IS NOT NULL ORDER BY universal_pct ASC LIMIT 10;
+
+-- Sense spread: words with polysemy inflation
+SELECT COUNT(*) FROM words WHERE sense_spread IS NOT NULL;
+SELECT COUNT(*) FROM words WHERE polysemy_inflated = TRUE;
+
+-- Arch concentration: domain generals
+SELECT COUNT(*) FROM words WHERE arch_concentration IS NOT NULL;
+SELECT * FROM v_domain_generals LIMIT 20;
+
+-- View counts
+SELECT COUNT(*) FROM v_abstract_dims;
+SELECT COUNT(*) FROM v_concrete_dims;
+
 -- Relationship check via bitwise AND
 -- gen0_mask and shift depend on actual gen0_count from island_stats
 -- example below assumes 6 gen-0 archipelagos (gen0_count=6, mask=63)
@@ -597,6 +648,10 @@ All constants are in `config.py`:
 | `ISLAND_SUB_LEIDEN_RESOLUTION` | `1.5` | Leiden resolution for sub-island detection (higher = more splitting) |
 | `ISLAND_MIN_DIMS_FOR_SUBDIVISION` | `10` | Don't subdivide islands with fewer dims than this |
 | `REEF_MIN_DEPTH` | `2` | Min dims a word must activate in a reef/island/archipelago to be encoded |
+| `SENSE_SPREAD_INFLATED_THRESHOLD` | `15` | Min sense_spread to flag a universal word as polysemy-inflated |
+| `DOMAIN_GENERAL_THRESHOLD` | `0.75` | Min arch_concentration for `v_domain_generals` view |
+| `ABSTRACT_DIM_THRESHOLD` | `0.30` | Min universal_pct for `v_abstract_dims` view |
+| `CONCRETE_DIM_THRESHOLD` | `0.15` | Max universal_pct for `v_concrete_dims` view |
 
 ## File Artifacts
 
