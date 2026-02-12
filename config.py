@@ -22,7 +22,12 @@ ISLAND_CHARACTERISTIC_WORDS_N = 100  # Top N PMI-ranked words stored per island
 ISLAND_MIN_COMMUNITY_SIZE = 2        # Communities smaller than this become noise (island_id = -1)
 ISLAND_SUB_LEIDEN_RESOLUTION = 1.5   # Leiden resolution for sub-island detection (higher = more splitting)
 ISLAND_MIN_DIMS_FOR_SUBDIVISION = 10 # Don't subdivide islands with fewer dims than this
-REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef/island/archipelago to be encoded
+REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef to count as meaningfully present
+
+# Reef refinement (Phase 10)
+REEF_REFINE_MIN_DIMS = 4              # Min dims for a reef to be analyzed for misplaced dims
+REEF_REFINE_LOYALTY_THRESHOLD = 1.0   # Dims with loyalty_ratio below this are considered misplaced
+REEF_REFINE_MAX_ITERATIONS = 5        # Safety valve: max refinement rounds before stopping
 
 # Universal word analytics
 SENSE_SPREAD_INFLATED_THRESHOLD = 15   # Min sense_spread to flag as polysemy-inflated

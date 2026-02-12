@@ -55,28 +55,18 @@ def what_is(con, word):
         ORDER BY dm.z_score DESC
     """, [word_id]).fetchall()
 
-    # Get archipelago profile summary
-    profile = con.execute("""
-        SELECT archipelago, archipelago_ext, reef_0, reef_1, reef_2, reef_3, reef_4, reef_5
-        FROM words WHERE word_id = ?
-    """, [word_id]).fetchone()
-    arch, arch_ext, r0, r1, r2, r3, r4, r5 = profile
-    has_encoding = arch != 0 or arch_ext != 0 or r0 != 0 or r1 != 0 or r2 != 0 or r3 != 0 or r4 != 0 or r5 != 0
-
     print(f"\n'{canonical}' — member of {total} dimensions")
 
-    if has_encoding:
-        reef_count = con.execute("""
-            SELECT bit_count(?::BIGINT) + bit_count(?::BIGINT) + bit_count(?::BIGINT) +
-                   bit_count(?::BIGINT) + bit_count(?::BIGINT) + bit_count(?::BIGINT)
-        """, [r0, r1, r2, r3, r4, r5]).fetchone()[0]
-        gen0_count = con.execute(
-            "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
-        ).fetchone()[0]
-        island_count = con.execute(
-            "SELECT bit_count(?::BIGINT >> ?) + bit_count(?::BIGINT)", [arch, gen0_count, arch_ext]
-        ).fetchone()[0]
-        print(f"  Clusters: {island_count} islands, {reef_count} reefs")
+    # Show cluster summary from dim_memberships
+    cluster_counts = con.execute("""
+        SELECT
+            COUNT(DISTINCT dm.island_id) FILTER (WHERE dm.island_id IS NOT NULL) as n_islands,
+            COUNT(DISTINCT dm.reef_id) FILTER (WHERE dm.reef_id IS NOT NULL) as n_reefs
+        FROM dim_memberships dm
+        WHERE dm.word_id = ?
+    """, [word_id]).fetchone()
+    if cluster_counts[0] > 0 or cluster_counts[1] > 0:
+        print(f"  Clusters: {cluster_counts[0]} islands, {cluster_counts[1]} reefs")
 
     print(f"\n{'Dim':>5}  {'Value':>8}  {'Z-score':>8}  {'Method':>7}  {'Members':>7}")
     print("-" * 45)
@@ -685,16 +675,6 @@ def archipelago(con, word):
         print(f"Word '{word}' not found.")
         return
 
-    row = con.execute("""
-        SELECT archipelago, archipelago_ext, reef_0, reef_1, reef_2, reef_3, reef_4, reef_5
-        FROM words WHERE word_id = ?
-    """, [word_id]).fetchone()
-
-    arch, arch_ext, r0, r1, r2, r3, r4, r5 = row
-    if arch == 0 and arch_ext == 0 and r0 == 0 and r1 == 0 and r2 == 0 and r3 == 0 and r4 == 0 and r5 == 0:
-        print(f"'{canonical}' has no archipelago encoding. Run phase 9b first.")
-        return
-
     # Compute word's depth at each (island_id, generation)
     min_depth = config.REEF_MIN_DEPTH
     depth_rows = con.execute("""
@@ -753,108 +733,79 @@ def relationship(con, word_a, word_b):
         print(f"Word '{word_b}' not found.")
         return
 
-    row = con.execute("""
-        SELECT
-            a.archipelago, a.archipelago_ext, a.reef_0, a.reef_1, a.reef_2, a.reef_3, a.reef_4, a.reef_5,
-            b.archipelago, b.archipelago_ext, b.reef_0, b.reef_1, b.reef_2, b.reef_3, b.reef_4, b.reef_5
-        FROM words a, words b
-        WHERE a.word_id = ? AND b.word_id = ?
-    """, [id_a, id_b]).fetchone()
+    # Shared structures via dim_memberships
+    shared_reefs = con.execute("""
+        WITH r1 AS (SELECT DISTINCT dm.reef_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.reef_id IS NOT NULL),
+        r2 AS (SELECT DISTINCT dm.reef_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.reef_id IS NOT NULL)
+        SELECT COUNT(*) FROM r1 JOIN r2 ON r1.reef_id = r2.reef_id
+    """, [id_a, id_b]).fetchone()[0]
 
-    a_arch, a_arch_ext, a_r0, a_r1, a_r2, a_r3, a_r4, a_r5 = row[0:8]
-    b_arch, b_arch_ext, b_r0, b_r1, b_r2, b_r3, b_r4, b_r5 = row[8:16]
+    shared_islands = con.execute("""
+        WITH i1 AS (SELECT DISTINCT dm.island_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.island_id IS NOT NULL),
+        i2 AS (SELECT DISTINCT dm.island_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.island_id IS NOT NULL)
+        SELECT COUNT(*) FROM i1 JOIN i2 ON i1.island_id = i2.island_id
+    """, [id_a, id_b]).fetchone()[0]
 
-    if a_arch == 0 and a_arch_ext == 0 and b_arch == 0 and b_arch_ext == 0:
-        print("Neither word has archipelago encoding. Run phase 9b first.")
-        return
-
-    gen0_count = con.execute(
-        "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
-    ).fetchone()[0]
-    gen0_mask = (1 << gen0_count) - 1
+    shared_archs = con.execute("""
+        WITH a1 AS (SELECT DISTINCT dm.archipelago_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.archipelago_id IS NOT NULL),
+        a2 AS (SELECT DISTINCT dm.archipelago_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.archipelago_id IS NOT NULL)
+        SELECT COUNT(*) FROM a1 JOIN a2 ON a1.archipelago_id = a2.archipelago_id
+    """, [id_a, id_b]).fetchone()[0]
 
     # Classify relationship
-    reef_overlap = (a_r0 & b_r0) | (a_r1 & b_r1) | (a_r2 & b_r2) | (a_r3 & b_r3) | (a_r4 & b_r4) | (a_r5 & b_r5)
-    island_overlap = ((a_arch & b_arch) >> gen0_count) | (a_arch_ext & b_arch_ext)  # gen-1 bits
-    arch_overlap = a_arch & b_arch & gen0_mask  # gen-0 bits
-
-    if reef_overlap != 0:
+    if shared_reefs > 0:
         classification = "same reef (closest)"
-    elif island_overlap != 0:
+    elif shared_islands > 0:
         classification = "reef neighbors (siblings)"
-    elif arch_overlap != 0:
+    elif shared_archs > 0:
         classification = "island neighbors (cousins)"
     else:
         classification = "different archipelagos (distant)"
 
-    # Shared structure counts
-    counts = con.execute("""
-        SELECT
-            bit_count((?::BIGINT & ?::BIGINT) & ?::BIGINT) as shared_arch,
-            bit_count((?::BIGINT & ?::BIGINT) >> ?) + bit_count(?::BIGINT & ?::BIGINT) as shared_islands,
-            bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) +
-            bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) +
-            bit_count(?::BIGINT & ?::BIGINT) + bit_count(?::BIGINT & ?::BIGINT) as shared_reefs
-    """, [a_arch, b_arch, gen0_mask,
-          a_arch, b_arch, gen0_count, a_arch_ext, b_arch_ext,
-          a_r0, b_r0, a_r1, b_r1, a_r2, b_r2, a_r3, b_r3, a_r4, b_r4, a_r5, b_r5]).fetchone()
-    shared_arch, shared_islands, shared_reefs = counts
-
     print(f"\n'{name_a}' <-> '{name_b}': {classification}")
-    print(f"  Shared archipelagos: {shared_arch}")
+    print(f"  Shared archipelagos: {shared_archs}")
     print(f"  Shared islands:      {shared_islands}")
     print(f"  Shared reefs:        {shared_reefs}")
 
     # Show names of shared structures
-    if shared_arch > 0:
+    if shared_archs > 0:
         shared_arch_names = con.execute("""
-            SELECT s.island_id, s.island_name
-            FROM island_stats s
-            WHERE s.generation = 0 AND s.island_id >= 0
-              AND s.arch_column = 'archipelago'
-              AND (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
+            SELECT DISTINCT s.island_id, s.island_name
+            FROM dim_memberships a
+            JOIN dim_memberships b ON a.archipelago_id = b.archipelago_id
+            JOIN island_stats s ON a.archipelago_id = s.island_id AND s.generation = 0
+            WHERE a.word_id = ? AND b.word_id = ? AND a.archipelago_id IS NOT NULL
             ORDER BY s.island_id
-        """, [a_arch, b_arch]).fetchall()
+        """, [id_a, id_b]).fetchall()
         if shared_arch_names:
             names = [n or f"archipelago {i}" for i, n in shared_arch_names]
             print(f"  Shared archipelago names: {', '.join(names)}")
 
     if shared_islands > 0:
         shared_island_names = con.execute("""
-            SELECT s.island_id, s.island_name
-            FROM island_stats s
-            WHERE s.generation = 1 AND s.island_id >= 0
-              AND s.arch_column IN ('archipelago', 'archipelago_ext')
-              AND (CASE WHEN s.arch_column = 'archipelago'
-                   THEN (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
-                   ELSE (?::BIGINT & ?::BIGINT & (1::BIGINT << s.arch_bit)) != 0
-                   END)
+            SELECT DISTINCT s.island_id, s.island_name
+            FROM dim_memberships a
+            JOIN dim_memberships b ON a.island_id = b.island_id
+            JOIN island_stats s ON a.island_id = s.island_id AND s.generation = 1
+            WHERE a.word_id = ? AND b.word_id = ? AND a.island_id IS NOT NULL
             ORDER BY s.island_id
-        """, [a_arch, b_arch, a_arch_ext, b_arch_ext]).fetchall()
+        """, [id_a, id_b]).fetchall()
         if shared_island_names:
             names = [n or f"island {i}" for i, n in shared_island_names]
             print(f"  Shared island names: {', '.join(names)}")
 
     if shared_reefs > 0:
-        shared_reef_names = []
-        for col_name, a_val, b_val in [("reef_0", a_r0, b_r0), ("reef_1", a_r1, b_r1),
-                                         ("reef_2", a_r2, b_r2), ("reef_3", a_r3, b_r3),
-                                         ("reef_4", a_r4, b_r4), ("reef_5", a_r5, b_r5)]:
-            overlap = a_val & b_val
-            if overlap == 0:
-                continue
-            reefs = con.execute("""
-                SELECT s.island_id, s.island_name
-                FROM island_stats s
-                WHERE s.generation = 2 AND s.island_id >= 0
-                  AND s.arch_column = ?
-                  AND (?::BIGINT & (CASE WHEN s.arch_bit = 63 THEN (-9223372036854775808)::BIGINT ELSE 1::BIGINT << s.arch_bit END)) != 0
-                ORDER BY s.island_id
-            """, [col_name, overlap]).fetchall()
-            for i, n in reefs:
-                shared_reef_names.append(n or f"reef {i}")
+        shared_reef_names = con.execute("""
+            SELECT DISTINCT s.island_id, s.island_name
+            FROM dim_memberships a
+            JOIN dim_memberships b ON a.reef_id = b.reef_id
+            JOIN island_stats s ON a.reef_id = s.island_id AND s.generation = 2
+            WHERE a.word_id = ? AND b.word_id = ? AND a.reef_id IS NOT NULL
+            ORDER BY s.island_id
+        """, [id_a, id_b]).fetchall()
         if shared_reef_names:
-            print(f"  Shared reef names: {', '.join(shared_reef_names)}")
+            names = [n or f"reef {i}" for i, n in shared_reef_names]
+            print(f"  Shared reef names: {', '.join(names)}")
 
 
 def exclusion(con, word_a, word_b):
@@ -1034,3 +985,220 @@ def bridge_profile(con, word):
                 a1_label = a1_name or f"arch {a1_id}"
                 a2_label = a2_name or f"arch {a2_id}"
                 print(f"    {r1_label} ({a1_label}) <-> {r2_label} ({a2_label})")
+
+
+def affinity(con, word):
+    """Show a word's reef affinity profile — all reefs ranked by max_weighted_z."""
+    word_id, canonical = _resolve_word_id(con, word)
+    if word_id is None:
+        print(f"Word '{word}' not found.")
+        return
+
+    if not _has_affinity_table(con):
+        print("word_reef_affinity table not populated. Run phase 9b first.")
+        return
+
+    rows = con.execute("""
+        SELECT wra.reef_id, s.island_name, wra.n_dims, wra.max_z, wra.sum_z,
+               wra.max_weighted_z, wra.sum_weighted_z
+        FROM word_reef_affinity wra
+        JOIN island_stats s ON wra.reef_id = s.island_id AND s.generation = 2
+        WHERE wra.word_id = ?
+        ORDER BY wra.max_weighted_z DESC
+    """, [word_id]).fetchall()
+
+    if not rows:
+        print(f"'{canonical}' has no reef affinities.")
+        return
+
+    print(f"\n'{canonical}' — reef affinity profile ({len(rows)} reefs)")
+    print(f"\n{'Reef':>5}  {'Name':<30}  {'Dims':>4}  {'MaxZ':>6}  {'MaxWZ':>7}  {'SumWZ':>8}")
+    print("-" * 75)
+
+    for reef_id, name, n_dims, max_z, sum_z, max_wz, sum_wz in rows:
+        name_str = (name or f"reef {reef_id}")[:30]
+        max_z_s = f"{max_z:.2f}" if max_z is not None else "N/A"
+        max_wz_s = f"{max_wz:.2f}" if max_wz is not None else "N/A"
+        sum_wz_s = f"{sum_wz:.2f}" if sum_wz is not None else "N/A"
+        print(f"{reef_id:>5}  {name_str:<30}  {n_dims:>4}  {max_z_s:>6}  {max_wz_s:>7}  {sum_wz_s:>8}")
+
+
+# --- Standard evaluation battery ---
+
+# Pairs grouped by expected closeness:
+#   tier 1 = should be same reef (very tight semantic overlap)
+#   tier 2 = should be same island (close, same domain)
+#   tier 3 = should be same archipelago (related broad domain)
+#   tier 4 = should be different archipelagos (unrelated)
+EVAL_PAIRS = [
+    # Tier 1: very close (same narrow concept)
+    ("run", "walk", 1),
+    ("hydrogen", "oxygen", 1),
+    ("cat", "dog", 1),
+    ("guitar", "violin", 1),
+    ("oak", "maple", 1),
+    ("red", "blue", 1),
+    ("eagle", "owl", 1),
+    ("sword", "lance", 1),
+    ("doctor", "nurse", 1),
+    ("happy", "sad", 1),
+    # Tier 2: close (same domain)
+    ("guitar", "piano", 2),
+    ("electron", "proton", 2),
+    ("algebra", "geometry", 2),
+    ("french", "german", 2),
+    ("king", "queen", 2),
+    ("mountain", "valley", 2),
+    ("apple", "banana", 2),
+    ("heart", "brain", 2),
+    ("sword", "shield", 2),
+    ("eagle", "penguin", 2),
+    # Tier 3: same broad domain
+    ("doctor", "algebra", 3),
+    ("guitar", "painting", 3),
+    ("mountain", "oak", 3),
+    ("king", "soldier", 3),
+    ("french", "cathedral", 3),
+    # Tier 4: unrelated
+    ("guitar", "electron", 4),
+    ("happy", "hydrogen", 4),
+    ("doctor", "guitar", 4),
+    ("oak", "algebra", 4),
+    ("eagle", "calculus", 4),
+]
+
+
+def _has_affinity_table(con):
+    try:
+        count = con.execute("SELECT COUNT(*) FROM word_reef_affinity").fetchone()[0]
+        return count > 0
+    except Exception:
+        return False
+
+
+def _pair_similarity(con, word_a, word_b):
+    """Compute multi-granularity similarity between two words.
+
+    Returns dict with: shared_dims, jaccard, shared_reefs, shared_islands,
+    shared_archs, level, or None if a word is not found.
+    """
+    id_a, name_a = _resolve_word_id(con, word_a)
+    id_b, name_b = _resolve_word_id(con, word_b)
+    if id_a is None or id_b is None:
+        return None
+
+    # Shared dimensions and Jaccard
+    dims_a = set(r[0] for r in con.execute(
+        "SELECT dim_id FROM dim_memberships WHERE word_id = ?", [id_a]
+    ).fetchall())
+    dims_b = set(r[0] for r in con.execute(
+        "SELECT dim_id FROM dim_memberships WHERE word_id = ?", [id_b]
+    ).fetchall())
+    shared_dims = len(dims_a & dims_b)
+    union_dims = len(dims_a | dims_b)
+    jaccard = shared_dims / union_dims if union_dims else 0.0
+
+    # Shared reefs
+    shared_reefs = con.execute("""
+        WITH r1 AS (SELECT DISTINCT dm.reef_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.reef_id IS NOT NULL),
+        r2 AS (SELECT DISTINCT dm.reef_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.reef_id IS NOT NULL)
+        SELECT COUNT(*) FROM r1 JOIN r2 ON r1.reef_id = r2.reef_id
+    """, [id_a, id_b]).fetchone()[0]
+
+    # Shared islands
+    shared_islands = con.execute("""
+        WITH i1 AS (SELECT DISTINCT dm.island_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.island_id IS NOT NULL),
+        i2 AS (SELECT DISTINCT dm.island_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.island_id IS NOT NULL)
+        SELECT COUNT(*) FROM i1 JOIN i2 ON i1.island_id = i2.island_id
+    """, [id_a, id_b]).fetchone()[0]
+
+    # Shared archipelagos
+    shared_archs = con.execute("""
+        WITH a1 AS (SELECT DISTINCT dm.archipelago_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.archipelago_id IS NOT NULL),
+        a2 AS (SELECT DISTINCT dm.archipelago_id FROM dim_memberships dm WHERE dm.word_id = ? AND dm.archipelago_id IS NOT NULL)
+        SELECT COUNT(*) FROM a1 JOIN a2 ON a1.archipelago_id = a2.archipelago_id
+    """, [id_a, id_b]).fetchone()[0]
+
+    # Hierarchy level from shared structure counts
+    if shared_reefs > 0:
+        level = 1  # same reef
+    elif shared_islands > 0:
+        level = 2  # same island
+    elif shared_archs > 0:
+        level = 3  # same archipelago
+    else:
+        level = 4  # different
+
+    return {
+        "shared_dims": shared_dims,
+        "jaccard": jaccard,
+        "shared_reefs": shared_reefs,
+        "shared_islands": shared_islands,
+        "shared_archs": shared_archs,
+        "level": level,
+    }
+
+
+def evaluate(con):
+    """Run the standard evaluation battery and grade results."""
+    level_labels = {1: "reef", 2: "island", 3: "archipelago", 4: "different"}
+    tier_labels = {1: "very close", 2: "close", 3: "broad domain", 4: "unrelated"}
+
+    print("\n=== Semantic Evaluation Battery ===\n")
+    print(f"  {'pair':>30s}  {'shared':>6s}  {'jaccard':>7s}  {'reefs':>5s}  {'islands':>7s}  {'expected':>10s}  {'actual':>12s}  {'grade':>5s}")
+    print(f"  {'':->30s}  {'':->6s}  {'':->7s}  {'':->5s}  {'':->7s}  {'':->10s}  {'':->12s}  {'':->5s}")
+
+    results = {"pass": 0, "close": 0, "fail": 0, "skip": 0}
+    tier_results = {1: [], 2: [], 3: [], 4: []}
+
+    for word_a, word_b, expected_tier in EVAL_PAIRS:
+        sim = _pair_similarity(con, word_a, word_b)
+        if sim is None:
+            pair_str = f"{word_a} / {word_b}"
+            print(f"  {pair_str:>30s}  {'(word not found)':>50s}  {'SKIP':>5s}")
+            results["skip"] += 1
+            continue
+
+        actual_level = sim["level"]
+        expected_label = level_labels[expected_tier]
+        actual_label = level_labels[actual_level]
+
+        # Grade: pass if actual <= expected (at least as close as expected),
+        # close if off by 1, fail if off by 2+
+        diff = actual_level - expected_tier
+        if diff <= 0:
+            grade = "PASS"
+            results["pass"] += 1
+        elif diff == 1:
+            grade = "CLOSE"
+            results["close"] += 1
+        else:
+            grade = "FAIL"
+            results["fail"] += 1
+
+        tier_results[expected_tier].append((word_a, word_b, sim, actual_level, grade))
+
+        pair_str = f"{word_a} / {word_b}"
+        print(f"  {pair_str:>30s}  {sim['shared_dims']:>6d}  {sim['jaccard']:>7.3f}  {sim['shared_reefs']:>5d}  {sim['shared_islands']:>7d}  {expected_label:>10s}  {actual_label:>12s}  {grade:>5s}")
+
+    # Summary
+    total = results["pass"] + results["close"] + results["fail"]
+    print(f"\n  --- Summary ---")
+    print(f"  PASS:  {results['pass']:>3d} / {total}  (actual as close or closer than expected)")
+    print(f"  CLOSE: {results['close']:>3d} / {total}  (off by one tier)")
+    print(f"  FAIL:  {results['fail']:>3d} / {total}  (off by two+ tiers)")
+    if results["skip"] > 0:
+        print(f"  SKIP:  {results['skip']:>3d}       (word not found)")
+
+    # Per-tier breakdown
+    print(f"\n  --- Per-Tier Breakdown ---")
+    for tier in [1, 2, 3, 4]:
+        tier_pairs = tier_results[tier]
+        if not tier_pairs:
+            continue
+        n_pass = sum(1 for _, _, _, _, g in tier_pairs if g == "PASS")
+        n_total = len(tier_pairs)
+        avg_jaccard = sum(s["jaccard"] for _, _, s, _, _ in tier_pairs) / n_total if n_total else 0
+        avg_shared = sum(s["shared_dims"] for _, _, s, _, _ in tier_pairs) / n_total if n_total else 0
+        print(f"  Tier {tier} ({tier_labels[tier]:>12s}): {n_pass}/{n_total} pass, "
+              f"avg jaccard={avg_jaccard:.3f}, avg shared dims={avg_shared:.1f}")

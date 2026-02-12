@@ -220,3 +220,6 @@ intermediates/
 
 # you dont get to see my notebooks
 *.ipynb
+
+# analysis - not ready to share yet
+analysis.md

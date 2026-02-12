@@ -8,13 +8,15 @@ This document is the authoritative column-level reference for the Windowsill dat
 |--------|-------|
 | Database engine | DuckDB |
 | Database file | `vector_distillery.duckdb` (~2.6 GB) |
-| Tables | 13 |
-| Views | 7 |
-| Indexes | 19 |
+| Tables | 14 |
+| Views | 6 |
+| Indexes | 21 |
 | Words | ~146,000 (WordNet lemmas) |
 | Embedding dimensions | 768 (nomic-embed-text-v1.5, Matryoshka) |
 | Total memberships | ~2.56M |
 | Island hierarchy | 4 archipelagos → 52 islands → 208 reefs |
+| Reef affinity | Continuous word-reef affinity scores in `word_reef_affinity` table |
+| Reef refinement | Iterative dim loyalty analysis (phase 10): dims with higher Jaccard affinity to a sibling reef than their own are reassigned |
 
 ---
 
@@ -69,12 +71,13 @@ This document is the authoritative column-level reference for the Windowsill dat
                                              │PK                     │
                                              └───────┬───────────────┘
                                                      │
-                                                     ▼
-                                           ┌──────────────────────────┐
-                                           │island_characteristic_words│
-                                           │(island_id, generation,    │
-                                           │ word_id) PK               │
-                                           └──────────────────────────┘
+                                              ┌──────┴──────┐
+                                              ▼             ▼
+                                  ┌──────────────────────────┐  ┌──────────────────────┐
+                                  │island_characteristic_words│  │ word_reef_affinity    │
+                                  │(island_id, generation,    │  │(word_id, reef_id) PK  │
+                                  │ word_id) PK               │  │ word_id FK → words    │
+                                  └──────────────────────────┘  └──────────────────────┘
 ```
 
 ### Foreign Key Relationships
@@ -98,6 +101,8 @@ All FK relationships are enforced by application-level integrity checks (`databa
 | dim_jaccard | dim_id_b | dim_stats | dim_id | |
 | dim_islands | dim_id | dim_stats | dim_id | |
 | island_characteristic_words | word_id | words | word_id | |
+| word_reef_affinity | word_id | words | word_id | |
+| word_reef_affinity | reef_id | island_stats | island_id (generation=2) | Reef-level islands only |
 | island_stats → dim_islands | island_id + generation | dim_islands | island_id + generation | Logical, not enforced |
 
 ### Cardinality
@@ -112,6 +117,8 @@ word_senses (1) ──< sense_dim_memberships (M)
 dim_stats (1) ──< dim_islands (M)       1 row per generation (up to 3 generations)
 island_stats (1) ──< island_characteristic_words (M)    Up to 100 words per island
 words (M) ──< word_pair_overlap (M)     Symmetric pairs where a < b
+words (1) ──< word_reef_affinity (M)   One row per word-reef pair (every reef the word touches)
+island_stats (1) ──< word_reef_affinity (M)   reef_id references island_stats(island_id, generation=2)
 ```
 
 ### Common Join Patterns
@@ -137,6 +144,17 @@ GROUP BY w.word, di.island_id, di.generation, ist.island_name
 ORDER BY di.generation, n_dims DESC;
 ```
 
+**Word → its reefs (direct, using denormalized columns — no dim_islands join needed):**
+```sql
+SELECT w.word, dm.reef_id, ist.island_name, COUNT(*) as n_dims
+FROM words w
+JOIN dim_memberships dm ON w.word_id = dm.word_id
+JOIN island_stats ist ON dm.reef_id = ist.island_id AND ist.generation = 2
+WHERE w.word = 'guitar' AND dm.reef_id IS NOT NULL
+GROUP BY w.word, dm.reef_id, ist.island_name
+ORDER BY n_dims DESC;
+```
+
 **Compound word → its components → component dimension overlap:**
 ```sql
 SELECT wc.component_text, w_comp.total_dims, w_comp.pos
@@ -146,24 +164,23 @@ WHERE wc.compound_word_id = (SELECT word_id FROM words WHERE word = 'heart attac
 ORDER BY wc.position;
 ```
 
-**Two words' reef-level relationship via bitmask:**
+**Two words' relationship via denormalized columns:**
 ```sql
--- Assumes 4 gen-0 archipelagos (gen0_count=4, mask=15)
 SELECT
     CASE
-        WHEN (a.reef_0 & b.reef_0) | (a.reef_1 & b.reef_1) |
-             (a.reef_2 & b.reef_2) | (a.reef_3 & b.reef_3) |
-             (a.reef_4 & b.reef_4) | (a.reef_5 & b.reef_5) != 0
+        WHEN COUNT(DISTINCT CASE WHEN a.reef_id = b.reef_id THEN a.reef_id END) > 0
             THEN 'same reef'
-        WHEN ((a.archipelago & b.archipelago) >> 4) |
-             (a.archipelago_ext & b.archipelago_ext) != 0
+        WHEN COUNT(DISTINCT CASE WHEN a.island_id = b.island_id THEN a.island_id END) > 0
             THEN 'reef neighbors (same island)'
-        WHEN (a.archipelago & b.archipelago & 15) != 0
+        WHEN COUNT(DISTINCT CASE WHEN a.archipelago_id = b.archipelago_id THEN a.archipelago_id END) > 0
             THEN 'island neighbors (same archipelago)'
         ELSE 'different archipelagos'
     END as relationship
-FROM words a, words b
-WHERE a.word = 'cat' AND b.word = 'dog';
+FROM dim_memberships a
+JOIN dim_memberships b ON a.dim_id = b.dim_id
+JOIN words wa ON wa.word_id = a.word_id
+JOIN words wb ON wb.word_id = b.word_id
+WHERE wa.word = 'cat' AND wb.word = 'dog';
 ```
 
 ---
@@ -191,14 +208,6 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 | `sense_spread` | INTEGER | Yes | `MAX(total_dims) - MIN(total_dims)` across all senses in `word_senses` for this word. **NULL if the word has fewer than 2 senses.** Only meaningful for ambiguous words. | `NULL`, `3`, `22` |
 | `polysemy_inflated` | BOOLEAN | No | `TRUE` if `specificity < 0` AND `sense_spread >= 15` (config `SENSE_SPREAD_INFLATED_THRESHOLD`). Flags universal words whose high dim count may be driven by having very different senses. `DEFAULT FALSE`. | `TRUE`, `FALSE` |
 | `arch_concentration` | DOUBLE | Yes | Fraction of this word's dimension memberships concentrated in a single gen-0 archipelago: `MAX(count_per_archipelago) / SUM(count_per_archipelago)`. **Only computed for universal words** (`specificity < 0`) that have ≥ 2 dimension memberships in islands. NULL for specific/typical words and words with insufficient island data. Range: ~0.3–1.0. | `NULL`, `0.65`, `0.92` |
-| `archipelago` | BIGINT | No | Bitmask encoding gen-0 archipelagos (low bits 0–3) and the first half of gen-1 islands (bits 4+). A set bit means the word activates ≥ `REEF_MIN_DEPTH` (2) dims in that entity. `DEFAULT 0`. | `0`, `15`, `8589934607` |
-| `archipelago_ext` | BIGINT | No | Bitmask encoding the second half of gen-1 islands (bits 0+). `DEFAULT 0`. | `0`, `262144` |
-| `reef_0` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 0. `DEFAULT 0`. | `0`, `524288` |
-| `reef_1` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 1. `DEFAULT 0`. | `0`, `131072` |
-| `reef_2` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 2. `DEFAULT 0`. | `0`, `65536` |
-| `reef_3` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 3. `DEFAULT 0`. | `0`, `32768` |
-| `reef_4` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 4. Not used if only 4 archipelagos exist. `DEFAULT 0`. | `0` |
-| `reef_5` | BIGINT | No | Bitmask for gen-2 reefs belonging to archipelago 5. Not used if only 4 archipelagos exist. `DEFAULT 0`. | `0` |
 
 
 ### 3.2 `dim_stats`
@@ -229,6 +238,7 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 | `noun_pct` | DOUBLE | Yes | Fraction of unambiguous members (where `pos IS NOT NULL`) that are nouns. Range: 0.0–1.0. | `0.72`, `0.45` |
 | `universal_pct` | DOUBLE | Yes | Fraction of this dimension's members that are universal words (`specificity < 0`). Higher = more "abstract" dimension. Added in phase 6b/9d. | `0.08` (concrete), `0.42` (abstract) |
 | `dim_weight` | DOUBLE | Yes | Information-theoretic weight: `-log2(MAX(universal_pct, 0.01))`. Higher = more informative/concrete dimension. Range: ~1.0–6.6. Added in phase 6b/9d. | `1.25` (abstract), `5.50` (concrete) |
+| `avg_specificity` | DOUBLE | Yes | Mean `specificity` value across all member words in this dimension (from `dim_memberships dm JOIN words w`). Positive values indicate concrete/taxonomic dimensions whose members are specific words appearing in few dims; negative values indicate abstract/diffuse dimensions whose members are universal words appearing in many dims. Range: ~-0.611 to 0.319. Added in phase 6b. | `-0.350` (abstract), `0.261` (concrete) |
 
 
 ### 3.3 `dim_memberships`
@@ -246,6 +256,9 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 | `value` | DOUBLE | Yes | Raw activation value of this word in this dimension (from the embedding vector). Always ≥ the dimension's threshold. | `0.0567`, `0.1234` |
 | `z_score` | DOUBLE | Yes | Number of standard deviations above the dimension mean: `(value - mean) / std`. Always ≥ 2.0 (the `ZSCORE_THRESHOLD`). | `2.05`, `4.87` |
 | `compound_support` | INTEGER | No | Number of compound words containing this word that also activate this dimension AND whose residual embedding (`compound - word`) still exceeds the threshold. Nonzero values suggest the membership may be compound-contaminated rather than intrinsic. `DEFAULT 0`. Added in phase 6b. | `0`, `3`, `12` |
+| `archipelago_id` | INTEGER | Yes | Gen-0 island_id for this dimension, denormalized from `dim_islands` where `generation = 0`. **NULL for noise dimensions** (those assigned `island_id = -1` in Leiden clustering). Every membership in the same `dim_id` shares the same value. Backfilled in phase 9/9b. | `NULL`, `0`, `1`, `3` |
+| `island_id` | INTEGER | Yes | Gen-1 island_id for this dimension, denormalized from `dim_islands` where `generation = 1`. **NULL for noise dimensions.** | `NULL`, `0`, `15`, `51` |
+| `reef_id` | INTEGER | Yes | Gen-2 island_id for this dimension, denormalized from `dim_islands` where `generation = 2`. **NULL for noise dimensions.** Enables direct reef-level queries without joining through `dim_islands`. | `NULL`, `0`, `42`, `207` |
 
 
 ### 3.4 `word_pair_overlap`
@@ -376,7 +389,7 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 
 ### 5.2 `dim_islands`
 
-**Purpose:** Maps each dimension to its island assignment at each generation of the hierarchy. A dimension can belong to one island per generation (gen-0 archipelago, gen-1 island, gen-2 reef).
+**Purpose:** Maps each dimension to its island assignment at each generation of the hierarchy. A dimension can belong to one island per generation (gen-0 archipelago, gen-1 island, gen-2 reef). Gen-2 (reef) assignments may be updated by Phase 10 reef refinement, which reassigns misplaced dims to better-fitting sibling reefs based on Jaccard affinity.
 
 **Row count:** ~2,304 (768 dims × up to 3 generations)
 
@@ -392,7 +405,7 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 
 ### 5.3 `island_stats`
 
-**Purpose:** Aggregate statistics for each island at each generation. Includes naming, bit-position encoding, and word depth metrics.
+**Purpose:** Aggregate statistics for each island at each generation. Includes naming and word depth metrics.
 
 **Row count:** ~264 (4 archipelagos + 52 islands + 208 reefs)
 
@@ -412,8 +425,6 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 | `island_name` | TEXT | Yes | Human-readable name assigned by the LLM naming pipeline (phase 9c). 2-4 words, lowercase. NULL if naming has not been run. | `'natural sciences and taxonomy'`, `'musical instruments'`, `'string instruments'` |
 | `n_core_words` | INTEGER | Yes | Words appearing in ≥ `max(2, ceil(n_dims * 0.10))` of this island's dimensions. "Core" words deeply embedded in the island's semantic theme. | `150`, `2000` |
 | `median_word_depth` | DOUBLE | Yes | Median number of island dimensions each word appears in. Higher = tighter cluster. | `1.0`, `2.5` |
-| `arch_column` | TEXT | Yes | Which bitmask column in `words` encodes this island's bit position. Set by phase 9b. | `'archipelago'`, `'archipelago_ext'`, `'reef_0'`, `'reef_3'` |
-| `arch_bit` | INTEGER | Yes | Bit position (0-indexed) within `arch_column`. Together with `arch_column`, uniquely identifies this island in the bitmask encoding. | `0`, `5`, `47` |
 
 
 ### 5.4 `island_characteristic_words`
@@ -434,6 +445,25 @@ WHERE a.word = 'cat' AND b.word = 'dog';
 | `island_freq` | DOUBLE | No | `n_dims_in_island / n_island_dims`. Fraction of this island's dimensions that contain this word. | `0.15`, `0.65` |
 | `corpus_freq` | DOUBLE | No | `total_dims / 768`. Fraction of all 768 dimensions that contain this word. | `0.005`, `0.025` |
 | `n_dims_in_island` | INTEGER | No | How many of this island's dimensions contain this word. Always ≥ 2 (filtered in computation). | `2`, `8`, `15` |
+
+
+### 5.5 `word_reef_affinity`
+
+**Purpose:** Continuous affinity scores for every word-reef pair. Computed by joining `dim_memberships` with `dim_islands` (gen=2) and `dim_stats`, aggregating per (word, reef). Used by the explorer's `affinity` command and `evaluate` battery for relationship classification. Recomputed in phase 9b or after phase 10 reef refinement.
+
+**Row count:** ~4-6M (every word × every reef it touches, even at depth 1)
+
+**Primary key:** `(word_id, reef_id)`
+
+| Column | Type | Nullable | Description | Example Values |
+|--------|------|----------|-------------|----------------|
+| `word_id` | INTEGER | No (PK) | FK → `words.word_id`. | `1234`, `89012` |
+| `reef_id` | INTEGER | No (PK) | FK → `island_stats.island_id` where `generation = 2`. The gen-2 reef. | `0`, `42`, `207` |
+| `n_dims` | INTEGER | No | Number of the reef's dimensions that this word activates in (depth). Range: 1 to reef `n_dims`. | `1`, `3`, `8` |
+| `max_z` | DOUBLE | Yes | Maximum `z_score` across all of this word's memberships in this reef's dimensions. | `2.15`, `6.87` |
+| `sum_z` | DOUBLE | Yes | Sum of `z_score` across all memberships. | `2.15`, `18.5` |
+| `max_weighted_z` | DOUBLE | Yes | Maximum of `z_score * dim_weight` across memberships. A strong discriminator for meaningful depth-1 memberships. | `3.2`, `12.8` |
+| `sum_weighted_z` | DOUBLE | Yes | Sum of `z_score * dim_weight` across memberships. | `3.2`, `35.6` |
 
 ---
 
@@ -496,38 +526,7 @@ ORDER BY ds.selectivity ASC
 | (all columns from `dim_stats`) | | See `dim_stats` table definition |
 
 
-### 6.4 `v_archipelago_profile`
-
-**Purpose:** Per-word archipelago/island/reef membership counts computed from bitmask columns via `bit_count()`. Only includes words with at least one non-zero bitmask.
-
-**Definition:**
-```sql
--- gen0_count is dynamically computed from island_stats at view creation time
-SELECT w.word_id, w.word, w.total_dims,
-    bit_count(w.archipelago & <gen0_mask>::BIGINT) as n_archipelagos,
-    bit_count(w.archipelago >> <gen0_count>) + bit_count(w.archipelago_ext) as n_islands,
-    bit_count(w.reef_0) + bit_count(w.reef_1) + bit_count(w.reef_2) +
-    bit_count(w.reef_3) + bit_count(w.reef_4) + bit_count(w.reef_5) as n_reefs,
-    w.archipelago, w.archipelago_ext,
-    w.reef_0, w.reef_1, w.reef_2, w.reef_3, w.reef_4, w.reef_5
-FROM words w
-WHERE w.archipelago != 0 OR w.archipelago_ext != 0
-```
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `word_id` | INTEGER | FK → words |
-| `word` | TEXT | The word |
-| `total_dims` | INTEGER | Dimension membership count |
-| `n_archipelagos` | INTEGER | Number of gen-0 archipelagos this word is encoded in (0–4) |
-| `n_islands` | INTEGER | Number of gen-1 islands this word is encoded in |
-| `n_reefs` | INTEGER | Number of gen-2 reefs this word is encoded in |
-| `archipelago` | BIGINT | Raw bitmask |
-| `archipelago_ext` | BIGINT | Raw bitmask |
-| `reef_0`..`reef_5` | BIGINT | Raw bitmasks per archipelago |
-
-
-### 6.5 `v_abstract_dims`
+### 6.4 `v_abstract_dims`
 
 **Purpose:** Dimensions where ≥ 30% of members are universal words (`universal_pct >= 0.30`). These dimensions encode abstract/social concepts.
 
@@ -543,7 +542,7 @@ ORDER BY ds.universal_pct DESC
 | (all columns from `dim_stats`) | | See `dim_stats` table definition |
 
 
-### 6.6 `v_concrete_dims`
+### 6.5 `v_concrete_dims`
 
 **Purpose:** Dimensions where ≤ 15% of members are universal words (`universal_pct <= 0.15`). These dimensions encode concrete/taxonomic domains.
 
@@ -559,7 +558,7 @@ ORDER BY ds.universal_pct ASC
 | (all columns from `dim_stats`) | | See `dim_stats` table definition |
 
 
-### 6.7 `v_domain_generals`
+### 6.6 `v_domain_generals`
 
 **Purpose:** Universal words (`specificity < 0`) with high archipelago concentration (≥ 0.75). These are "domain generals" — broadly-used words that are topically focused on one archipelago.
 
@@ -586,7 +585,7 @@ ORDER BY w.arch_concentration DESC
 
 ## 7. Index Reference
 
-All 19 indexes, listed with their table, indexed columns, and purpose.
+All 21 indexes, listed with their table, indexed columns, and purpose.
 
 | # | Index Name | Table | Column(s) | Purpose |
 |---|-----------|-------|-----------|---------|
@@ -609,3 +608,5 @@ All 19 indexes, listed with their table, indexed columns, and purpose.
 | 17 | `idx_is_gen` | `island_stats` | `generation` | Filter islands by hierarchy level |
 | 18 | `idx_icw_island` | `island_characteristic_words` | `island_id, generation` | Find characteristic words for an island |
 | 19 | `idx_icw_word` | `island_characteristic_words` | `word_id` | Find which islands a word is characteristic of |
+| 20 | `idx_wra_reef` | `word_reef_affinity` | `reef_id` | Find all words with affinity to a given reef |
+| 21 | `idx_wra_wz` | `word_reef_affinity` | `max_weighted_z DESC` | Rank word-reef pairs by weighted z-score |

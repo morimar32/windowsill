@@ -175,6 +175,7 @@ def run_phase6b(con=None, db_path=None):
     post_process.score_compound_contamination(con)
     post_process.compute_compositionality(con)
     post_process.compute_dimension_abstractness(con)
+    post_process.compute_dimension_specificity(con)
     post_process.compute_sense_spread(con)
     print("  Phase 6b complete")
     return con
@@ -193,14 +194,15 @@ def run_phase9(con=None, db_path=None):
 
 
 def run_phase9b(con=None, db_path=None):
-    print("\n=== Phase 9b: Archipelago Encoding ===")
+    print("\n=== Phase 9b: Backfill + Affinity ===")
     import database, islands
 
     if con is None:
         con = database.get_connection(db_path)
 
     database.migrate_schema(con)
-    islands.compute_archipelago_encoding(con)
+    islands.backfill_membership_islands(con)
+    islands.compute_word_reef_affinity(con)
     return con
 
 
@@ -246,8 +248,19 @@ def run_phase7(con=None, db_path=None):
     return con
 
 
-def run_phase8(con=None, db_path=None):
-    print("\n=== Phase 8: Interactive Explorer ===")
+def run_phase10(con=None, db_path=None):
+    print("\n=== Phase 10: Reef Refinement ===")
+    import database, reef_refine
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    reef_refine.run_reef_refinement(con)
+    return con
+
+
+def run_explore(con=None, db_path=None):
+    print("\n=== Interactive Explorer ===")
     import database
     import explore
 
@@ -271,6 +284,8 @@ def run_phase8(con=None, db_path=None):
     print("  relationship <w1> <w2>      — classify word relationship")
     print("  exclusion <w1> <w2>         — shared reef exclusions (universal words)")
     print("  bridge_profile <word>       — reef distribution & cross-arch bridges")
+    print("  affinity <word>             — reef affinity profile (all reefs by weighted z)")
+    print("  evaluate                    — run standard semantic evaluation battery")
     print("  quit                        — exit")
 
     while True:
@@ -326,18 +341,22 @@ def run_phase8(con=None, db_path=None):
                 explore.exclusion(con, parts[1], parts[2])
             elif cmd == "bridge_profile" and len(parts) >= 2:
                 explore.bridge_profile(con, " ".join(parts[1:]))
+            elif cmd == "affinity" and len(parts) >= 2:
+                explore.affinity(con, " ".join(parts[1:]))
+            elif cmd == "evaluate":
+                explore.evaluate(con)
             else:
                 print(f"Unknown command: {cmd}")
         except Exception as e:
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9c", "9d", "7", "8"]
+PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "10", "9c", "7", "explore"]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c, 9d)")
+    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c, 9d, 10, 7, explore)")
     parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
@@ -389,10 +408,12 @@ def main():
             con = run_phase9c(con=con, db_path=args.db)
         elif phase == "9d":
             con = run_phase9d(con=con, db_path=args.db)
+        elif phase == "10":
+            con = run_phase10(con=con, db_path=args.db)
         elif phase == "7":
             con = run_phase7(con=con, db_path=args.db)
-        elif phase == "8":
-            run_phase8(con=con, db_path=args.db)
+        elif phase == "explore":
+            run_explore(con=con, db_path=args.db)
 
     if con is not None:
         con.close()

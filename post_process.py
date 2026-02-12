@@ -74,25 +74,6 @@ def create_views(con):
         ORDER BY ds.selectivity ASC
     """)
 
-    gen0_count = con.execute(
-        "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
-    ).fetchone()[0] if con.execute(
-        "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'island_stats'"
-    ).fetchone()[0] > 0 else 6
-    gen0_mask = (1 << gen0_count) - 1
-    con.execute(f"""
-        CREATE OR REPLACE VIEW v_archipelago_profile AS
-        SELECT w.word_id, w.word, w.total_dims,
-            bit_count(w.archipelago & {gen0_mask}::BIGINT) as n_archipelagos,
-            bit_count(w.archipelago >> {gen0_count}) + bit_count(w.archipelago_ext) as n_islands,
-            bit_count(w.reef_0) + bit_count(w.reef_1) + bit_count(w.reef_2) +
-            bit_count(w.reef_3) + bit_count(w.reef_4) + bit_count(w.reef_5) as n_reefs,
-            w.archipelago, w.archipelago_ext,
-            w.reef_0, w.reef_1, w.reef_2, w.reef_3, w.reef_4, w.reef_5
-        FROM words w
-        WHERE w.archipelago != 0 OR w.archipelago_ext != 0
-    """)
-
     con.execute(f"""
         CREATE OR REPLACE VIEW v_abstract_dims AS
         SELECT ds.* FROM dim_stats ds
@@ -117,7 +98,7 @@ def create_views(con):
     """)
 
     print("  Views created: v_unique_words, v_universal_words, v_selective_dims, "
-          "v_archipelago_profile, v_abstract_dims, v_concrete_dims, v_domain_generals")
+          "v_abstract_dims, v_concrete_dims, v_domain_generals")
 
 
 def materialize_word_pair_overlap(con, threshold=None):
@@ -338,6 +319,25 @@ def compute_dimension_abstractness(con):
     count = con.execute("SELECT COUNT(*) FROM dim_stats WHERE universal_pct IS NOT NULL").fetchone()[0]
     print(f"  Dimension abstractness: {count} dims, universal_pct range [{stats[0]:.3f}, {stats[1]:.3f}], "
           f"dim_weight range [{stats[2]:.2f}, {stats[3]:.2f}]")
+
+
+def compute_dimension_specificity(con):
+    """Compute avg_specificity for each dimension: mean specificity of member words."""
+    con.execute("""
+        UPDATE dim_stats SET avg_specificity = sub.avg_spec
+        FROM (SELECT dm.dim_id, AVG(w.specificity) as avg_spec
+              FROM dim_memberships dm JOIN words w ON dm.word_id = w.word_id
+              GROUP BY dm.dim_id) sub
+        WHERE dim_stats.dim_id = sub.dim_id
+    """)
+
+    stats = con.execute("""
+        SELECT MIN(avg_specificity), MAX(avg_specificity), AVG(avg_specificity)
+        FROM dim_stats WHERE avg_specificity IS NOT NULL
+    """).fetchone()
+    count = con.execute("SELECT COUNT(*) FROM dim_stats WHERE avg_specificity IS NOT NULL").fetchone()[0]
+    print(f"  Dimension specificity: {count} dims, avg_specificity range [{stats[0]:.3f}, {stats[1]:.3f}], "
+          f"mean {stats[2]:.3f}")
 
 
 def compute_sense_spread(con):

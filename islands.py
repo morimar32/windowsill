@@ -308,7 +308,6 @@ def compute_island_stats(con, generation=0):
             avg_jacc, max_jacc, min_jacc,
             None, parent_island_id, None,
             n_core_words, median_depth,
-            None, None,
         ))
 
     df = pd.DataFrame(stats_rows, columns=[
@@ -316,7 +315,6 @@ def compute_island_stats(con, generation=0):
         "avg_internal_jaccard", "max_internal_jaccard", "min_internal_jaccard",
         "modularity_contribution", "parent_island_id", "island_name",
         "n_core_words", "median_word_depth",
-        "arch_column", "arch_bit",
     ])
     con.execute("INSERT INTO island_stats SELECT * FROM df")
     print(f"    Computed stats for {len(stats_rows)} islands")
@@ -483,194 +481,81 @@ def print_archipelago_summary(con):
     print(f"  Gen 1: {total_sub_islands} sub-islands, {noise_gen1} noise dims")
 
 
-def compute_archipelago_encoding(con):
-    """Encode the island hierarchy as bitmask columns on the words table."""
-    print("  Computing archipelago encoding...")
+def backfill_membership_islands(con):
+    """Denormalize reef/island/archipelago IDs from dim_islands onto dim_memberships."""
+    print("  Backfilling reef hierarchy onto dim_memberships...")
 
-    # === Phase A: Assign bit positions to island_stats ===
-    print("    Phase A: Assigning bit positions...")
+    # Clear existing values
+    con.execute("UPDATE dim_memberships SET archipelago_id = NULL, island_id = NULL, reef_id = NULL")
 
-    # Clear existing bit positions
-    con.execute("UPDATE island_stats SET arch_column = NULL, arch_bit = NULL")
-
-    # Gen-0: low bits of archipelago column
+    # Gen-0: archipelago_id
     con.execute("""
-        UPDATE island_stats
-        SET arch_column = 'archipelago', arch_bit = island_id
-        WHERE generation = 0 AND island_id >= 0
-    """)
-    gen0_count = con.execute(
-        "SELECT COUNT(*) FROM island_stats WHERE generation = 0 AND island_id >= 0"
-    ).fetchone()[0]
-    print(f"      Gen-0: {gen0_count} archipelagos (archipelago bits 0-{gen0_count - 1})")
-
-    # Gen-1: split evenly across archipelago (after gen-0 bits) and archipelago_ext
-    gen1_count = con.execute(
-        "SELECT COUNT(*) FROM island_stats WHERE generation = 1 AND island_id >= 0"
-    ).fetchone()[0]
-    gen1_half = (gen1_count + 1) // 2
-
-    # First half in archipelago, offset by gen0_count
-    con.execute("""
-        UPDATE island_stats
-        SET arch_column = 'archipelago', arch_bit = ? + island_id
-        WHERE generation = 1 AND island_id >= 0 AND island_id < ?
-    """, [gen0_count, gen1_half])
-
-    # Second half in archipelago_ext
-    con.execute("""
-        UPDATE island_stats
-        SET arch_column = 'archipelago_ext', arch_bit = island_id - ?
-        WHERE generation = 1 AND island_id >= 0 AND island_id >= ?
-    """, [gen1_half, gen1_half])
-
-    gen1_first = min(gen1_half, gen1_count)
-    gen1_second = gen1_count - gen1_first
-    max_bit_arch = gen0_count + gen1_first - 1
-    if max_bit_arch >= 64:
-        raise ValueError(f"Archipelago column overflow: need bit {max_bit_arch}, max is 63")
-    if gen1_second > 64:
-        raise ValueError(f"Archipelago_ext column overflow: need {gen1_second} bits, max is 64")
-    print(f"      Gen-1: {gen1_count} islands ({gen1_first} in archipelago bits {gen0_count}-{max_bit_arch}"
-          + (f", {gen1_second} in archipelago_ext bits 0-{gen1_second - 1})" if gen1_second > 0 else ")"))
-
-    # Gen-2: group by gen-0 grandparent, assign reef_N columns
-    # Find each gen-2 island's grandparent via gen-1 parent -> gen-0 grandparent
-    gen2_islands = con.execute("""
-        SELECT s2.island_id, s2.parent_island_id as gen1_parent,
-               s1.parent_island_id as gen0_grandparent
-        FROM island_stats s2
-        JOIN island_stats s1 ON s2.parent_island_id = s1.island_id AND s1.generation = 1
-        WHERE s2.generation = 2 AND s2.island_id >= 0
-        ORDER BY gen0_grandparent, s2.island_id
-    """).fetchall()
-
-    # Group by grandparent and assign bit positions within each group.
-    # Each BIGINT column holds at most 64 bits; overflow groups spill into the next column.
-    from collections import defaultdict
-    grandparent_groups = defaultdict(list)
-    for island_id, gen1_parent, gen0_grandparent in gen2_islands:
-        grandparent_groups[gen0_grandparent].append(island_id)
-
-    reef_columns = ["reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]
-    col_idx = 0
-    for gp_id, island_ids in sorted(grandparent_groups.items()):
-        for chunk_start in range(0, len(island_ids), 64):
-            if col_idx >= len(reef_columns):
-                raise ValueError(
-                    f"Reef column overflow: need more than {len(reef_columns)} columns "
-                    f"({sum(len(v) for v in grandparent_groups.values())} total reefs)"
-                )
-            chunk = island_ids[chunk_start:chunk_start + 64]
-            col_name = reef_columns[col_idx]
-            for i, island_id in enumerate(chunk):
-                con.execute("""
-                    UPDATE island_stats
-                    SET arch_column = ?, arch_bit = ?
-                    WHERE island_id = ? AND generation = 2
-                """, [col_name, i, island_id])
-            print(f"      Gen-2 {col_name}: {len(chunk)} reefs for arch {gp_id} (bits 0-{len(chunk) - 1})")
-            col_idx += 1
-
-    total_assigned = con.execute(
-        "SELECT COUNT(*) FROM island_stats WHERE arch_column IS NOT NULL"
-    ).fetchone()[0]
-    print(f"      Total: {total_assigned} bit positions assigned")
-
-    # === Phase B: Bulk-compute bitmasks on words ===
-    min_depth = config.REEF_MIN_DEPTH
-    print(f"    Phase B: Computing word bitmasks (min depth = {min_depth})...")
-
-    con.execute("""
-        UPDATE words SET archipelago = 0, archipelago_ext = 0,
-            reef_0 = 0, reef_1 = 0, reef_2 = 0, reef_3 = 0, reef_4 = 0, reef_5 = 0
+        UPDATE dim_memberships dm SET archipelago_id = di.island_id
+        FROM dim_islands di
+        WHERE dm.dim_id = di.dim_id AND di.generation = 0
     """)
 
-    # DuckDB's signed BIGINT overflows on 1::BIGINT << 63, so use a safe expression
-    # that handles the sign bit explicitly (bit 63 = MIN_BIGINT = -9223372036854775808)
-    SAFE_BIT = "(CASE WHEN arch_bit = 63 THEN (-9223372036854775808)::BIGINT ELSE 1::BIGINT << arch_bit END)"
-
-    cols = ["archipelago", "archipelago_ext", "reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]
-    bit_or_exprs = ",\n                ".join(
-        f"BIT_OR(CASE WHEN arch_column = '{c}' THEN {SAFE_BIT} END) as {c}" for c in cols
-    )
-    coalesce_sets = ",\n            ".join(f"{c} = COALESCE(wm.{c}, 0)" for c in cols)
-
-    con.execute(f"""
-        WITH word_island_depth AS (
-            -- For each word + island (any generation), count activated dims
-            SELECT m.word_id, di.island_id, di.generation
-            FROM dim_memberships m
-            JOIN dim_islands di ON m.dim_id = di.dim_id
-            WHERE di.island_id >= 0
-            GROUP BY m.word_id, di.island_id, di.generation
-            HAVING COUNT(*) >= {min_depth}
-        ),
-        bit_positions AS (
-            SELECT m.word_id, s.arch_column, s.arch_bit
-            FROM dim_memberships m
-            JOIN dim_islands di ON m.dim_id = di.dim_id
-            JOIN island_stats s ON di.island_id = s.island_id AND di.generation = s.generation
-            JOIN word_island_depth wid
-                ON m.word_id = wid.word_id
-                AND di.island_id = wid.island_id
-                AND di.generation = wid.generation
-            WHERE s.arch_column IS NOT NULL
-        ),
-        word_masks AS (
-            SELECT word_id,
-                {bit_or_exprs}
-            FROM bit_positions
-            GROUP BY word_id
-        )
-        UPDATE words SET
-            {coalesce_sets}
-        FROM word_masks wm WHERE words.word_id = wm.word_id
+    # Gen-1: island_id
+    con.execute("""
+        UPDATE dim_memberships dm SET island_id = di.island_id
+        FROM dim_islands di
+        WHERE dm.dim_id = di.dim_id AND di.generation = 1
     """)
 
-    # === Phase C: Verification and reporting ===
-    print("    Phase C: Verification...")
+    # Gen-2: reef_id
+    con.execute("""
+        UPDATE dim_memberships dm SET reef_id = di.island_id
+        FROM dim_islands di
+        WHERE dm.dim_id = di.dim_id AND di.generation = 2
+    """)
 
+    # Noise dims (island_id = -1) → NULL for cleaner queries
+    con.execute("UPDATE dim_memberships SET archipelago_id = NULL WHERE archipelago_id = -1")
+    con.execute("UPDATE dim_memberships SET island_id = NULL WHERE island_id = -1")
+    con.execute("UPDATE dim_memberships SET reef_id = NULL WHERE reef_id = -1")
+
+    # Report
     counts = con.execute("""
         SELECT
-            COUNT(*) FILTER (WHERE archipelago != 0) as n_arch,
-            COUNT(*) FILTER (WHERE archipelago_ext != 0) as n_arch_ext,
-            COUNT(*) FILTER (WHERE reef_0 != 0) as n_r0,
-            COUNT(*) FILTER (WHERE reef_1 != 0) as n_r1,
-            COUNT(*) FILTER (WHERE reef_2 != 0) as n_r2,
-            COUNT(*) FILTER (WHERE reef_3 != 0) as n_r3,
-            COUNT(*) FILTER (WHERE reef_4 != 0) as n_r4,
-            COUNT(*) FILTER (WHERE reef_5 != 0) as n_r5
-        FROM words
+            COUNT(*) FILTER (WHERE archipelago_id IS NOT NULL) as n_arch,
+            COUNT(*) FILTER (WHERE island_id IS NOT NULL) as n_island,
+            COUNT(*) FILTER (WHERE reef_id IS NOT NULL) as n_reef,
+            COUNT(*) as total
+        FROM dim_memberships
     """).fetchone()
-    print(f"      Words with non-zero archipelago: {counts[0]:,}")
-    print(f"      Words with non-zero archipelago_ext: {counts[1]:,}")
-    for i in range(6):
-        print(f"      Words with non-zero reef_{i}: {counts[2 + i]:,}")
+    print(f"    archipelago_id: {counts[0]:,} / {counts[3]:,}")
+    print(f"    island_id:      {counts[1]:,} / {counts[3]:,}")
+    print(f"    reef_id:        {counts[2]:,} / {counts[3]:,}")
 
-    # Spot-check: top-5 words by total_dims
-    gen0_mask = (1 << gen0_count) - 1
-    spot = con.execute(f"""
-        SELECT w.word, w.total_dims,
-            bit_count(w.archipelago & {gen0_mask}) as n_arch,
-            bit_count(w.archipelago >> {gen0_count}) + bit_count(w.archipelago_ext) as n_islands,
-            bit_count(w.reef_0) + bit_count(w.reef_1) + bit_count(w.reef_2) +
-            bit_count(w.reef_3) + bit_count(w.reef_4) + bit_count(w.reef_5) as n_reefs,
-            (SELECT COUNT(DISTINCT di.island_id)
-             FROM dim_memberships m
-             JOIN dim_islands di ON m.dim_id = di.dim_id
-             WHERE m.word_id = w.word_id AND di.generation = 0 AND di.island_id >= 0
-            ) as actual_arch
-        FROM words w
-        WHERE w.archipelago != 0
-        ORDER BY w.total_dims DESC
-        LIMIT 5
-    """).fetchall()
-    print(f"      Spot-check (top-5 by total_dims):")
-    for word, td, na, ni, nr, actual in spot:
-        print(f"        {word}: {td} dims, {na} arch(actual={actual}), {ni} islands, {nr} reefs")
 
-    print("  Archipelago encoding complete")
+def compute_word_reef_affinity(con):
+    """Compute continuous affinity scores for every word-reef pair."""
+    print("  Computing word-reef affinity scores...")
+
+    con.execute("DELETE FROM word_reef_affinity")
+
+    con.execute("""
+        INSERT INTO word_reef_affinity
+        SELECT m.word_id,
+               di.island_id AS reef_id,
+               COUNT(*) AS n_dims,
+               MAX(m.z_score) AS max_z,
+               SUM(m.z_score) AS sum_z,
+               MAX(m.z_score * ds.dim_weight) AS max_weighted_z,
+               SUM(m.z_score * ds.dim_weight) AS sum_weighted_z
+        FROM dim_memberships m
+        JOIN dim_islands di ON m.dim_id = di.dim_id
+        JOIN dim_stats ds ON m.dim_id = ds.dim_id
+        WHERE di.generation = 2 AND di.island_id >= 0
+        GROUP BY m.word_id, di.island_id
+    """)
+
+    stats = con.execute("""
+        SELECT COUNT(*) as rows, COUNT(DISTINCT word_id) as words,
+               COUNT(DISTINCT reef_id) as reefs
+        FROM word_reef_affinity
+    """).fetchone()
+    print(f"    {stats[0]:,} word-reef pairs ({stats[1]:,} words x {stats[2]} reefs)")
 
 
 def generate_island_names(con):
@@ -1123,7 +1008,8 @@ def run_island_detection(con):
     detect_sub_islands(con, parent_generation=1)
     compute_island_stats(con, generation=2)
     compute_characteristic_words(con, generation=2)
-    # Encode bitmasks
-    compute_archipelago_encoding(con)
+    # Backfill reef hierarchy onto dim_memberships + compute affinity scores
+    backfill_membership_islands(con)
+    compute_word_reef_affinity(con)
     # Summary
     print_archipelago_summary(con)

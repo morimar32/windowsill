@@ -134,6 +134,13 @@ def migrate_schema(con):
     except duckdb.CatalogException:
         pass
 
+    # Add reef hierarchy columns to dim_memberships (denormalized from dim_islands)
+    for col in ["archipelago_id", "island_id", "reef_id"]:
+        try:
+            con.execute(f"ALTER TABLE dim_memberships ADD COLUMN {col} INTEGER")
+        except duckdb.CatalogException:
+            pass
+
     # Add hypergeometric z-score columns to dim_jaccard
     for col, typedef in [("expected_intersection", "DOUBLE"), ("z_score", "DOUBLE")]:
         try:
@@ -160,22 +167,8 @@ def migrate_schema(con):
     except duckdb.CatalogException:
         pass
 
-    # Add archipelago encoding bit-position columns to island_stats
-    for col, typedef in [("arch_column", "TEXT"), ("arch_bit", "INTEGER")]:
-        try:
-            con.execute(f"ALTER TABLE island_stats ADD COLUMN {col} {typedef}")
-        except duckdb.CatalogException:
-            pass
-
-    # Add archipelago bitmask columns to words
-    for col in ["archipelago", "archipelago_ext", "reef_0", "reef_1", "reef_2", "reef_3", "reef_4", "reef_5"]:
-        try:
-            con.execute(f"ALTER TABLE words ADD COLUMN {col} BIGINT DEFAULT 0")
-        except duckdb.CatalogException:
-            pass
-
     # Universal word analytics columns
-    for col, typedef in [("universal_pct", "DOUBLE"), ("dim_weight", "DOUBLE")]:
+    for col, typedef in [("universal_pct", "DOUBLE"), ("dim_weight", "DOUBLE"), ("avg_specificity", "DOUBLE")]:
         try:
             con.execute(f"ALTER TABLE dim_stats ADD COLUMN {col} {typedef}")
         except duckdb.CatalogException:
@@ -296,12 +289,28 @@ def migrate_schema(con):
         )
     """)
 
+    # word_reef_affinity table
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS word_reef_affinity (
+            word_id INTEGER NOT NULL,
+            reef_id INTEGER NOT NULL,
+            n_dims INTEGER NOT NULL,
+            max_z DOUBLE,
+            sum_z DOUBLE,
+            max_weighted_z DOUBLE,
+            sum_weighted_z DOUBLE,
+            PRIMARY KEY (word_id, reef_id)
+        )
+    """)
+
     con.execute("CREATE INDEX IF NOT EXISTS idx_dj_a ON dim_jaccard(dim_id_a)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_dj_b ON dim_jaccard(dim_id_b)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_di_island ON dim_islands(island_id, generation)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_is_gen ON island_stats(generation)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_icw_island ON island_characteristic_words(island_id, generation)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_icw_word ON island_characteristic_words(word_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_wra_reef ON word_reef_affinity(reef_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_wra_wz ON word_reef_affinity(max_weighted_z DESC)")
 
     print("  Schema migration complete")
 
@@ -382,6 +391,7 @@ def run_integrity_checks(con):
         ("compositionality", "word_id", "compositionality", "words", "word_id", None),
         ("dim_islands", "dim_id", "dim_islands", "dim_stats", "dim_id", None),
         ("island_characteristic_words", "word_id", "island_characteristic_words", "words", "word_id", None),
+        ("word_reef_affinity", "word_id", "word_reef_affinity", "words", "word_id", None),
     ]
 
     for child_table, child_col, guard_table, parent_table, parent_col, where_clause in fk_checks:
@@ -421,6 +431,23 @@ def run_integrity_checks(con):
         print("  [SKIP] word_pair_overlap.word_id_b -> words: table not found")
         skipped += 2
 
+    # word_reef_affinity: reef_id -> island_stats(generation=2)
+    if _table_exists(con, "word_reef_affinity"):
+        count = con.execute("""
+            SELECT COUNT(*) FROM word_reef_affinity wra
+            LEFT JOIN island_stats s ON wra.reef_id = s.island_id AND s.generation = 2
+            WHERE s.island_id IS NULL
+        """).fetchone()[0]
+        if count == 0:
+            print(f"  [PASS] word_reef_affinity.reef_id -> island_stats(gen=2): 0 orphans")
+            passed += 1
+        else:
+            print(f"  [FAIL] word_reef_affinity.reef_id -> island_stats(gen=2): {count} orphans")
+            failed += 1
+    else:
+        print("  [SKIP] word_reef_affinity.reef_id -> island_stats(gen=2): table not found")
+        skipped += 1
+
     # Sanity checks
     if _table_exists(con, "dim_stats"):
         dim_count = con.execute("SELECT COUNT(*) FROM dim_stats").fetchone()[0]
@@ -459,38 +486,6 @@ def run_integrity_checks(con):
         print("  [SKIP] dim_memberships non-empty: table not found")
         skipped += 1
 
-    # Archipelago encoding: bit position uniqueness
-    if _table_exists(con, "island_stats"):
-        try:
-            dup_count = con.execute("""
-                SELECT COUNT(*) FROM (
-                    SELECT arch_column, arch_bit, COUNT(*) as cnt
-                    FROM island_stats
-                    WHERE arch_column IS NOT NULL
-                    GROUP BY arch_column, arch_bit
-                    HAVING cnt > 1
-                )
-            """).fetchone()[0]
-            if dup_count == 0:
-                has_encoding = con.execute(
-                    "SELECT COUNT(*) FROM island_stats WHERE arch_column IS NOT NULL"
-                ).fetchone()[0]
-                if has_encoding > 0:
-                    print(f"  [PASS] archipelago encoding: {has_encoding} bit positions, 0 duplicates")
-                    passed += 1
-                else:
-                    print(f"  [SKIP] archipelago encoding: no bit positions assigned yet")
-                    skipped += 1
-            else:
-                print(f"  [FAIL] archipelago encoding: {dup_count} duplicate bit positions")
-                failed += 1
-        except Exception:
-            print("  [SKIP] archipelago encoding: columns not present")
-            skipped += 1
-    else:
-        print("  [SKIP] archipelago encoding: island_stats not found")
-        skipped += 1
-
     print(f"  Integrity: {passed} passed, {failed} failed, {skipped} skipped")
     return failed == 0
 
@@ -516,6 +511,8 @@ def rebuild_indexes(con):
         ("idx_is_gen", "CREATE INDEX idx_is_gen ON island_stats(generation)", "island_stats"),
         ("idx_icw_island", "CREATE INDEX idx_icw_island ON island_characteristic_words(island_id, generation)", "island_characteristic_words"),
         ("idx_icw_word", "CREATE INDEX idx_icw_word ON island_characteristic_words(word_id)", "island_characteristic_words"),
+        ("idx_wra_reef", "CREATE INDEX idx_wra_reef ON word_reef_affinity(reef_id)", "word_reef_affinity"),
+        ("idx_wra_wz", "CREATE INDEX idx_wra_wz ON word_reef_affinity(max_weighted_z DESC)", "word_reef_affinity"),
     ]
 
     dropped = 0
@@ -566,6 +563,7 @@ def print_database_report(con, db_path):
         "word_pos", "word_components", "word_senses",
         "sense_dim_memberships", "compositionality",
         "dim_jaccard", "dim_islands", "island_stats", "island_characteristic_words",
+        "word_reef_affinity",
     ]
     total_rows = 0
     for table in tables:
