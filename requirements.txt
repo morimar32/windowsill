@@ -11,3 +11,4 @@ pandas>=2.0.0
 leidenalg>=0.10.0
 python-igraph>=0.11.0
 anthropic>=0.39.0
+msgpack>=1.0.0
