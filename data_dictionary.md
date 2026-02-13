@@ -8,15 +8,16 @@ This document is the authoritative column-level reference for the Windowsill dat
 |--------|-------|
 | Database engine | DuckDB |
 | Database file | `vector_distillery.duckdb` (~2.6 GB) |
-| Tables | 14 |
+| Tables | 15 |
 | Views | 6 |
-| Indexes | 21 |
+| Indexes | 24 |
 | Words | ~146,000 (WordNet lemmas) |
 | Embedding dimensions | 768 (nomic-embed-text-v1.5, Matryoshka) |
 | Total memberships | ~2.56M |
-| Island hierarchy | 4 archipelagos → 52 islands → 208 reefs |
+| Island hierarchy | 4 archipelagos → 52 islands → 207 reefs |
 | Reef affinity | Continuous word-reef affinity scores in `word_reef_affinity` table |
 | Reef refinement | Iterative dim loyalty analysis (phase 10): dims with higher Jaccard affinity to a sibling reef than their own are reassigned |
+| Word variant mappings | ~490K entries in `word_variants` table (base + morphy expansion) |
 
 ---
 
@@ -30,14 +31,14 @@ This document is the authoritative column-level reference for the Windowsill dat
                           │  word_id (PK)         │
                           │  word, embedding, ... │
                           └──────────┬────────────┘
-                 ┌───────────┬───────┼────────┬──────────────┬──────────────┐
-                 │           │       │        │              │              │
-                 ▼           ▼       ▼        ▼              ▼              ▼
-          ┌────────────┐ ┌───────┐ ┌──────────────┐ ┌──────────────┐ ┌─────────────────┐
-          │  word_pos   │ │word_  │ │dim_member-   │ │word_pair_    │ │compositionality │
-          │(word_id,pos)│ │compo- │ │ships         │ │overlap       │ │(word_id PK)     │
-          │  PK         │ │nents  │ │(dim_id,      │ │(word_id_a,   │ └─────────────────┘
-          └────────────┘ │(comp- │ │ word_id) PK  │ │ word_id_b)PK │
+                 ┌───────────┬───────┼────────┬──────────────┬──────────────┬──────────────────┐
+                 │           │       │        │              │              │                  │
+                 ▼           ▼       ▼        ▼              ▼              ▼                  ▼
+          ┌────────────┐ ┌───────┐ ┌──────────────┐ ┌──────────────┐ ┌─────────────────┐ ┌─────────────────┐
+          │  word_pos   │ │word_  │ │dim_member-   │ │word_pair_    │ │compositionality │ │ word_variants    │
+          │(word_id,pos)│ │compo- │ │ships         │ │overlap       │ │(word_id PK)     │ │(variant_hash,   │
+          │  PK         │ │nents  │ │(dim_id,      │ │(word_id_a,   │ └─────────────────┘ │ word_id) PK     │
+          └────────────┘ │(comp- │ │ word_id) PK  │ │ word_id_b)PK │                     └─────────────────┘
                          │ound_  │ └──────┬───────┘ └──────────────┘
                          │word_id│        │
                          │,pos)  │        │  ┌───────────────┐
@@ -103,6 +104,7 @@ All FK relationships are enforced by application-level integrity checks (`databa
 | island_characteristic_words | word_id | words | word_id | |
 | word_reef_affinity | word_id | words | word_id | |
 | word_reef_affinity | reef_id | island_stats | island_id (generation=2) | Reef-level islands only |
+| word_variants | word_id | words | word_id | |
 | island_stats → dim_islands | island_id + generation | dim_islands | island_id + generation | Logical, not enforced |
 
 ### Cardinality
@@ -119,6 +121,7 @@ island_stats (1) ──< island_characteristic_words (M)    Up to 100 words per 
 words (M) ──< word_pair_overlap (M)     Symmetric pairs where a < b
 words (1) ──< word_reef_affinity (M)   One row per word-reef pair (every reef the word touches)
 island_stats (1) ──< word_reef_affinity (M)   reef_id references island_stats(island_id, generation=2)
+words (1) ──< word_variants (M)          One base entry per word + morphy variants
 ```
 
 ### Common Join Patterns
@@ -208,6 +211,8 @@ WHERE wa.word = 'cat' AND wb.word = 'dog';
 | `sense_spread` | INTEGER | Yes | `MAX(total_dims) - MIN(total_dims)` across all senses in `word_senses` for this word. **NULL if the word has fewer than 2 senses.** Only meaningful for ambiguous words. | `NULL`, `3`, `22` |
 | `polysemy_inflated` | BOOLEAN | No | `TRUE` if `specificity < 0` AND `sense_spread >= 15` (config `SENSE_SPREAD_INFLATED_THRESHOLD`). Flags universal words whose high dim count may be driven by having very different senses. `DEFAULT FALSE`. | `TRUE`, `FALSE` |
 | `arch_concentration` | DOUBLE | Yes | Fraction of this word's dimension memberships concentrated in a single gen-0 archipelago: `MAX(count_per_archipelago) / SUM(count_per_archipelago)`. **Only computed for universal words** (`specificity < 0`) that have ≥ 2 dimension memberships in islands. NULL for specific/typical words and words with insufficient island data. Range: ~0.3–1.0. | `NULL`, `0.65`, `0.92` |
+| `word_hash` | UBIGINT | Yes | FNV-1a u64 hash of the word string. Zero collisions confirmed across the full ~146K vocabulary. Computed in phase 4c. Used as lookup key in the scoring engine export. | `7320278814225498215`, `1234567890123456789` |
+| `reef_idf` | DOUBLE | Yes | BM25 IDF score: `ln((207 - n + 0.5) / (n + 0.5) + 1)` where n = number of reefs containing this word (from `word_reef_affinity`). **NULL for the ~3 words that don't appear in any reef.** Range: ~1.80–4.93. Computed in phase 9e. | `NULL`, `2.74`, `4.93` |
 
 
 ### 3.2 `dim_stats`
@@ -465,6 +470,21 @@ WHERE wa.word = 'cat' AND wb.word = 'dog';
 | `max_weighted_z` | DOUBLE | Yes | Maximum of `z_score * dim_weight` across memberships. A strong discriminator for meaningful depth-1 memberships. | `3.2`, `12.8` |
 | `sum_weighted_z` | DOUBLE | Yes | Sum of `z_score * dim_weight` across memberships. | `3.2`, `35.6` |
 
+### 5.6 `word_variants`
+
+**Purpose:** Maps inflected word forms back to their base word_ids via WordNet `morphy()` expansion. Each word gets a "base" entry (itself), plus "morphy" entries for any inflected forms discovered through synset lemma analysis. Used at export time to build the scoring engine's word lookup dictionary.
+
+**Row count:** ~490,000
+
+**Primary key:** `(variant_hash, word_id)`
+
+| Column | Type | Nullable | Description | Example Values |
+|--------|------|----------|-------------|----------------|
+| `variant_hash` | UBIGINT | No (PK) | FNV-1a u64 hash of the variant string. Same hash function as `words.word_hash`. | `7320278814225498215` |
+| `variant` | TEXT | No | The variant text (lowercase, spaces for multi-word). | `'running'`, `'cats'`, `'guitar'` |
+| `word_id` | INTEGER | No (PK) | FK → `words.word_id`. The base word this variant maps to. A single variant may map to multiple word_ids (composite PK). | `1234`, `89012` |
+| `source` | TEXT | No | How this entry was generated. `'base'` = the word itself (1:1 with `words` table). `'morphy'` = discovered via WordNet morphy() or synset lemma analysis. | `'base'`, `'morphy'` |
+
 ---
 
 ## 6. Views
@@ -585,7 +605,7 @@ ORDER BY w.arch_concentration DESC
 
 ## 7. Index Reference
 
-All 21 indexes, listed with their table, indexed columns, and purpose.
+All 24 indexes, listed with their table, indexed columns, and purpose.
 
 | # | Index Name | Table | Column(s) | Purpose |
 |---|-----------|-------|-----------|---------|
@@ -610,3 +630,6 @@ All 21 indexes, listed with their table, indexed columns, and purpose.
 | 19 | `idx_icw_word` | `island_characteristic_words` | `word_id` | Find which islands a word is characteristic of |
 | 20 | `idx_wra_reef` | `word_reef_affinity` | `reef_id` | Find all words with affinity to a given reef |
 | 21 | `idx_wra_wz` | `word_reef_affinity` | `max_weighted_z DESC` | Rank word-reef pairs by weighted z-score |
+| 22 | `idx_words_hash` | `words` | `word_hash` | Fast lookup of words by FNV-1a hash |
+| 23 | `idx_wv_hash` | `word_variants` | `variant_hash` | Fast lookup of variants by hash |
+| 24 | `idx_wv_word` | `word_variants` | `word_id` | Find all variants for a base word |

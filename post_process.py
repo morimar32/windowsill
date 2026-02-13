@@ -377,6 +377,26 @@ def compute_sense_spread(con):
     print(f"  Sense spread: {stats[0]} words with spread, avg={stats[1]:.1f}, {inflated} polysemy-inflated")
 
 
+def compute_reef_idf(con):
+    """Compute reef IDF for each word based on how many reefs it appears in."""
+    con.execute("""
+        UPDATE words SET reef_idf = sub.idf
+        FROM (
+            SELECT word_id,
+                   LN((207 - COUNT(*) + 0.5) / (COUNT(*) + 0.5) + 1) AS idf
+            FROM word_reef_affinity
+            GROUP BY word_id
+        ) sub
+        WHERE words.word_id = sub.word_id
+    """)
+
+    stats = con.execute("""
+        SELECT COUNT(*), MIN(reef_idf), MAX(reef_idf)
+        FROM words WHERE reef_idf IS NOT NULL
+    """).fetchone()
+    print(f"  Reef IDF: {stats[0]:,} words, range [{stats[1]:.2f}, {stats[2]:.2f}]")
+
+
 def compute_arch_concentration(con):
     """Compute arch_concentration for universal words (needs island data)."""
     con.execute("""

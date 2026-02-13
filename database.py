@@ -180,6 +180,12 @@ def migrate_schema(con):
         except duckdb.CatalogException:
             pass
 
+    for col, typedef in [("word_hash", "UBIGINT"), ("reef_idf", "DOUBLE")]:
+        try:
+            con.execute(f"ALTER TABLE words ADD COLUMN {col} {typedef}")
+        except duckdb.CatalogException:
+            pass
+
     # word_pos table
     con.execute("""
         CREATE TABLE IF NOT EXISTS word_pos (
@@ -303,6 +309,17 @@ def migrate_schema(con):
         )
     """)
 
+    # word_variants table
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS word_variants (
+            variant_hash UBIGINT NOT NULL,
+            variant TEXT NOT NULL,
+            word_id INTEGER NOT NULL,
+            source TEXT NOT NULL,
+            PRIMARY KEY (variant_hash, word_id)
+        )
+    """)
+
     con.execute("CREATE INDEX IF NOT EXISTS idx_dj_a ON dim_jaccard(dim_id_a)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_dj_b ON dim_jaccard(dim_id_b)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_di_island ON dim_islands(island_id, generation)")
@@ -311,6 +328,9 @@ def migrate_schema(con):
     con.execute("CREATE INDEX IF NOT EXISTS idx_icw_word ON island_characteristic_words(word_id)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wra_reef ON word_reef_affinity(reef_id)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wra_wz ON word_reef_affinity(max_weighted_z DESC)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_words_hash ON words(word_hash)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_wv_hash ON word_variants(variant_hash)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_wv_word ON word_variants(word_id)")
 
     print("  Schema migration complete")
 
@@ -392,6 +412,7 @@ def run_integrity_checks(con):
         ("dim_islands", "dim_id", "dim_islands", "dim_stats", "dim_id", None),
         ("island_characteristic_words", "word_id", "island_characteristic_words", "words", "word_id", None),
         ("word_reef_affinity", "word_id", "word_reef_affinity", "words", "word_id", None),
+        ("word_variants", "word_id", "word_variants", "words", "word_id", None),
     ]
 
     for child_table, child_col, guard_table, parent_table, parent_col, where_clause in fk_checks:
@@ -513,6 +534,9 @@ def rebuild_indexes(con):
         ("idx_icw_word", "CREATE INDEX idx_icw_word ON island_characteristic_words(word_id)", "island_characteristic_words"),
         ("idx_wra_reef", "CREATE INDEX idx_wra_reef ON word_reef_affinity(reef_id)", "word_reef_affinity"),
         ("idx_wra_wz", "CREATE INDEX idx_wra_wz ON word_reef_affinity(max_weighted_z DESC)", "word_reef_affinity"),
+        ("idx_words_hash", "CREATE INDEX idx_words_hash ON words(word_hash)", None),
+        ("idx_wv_hash", "CREATE INDEX idx_wv_hash ON word_variants(variant_hash)", "word_variants"),
+        ("idx_wv_word", "CREATE INDEX idx_wv_word ON word_variants(word_id)", "word_variants"),
     ]
 
     dropped = 0
@@ -564,6 +588,7 @@ def print_database_report(con, db_path):
         "sense_dim_memberships", "compositionality",
         "dim_jaccard", "dim_islands", "island_stats", "island_characteristic_words",
         "word_reef_affinity",
+        "word_variants",
     ]
     total_rows = 0
     for table in tables:

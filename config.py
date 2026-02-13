@@ -34,3 +34,14 @@ SENSE_SPREAD_INFLATED_THRESHOLD = 15   # Min sense_spread to flag as polysemy-in
 DOMAIN_GENERAL_THRESHOLD = 0.75        # Min arch_concentration for v_domain_generals
 ABSTRACT_DIM_THRESHOLD = 0.30          # Min universal_pct for v_abstract_dims
 CONCRETE_DIM_THRESHOLD = 0.15          # Max universal_pct for v_concrete_dims
+
+# FNV-1a u64 hashing
+FNV1A_OFFSET = 14695981039346656037
+FNV1A_PRIME = 1099511628211
+
+# Reef scoring constants
+N_REEFS = 207
+N_ISLANDS = 52
+N_ARCHS = 4
+BM25_K1 = 1.2
+BM25_B = 0.75

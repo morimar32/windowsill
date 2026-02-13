@@ -50,6 +50,10 @@ python3 main.py --from 2
 
 The database that is created is approximately `13 gb`
 
+## Even quicker start
+
+If you do not want to build the database for yourself, you can download the latest snapshot from ~[Hugging Face](https://huggingface.co/datasets/morimar/windowsill/tree/main)
+
 ## Data Characteristics
 
 Key numbers discovered through investigation of the WordNet source data:
@@ -78,6 +82,7 @@ Output from a full pipeline run (z-score threshold = 2.0, REEF_MIN_DEPTH = 2):
 | Gen-1 islands | 52 | Sub-island subdivision |
 | Gen-2 reefs | 207 | Sub-island subdivision |
 | All structures named | Yes | Bottom-up LLM naming (phase 9c) |
+| Word variant mappings | ~490K | base (~146K) + morphy (~344K) in word_variants table |
 | Universal words | 24,651 | specificity < 0 (23-44 dims) |
 | Abstract dims | 128 | universal_pct >= 30% |
 | Concrete dims | 46 | universal_pct <= 15% |
@@ -105,6 +110,7 @@ Phase 2:  Word list curation          (extract + clean WordNet lemmas)
 Phase 3:  Embedding generation         (nomic-embed-text-v1.5, CPU, ~30 min)
 Phase 4:  Database schema + bulk load  (create tables, insert words + embeddings)
 Phase 4b: Schema migration + backfill  (POS/category/components on existing DB)
+Phase 4c: Word hash computation        (FNV-1a u64 hashes for all words)
 Phase 5:  Statistical analysis         (per-dimension z-score threshold)
 Phase 5b: Sense embedding generation   (gloss-contextualized, ~5 min CPU)
 Phase 5c: Sense analysis               (apply existing thresholds to senses)
@@ -113,13 +119,15 @@ Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality,
 Phase 9:  Island detection             (Jaccard matrix, Leiden clustering, 3-gen hierarchy, backfill + affinity)
 Phase 9b: Backfill + affinity          (re-backfill denormalized columns + recompute word_reef_affinity)
 Phase 9d: Universal word analytics     (arch concentration, domain generals -- needs island data)
+Phase 9e: Reef IDF computation         (BM25 IDF from word_reef_affinity)
 Phase 10: Reef refinement              (dim loyalty analysis, iterative regrouping, re-backfill + affinity)
 Phase 9c: Island & reef naming         (LLM-assisted naming via Claude API, bottom-up)
+Phase 11: Morphy variant expansion     (WordNet morphy() inflection mapping)
 Phase 7:  Database maintenance         (integrity checks, reindex, ANALYZE, CHECKPOINT)
 explore:  Interactive explorer         (REPL for querying the database)
 ```
 
-Phase order: `2 -> 3 -> 4 -> 4b -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9d -> 10 -> 9c -> 7 -> explore`
+Phase order: `2 -> 3 -> 4 -> 4b -> 4c -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9d -> 9e -> 10 -> 9c -> 11 -> 7 -> explore`
 
 Phases 4b/5b/5c/6b/9d are enrichment phases designed to run on an already-populated database. They use ALTER TABLE to add columns, so they're safe to run without re-running the expensive embedding pipeline.
 
@@ -133,18 +141,21 @@ Phases 4b/5b/5c/6b/9d are enrichment phases designed to run on an already-popula
 - Phase 9d requires phase 9 (needs island hierarchy for arch_concentration); also re-creates views
 - Phase 10 requires phase 9 (needs reef assignments + Jaccard data); re-backfills + recomputes affinity after convergence
 - Phase 9c requires phase 10 (or 9 if skipping refinement); needs island hierarchy + characteristic words post-refinement; requires `ANTHROPIC_API_KEY`. Runs after phase 10 because refinement recomputes reef stats (wiping names).
+- Phase 4c is independent of other phases (only needs words table populated)
+- Phase 9e requires phase 9b (needs word_reef_affinity populated)
+- Phase 11 requires phase 4c (needs word_hash column populated)
 
 ### File Layout
 
 ```
-config.py        Constants: model name, thresholds, batch sizes, paths
+config.py        Constants: model name, thresholds, batch sizes, paths, FNV-1a hashing, BM25 params
 database.py      DuckDB schema, migrations, insert/load functions
-word_list.py     WordNet extraction, cleaning, POS/category classification
+word_list.py     WordNet extraction, cleaning, POS/category classification, FNV-1a hashing, morphy expansion
 embedder.py      Sentence-transformers encoding, checkpointing, sense embedding
 analyzer.py      Per-dimension z-score thresholding, sense analysis
 post_process.py  Dim counts, specificity bands, views, pair overlap, POS enrichment,
                  contamination, compositionality, dimension abstractness/specificity,
-                 sense spread, arch concentration
+                 sense spread, arch concentration, reef IDF
 islands.py       Island detection: Jaccard matrix, Leiden clustering, PMI scoring,
                  denormalization, word-reef affinity, LLM-assisted bottom-up naming
 reef_refine.py   Reef refinement: iterative dim loyalty analysis and reassignment
@@ -183,6 +194,8 @@ specificity        INTEGER    Sigma band: +2/+1/0/-1/-2 (positive = specific, ne
 sense_spread       INTEGER    MAX(total_dims) - MIN(total_dims) across senses (NULL if < 2 senses)
 polysemy_inflated  BOOLEAN    TRUE if universal (specificity < 0) and sense_spread >= 15
 arch_concentration DOUBLE     Max fraction of dims in any single archipelago (universal words only)
+word_hash          UBIGINT    FNV-1a u64 hash (zero collisions confirmed across full vocabulary)
+reef_idf           DOUBLE     BM25 IDF: ln((207 - n + 0.5) / (n + 0.5) + 1) where n = reefs containing word
 ```
 
 **`dim_stats`** -- One row per embedding dimension (768 total)
@@ -329,6 +342,14 @@ max_weighted_z     DOUBLE     Max (z_score * dim_weight) across reef dims
 sum_weighted_z     DOUBLE     Sum of (z_score * dim_weight) across reef dims
 ```
 
+**`word_variants`** -- Morphy expansion mapping inflected forms to base word_ids
+```
+variant_hash   UBIGINT    (PK with word_id) FNV-1a hash of the variant string
+variant        TEXT       The variant text (e.g., "running")
+word_id        INTEGER    FK to words — the base word this variant maps to
+source         TEXT       'base' for the word itself, 'morphy' for inflected forms
+```
+
 ### Views
 
 - `v_unique_words` -- Words with positive specificity (1σ+ fewer dims than mean; specific words)
@@ -359,6 +380,9 @@ idx_icw_island     island_characteristic_words(island_id, generation)
 idx_icw_word       island_characteristic_words(word_id)
 idx_wra_reef       word_reef_affinity(reef_id)
 idx_wra_wz         word_reef_affinity(max_weighted_z DESC)
+idx_words_hash     words(word_hash)
+idx_wv_hash        word_variants(variant_hash)
+idx_wv_word        word_variants(word_id)
 ```
 
 ## Usage
@@ -378,6 +402,7 @@ python main.py --phase 4b          # Just schema migration + POS backfill
 python main.py --from 5b           # Run phases 5b, 5c, 6, 6b, ..., explore
 python main.py --phase explore     # Jump straight to explorer
 python main.py --phase 10          # Run reef refinement only
+python main.py --phase 4c           # Compute FNV-1a word hashes
 ```
 
 ### Enrichment pipeline on existing DB
@@ -416,6 +441,16 @@ python main.py --phase 9d            # Arch concentration + domain general views
 
 Phase 9d computes `arch_concentration` for all universal words (requires island data from phase 9). This measures how concentrated each universal word's dimensions are within a single archipelago -- a value of 0.75+ means the word is a "domain general" (universal but topically focused). Also re-creates views to include `v_domain_generals`.
 
+### Scoring engine prep
+
+```bash
+python main.py --phase 4c            # ~30 sec: compute FNV-1a word hashes
+python main.py --phase 9e            # ~5 sec: compute reef IDF
+python main.py --phase 11            # ~5 min: morphy variant expansion
+```
+
+Phase 4c computes FNV-1a u64 hashes for all words (zero collisions confirmed). Phase 9e computes BM25 IDF values from `word_reef_affinity`. Phase 11 expands WordNet `morphy()` variants, creating a mapping from inflected forms back to base word_ids in the `word_variants` table (~490K entries).
+
 ### Island & reef naming
 
 ```bash
@@ -440,14 +475,14 @@ python main.py --phase 7           # Run maintenance on existing DB
 
 This phase performs:
 - **Integrity checks** -- FK validation across all tables, sanity checks on row counts
-- **Index rebuild** -- Drops and recreates all 14 indexes for consistent state
+- **Index rebuild** -- Drops and recreates all 24 indexes for consistent state
 - **ANALYZE** -- Recomputes query planner statistics after bulk inserts/updates
 - **FORCE CHECKPOINT** -- Flushes WAL to disk and reclaims space from deleted row groups
 
 ### CLI options
 
 ```
---phase PHASE          Run only this phase (2, 3, 4, 4b, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 9d, 10, 7, explore)
+--phase PHASE          Run only this phase (2, 3, 4, 4b, 4c, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 9d, 9e, 10, 11, 7, explore)
 --from PHASE           Run from this phase through the end
 --db PATH              Database path (default: vector_distillery.duckdb)
 --skip-pair-overlap    Skip the expensive pair overlap materialization
@@ -598,6 +633,18 @@ SELECT * FROM v_domain_generals LIMIT 20;
 SELECT COUNT(*) FROM v_abstract_dims;
 SELECT COUNT(*) FROM v_concrete_dims;
 
+-- Word hashes: expect 0 nulls, 0 collisions
+SELECT COUNT(*) FROM words WHERE word_hash IS NULL;
+SELECT COUNT(*) = COUNT(DISTINCT word_hash) FROM words WHERE word_hash IS NOT NULL;
+
+-- Reef IDF: expect ~146K with IDF, range ~1.80 to ~4.93
+SELECT COUNT(*) FROM words WHERE reef_idf IS NOT NULL;
+SELECT MIN(reef_idf), MAX(reef_idf) FROM words WHERE reef_idf IS NOT NULL;
+
+-- Word variants: expect ~490K total, ~146K base + morphy
+SELECT source, COUNT(*) FROM word_variants GROUP BY source;
+SELECT COUNT(DISTINCT variant_hash) FROM word_variants;
+
 ```
 
 ## Dependencies
@@ -647,6 +694,13 @@ All constants are in `config.py`:
 | `DOMAIN_GENERAL_THRESHOLD` | `0.75` | Min arch_concentration for `v_domain_generals` view |
 | `ABSTRACT_DIM_THRESHOLD` | `0.30` | Min universal_pct for `v_abstract_dims` view |
 | `CONCRETE_DIM_THRESHOLD` | `0.15` | Max universal_pct for `v_concrete_dims` view |
+| `FNV1A_OFFSET` | `14695981039346656037` | FNV-1a 64-bit offset basis |
+| `FNV1A_PRIME` | `1099511628211` | FNV-1a 64-bit prime |
+| `N_REEFS` | `207` | Total reef count |
+| `N_ISLANDS` | `52` | Total island count |
+| `N_ARCHS` | `4` | Total archipelago count |
+| `BM25_K1` | `1.2` | BM25 term frequency saturation |
+| `BM25_B` | `0.75` | BM25 length normalization |
 
 ## File Artifacts
 

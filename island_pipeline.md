@@ -1,6 +1,6 @@
 # Island Pipeline: Archipelagos, Islands, and Reefs
 
-This document is a deep-dive technical reference for the three-generation island hierarchy in Windowsill. It describes every step of the pipeline that discovers, refines, and names semantic clusters within the 768 embedding dimensions of nomic-embed-text-v1.5. The primary audience is a future Claude session needing to understand the system before modifying it.
+This document is a deep-dive technical reference for the three-generation island hierarchy in Windowsill. It describes every step of the pipeline that discovers, refines, and names semantic clusters within the 768 embedding dimensions of nomic-embed-text-v1.5. 
 
 ---
 

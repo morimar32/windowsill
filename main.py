@@ -231,6 +231,48 @@ def run_phase9d(con=None, db_path=None):
     return con
 
 
+def run_phase4c(con=None, db_path=None):
+    print("\n=== Phase 4c: Word Hash Computation ===")
+    import database
+    import word_list
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    word_list.compute_word_hashes(con)
+    print("  Phase 4c complete")
+    return con
+
+
+def run_phase9e(con=None, db_path=None):
+    print("\n=== Phase 9e: Reef IDF Computation ===")
+    import database
+    import post_process
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    post_process.compute_reef_idf(con)
+    print("  Phase 9e complete")
+    return con
+
+
+def run_phase11(con=None, db_path=None):
+    print("\n=== Phase 11: Morphy Variant Expansion ===")
+    import database
+    import word_list
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    word_list.expand_morphy_variants(con)
+    print("  Phase 11 complete")
+    return con
+
+
 def run_phase7(con=None, db_path=None):
     print("\n=== Phase 7: Database Maintenance ===")
     import database
@@ -351,12 +393,12 @@ def run_explore(con=None, db_path=None):
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "10", "9c", "7", "explore"]
+PHASE_ORDER = ["2", "3", "4", "4b", "4c", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "9e", "10", "9c", "11", "7", "explore"]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 5b, 5c, 6b, 9b, 9c, 9d, 10, 7, explore)")
+    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 4c, 5b, 5c, 6b, 9b, 9c, 9d, 9e, 10, 11, 7, explore)")
     parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
@@ -386,6 +428,8 @@ def main():
             con = run_phase4(words=words, embeddings=embeddings, db_path=args.db)
         elif phase == "4b":
             con = run_phase4b(con=con, db_path=args.db)
+        elif phase == "4c":
+            con = run_phase4c(con=con, db_path=args.db)
         elif phase == "5":
             word_ids = [w[0] for w in words] if words else None
             con = run_phase5(con=con, embeddings=embeddings, word_ids=word_ids, db_path=args.db)
@@ -408,8 +452,12 @@ def main():
             con = run_phase9c(con=con, db_path=args.db)
         elif phase == "9d":
             con = run_phase9d(con=con, db_path=args.db)
+        elif phase == "9e":
+            con = run_phase9e(con=con, db_path=args.db)
         elif phase == "10":
             con = run_phase10(con=con, db_path=args.db)
+        elif phase == "11":
+            con = run_phase11(con=con, db_path=args.db)
         elif phase == "7":
             con = run_phase7(con=con, db_path=args.db)
         elif phase == "explore":

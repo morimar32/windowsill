@@ -7,9 +7,26 @@ def _resolve_word_id(con, word):
     row = con.execute(
         "SELECT word_id, word FROM words WHERE LOWER(word) = LOWER(?)", [word]
     ).fetchone()
-    if row is None:
-        return None, None
-    return row[0], row[1]
+    if row is not None:
+        return row[0], row[1]
+
+    # Fall back to word_hash lookup if input looks like a hex string
+    import re
+    cleaned = word.strip()
+    if cleaned.startswith("0x") or cleaned.startswith("0X"):
+        cleaned = cleaned[2:]
+    if re.fullmatch(r"[0-9a-fA-F]{1,16}", cleaned):
+        try:
+            hash_val = int(cleaned, 16)
+            row = con.execute(
+                "SELECT word_id, word FROM words WHERE word_hash = ?", [hash_val]
+            ).fetchone()
+            if row is not None:
+                return row[0], row[1]
+        except (ValueError, Exception):
+            pass
+
+    return None, None
 
 
 def _dim_island_label(con, dim_id):
