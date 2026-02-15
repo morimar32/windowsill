@@ -345,9 +345,16 @@ def migrate_schema(con):
             pos_similarity DOUBLE,
             valence_gap DOUBLE,
             specificity_gap DOUBLE,
+            weight DOUBLE DEFAULT 0,
             PRIMARY KEY (source_reef_id, target_reef_id)
         )
     """)
+
+    # Add weight column to reef_edges if missing (migration)
+    try:
+        con.execute("ALTER TABLE reef_edges ADD COLUMN weight DOUBLE DEFAULT 0")
+    except duckdb.CatalogException:
+        pass
 
     # word_variants table
     con.execute("""

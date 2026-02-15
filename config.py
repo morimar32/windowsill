@@ -50,3 +50,14 @@ N_ISLANDS = 52
 N_ARCHS = 4
 BM25_K1 = 1.2
 BM25_B = 0.75
+
+# Composite weight formula coefficients
+# weight = (containment * lift) * pos_similarity^ALPHA_POS
+#          * exp(-ALPHA_VAL * |valence_gap|)
+#          * exp(-ALPHA_SPEC * |specificity_gap|)
+COMPOSITE_ALPHA_POS = 2.0    # POS similarity exponent (higher = stronger gating)
+COMPOSITE_ALPHA_VAL = 2.92   # Valence gap decay rate (higher = more suppression)
+COMPOSITE_ALPHA_SPEC = 0.5   # Specificity gap decay rate (mild effect)
+
+# Export thresholds
+EXPORT_WEIGHT_THRESHOLD = 0.01

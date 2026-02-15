@@ -1037,3 +1037,43 @@ def compute_reef_edges(con):
     print(f"    containment: avg={stats[1]}, max={stats[2]}")
     print(f"    lift: avg={stats[3]}, max={stats[4]}")
     print(f"    pos_similarity: avg={stats[5]}, min={stats[6]}")
+
+
+def compute_composite_weight(con):
+    """Compute composite weight for all reef edges from the five component scores.
+
+    Formula: weight = (containment * lift) * pos_similarity^ALPHA_POS
+                      * exp(-ALPHA_VAL * |valence_gap|)
+                      * exp(-ALPHA_SPEC * |specificity_gap|)
+    """
+    alpha_pos = config.COMPOSITE_ALPHA_POS
+    alpha_val = config.COMPOSITE_ALPHA_VAL
+    alpha_spec = config.COMPOSITE_ALPHA_SPEC
+
+    con.execute("""
+        UPDATE reef_edges SET weight =
+            (containment * lift)
+            * pow(pos_similarity, ?)
+            * exp(-? * abs(valence_gap))
+            * exp(-? * abs(specificity_gap))
+    """, [alpha_pos, alpha_val, alpha_spec])
+
+    stats = con.execute("""
+        SELECT
+            COUNT(*) FILTER (WHERE weight > 0) AS n_positive,
+            ROUND(AVG(weight), 6) AS avg_weight,
+            ROUND(MAX(weight), 4) AS max_weight,
+            ROUND(PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY weight), 4) AS p99_weight
+        FROM reef_edges
+    """).fetchone()
+
+    # Prune edges with no word overlap (containment = 0 → weight = 0)
+    before = con.execute("SELECT COUNT(*) FROM reef_edges").fetchone()[0]
+    con.execute("DELETE FROM reef_edges WHERE weight = 0")
+    after = con.execute("SELECT COUNT(*) FROM reef_edges").fetchone()[0]
+    pruned = before - after
+
+    print(f"  Composite weights: {stats[0]} positive edges")
+    print(f"    avg={stats[1]}, max={stats[2]}, p99={stats[3]}")
+    print(f"    coefficients: alpha_pos={alpha_pos}, alpha_val={alpha_val}, alpha_spec={alpha_spec}")
+    print(f"    pruned {pruned} zero-weight edges ({pruned*100/before:.1f}%), {after} remaining")

@@ -234,6 +234,7 @@ def run_phase9g(con=None, db_path=None):
     database.migrate_schema(con)
     post_process.compute_hierarchy_specificity(con)
     post_process.compute_reef_edges(con)
+    post_process.compute_composite_weight(con)
     print("  Phase 9g complete")
     return con
 

@@ -221,5 +221,5 @@ intermediates/
 # you dont get to see my notebooks
 research/
 
-# no export for you
+# export artifacts (but allow export/changes.md)
 export/

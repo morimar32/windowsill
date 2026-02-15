@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import os
+import struct
 import sys
 import time
 from collections import defaultdict
@@ -32,7 +33,7 @@ from word_list import fnv1a_u64
 # ---------------------------------------------------------------------------
 IDF_SCALE = 51
 BM25_SCALE = 8192
-FORMAT_VERSION = "1.0"
+FORMAT_VERSION = "1.1"
 
 EXPORT_FILES = [
     "word_lookup.bin",
@@ -42,6 +43,18 @@ EXPORT_FILES = [
     "background.bin",
     "compounds.bin",
     "constants.bin",
+    "reef_edges.bin",
+]
+
+V2_FILES = [
+    "word_lookup.bin",
+    "word_reefs.bin",
+    "reef_meta.bin",
+    "island_meta.bin",
+    "background.bin",
+    "compounds.bin",
+    "constants.bin",
+    "reef_edges.bin",
 ]
 
 
@@ -530,13 +543,41 @@ def compute_background_model(word_reefs, words, n_samples=1000,
 
 
 # ---------------------------------------------------------------------------
-# Phase 11: Serialization
+# Phase 11: Load reef edges
+# ---------------------------------------------------------------------------
+
+def load_reef_edges(con, id_remap):
+    """Load reef edges with weight above threshold, remapping IDs.
+
+    Returns sorted list of (src_export_id, tgt_export_id, weight) tuples.
+    """
+    threshold = config.EXPORT_WEIGHT_THRESHOLD
+    rows = con.execute("""
+        SELECT source_reef_id, target_reef_id, weight
+        FROM reef_edges
+        WHERE weight > ?
+    """, [threshold]).fetchall()
+
+    reef_remap = id_remap["reef"]
+    edges = []
+    for src_db, tgt_db, weight in rows:
+        if src_db not in reef_remap or tgt_db not in reef_remap:
+            continue
+        edges.append((reef_remap[src_db], reef_remap[tgt_db], weight))
+
+    edges.sort(key=lambda e: (e[0], e[1]))
+    print(f"  Loaded {len(edges)} reef edges (threshold={threshold})")
+    return edges
+
+
+# ---------------------------------------------------------------------------
+# Phase 12: Serialization
 # ---------------------------------------------------------------------------
 
 def write_all_files(output_dir, word_lookup, word_reefs, words,
                     reef_records, island_records, bg_mean, bg_std,
-                    compounds, reef_stats, avg_reef_words):
-    """Serialize all data files to the output directory."""
+                    compounds, reef_stats, avg_reef_words, reef_edges):
+    """Serialize all data files to the output directory (v1 msgpack)."""
     os.makedirs(output_dir, exist_ok=True)
 
     # 1. word_lookup.bin
@@ -595,22 +636,188 @@ def write_all_files(output_dir, word_lookup, word_reefs, words,
     }
     write_msgpack(constants, os.path.join(output_dir, "constants.bin"))
 
+    # 8. reef_edges.bin
+    re_data = [[src, tgt, weight] for src, tgt, weight in reef_edges]
+    write_msgpack(re_data, os.path.join(output_dir, "reef_edges.bin"))
+
     print(f"  Wrote {len(EXPORT_FILES)} data files to {output_dir}/")
 
 
+def _write_v2_header(f, magic, count):
+    """Write 4-byte ASCII magic + 4-byte u32 count header."""
+    f.write(magic)
+    f.write(struct.pack("<I", count))
+
+
+def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
+                       reef_records, island_records, bg_mean, bg_std,
+                       compounds, reef_stats, avg_reef_words, reef_edges):
+    """Serialize all data files in flat binary format (v2).
+
+    Each file has a 4-byte ASCII magic + 4-byte u32 count header,
+    then fixed-stride records in little-endian byte order.
+    """
+    v2_dir = os.path.join(output_dir, "v2")
+    os.makedirs(v2_dir, exist_ok=True)
+
+    # 1. reef_edges.bin — magic WSRE, record: src(u8) + tgt(u8) + weight(f32) = 6 bytes
+    with open(os.path.join(v2_dir, "reef_edges.bin"), "wb") as f:
+        _write_v2_header(f, b"WSRE", len(reef_edges))
+        for src, tgt, weight in reef_edges:
+            f.write(struct.pack("<BBf", src, tgt, weight))
+
+    # 2. word_lookup.bin — magic WSWL
+    # record: lookup_hash(u64) + word_hash(u64) + word_id(u32) + specificity(i8) + idf_q(u8) + pad(2) = 24 bytes
+    # Sort by lookup_hash for binary search in Rust
+    wl_sorted = sorted(word_lookup.items(), key=lambda kv: kv[0])
+    with open(os.path.join(v2_dir, "word_lookup.bin"), "wb") as f:
+        _write_v2_header(f, b"WSWL", len(wl_sorted))
+        for lookup_hash, (word_hash, word_id, specificity, idf_q) in wl_sorted:
+            f.write(struct.pack("<QQIbBxx",
+                                lookup_hash,
+                                word_hash if word_hash is not None else 0,
+                                word_id,
+                                clamp(specificity, -128, 127),
+                                idf_q))
+
+    # 3. word_reefs.bin — magic WSWR
+    # Index: (max_wid+1) x [offset(u32), count(u32)] = 8 bytes per entry
+    # Data: reef_id(u8) + pad(1) + bm25_q(u16) = 4 bytes per entry
+    max_word_id = max(words.keys()) if words else 0
+    index_count = max_word_id + 1
+
+    # Build index + data arrays
+    wr_index = []  # (offset, count) pairs
+    wr_data = []   # (reef_id, bm25_q) pairs
+    offset = 0
+    for wid in range(index_count):
+        entries = word_reefs.get(wid, [])
+        wr_index.append((offset, len(entries)))
+        for reef_id, bm25_q in entries:
+            wr_data.append((reef_id, bm25_q))
+        offset += len(entries)
+
+    with open(os.path.join(v2_dir, "word_reefs.bin"), "wb") as f:
+        _write_v2_header(f, b"WSWR", index_count)
+        for off, cnt in wr_index:
+            f.write(struct.pack("<II", off, cnt))
+        for reef_id, bm25_q in wr_data:
+            f.write(struct.pack("<BxH", reef_id, bm25_q))
+
+    # 4. reef_meta.bin — magic WSRM
+    # record: hierarchy_addr(u16) + n_words(u16) + name(64 bytes, null-padded) = 68 bytes
+    with open(os.path.join(v2_dir, "reef_meta.bin"), "wb") as f:
+        _write_v2_header(f, b"WSRM", len(reef_records))
+        for r in reef_records:
+            name_bytes = r["name"].encode("utf-8")[:64].ljust(64, b"\x00")
+            f.write(struct.pack("<HH", r["hierarchy_addr"], r["n_words"]))
+            f.write(name_bytes)
+
+    # 5. island_meta.bin — magic WSIM
+    # record: arch_id(u8) + pad(1) + name(64 bytes, null-padded) = 66 bytes
+    with open(os.path.join(v2_dir, "island_meta.bin"), "wb") as f:
+        _write_v2_header(f, b"WSIM", len(island_records))
+        for ir in island_records:
+            name_bytes = ir["name"].encode("utf-8")[:64].ljust(64, b"\x00")
+            f.write(struct.pack("<Bx", ir["arch_id"]))
+            f.write(name_bytes)
+
+    # 6. background.bin — magic WSBG
+    # bg_mean[f32; N_REEFS] then bg_std[f32; N_REEFS]
+    n_reefs = config.N_REEFS
+    with open(os.path.join(v2_dir, "background.bin"), "wb") as f:
+        _write_v2_header(f, b"WSBG", n_reefs)
+        for val in bg_mean:
+            f.write(struct.pack("<f", val))
+        for val in bg_std:
+            f.write(struct.pack("<f", val))
+
+    # 7. compounds.bin — magic WSCP
+    # Index: [str_offset(u32), word_id(u32)] per compound
+    # String pool: null-terminated UTF-8 strings
+    string_pool = bytearray()
+    compound_index = []
+    for word_text, word_id in compounds:
+        str_offset = len(string_pool)
+        compound_index.append((str_offset, word_id))
+        string_pool.extend(word_text.encode("utf-8"))
+        string_pool.append(0)  # null terminator
+
+    with open(os.path.join(v2_dir, "compounds.bin"), "wb") as f:
+        _write_v2_header(f, b"WSCP", len(compounds))
+        for str_off, wid in compound_index:
+            f.write(struct.pack("<II", str_off, wid))
+        f.write(bytes(string_pool))
+
+    # 8. constants.bin — magic WSCN
+    # Scalars packed as fixed struct, then reef_total_dims[f32; 207], reef_n_words[f32; 207]
+    r_total_dims = [0.0] * n_reefs
+    r_n_words = [0.0] * n_reefs
+    for rid, stats in reef_stats.items():
+        r_total_dims[rid] = float(stats["n_dims"])
+        r_n_words[rid] = float(stats["n_words"])
+
+    with open(os.path.join(v2_dir, "constants.bin"), "wb") as f:
+        _write_v2_header(f, b"WSCN", n_reefs)
+        # Pack scalar constants: N_REEFS(u32), N_ISLANDS(u32), N_ARCHS(u32),
+        # avg_reef_words(f32), k1(f32), b(f32), IDF_SCALE(u32), BM25_SCALE(u32),
+        # FNV1A_OFFSET(u64), FNV1A_PRIME(u64)
+        f.write(struct.pack("<IIIfffIIQQ",
+                            config.N_REEFS,
+                            config.N_ISLANDS,
+                            config.N_ARCHS,
+                            avg_reef_words,
+                            config.BM25_K1,
+                            config.BM25_B,
+                            IDF_SCALE,
+                            BM25_SCALE,
+                            config.FNV1A_OFFSET,
+                            config.FNV1A_PRIME))
+        for val in r_total_dims:
+            f.write(struct.pack("<f", val))
+        for val in r_n_words:
+            f.write(struct.pack("<f", val))
+
+    print(f"  Wrote {len(V2_FILES)} v2 data files to {v2_dir}/")
+
+
+def write_all_formats(output_dir, word_lookup, word_reefs, words,
+                      reef_records, island_records, bg_mean, bg_std,
+                      compounds, reef_stats, avg_reef_words, reef_edges):
+    """Write both v1 (msgpack) and v2 (flat binary) formats."""
+    write_all_files(
+        output_dir, word_lookup, word_reefs, words,
+        reef_records, island_records, bg_mean, bg_std,
+        compounds, reef_stats, avg_reef_words, reef_edges,
+    )
+    write_all_files_v2(
+        output_dir, word_lookup, word_reefs, words,
+        reef_records, island_records, bg_mean, bg_std,
+        compounds, reef_stats, avg_reef_words, reef_edges,
+    )
+
+
 def write_manifest(output_dir, words, word_lookup, word_reefs,
-                   reef_records, island_records, compounds):
+                   reef_records, island_records, compounds, reef_edges):
     """Write manifest.json with checksums and stats."""
     checksums = {}
     for fname in EXPORT_FILES:
         path = os.path.join(output_dir, fname)
         checksums[fname] = sha256_file(path)
 
+    v2_checksums = {}
+    v2_dir = os.path.join(output_dir, "v2")
+    for fname in V2_FILES:
+        path = os.path.join(v2_dir, fname)
+        v2_checksums[fname] = sha256_file(path)
+
     manifest = {
         "version": FORMAT_VERSION,
         "format": "msgpack",
+        "v2_format": "flat_binary",
         "build_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "files": checksums,
+        "v2_files": v2_checksums,
         "stats": {
             "n_reefs": len(reef_records),
             "n_islands": len(island_records),
@@ -619,6 +826,8 @@ def write_manifest(output_dir, words, word_lookup, word_reefs,
             "n_lookup_entries": len(word_lookup),
             "n_words_with_reefs": len(word_reefs),
             "n_compounds": len(compounds),
+            "n_edges": len(reef_edges),
+            "edge_weight_threshold": config.EXPORT_WEIGHT_THRESHOLD,
         },
     }
 
@@ -634,13 +843,14 @@ def write_manifest(output_dir, words, word_lookup, word_reefs,
 # Verification
 # ---------------------------------------------------------------------------
 
-def verify_export(output_dir, words, word_reefs_data, reef_stats, avg_reef_words):
+def verify_export(output_dir, words, word_reefs_data, reef_stats,
+                  avg_reef_words, reef_edges):
     """Post-export validation."""
     print("\n=== Verification ===")
     errors = 0
 
-    # 1. Reload each .bin file
-    print("  Checking deserialization...")
+    # 1. Reload each v1 .bin file
+    print("  Checking v1 deserialization...")
     for fname in EXPORT_FILES:
         path = os.path.join(output_dir, fname)
         try:
@@ -712,7 +922,59 @@ def verify_export(output_dir, words, word_reefs_data, reef_stats, avg_reef_words
                 print(f"    OK: word_id={word_id} reef={reef_id}: bm25_q={loaded_q}")
             checked += 1
 
-    # 5. Assert counts
+    # 5. Spot-check reef edges
+    print("  Checking reef edges...")
+    with open(os.path.join(output_dir, "reef_edges.bin"), "rb") as f:
+        re_loaded = msgpack.unpack(f, raw=False, strict_map_key=False)
+    if len(re_loaded) != len(reef_edges):
+        print(f"    FAIL: reef_edges count {len(re_loaded)} != {len(reef_edges)}")
+        errors += 1
+    else:
+        print(f"    OK: reef_edges count = {len(re_loaded)}")
+    if reef_edges:
+        first = reef_edges[0]
+        last = reef_edges[-1]
+        print(f"    First edge: src={first[0]}, tgt={first[1]}, w={first[2]:.4f}")
+        print(f"    Last edge:  src={last[0]}, tgt={last[1]}, w={last[2]:.4f}")
+
+    # 6. Verify v2 files existence and size
+    print("  Checking v2 files...")
+    v2_dir = os.path.join(output_dir, "v2")
+    for fname in V2_FILES:
+        path = os.path.join(v2_dir, fname)
+        if not os.path.exists(path):
+            print(f"    FAIL: v2/{fname} missing")
+            errors += 1
+        else:
+            size = os.path.getsize(path)
+            print(f"    OK: v2/{fname} ({size} bytes)")
+
+    # 7. Spot-check v2 reef_edges header
+    v2_re_path = os.path.join(v2_dir, "reef_edges.bin")
+    if os.path.exists(v2_re_path):
+        with open(v2_re_path, "rb") as f:
+            magic = f.read(4)
+            count = struct.unpack("<I", f.read(4))[0]
+        if magic != b"WSRE":
+            print(f"    FAIL: v2/reef_edges.bin magic={magic!r}, expected b'WSRE'")
+            errors += 1
+        elif count != len(reef_edges):
+            print(f"    FAIL: v2/reef_edges.bin count={count}, expected {len(reef_edges)}")
+            errors += 1
+        else:
+            print(f"    OK: v2/reef_edges.bin magic=WSRE, count={count}")
+
+    # 8. Verify v2 checksums
+    if "v2_files" in manifest:
+        for fname, expected_hash in manifest["v2_files"].items():
+            actual_hash = sha256_file(os.path.join(v2_dir, fname))
+            if actual_hash != expected_hash:
+                print(f"    FAIL: v2/{fname} checksum mismatch")
+                errors += 1
+            else:
+                print(f"    OK: v2/{fname} checksum")
+
+    # 9. Assert counts
     print("  Checking counts...")
     stats = manifest["stats"]
     for key, expected in [
@@ -797,19 +1059,23 @@ def export(args):
         seed=args.seed,
     )
 
+    # Phase 11: Reef edges
+    print("Phase 11: Loading reef edges...")
+    reef_edges = load_reef_edges(con, id_remap)
+
     con.close()
 
-    # Phase 11: Serialization
-    print("Phase 11: Writing data files...")
-    write_all_files(
+    # Phase 12: Serialization
+    print("Phase 12: Writing data files...")
+    write_all_formats(
         args.output, word_lookup, word_reefs, words,
         reef_records, island_records, bg_mean, bg_std,
-        compounds, reef_stats, avg_reef_words,
+        compounds, reef_stats, avg_reef_words, reef_edges,
     )
 
     manifest = write_manifest(
         args.output, words, word_lookup, word_reefs,
-        reef_records, island_records, compounds,
+        reef_records, island_records, compounds, reef_edges,
     )
 
     elapsed = time.time() - start
@@ -819,7 +1085,8 @@ def export(args):
     # Verification
     if args.verify:
         verify_errors = verify_export(
-            args.output, words, word_reefs, reef_stats, avg_reef_words
+            args.output, words, word_reefs, reef_stats,
+            avg_reef_words, reef_edges,
         )
         if verify_errors > 0:
             sys.exit(1)
