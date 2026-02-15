@@ -8,9 +8,9 @@ This document is the authoritative column-level reference for the Windowsill dat
 |--------|-------|
 | Database engine | DuckDB |
 | Database file | `vector_distillery.duckdb` (~2.6 GB) |
-| Tables | 15 |
-| Views | 6 |
-| Indexes | 24 |
+| Tables | 16 |
+| Views | 8 |
+| Indexes | 26 |
 | Words | ~146,000 (WordNet lemmas) |
 | Embedding dimensions | 768 (nomic-embed-text-v1.5, Matryoshka) |
 | Total memberships | ~2.56M |
@@ -79,6 +79,15 @@ This document is the authoritative column-level reference for the Windowsill dat
                                   │(island_id, generation,    │  │(word_id, reef_id) PK  │
                                   │ word_id) PK               │  │ word_id FK → words    │
                                   └──────────────────────────┘  └──────────────────────┘
+                                                     │
+                                                     ▼
+                                             ┌──────────────────────────┐
+                                             │      reef_edges           │
+                                             │(source_reef_id,           │
+                                             │ target_reef_id) PK        │
+                                             │ Both FK → island_stats    │
+                                             │ (generation=2)            │
+                                             └──────────────────────────┘
 ```
 
 ### Foreign Key Relationships
@@ -105,6 +114,8 @@ All FK relationships are enforced by application-level integrity checks (`databa
 | word_reef_affinity | word_id | words | word_id | |
 | word_reef_affinity | reef_id | island_stats | island_id (generation=2) | Reef-level islands only |
 | word_variants | word_id | words | word_id | |
+| reef_edges | source_reef_id | island_stats | island_id (generation=2) | Reef-level islands only |
+| reef_edges | target_reef_id | island_stats | island_id (generation=2) | Reef-level islands only |
 | island_stats → dim_islands | island_id + generation | dim_islands | island_id + generation | Logical, not enforced |
 
 ### Cardinality
@@ -122,6 +133,7 @@ words (M) ──< word_pair_overlap (M)     Symmetric pairs where a < b
 words (1) ──< word_reef_affinity (M)   One row per word-reef pair (every reef the word touches)
 island_stats (1) ──< word_reef_affinity (M)   reef_id references island_stats(island_id, generation=2)
 words (1) ──< word_variants (M)          One base entry per word + morphy variants
+island_stats (1) ──< reef_edges (M)          source_reef_id and target_reef_id both reference island_stats(island_id, generation=2)
 ```
 
 ### Common Join Patterns
@@ -244,6 +256,11 @@ WHERE wa.word = 'cat' AND wb.word = 'dog';
 | `universal_pct` | DOUBLE | Yes | Fraction of this dimension's members that are universal words (`specificity < 0`). Higher = more "abstract" dimension. Added in phase 6b/9d. | `0.08` (concrete), `0.42` (abstract) |
 | `dim_weight` | DOUBLE | Yes | Information-theoretic weight: `-log2(MAX(universal_pct, 0.01))`. Higher = more informative/concrete dimension. Range: ~1.0–6.6. Added in phase 6b/9d. | `1.25` (abstract), `5.50` (concrete) |
 | `avg_specificity` | DOUBLE | Yes | Mean `specificity` value across all member words in this dimension (from `dim_memberships dm JOIN words w`). Positive values indicate concrete/taxonomic dimensions whose members are specific words appearing in few dims; negative values indicate abstract/diffuse dimensions whose members are universal words appearing in many dims. Range: ~-0.611 to 0.319. Added in phase 6b. | `-0.350` (abstract), `0.261` (concrete) |
+| `valence` | DOUBLE | Yes | Projection of this dimension onto the negation vector (from `computed_vectors`). Positive = negative-pole dimension (negation increases activation, e.g., futility); negative = positive-pole dimension (negation decreases activation, e.g., eloquence). Range: ~-0.70 to 0.98. Added in phase 6b. | `-0.45` (positive-pole), `0.62` (negative-pole) |
+| `noun_frac` | DOUBLE | Yes | Sense-aware fractional noun composition. Unambiguous words contribute 1.0 to their known POS; ambiguous words contribute proportional weights based on which senses activate in this dim. Range: 0.0–1.0. Added in phase 9f. | `0.72`, `0.45` |
+| `verb_frac` | DOUBLE | Yes | Sense-aware fractional verb composition. Same weighting logic as `noun_frac`. Range: 0.0–1.0. Added in phase 9f. | `0.08`, `0.35` |
+| `adj_frac` | DOUBLE | Yes | Sense-aware fractional adjective composition. Range: 0.0–1.0. Added in phase 9f. | `0.12`, `0.30` |
+| `adv_frac` | DOUBLE | Yes | Sense-aware fractional adverb composition. Range: 0.0–1.0. Added in phase 9f. | `0.02`, `0.15` |
 
 
 ### 3.3 `dim_memberships`
@@ -430,6 +447,12 @@ WHERE wa.word = 'cat' AND wb.word = 'dog';
 | `island_name` | TEXT | Yes | Human-readable name assigned by the LLM naming pipeline (phase 9c). 2-4 words, lowercase. NULL if naming has not been run. | `'natural sciences and taxonomy'`, `'musical instruments'`, `'string instruments'` |
 | `n_core_words` | INTEGER | Yes | Words appearing in ≥ `max(2, ceil(n_dims * 0.10))` of this island's dimensions. "Core" words deeply embedded in the island's semantic theme. | `150`, `2000` |
 | `median_word_depth` | DOUBLE | Yes | Median number of island dimensions each word appears in. Higher = tighter cluster. | `1.0`, `2.5` |
+| `valence` | DOUBLE | Yes | Mean dimension valence across all dims in this island/reef/archipelago. Aggregated from `dim_stats.valence` via `dim_islands`. Positive = net negative-pole; negative = net positive-pole. Range: ~-0.53 to 0.69 for reefs. Added in phase 9d. | `-0.25`, `0.42` |
+| `noun_frac` | DOUBLE | Yes | Mean sense-aware noun fraction across dims in this entity. Aggregated from `dim_stats.noun_frac` via `dim_islands`. Range: 0.0–1.0. Added in phase 9f. | `0.65`, `0.85` |
+| `verb_frac` | DOUBLE | Yes | Mean sense-aware verb fraction across dims. Range: 0.0–1.0. Added in phase 9f. | `0.05`, `0.20` |
+| `adj_frac` | DOUBLE | Yes | Mean sense-aware adjective fraction across dims. Range: 0.0–1.0. Added in phase 9f. | `0.08`, `0.25` |
+| `adv_frac` | DOUBLE | Yes | Mean sense-aware adverb fraction across dims. Range: 0.0–1.0. Added in phase 9f. | `0.01`, `0.10` |
+| `avg_specificity` | DOUBLE | Yes | Mean dim-level `avg_specificity` across dims in this entity. Aggregated from `dim_stats.avg_specificity` via `dim_islands`. Positive = concrete/taxonomic; negative = abstract/universal. Range: ~-0.43 to 0.13 for reefs. Added in phase 9g. | `-0.35` (abstract), `0.10` (concrete) |
 
 
 ### 5.4 `island_characteristic_words`
@@ -484,6 +507,63 @@ WHERE wa.word = 'cat' AND wb.word = 'dog';
 | `variant` | TEXT | No | The variant text (lowercase, spaces for multi-word). | `'running'`, `'cats'`, `'guitar'` |
 | `word_id` | INTEGER | No (PK) | FK → `words.word_id`. The base word this variant maps to. A single variant may map to multiple word_ids (composite PK). | `1234`, `89012` |
 | `source` | TEXT | No | How this entry was generated. `'base'` = the word itself (1:1 with `words` table). `'morphy'` = discovered via WordNet morphy() or synset lemma analysis. | `'base'`, `'morphy'` |
+
+### 5.7 `reef_edges`
+
+**Purpose:** Directed component scores for every reef pair. Stores five stable metrics about the relationship from source reef to target reef, computed from embedding geometry. The composite weight used by the downstream lagoon scoring library is NOT stored here — it's computed at export time, keeping the tunable formula separate from the stable data. Reef-to-reef relationships are **asymmetric**: the edge from A→B carries different information than B→A (containment is the clearest example).
+
+**Row count:** ~42,436 (207 × 206 minus any reef with no depth-2 words)
+
+**Primary key:** `(source_reef_id, target_reef_id)`
+
+| Column | Type | Nullable | Description | Example Values |
+|--------|------|----------|-------------|----------------|
+| `source_reef_id` | INTEGER | No (PK) | FK → `island_stats.island_id` where `generation = 2`. The source reef in this directed edge. | `0`, `42`, `144` |
+| `target_reef_id` | INTEGER | No (PK) | FK → `island_stats.island_id` where `generation = 2`. The target reef. Always different from `source_reef_id`. | `1`, `100`, `207` |
+| `containment` | DOUBLE | Yes | Fraction of source reef's words (at depth ≥ 2 in `word_reef_affinity`) that also appear at depth ≥ 2 in the target reef. Asymmetric: `containment(A→B) ≠ containment(B→A)` for most pairs. 0.0 if no word overlap. Range: 0.0–~0.197. | `0.0`, `0.0233`, `0.1965` |
+| `lift` | DOUBLE | Yes | Co-activation above baseline: `P(target | source) / P(target)`, where `P(target | source) = intersection / source_size` and `P(target) = target_size / total_words`. Lift > 1 means the pair co-activate more than expected by chance. 0.0 if no word overlap. Range: 0.0–~21.4. | `0.0`, `1.5`, `21.42` |
+| `pos_similarity` | DOUBLE | Yes | Cosine similarity between the source and target POS fraction vectors `[noun_frac, verb_frac, adj_frac, adv_frac]` from `island_stats`. NULL only if POS fractions haven't been computed. Range: ~0.82–1.0. | `0.82`, `0.95`, `1.0` |
+| `valence_gap` | DOUBLE | Yes | Signed difference: `target.valence - source.valence`. Positive = target is more negative-pole than source. Range: ~-1.22 to 1.22. | `-0.85`, `0.0`, `1.22` |
+| `specificity_gap` | DOUBLE | Yes | Signed difference: `target.avg_specificity - source.avg_specificity`. Positive = target is more concrete than source. Range: ~-0.56 to 0.56. | `-0.40`, `0.0`, `0.35` |
+
+**Common join patterns:**
+
+Top gravitational hubs (reefs that attract the most incoming containment):
+```sql
+SELECT re.target_reef_id, s.island_name,
+       ROUND(AVG(re.containment), 4) AS avg_incoming_containment
+FROM reef_edges re
+JOIN island_stats s ON s.island_id = re.target_reef_id AND s.generation = 2
+GROUP BY re.target_reef_id, s.island_name
+ORDER BY avg_incoming_containment DESC LIMIT 10;
+```
+
+Most asymmetric pairs:
+```sql
+SELECT a.source_reef_id, a.target_reef_id,
+       ROUND(a.containment, 4) AS a_to_b,
+       ROUND(b.containment, 4) AS b_to_a
+FROM reef_edges a
+JOIN reef_edges b ON a.source_reef_id = b.target_reef_id
+  AND a.target_reef_id = b.source_reef_id
+WHERE a.source_reef_id < a.target_reef_id
+ORDER BY ABS(a.containment - b.containment) DESC LIMIT 10;
+```
+
+### 5.8 `computed_vectors`
+
+**Purpose:** Stores named analytical vectors derived from the embedding space. Currently holds the negation vector used for dimension valence scoring and antonym prediction.
+
+**Row count:** 1
+
+**Primary key:** `name`
+
+| Column | Type | Nullable | Description | Example Values |
+|--------|------|----------|-------------|----------------|
+| `name` | TEXT | No (PK) | Vector name identifier. | `'negation'` |
+| `vector` | FLOAT[768] | Yes | The 768-dimensional vector. | `[0.0123, -0.0456, ...]` |
+| `n_pairs` | INTEGER | Yes | Number of word pairs used to compute this vector. | `1639` |
+| `description` | TEXT | Yes | Human-readable description of how the vector was computed. | `'Mean (negated - positive) across 1639 morphological antonym pairs'` |
 
 ---
 
@@ -601,11 +681,42 @@ ORDER BY w.arch_concentration DESC
 | `sense_spread` | INTEGER | Spread across senses (NULL if < 2 senses) |
 | `polysemy_inflated` | BOOLEAN | Whether flagged as polysemy-inflated |
 
+### 6.7 `v_positive_dims`
+
+**Purpose:** Dimensions with valence ≤ -0.15 — positive-pole dimensions where negation decreases activation (e.g., eloquence, celebration).
+
+**Definition:**
+```sql
+SELECT ds.* FROM dim_stats ds
+WHERE ds.valence <= -0.15
+ORDER BY ds.valence ASC
+```
+
+| Column | Type | Description |
+|--------|------|-------------|
+| (all columns from `dim_stats`) | | See `dim_stats` table definition |
+
+
+### 6.8 `v_negative_dims`
+
+**Purpose:** Dimensions with valence ≥ 0.15 — negative-pole dimensions where negation increases activation (e.g., futility, incompleteness).
+
+**Definition:**
+```sql
+SELECT ds.* FROM dim_stats ds
+WHERE ds.valence >= 0.15
+ORDER BY ds.valence DESC
+```
+
+| Column | Type | Description |
+|--------|------|-------------|
+| (all columns from `dim_stats`) | | See `dim_stats` table definition |
+
 ---
 
 ## 7. Index Reference
 
-All 24 indexes, listed with their table, indexed columns, and purpose.
+All 26 indexes, listed with their table, indexed columns, and purpose.
 
 | # | Index Name | Table | Column(s) | Purpose |
 |---|-----------|-------|-----------|---------|
@@ -633,3 +744,5 @@ All 24 indexes, listed with their table, indexed columns, and purpose.
 | 22 | `idx_words_hash` | `words` | `word_hash` | Fast lookup of words by FNV-1a hash |
 | 23 | `idx_wv_hash` | `word_variants` | `variant_hash` | Fast lookup of variants by hash |
 | 24 | `idx_wv_word` | `word_variants` | `word_id` | Find all variants for a base word |
+| 25 | `idx_re_source` | `reef_edges` | `source_reef_id` | Find all outgoing edges from a source reef |
+| 26 | `idx_re_target` | `reef_edges` | `target_reef_id` | Find all incoming edges to a target reef |
