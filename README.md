@@ -28,6 +28,8 @@ The enrichment pipeline adds six layers of analysis on top of the base embedding
 
 7. **Universal word analytics** -- Universal words (specificity < 0, ~24,651 words appearing in 23-44 dims) carry meaningful signal: dimensions they avoid are biological taxonomy (5.8% universal), dimensions they dominate are abstract/social concepts (48.7% universal). Six features leverage this: per-dimension **abstractness** (`universal_pct` + information-theoretic `dim_weight`), **sense spread** detecting polysemy-inflated universals, **arch concentration** identifying "domain generals" (universal words concentrated in one archipelago), **exclusion fingerprints** (shared reef avoidance between universal word pairs), and **bridge profiles** (cross-archipelago reef distributions).
 
+8. **Evaluative polarity (valence)** -- Analysis of WordNet antonym pairs reveals a consistent "negation vector" in 768-space: the average direction from positive to negated forms (e.g., friendly → unfriendly) across ~1,600 morphological negation pairs. This vector has 98.2% directional consistency for morphological pairs and 72% for semantic antonyms. Projecting each dimension onto this vector yields a **valence score**: positive valence means negation increases activation (negative-pole dimension, e.g., "futility and incompleteness"), negative valence means negation decreases activation (positive-pole dimension, e.g., "eloquence and celebration"). Valence propagates to reefs/islands/archipelagos as mean dimension valence, providing an evaluative polarity axis that cross-cuts specificity and abstractness. The negation vector also enables **antonym prediction via embedding arithmetic** (`word ± negation_vector` → nearest neighbor search).
+
 ### The Big Picture - Archipelagos, Islands, and Reefs
 
 ![Full island hierarchy: 52 named islands decomposed into 207 reefs across 4 archipelagos](great_chart.png)
@@ -88,6 +90,10 @@ Output from a full pipeline run (z-score threshold = 2.0, REEF_MIN_DEPTH = 2):
 | Concrete dims | 46 | universal_pct <= 15% |
 | Domain generals | 111 | Universal words with arch_concentration >= 0.75 |
 | Polysemy-inflated | 293 | Universal + sense_spread >= 15 |
+| Negation vector pairs | 1,639 | Directed morphological negation pairs (norm 6.13) |
+| Positive-pole dims | 184 | Valence <= -0.15 (negation decreases activation) |
+| Negative-pole dims | 182 | Valence >= 0.15 (negation increases activation) |
+| Reef valence range | [-0.53, 0.69] | Mean dim valence per reef |
 
 ### Word categories
 
@@ -115,19 +121,21 @@ Phase 5:  Statistical analysis         (per-dimension z-score threshold)
 Phase 5b: Sense embedding generation   (gloss-contextualized, ~5 min CPU)
 Phase 5c: Sense analysis               (apply existing thresholds to senses)
 Phase 6:  Post-processing              (dim counts, specificity bands, views, pair overlap)
-Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality, dimension abstractness/specificity, sense spread)
+Phase 6b: POS enrichment + compounds   (contamination scoring, compositionality, dimension abstractness/specificity, sense spread, negation vector, dimension valence)
 Phase 9:  Island detection             (Jaccard matrix, Leiden clustering, 3-gen hierarchy, backfill + affinity)
 Phase 9b: Backfill + affinity          (re-backfill denormalized columns + recompute word_reef_affinity)
-Phase 9d: Universal word analytics     (arch concentration, domain generals -- needs island data)
+Phase 9d: Universal word analytics     (arch concentration, reef valence, domain generals -- needs island data)
 Phase 9e: Reef IDF computation         (BM25 IDF from word_reef_affinity)
 Phase 10: Reef refinement              (dim loyalty analysis, iterative regrouping, re-backfill + affinity)
+Phase 9f: POS composition              (sense-aware fractional POS fractions for dims, reefs, islands, archipelagos)
+Phase 9g: Reef edges                   (directed component scores for all reef pairs: containment, lift, POS similarity, valence gap, specificity gap)
 Phase 9c: Island & reef naming         (LLM-assisted naming via Claude API, bottom-up)
 Phase 11: Morphy variant expansion     (WordNet morphy() inflection mapping)
 Phase 7:  Database maintenance         (integrity checks, reindex, ANALYZE, CHECKPOINT)
 explore:  Interactive explorer         (REPL for querying the database)
 ```
 
-Phase order: `2 -> 3 -> 4 -> 4b -> 4c -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9d -> 9e -> 10 -> 9c -> 11 -> 7 -> explore`
+Phase order: `2 -> 3 -> 4 -> 4b -> 4c -> 5 -> 5b -> 5c -> 6 -> 6b -> 9 -> 9b -> 9d -> 9e -> 10 -> 9f -> 9g -> 9c -> 11 -> 7 -> explore`
 
 Phases 4b/5b/5c/6b/9d are enrichment phases designed to run on an already-populated database. They use ALTER TABLE to add columns, so they're safe to run without re-running the expensive embedding pipeline.
 
@@ -135,12 +143,14 @@ Phases 4b/5b/5c/6b/9d are enrichment phases designed to run on an already-popula
 - Phases 4b (POS backfill) is independent of 5b/5c (senses) and 6b (compounds)
 - Phase 5b requires 4b to have run (needs `pos IS NULL` to identify ambiguous words)
 - Phase 5c requires 5b (needs sense embeddings in the DB)
-- Phase 6b requires 4b (needs category/components populated); sense spread gracefully skips if 5b hasn't run
+- Phase 6b requires 4b (needs category/components populated); sense spread gracefully skips if 5b hasn't run; negation vector + dimension valence need only word embeddings + WordNet
 - Phase 9 requires phase 5 (needs dim_memberships populated)
 - Phase 9b requires phase 9 (needs island hierarchy; standalone re-backfill + affinity recompute)
-- Phase 9d requires phase 9 (needs island hierarchy for arch_concentration); also re-creates views
-- Phase 10 requires phase 9 (needs reef assignments + Jaccard data); re-backfills + recomputes affinity after convergence
+- Phase 9d requires phase 9 (needs island hierarchy for arch_concentration) + phase 6b (needs dim_stats.valence for reef valence); also re-creates views
+- Phase 10 requires phase 9 (needs reef assignments + Jaccard data); re-backfills + recomputes affinity + reef valence after convergence
 - Phase 9c requires phase 10 (or 9 if skipping refinement); needs island hierarchy + characteristic words post-refinement; requires `ANTHROPIC_API_KEY`. Runs after phase 10 because refinement recomputes reef stats (wiping names).
+- Phase 9f requires phase 10 (finalized reef assignments) + phase 5c (sense analysis); computes sense-aware fractional POS composition at dim/reef/island/archipelago levels
+- Phase 9g requires phase 9f (POS fractions) + phase 10 (finalized reefs) + phase 6b (valence, specificity); computes directed reef-pair component scores
 - Phase 4c is independent of other phases (only needs words table populated)
 - Phase 9e requires phase 9b (needs word_reef_affinity populated)
 - Phase 11 requires phase 4c (needs word_hash column populated)
@@ -155,13 +165,15 @@ embedder.py      Sentence-transformers encoding, checkpointing, sense embedding
 analyzer.py      Per-dimension z-score thresholding, sense analysis
 post_process.py  Dim counts, specificity bands, views, pair overlap, POS enrichment,
                  contamination, compositionality, dimension abstractness/specificity,
-                 sense spread, arch concentration, reef IDF
+                 sense spread, arch concentration, reef IDF, negation vector,
+                 dimension valence, reef valence, hierarchy specificity, reef edges
 islands.py       Island detection: Jaccard matrix, Leiden clustering, PMI scoring,
                  denormalization, word-reef affinity, LLM-assisted bottom-up naming
 reef_refine.py   Reef refinement: iterative dim loyalty analysis and reassignment
 main.py          Pipeline orchestration, CLI argument parsing, explorer REPL
 explore.py       Interactive query functions (what_is, words_like, archipelago,
-                 relationship, exclusion, bridge_profile, senses, etc.)
+                 relationship, exclusion, bridge_profile, senses, synonyms,
+                 antonyms, etc.)
 ```
 
 ### Key Design Decisions
@@ -213,6 +225,11 @@ noun_pct         DOUBLE        Fraction of dim members that are nouns
 universal_pct    DOUBLE        Fraction of dim members that are universal words (specificity < 0)
 dim_weight       DOUBLE        -log2(max(universal_pct, 0.01)) — information-theoretic weight
 avg_specificity  DOUBLE        Mean specificity of member words (positive = concrete, negative = abstract)
+valence          DOUBLE        Projection onto negation vector: positive = negative-pole, negative = positive-pole
+noun_frac        DOUBLE        Sense-aware fractional noun composition (0.0-1.0)
+verb_frac        DOUBLE        Sense-aware fractional verb composition (0.0-1.0)
+adj_frac         DOUBLE        Sense-aware fractional adjective composition (0.0-1.0)
+adv_frac         DOUBLE        Sense-aware fractional adverb composition (0.0-1.0)
 ```
 
 **`dim_memberships`** -- Which words belong to which dimensions
@@ -317,6 +334,12 @@ parent_island_id       INTEGER
 island_name            TEXT       Human-readable label (set by phase 9c naming pipeline)
 n_core_words           INTEGER    Words in >= max(2, ceil(n_dims*0.10)) island dims
 median_word_depth      DOUBLE     Median island-dim count per word
+valence                DOUBLE     Mean dimension valence across dims in this island/reef/archipelago
+noun_frac              DOUBLE     Mean sense-aware noun fraction across dims (0.0-1.0)
+verb_frac              DOUBLE     Mean sense-aware verb fraction across dims (0.0-1.0)
+adj_frac               DOUBLE     Mean sense-aware adjective fraction across dims (0.0-1.0)
+adv_frac               DOUBLE     Mean sense-aware adverb fraction across dims (0.0-1.0)
+avg_specificity        DOUBLE     Mean dim-level avg_specificity (positive = concrete, negative = abstract)
 ```
 
 **`island_characteristic_words`** -- PMI-ranked diagnostic words per island
@@ -342,12 +365,31 @@ max_weighted_z     DOUBLE     Max (z_score * dim_weight) across reef dims
 sum_weighted_z     DOUBLE     Sum of (z_score * dim_weight) across reef dims
 ```
 
+**`reef_edges`** -- Directed component scores for all reef pairs (207 x 206 = 42,642 rows)
+```
+source_reef_id  INTEGER    (PK with target_reef_id) FK to island_stats where generation=2
+target_reef_id  INTEGER    FK to island_stats where generation=2
+containment     DOUBLE     Fraction of source's words (depth >= 2) also in target
+lift            DOUBLE     P(target | source) / P(target) — co-activation above baseline
+pos_similarity  DOUBLE     Cosine similarity of [noun_frac, verb_frac, adj_frac, adv_frac] vectors
+valence_gap     DOUBLE     Signed: target.valence - source.valence
+specificity_gap DOUBLE     Signed: target.avg_specificity - source.avg_specificity
+```
+
 **`word_variants`** -- Morphy expansion mapping inflected forms to base word_ids
 ```
 variant_hash   UBIGINT    (PK with word_id) FNV-1a hash of the variant string
 variant        TEXT       The variant text (e.g., "running")
 word_id        INTEGER    FK to words — the base word this variant maps to
 source         TEXT       'base' for the word itself, 'morphy' for inflected forms
+```
+
+**`computed_vectors`** -- Stored analytical vectors (negation vector, etc.)
+```
+name           TEXT PK     Vector name (e.g., 'negation')
+vector         FLOAT[768]  The vector itself
+n_pairs        INTEGER     Number of word pairs used to compute it
+description    TEXT        Human-readable description
 ```
 
 ### Views
@@ -358,6 +400,8 @@ source         TEXT       'base' for the word itself, 'morphy' for inflected for
 - `v_abstract_dims` -- Dimensions where >= 30% of members are universal words (dominated by abstract/social concepts)
 - `v_concrete_dims` -- Dimensions where <= 15% of members are universal words (concrete/taxonomic domains)
 - `v_domain_generals` -- Universal words with arch_concentration >= 0.75 (concentrated in one archipelago)
+- `v_positive_dims` -- Dimensions with valence <= -0.15 (positive-pole: negation decreases activation)
+- `v_negative_dims` -- Dimensions with valence >= 0.15 (negative-pole: negation increases activation)
 
 ### Indexes
 
@@ -383,6 +427,8 @@ idx_wra_wz         word_reef_affinity(max_weighted_z DESC)
 idx_words_hash     words(word_hash)
 idx_wv_hash        word_variants(variant_hash)
 idx_wv_word        word_variants(word_id)
+idx_re_source      reef_edges(source_reef_id)
+idx_re_target      reef_edges(target_reef_id)
 ```
 
 ## Usage
@@ -413,7 +459,7 @@ If you already have the base pipeline done (phases 2-6), run the enrichment:
 python main.py --phase 4b          # ~1 min: POS, categories, components
 python main.py --phase 5b          # ~5 min: sense embeddings (needs model)
 python main.py --phase 5c          # ~30 sec: sense analysis
-python main.py --phase 6b          # ~2-5 min: POS enrichment, contamination, compositionality, dim abstractness, sense spread
+python main.py --phase 6b          # ~2-5 min: POS enrichment, contamination, compositionality, dim abstractness, sense spread, negation vector, dimension valence
 ```
 
 ### Island detection
@@ -431,7 +477,7 @@ Phase 9 runs the full three-generation hierarchy, backfills denormalized island/
 python main.py --phase 10            # Iterative dim loyalty refinement
 ```
 
-Phase 10 examines every reef with 4+ dims and checks whether each dim has higher Jaccard affinity to its own reef or to a sibling reef (same parent island). Dims with a loyalty ratio below 1.0 are reassigned to their best-fit sibling. The process iterates until no more moves are needed (typically 2-3 rounds). After convergence, reef stats, characteristic words, denormalized columns, and affinity scores are all refreshed automatically.
+Phase 10 examines every reef with 4+ dims and checks whether each dim has higher Jaccard affinity to its own reef or to a sibling reef (same parent island). Dims with a loyalty ratio below 1.0 are reassigned to their best-fit sibling. The process iterates until no more moves are needed (typically 2-3 rounds). After convergence, reef stats, characteristic words, denormalized columns, affinity scores, and reef valence are all refreshed automatically.
 
 ### Universal word analytics (post-island)
 
@@ -439,7 +485,23 @@ Phase 10 examines every reef with 4+ dims and checks whether each dim has higher
 python main.py --phase 9d            # Arch concentration + domain general views
 ```
 
-Phase 9d computes `arch_concentration` for all universal words (requires island data from phase 9). This measures how concentrated each universal word's dimensions are within a single archipelago -- a value of 0.75+ means the word is a "domain general" (universal but topically focused). Also re-creates views to include `v_domain_generals`.
+Phase 9d computes `arch_concentration` for all universal words (requires island data from phase 9). This measures how concentrated each universal word's dimensions are within a single archipelago -- a value of 0.75+ means the word is a "domain general" (universal but topically focused). Also computes **reef valence** (mean dimension valence for each island/reef/archipelago, requires `dim_stats.valence` from phase 6b) and re-creates views to include `v_domain_generals`, `v_positive_dims`, and `v_negative_dims`.
+
+### POS composition (sense-aware)
+
+```bash
+python main.py --phase 9f            # Sense-aware fractional POS fractions
+```
+
+Phase 9f computes sense-aware POS composition fractions at every level of the hierarchy: dimension, reef, island, archipelago. Unambiguous words contribute 1.0 to their known POS; ambiguous words contribute fractional weights based on which of their senses activate in each dimension. Requires phase 10 (finalized reef assignments) and phase 5c (sense analysis). The fractions are also refreshed automatically by phase 10 (reef refinement) after convergence.
+
+### Reef edges (directed pair scores)
+
+```bash
+python main.py --phase 9g            # Compute directed reef-pair component scores
+```
+
+Phase 9g computes five directed component scores for every reef pair (207 x 206 = 42,642 rows): **containment** (fraction of source words also in target), **lift** (co-activation above baseline), **POS similarity** (cosine of POS fraction vectors), **valence gap** (signed difference), and **specificity gap** (signed difference). These are stable data about embedding geometry — the composite weight used at runtime is NOT stored here but computed at export time. Requires phase 9f (POS fractions), phase 10 (finalized reefs), and phase 6b (valence, specificity). Also refreshed automatically by phase 10 (reef refinement) after convergence.
 
 ### Scoring engine prep
 
@@ -482,7 +544,7 @@ This phase performs:
 ### CLI options
 
 ```
---phase PHASE          Run only this phase (2, 3, 4, 4b, 4c, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 9d, 9e, 10, 11, 7, explore)
+--phase PHASE          Run only this phase (2, 3, 4, 4b, 4c, 5, 5b, 5c, 6, 6b, 9, 9b, 9c, 9d, 9e, 9f, 9g, 10, 11, 7, explore)
 --from PHASE           Run from this phase through the end
 --db PATH              Database path (default: vector_distillery.duckdb)
 --skip-pair-overlap    Skip the expensive pair overlap materialization
@@ -511,6 +573,8 @@ relationship <word1> <word2>  Classify relationship + named shared structures
 exclusion <word1> <word2>     Shared reef exclusions between universal words (Jaccard of avoided reefs)
 bridge_profile <word>         Reef distribution by archipelago + cross-archipelago bridge pairs
 affinity <word>               Reef affinity profile — all reefs ranked by weighted z-score
+synonyms <word> [n]          Synonym candidates via dimension Jaccard overlap (same POS)
+antonyms <word> [n]          Antonym prediction via negation vector embedding arithmetic
 ```
 
 Multi-word inputs work naturally: `what_is heart attack`, `senses bank`.
@@ -645,6 +709,76 @@ SELECT MIN(reef_idf), MAX(reef_idf) FROM words WHERE reef_idf IS NOT NULL;
 SELECT source, COUNT(*) FROM word_variants GROUP BY source;
 SELECT COUNT(DISTINCT variant_hash) FROM word_variants;
 
+-- Negation vector: expect 1 row
+SELECT name, n_pairs, description FROM computed_vectors;
+
+-- Dimension valence: expect 768 with valence, range ~[-0.70, 0.98]
+SELECT COUNT(*) FROM dim_stats WHERE valence IS NOT NULL;
+SELECT MIN(valence), MAX(valence) FROM dim_stats;
+
+-- Positive/negative pole dims
+SELECT COUNT(*) FROM v_positive_dims;
+SELECT COUNT(*) FROM v_negative_dims;
+
+-- Spot-check: dim 47 (futility) should have high positive valence
+SELECT dim_id, valence FROM dim_stats WHERE dim_id IN (47, 205) ORDER BY dim_id;
+
+-- Reef valence: expect 263 (4 archs + 52 islands + 207 reefs)
+SELECT COUNT(*) FROM island_stats WHERE valence IS NOT NULL;
+SELECT generation, MIN(valence), MAX(valence) FROM island_stats
+WHERE valence IS NOT NULL GROUP BY generation ORDER BY generation;
+
+-- Most positive-pole and negative-pole reefs
+SELECT island_id, island_name, valence FROM island_stats
+WHERE generation = 2 AND valence IS NOT NULL ORDER BY valence ASC LIMIT 5;
+SELECT island_id, island_name, valence FROM island_stats
+WHERE generation = 2 AND valence IS NOT NULL ORDER BY valence DESC LIMIT 5;
+
+-- POS composition: expect 768 dims with fractions summing to ~1.0
+SELECT COUNT(*), AVG(noun_frac + verb_frac + adj_frac + adv_frac)
+FROM dim_stats WHERE noun_frac IS NOT NULL;
+
+-- Compare sense-aware vs unambiguous-only (noun_frac should be slightly lower than noun_pct)
+SELECT ROUND(AVG(noun_pct), 4) AS old_noun, ROUND(AVG(noun_frac), 4) AS new_noun,
+       ROUND(AVG(noun_pct) - AVG(noun_frac), 4) AS delta
+FROM dim_stats WHERE noun_frac IS NOT NULL;
+
+-- Reef POS composition: most verb-heavy reefs
+SELECT island_name, noun_frac, verb_frac, adj_frac, adv_frac
+FROM island_stats WHERE generation = 2
+ORDER BY verb_frac DESC LIMIT 10;
+
+-- Hierarchy POS coverage: expect 4 + 52 + 207 = 263
+SELECT COUNT(*) FROM island_stats WHERE noun_frac IS NOT NULL;
+
+-- Hierarchy specificity: expect 263 (4+52+207) entities
+SELECT COUNT(*) FROM island_stats WHERE avg_specificity IS NOT NULL;
+
+-- Reef edges: expect exactly 42,642 (207 * 206)
+SELECT COUNT(*) FROM reef_edges;
+
+-- Pairs with word overlap: expect ~24,460
+SELECT COUNT(*) FROM reef_edges WHERE containment > 0;
+
+-- Containment range: [0, ~0.197]
+SELECT MIN(containment), MAX(containment), AVG(containment) FROM reef_edges;
+
+-- Lift range: [0, ~21.4]
+SELECT MIN(lift), MAX(lift), AVG(lift) FROM reef_edges WHERE lift > 0;
+
+-- POS similarity: all non-null, range ~[0.7, 1.0]
+SELECT COUNT(*) FILTER (WHERE pos_similarity IS NULL), MIN(pos_similarity), MAX(pos_similarity)
+FROM reef_edges;
+
+-- Asymmetry check: containment(A→B) != containment(B→A) for most pairs
+SELECT COUNT(*) FROM reef_edges a
+JOIN reef_edges b ON a.source_reef_id = b.target_reef_id
+  AND a.target_reef_id = b.source_reef_id
+WHERE ABS(a.containment - b.containment) > 0.01;
+
+-- Specificity gap: signed, should span both directions
+SELECT MIN(specificity_gap), MAX(specificity_gap) FROM reef_edges;
+
 ```
 
 ## Dependencies
@@ -701,6 +835,9 @@ All constants are in `config.py`:
 | `N_ARCHS` | `4` | Total archipelago count |
 | `BM25_K1` | `1.2` | BM25 term frequency saturation |
 | `BM25_B` | `0.75` | BM25 length normalization |
+| `NEGATION_PREFIXES` | `['un', 'non', 'in', ...]` | Morphological negation prefixes for directed pair extraction |
+| `POSITIVE_DIM_VALENCE_THRESHOLD` | `-0.15` | Valence below this = positive-pole dimension |
+| `NEGATIVE_DIM_VALENCE_THRESHOLD` | `0.15` | Valence above this = negative-pole dimension |
 
 ## File Artifacts
 

@@ -39,6 +39,11 @@ CONCRETE_DIM_THRESHOLD = 0.15          # Max universal_pct for v_concrete_dims
 FNV1A_OFFSET = 14695981039346656037
 FNV1A_PRIME = 1099511628211
 
+# Valence analytics
+NEGATION_PREFIXES = ['un', 'non', 'in', 'im', 'il', 'ir', 'dis', 'mal', 'mis']
+POSITIVE_DIM_VALENCE_THRESHOLD = -0.15   # valence below this = positive-pole dim
+NEGATIVE_DIM_VALENCE_THRESHOLD = 0.15    # valence above this = negative-pole dim
+
 # Reef scoring constants
 N_REEFS = 207
 N_ISLANDS = 52

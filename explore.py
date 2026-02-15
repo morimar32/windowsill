@@ -2,6 +2,35 @@ import numpy as np
 
 import config
 
+# Module-level cache for embedding matrix (loaded on first antonyms call)
+_embedding_cache = None  # (matrix, word_ids, id_to_idx)
+
+
+def _get_embedding_cache(con):
+    """Lazy-load all single-word embeddings into a normalized matrix cache."""
+    global _embedding_cache
+    if _embedding_cache is not None:
+        return _embedding_cache
+
+    rows = con.execute("""
+        SELECT word_id, embedding FROM words
+        WHERE category = 'single' AND embedding IS NOT NULL
+        ORDER BY word_id
+    """).fetchall()
+
+    word_ids = [r[0] for r in rows]
+    matrix = np.array([r[1] for r in rows], dtype=np.float32)
+
+    # Normalize rows for cosine similarity via dot product
+    norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    matrix = matrix / norms
+
+    id_to_idx = {wid: i for i, wid in enumerate(word_ids)}
+    _embedding_cache = (matrix, word_ids, id_to_idx)
+    print(f"  (Loaded {len(word_ids):,} single-word embeddings into cache)")
+    return _embedding_cache
+
 
 def _resolve_word_id(con, word):
     row = con.execute(
@@ -1219,3 +1248,163 @@ def evaluate(con):
         avg_shared = sum(s["shared_dims"] for _, _, s, _, _ in tier_pairs) / n_total if n_total else 0
         print(f"  Tier {tier} ({tier_labels[tier]:>12s}): {n_pass}/{n_total} pass, "
               f"avg jaccard={avg_jaccard:.3f}, avg shared dims={avg_shared:.1f}")
+
+
+def synonyms(con, word, top_n=20):
+    """Find synonyms via dimension overlap Jaccard similarity."""
+    word_id, canonical = _resolve_word_id(con, word)
+    if word_id is None:
+        print(f"Word '{word}' not found.")
+        return
+
+    # Look up word's POS
+    word_pos = con.execute("SELECT pos FROM words WHERE word_id = ?", [word_id]).fetchone()[0]
+
+    if _has_pair_overlap_table(con):
+        # Use word_pair_overlap for speed, filter to single words and optionally same POS
+        pos_filter = "AND w.pos = ?" if word_pos else ""
+        params = [word_id, word_id, word_id, word_id]
+        if word_pos:
+            params.append(word_pos)
+        params.append(top_n * 3)  # fetch extra to allow for Jaccard filtering
+
+        rows = con.execute(f"""
+            SELECT
+                CASE WHEN wpo.word_id_a = ? THEN wpo.word_id_b ELSE wpo.word_id_a END AS other_id,
+                w.word,
+                wpo.shared_dims,
+                w.total_dims,
+                w.pos
+            FROM word_pair_overlap wpo
+            JOIN words w ON w.word_id = CASE WHEN wpo.word_id_a = ? THEN wpo.word_id_b ELSE wpo.word_id_a END
+            WHERE (wpo.word_id_a = ? OR wpo.word_id_b = ?)
+              AND w.category = 'single'
+              {pos_filter}
+            ORDER BY wpo.shared_dims DESC
+            LIMIT ?
+        """, params).fetchall()
+    else:
+        # Fallback: self-join on dim_memberships
+        pos_filter = "AND w.pos = ?" if word_pos else ""
+        params = [word_id]
+        if word_pos:
+            params.append(word_pos)
+        params.append(top_n * 3)
+
+        rows = con.execute(f"""
+            SELECT dm2.word_id, w.word, COUNT(*) AS shared_dims, w.total_dims, w.pos
+            FROM dim_memberships dm1
+            JOIN dim_memberships dm2 ON dm1.dim_id = dm2.dim_id AND dm1.word_id != dm2.word_id
+            JOIN words w ON w.word_id = dm2.word_id
+            WHERE dm1.word_id = ?
+              AND w.category = 'single'
+              {pos_filter}
+            GROUP BY dm2.word_id, w.word, w.total_dims, w.pos
+            ORDER BY shared_dims DESC
+            LIMIT ?
+        """, params).fetchall()
+
+    if not rows:
+        print(f"No synonym candidates found for '{canonical}'.")
+        return
+
+    # Compute Jaccard and shared reef count
+    my_total = con.execute("SELECT total_dims FROM words WHERE word_id = ?", [word_id]).fetchone()[0]
+
+    # Get my reefs for shared reef count
+    my_reefs = set(r[0] for r in con.execute("""
+        SELECT DISTINCT reef_id FROM dim_memberships WHERE word_id = ? AND reef_id IS NOT NULL
+    """, [word_id]).fetchall())
+
+    results = []
+    for other_id, other_word, shared_dims, other_total, other_pos in rows:
+        union = my_total + other_total - shared_dims
+        jaccard = shared_dims / union if union > 0 else 0.0
+
+        # Shared reefs
+        other_reefs = set(r[0] for r in con.execute("""
+            SELECT DISTINCT reef_id FROM dim_memberships WHERE word_id = ? AND reef_id IS NOT NULL
+        """, [other_id]).fetchall())
+        shared_reefs = len(my_reefs & other_reefs)
+
+        results.append((other_word, shared_dims, jaccard, shared_reefs, other_pos or ""))
+
+    # Sort by Jaccard descending
+    results.sort(key=lambda x: x[2], reverse=True)
+    results = results[:top_n]
+
+    pos_note = f" (POS: {word_pos})" if word_pos else ""
+    print(f"\nSynonym candidates for '{canonical}'{pos_note}:")
+    print(f"{'Word':<25}  {'Shared':>6}  {'Jaccard':>7}  {'Reefs':>5}  {'POS':<5}")
+    print("-" * 55)
+    for w, shared, jacc, reefs, pos in results:
+        print(f"{w:<25}  {shared:>6}  {jacc:>7.4f}  {reefs:>5}  {pos:<5}")
+
+
+def antonyms(con, word, top_n=10):
+    """Find antonyms using the negation vector for embedding arithmetic."""
+    word_id, canonical = _resolve_word_id(con, word)
+    if word_id is None:
+        print(f"Word '{word}' not found.")
+        return
+
+    # Load negation vector
+    row = con.execute("SELECT vector FROM computed_vectors WHERE name = 'negation'").fetchone()
+    if row is None:
+        print("Negation vector not computed. Run phase 6b first.")
+        return
+
+    negation_vector = np.array(row[0], dtype=np.float32)
+
+    # Load word embedding
+    emb_row = con.execute("SELECT embedding FROM words WHERE word_id = ?", [word_id]).fetchone()
+    if emb_row is None or emb_row[0] is None:
+        print(f"No embedding for '{canonical}'.")
+        return
+
+    embedding = np.array(emb_row[0], dtype=np.float32)
+
+    # Get embedding cache
+    matrix, cache_word_ids, id_to_idx = _get_embedding_cache(con)
+    id_to_word = con.execute("SELECT word_id, word FROM words").fetchall()
+    id_to_word = {r[0]: r[1] for r in id_to_word}
+
+    # Load valence for context
+    valence_map = {}
+    for r in con.execute("SELECT dim_id, valence FROM dim_stats WHERE valence IS NOT NULL").fetchall():
+        valence_map[r[0]] = r[1]
+
+    # Two directions
+    predictions = [
+        (f"If '{canonical}' is the positive form → predicted antonyms:",
+         embedding + negation_vector),
+        (f"If '{canonical}' is the negated form → predicted positives:",
+         embedding - negation_vector),
+    ]
+
+    for label, predicted in predictions:
+        # Normalize predicted embedding
+        pred_norm = np.linalg.norm(predicted)
+        if pred_norm == 0:
+            continue
+        predicted_normalized = predicted / pred_norm
+
+        # Cosine similarities via matrix multiply
+        similarities = matrix @ predicted_normalized
+
+        # Get top matches, excluding the input word
+        top_indices = np.argsort(similarities)[::-1]
+        results = []
+        for idx in top_indices:
+            wid = cache_word_ids[idx]
+            if wid == word_id:
+                continue
+            results.append((id_to_word.get(wid, f"id:{wid}"), float(similarities[idx])))
+            if len(results) >= top_n:
+                break
+
+        print(f"\n{label}")
+        print(f"{'Word':<25}  {'Cosine':>7}")
+        print("-" * 35)
+        for w, cos in results:
+            print(f"{w:<25}  {cos:>7.4f}")

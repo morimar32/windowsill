@@ -165,4 +165,11 @@ def run_reef_refinement(con):
     islands.backfill_membership_islands(con)
     islands.compute_word_reef_affinity(con)
 
+    # Refresh reef valence and POS composition after reassignment
+    import post_process
+    post_process.compute_reef_valence(con)
+    post_process.compute_hierarchy_pos_composition(con)
+    post_process.compute_hierarchy_specificity(con)
+    post_process.compute_reef_edges(con)
+
     print(f"\n  Reef refinement complete: {total_moves} total dim moves")

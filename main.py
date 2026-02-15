@@ -177,6 +177,8 @@ def run_phase6b(con=None, db_path=None):
     post_process.compute_dimension_abstractness(con)
     post_process.compute_dimension_specificity(con)
     post_process.compute_sense_spread(con)
+    post_process.compute_negation_vector(con)
+    post_process.compute_dimension_valence(con)
     print("  Phase 6b complete")
     return con
 
@@ -206,6 +208,36 @@ def run_phase9b(con=None, db_path=None):
     return con
 
 
+def run_phase9f(con=None, db_path=None):
+    print("\n=== Phase 9f: POS Composition ===")
+    import database
+    import post_process
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    post_process.compute_dim_pos_composition(con)
+    post_process.compute_hierarchy_pos_composition(con)
+    print("  Phase 9f complete")
+    return con
+
+
+def run_phase9g(con=None, db_path=None):
+    print("\n=== Phase 9g: Reef Edges ===")
+    import database
+    import post_process
+
+    if con is None:
+        con = database.get_connection(db_path)
+
+    database.migrate_schema(con)
+    post_process.compute_hierarchy_specificity(con)
+    post_process.compute_reef_edges(con)
+    print("  Phase 9g complete")
+    return con
+
+
 def run_phase9c(con=None, db_path=None):
     print("\n=== Phase 9c: Island & Reef Naming ===")
     import database, islands
@@ -226,6 +258,7 @@ def run_phase9d(con=None, db_path=None):
 
     database.migrate_schema(con)
     post_process.compute_arch_concentration(con)
+    post_process.compute_reef_valence(con)
     post_process.create_views(con)
     print("  Phase 9d complete")
     return con
@@ -327,6 +360,8 @@ def run_explore(con=None, db_path=None):
     print("  exclusion <w1> <w2>         — shared reef exclusions (universal words)")
     print("  bridge_profile <word>       — reef distribution & cross-arch bridges")
     print("  affinity <word>             — reef affinity profile (all reefs by weighted z)")
+    print("  synonyms <word> [n]        — synonym candidates via Jaccard overlap")
+    print("  antonyms <word> [n]        — antonym prediction via negation vector")
     print("  evaluate                    — run standard semantic evaluation battery")
     print("  quit                        — exit")
 
@@ -385,6 +420,14 @@ def run_explore(con=None, db_path=None):
                 explore.bridge_profile(con, " ".join(parts[1:]))
             elif cmd == "affinity" and len(parts) >= 2:
                 explore.affinity(con, " ".join(parts[1:]))
+            elif cmd == "synonyms" and len(parts) >= 2:
+                n = int(parts[-1]) if len(parts) > 2 and parts[-1].isdigit() else 20
+                word = " ".join(parts[1:-1]) if len(parts) > 2 and parts[-1].isdigit() else " ".join(parts[1:])
+                explore.synonyms(con, word, top_n=n)
+            elif cmd == "antonyms" and len(parts) >= 2:
+                n = int(parts[-1]) if len(parts) > 2 and parts[-1].isdigit() else 10
+                word = " ".join(parts[1:-1]) if len(parts) > 2 and parts[-1].isdigit() else " ".join(parts[1:])
+                explore.antonyms(con, word, top_n=n)
             elif cmd == "evaluate":
                 explore.evaluate(con)
             else:
@@ -393,12 +436,12 @@ def run_explore(con=None, db_path=None):
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "4c", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "9e", "10", "9c", "11", "7", "explore"]
+PHASE_ORDER = ["2", "3", "4", "4b", "4c", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "9e", "10", "9f", "9g", "9c", "11", "7", "explore"]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 4c, 5b, 5c, 6b, 9b, 9c, 9d, 9e, 10, 11, 7, explore)")
+    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 4c, 5b, 5c, 6b, 9b, 9c, 9d, 9e, 9f, 9g, 10, 11, 7, explore)")
     parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
@@ -454,6 +497,10 @@ def main():
             con = run_phase9d(con=con, db_path=args.db)
         elif phase == "9e":
             con = run_phase9e(con=con, db_path=args.db)
+        elif phase == "9f":
+            con = run_phase9f(con=con, db_path=args.db)
+        elif phase == "9g":
+            con = run_phase9g(con=con, db_path=args.db)
         elif phase == "10":
             con = run_phase10(con=con, db_path=args.db)
         elif phase == "11":

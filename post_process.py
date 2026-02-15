@@ -97,8 +97,23 @@ def create_views(con):
         ORDER BY w.arch_concentration DESC
     """)
 
+    con.execute(f"""
+        CREATE OR REPLACE VIEW v_positive_dims AS
+        SELECT ds.* FROM dim_stats ds
+        WHERE ds.valence <= {config.POSITIVE_DIM_VALENCE_THRESHOLD}
+        ORDER BY ds.valence ASC
+    """)
+
+    con.execute(f"""
+        CREATE OR REPLACE VIEW v_negative_dims AS
+        SELECT ds.* FROM dim_stats ds
+        WHERE ds.valence >= {config.NEGATIVE_DIM_VALENCE_THRESHOLD}
+        ORDER BY ds.valence DESC
+    """)
+
     print("  Views created: v_unique_words, v_universal_words, v_selective_dims, "
-          "v_abstract_dims, v_concrete_dims, v_domain_generals")
+          "v_abstract_dims, v_concrete_dims, v_domain_generals, "
+          "v_positive_dims, v_negative_dims")
 
 
 def materialize_word_pair_overlap(con, threshold=None):
@@ -626,3 +641,399 @@ def compute_compositionality(con):
     compositional = sum(1 for r in results if r[3])
     idiomatic = len(results) - compositional
     print(f"  Compositionality: {compositional} compositional, {idiomatic} idiomatic (threshold={config.COMPOSITIONALITY_THRESHOLD})")
+
+
+def compute_negation_vector(con):
+    """Compute the negation vector from directed morphological negation pairs in WordNet."""
+    from nltk.corpus import wordnet as wn
+
+    prefixes = config.NEGATION_PREFIXES
+
+    # Build word -> embedding lookup for words in our DB
+    word_map = con.execute("SELECT word, word_id FROM words WHERE category = 'single'").fetchall()
+    word_to_id = {r[0]: r[1] for r in word_map}
+
+    # Find directed morphological negation pairs via WordNet antonyms
+    pairs = []  # (positive_word, negated_word)
+    seen = set()
+
+    for synset in wn.all_synsets():
+        for lemma in synset.lemmas():
+            for antonym in lemma.antonyms():
+                w1 = lemma.name().replace("_", " ")
+                w2 = antonym.name().replace("_", " ")
+                pair_key = tuple(sorted([w1, w2]))
+                if pair_key in seen:
+                    continue
+                seen.add(pair_key)
+
+                # Check if exactly one word has a negation prefix of the other
+                if w1 in word_to_id and w2 in word_to_id:
+                    positive, negated = None, None
+                    for prefix in prefixes:
+                        if w2.startswith(prefix) and w1 == w2[len(prefix):]:
+                            positive, negated = w1, w2
+                            break
+                        if w1.startswith(prefix) and w2 == w1[len(prefix):]:
+                            positive, negated = w2, w1
+                            break
+                    if positive is not None:
+                        pairs.append((positive, negated))
+
+    if not pairs:
+        print("  Negation vector: no morphological negation pairs found")
+        return
+
+    # Load embeddings and compute average difference
+    diffs = []
+    for positive, negated in pairs:
+        pos_emb = con.execute(
+            "SELECT embedding FROM words WHERE word_id = ?", [word_to_id[positive]]
+        ).fetchone()[0]
+        neg_emb = con.execute(
+            "SELECT embedding FROM words WHERE word_id = ?", [word_to_id[negated]]
+        ).fetchone()[0]
+        diffs.append(np.array(neg_emb, dtype=np.float64) - np.array(pos_emb, dtype=np.float64))
+
+    negation_vector = np.mean(diffs, axis=0)
+    norm = np.linalg.norm(negation_vector)
+
+    # Store in computed_vectors
+    con.execute("DELETE FROM computed_vectors WHERE name = 'negation'")
+    con.execute(
+        "INSERT INTO computed_vectors (name, vector, n_pairs, description) VALUES (?, ?, ?, ?)",
+        ['negation', negation_vector.tolist(), len(pairs),
+         f"Mean (negated - positive) across {len(pairs)} morphological antonym pairs"]
+    )
+
+    print(f"  Negation vector: {len(pairs)} pairs, norm={norm:.4f}")
+
+
+def compute_dimension_valence(con):
+    """Set dim_stats.valence = negation_vector[d] for each dimension."""
+    row = con.execute("SELECT vector FROM computed_vectors WHERE name = 'negation'").fetchone()
+    if row is None:
+        print("  Dimension valence: skipped (negation vector not computed)")
+        return
+
+    negation_vector = np.array(row[0], dtype=np.float64)
+
+    # Update all dims in a single statement via a values list
+    import pandas as pd
+    updates = pd.DataFrame({
+        'dim_id': list(range(len(negation_vector))),
+        'valence': negation_vector.tolist(),
+    })
+    con.execute("""
+        UPDATE dim_stats SET valence = updates.valence
+        FROM updates WHERE dim_stats.dim_id = updates.dim_id
+    """)
+
+    stats = con.execute("""
+        SELECT MIN(valence), MAX(valence) FROM dim_stats WHERE valence IS NOT NULL
+    """).fetchone()
+    n_positive = con.execute(
+        f"SELECT COUNT(*) FROM dim_stats WHERE valence <= {config.POSITIVE_DIM_VALENCE_THRESHOLD}"
+    ).fetchone()[0]
+    n_negative = con.execute(
+        f"SELECT COUNT(*) FROM dim_stats WHERE valence >= {config.NEGATIVE_DIM_VALENCE_THRESHOLD}"
+    ).fetchone()[0]
+
+    print(f"  Dimension valence: range [{stats[0]:.4f}, {stats[1]:.4f}], "
+          f"{n_positive} positive-pole dims, {n_negative} negative-pole dims")
+
+
+def compute_reef_valence(con):
+    """Compute mean dimension valence for each island/reef/archipelago."""
+    con.execute("""
+        UPDATE island_stats SET valence = sub.mean_valence
+        FROM (
+            SELECT di.island_id, di.generation, AVG(ds.valence) as mean_valence
+            FROM dim_islands di
+            JOIN dim_stats ds ON di.dim_id = ds.dim_id
+            WHERE di.island_id >= 0 AND ds.valence IS NOT NULL
+            GROUP BY di.island_id, di.generation
+        ) sub
+        WHERE island_stats.island_id = sub.island_id
+          AND island_stats.generation = sub.generation
+    """)
+
+    total = con.execute(
+        "SELECT COUNT(*) FROM island_stats WHERE valence IS NOT NULL"
+    ).fetchone()[0]
+
+    print(f"  Reef valence: {total} islands/reefs/archipelagos updated")
+
+    for gen, gen_label in [(0, "archipelago"), (1, "island"), (2, "reef")]:
+        stats = con.execute("""
+            SELECT MIN(valence), MAX(valence), COUNT(*)
+            FROM island_stats WHERE valence IS NOT NULL AND generation = ?
+        """, [gen]).fetchone()
+        if stats[2] > 0:
+            print(f"    {gen_label}: {stats[2]} entries, valence range [{stats[0]:.4f}, {stats[1]:.4f}]")
+
+    # Show most positive and negative reefs
+    most_pos = con.execute("""
+        SELECT island_id, island_name, valence FROM island_stats
+        WHERE valence IS NOT NULL AND generation = 2
+        ORDER BY valence DESC LIMIT 5
+    """).fetchall()
+    most_neg = con.execute("""
+        SELECT island_id, island_name, valence FROM island_stats
+        WHERE valence IS NOT NULL AND generation = 2
+        ORDER BY valence ASC LIMIT 5
+    """).fetchall()
+
+    if most_pos:
+        print("    Most negative-pole reefs (high valence):")
+        for iid, name, val in most_pos:
+            print(f"      [{iid}] {name or '(unnamed)'}: {val:.4f}")
+    if most_neg:
+        print("    Most positive-pole reefs (low valence):")
+        for iid, name, val in most_neg:
+            print(f"      [{iid}] {name or '(unnamed)'}: {val:.4f}")
+
+
+def compute_dim_pos_composition(con):
+    """Compute sense-aware POS composition fractions for each dimension."""
+
+    # Check if sense data is available
+    sense_count = con.execute("SELECT COUNT(*) FROM sense_dim_memberships").fetchone()[0]
+    has_senses = sense_count > 0
+
+    if not has_senses:
+        print("  POS composition: no sense data available, using unambiguous words only")
+
+    # Build per-(dim, word) POS weights in a temp table
+    # Three cases via UNION ALL:
+    #   1. Unambiguous words: 1.0 to their known POS
+    #   2. Ambiguous words WITH sense activation in the dim: proportional to sense count per POS
+    #   3. Ambiguous words WITHOUT sense activation: equal weight across all POS from word_pos
+
+    con.execute("DROP TABLE IF EXISTS _tmp_word_dim_pos")
+
+    if has_senses:
+        con.execute("""
+            CREATE TEMP TABLE _tmp_word_dim_pos AS
+
+            -- Case 1: Unambiguous words → 1.0 to known POS
+            SELECT dm.dim_id, dm.word_id, w.pos, 1.0 AS weight
+            FROM dim_memberships dm
+            JOIN words w ON dm.word_id = w.word_id
+            WHERE w.pos IS NOT NULL
+
+            UNION ALL
+
+            -- Case 2: Ambiguous words with sense(s) activating in this dim
+            SELECT dm.dim_id, dm.word_id, ws.pos,
+                   COUNT(*) * 1.0 / SUM(COUNT(*)) OVER (PARTITION BY dm.dim_id, dm.word_id) AS weight
+            FROM dim_memberships dm
+            JOIN words w ON dm.word_id = w.word_id
+            JOIN word_senses ws ON ws.word_id = dm.word_id
+            JOIN sense_dim_memberships sdm ON sdm.sense_id = ws.sense_id AND sdm.dim_id = dm.dim_id
+            WHERE w.pos IS NULL
+            GROUP BY dm.dim_id, dm.word_id, ws.pos
+
+            UNION ALL
+
+            -- Case 3: Ambiguous words with NO senses activating in this dim → equal weight
+            SELECT dm.dim_id, dm.word_id, wp.pos,
+                   1.0 / COUNT(*) OVER (PARTITION BY dm.dim_id, dm.word_id) AS weight
+            FROM dim_memberships dm
+            JOIN words w ON dm.word_id = w.word_id
+            JOIN word_pos wp ON wp.word_id = dm.word_id
+            WHERE w.pos IS NULL
+              AND NOT EXISTS (
+                  SELECT 1 FROM word_senses ws2
+                  JOIN sense_dim_memberships sdm2 ON sdm2.sense_id = ws2.sense_id AND sdm2.dim_id = dm.dim_id
+                  WHERE ws2.word_id = dm.word_id
+              )
+        """)
+    else:
+        # Fallback: unambiguous only (like current compute_pos_enrichment but as fractions)
+        con.execute("""
+            CREATE TEMP TABLE _tmp_word_dim_pos AS
+            SELECT dm.dim_id, dm.word_id, w.pos, 1.0 AS weight
+            FROM dim_memberships dm
+            JOIN words w ON dm.word_id = w.word_id
+            WHERE w.pos IS NOT NULL
+        """)
+
+    # Aggregate to dim level
+    con.execute("""
+        UPDATE dim_stats SET
+            noun_frac = sub.nf, verb_frac = sub.vf, adj_frac = sub.af, adv_frac = sub.df
+        FROM (
+            SELECT dim_id,
+                SUM(CASE WHEN pos = 'noun' THEN weight ELSE 0 END) / SUM(weight) AS nf,
+                SUM(CASE WHEN pos = 'verb' THEN weight ELSE 0 END) / SUM(weight) AS vf,
+                SUM(CASE WHEN pos = 'adj'  THEN weight ELSE 0 END) / SUM(weight) AS af,
+                SUM(CASE WHEN pos = 'adv'  THEN weight ELSE 0 END) / SUM(weight) AS df
+            FROM _tmp_word_dim_pos
+            GROUP BY dim_id
+        ) sub
+        WHERE dim_stats.dim_id = sub.dim_id
+    """)
+
+    con.execute("DROP TABLE IF EXISTS _tmp_word_dim_pos")
+
+    # Report
+    stats = con.execute("""
+        SELECT COUNT(*), AVG(noun_frac), AVG(verb_frac), AVG(adj_frac), AVG(adv_frac)
+        FROM dim_stats WHERE noun_frac IS NOT NULL
+    """).fetchone()
+    print(f"  Dim POS composition: {stats[0]} dims updated")
+    print(f"    avg fractions: noun={stats[1]:.3f}, verb={stats[2]:.3f}, adj={stats[3]:.3f}, adv={stats[4]:.3f}")
+
+
+def compute_hierarchy_pos_composition(con):
+    """Aggregate dim-level POS composition to reef/island/archipelago."""
+    con.execute("""
+        UPDATE island_stats SET
+            noun_frac = sub.nf, verb_frac = sub.vf, adj_frac = sub.af, adv_frac = sub.df
+        FROM (
+            SELECT di.island_id, di.generation,
+                AVG(ds.noun_frac) AS nf, AVG(ds.verb_frac) AS vf,
+                AVG(ds.adj_frac)  AS af, AVG(ds.adv_frac)  AS df
+            FROM dim_islands di
+            JOIN dim_stats ds ON di.dim_id = ds.dim_id
+            WHERE di.island_id >= 0 AND ds.noun_frac IS NOT NULL
+            GROUP BY di.island_id, di.generation
+        ) sub
+        WHERE island_stats.island_id = sub.island_id
+          AND island_stats.generation = sub.generation
+    """)
+
+    total = con.execute(
+        "SELECT COUNT(*) FROM island_stats WHERE noun_frac IS NOT NULL"
+    ).fetchone()[0]
+    print(f"  Hierarchy POS composition: {total} entities updated")
+
+    for gen, label in [(0, "archipelago"), (1, "island"), (2, "reef")]:
+        stats = con.execute("""
+            SELECT COUNT(*),
+                   MIN(noun_frac), MAX(noun_frac),
+                   MIN(verb_frac), MAX(verb_frac)
+            FROM island_stats WHERE noun_frac IS NOT NULL AND generation = ?
+        """, [gen]).fetchone()
+        if stats[0] > 0:
+            print(f"    {label}: {stats[0]} entries, "
+                  f"noun [{stats[1]:.3f}, {stats[2]:.3f}], "
+                  f"verb [{stats[3]:.3f}, {stats[4]:.3f}]")
+
+
+def compute_hierarchy_specificity(con):
+    """Aggregate dim-level avg_specificity to reef/island/archipelago."""
+    con.execute("""
+        UPDATE island_stats SET avg_specificity = sub.avg_spec
+        FROM (
+            SELECT di.island_id, di.generation, AVG(ds.avg_specificity) AS avg_spec
+            FROM dim_islands di
+            JOIN dim_stats ds ON di.dim_id = ds.dim_id
+            WHERE di.island_id >= 0 AND ds.avg_specificity IS NOT NULL
+            GROUP BY di.island_id, di.generation
+        ) sub
+        WHERE island_stats.island_id = sub.island_id
+          AND island_stats.generation = sub.generation
+    """)
+
+    total = con.execute(
+        "SELECT COUNT(*) FROM island_stats WHERE avg_specificity IS NOT NULL"
+    ).fetchone()[0]
+    print(f"  Hierarchy specificity: {total} entities updated")
+
+    for gen, label in [(0, "archipelago"), (1, "island"), (2, "reef")]:
+        stats = con.execute("""
+            SELECT COUNT(*), MIN(avg_specificity), MAX(avg_specificity)
+            FROM island_stats WHERE avg_specificity IS NOT NULL AND generation = ?
+        """, [gen]).fetchone()
+        if stats[0] > 0:
+            print(f"    {label}: {stats[0]} entries, "
+                  f"range [{stats[1]:.4f}, {stats[2]:.4f}]")
+
+
+def compute_reef_edges(con):
+    """Compute directed component scores for all reef pairs."""
+    con.execute("DELETE FROM reef_edges")
+
+    con.execute("""
+        INSERT INTO reef_edges (source_reef_id, target_reef_id,
+                                containment, lift, pos_similarity,
+                                valence_gap, specificity_gap)
+        WITH reef_words AS (
+            SELECT reef_id, word_id FROM word_reef_affinity WHERE n_dims >= 2
+        ),
+        total_words AS (
+            SELECT COUNT(DISTINCT word_id) AS n FROM reef_words
+        ),
+        reef_sizes AS (
+            SELECT reef_id, COUNT(DISTINCT word_id) AS sz FROM reef_words GROUP BY reef_id
+        ),
+        pair_intersection AS (
+            SELECT a.reef_id AS source, b.reef_id AS target, COUNT(*) AS ix
+            FROM reef_words a
+            JOIN reef_words b ON a.word_id = b.word_id AND a.reef_id != b.reef_id
+            GROUP BY a.reef_id, b.reef_id
+        ),
+        all_pairs AS (
+            SELECT a.island_id AS src, b.island_id AS tgt
+            FROM island_stats a CROSS JOIN island_stats b
+            WHERE a.generation = 2 AND b.generation = 2
+              AND a.island_id >= 0 AND b.island_id >= 0
+              AND a.island_id != b.island_id
+        )
+        SELECT
+            ap.src,
+            ap.tgt,
+            -- containment: fraction of source words also in target
+            COALESCE(pi.ix * 1.0 / ss.sz, 0) AS containment,
+            -- lift: P(target | source) / P(target baseline)
+            CASE WHEN pi.ix IS NOT NULL AND st.sz > 0
+                 THEN (pi.ix * 1.0 / ss.sz) / (st.sz * 1.0 / tw.n)
+                 ELSE 0 END AS lift,
+            -- pos_similarity: cosine of POS fraction vectors
+            CASE WHEN src_s.noun_frac IS NOT NULL AND tgt_s.noun_frac IS NOT NULL
+                 THEN (src_s.noun_frac * tgt_s.noun_frac
+                     + src_s.verb_frac * tgt_s.verb_frac
+                     + src_s.adj_frac  * tgt_s.adj_frac
+                     + src_s.adv_frac  * tgt_s.adv_frac)
+                    / (SQRT(src_s.noun_frac * src_s.noun_frac
+                          + src_s.verb_frac * src_s.verb_frac
+                          + src_s.adj_frac  * src_s.adj_frac
+                          + src_s.adv_frac  * src_s.adv_frac)
+                     * SQRT(tgt_s.noun_frac * tgt_s.noun_frac
+                          + tgt_s.verb_frac * tgt_s.verb_frac
+                          + tgt_s.adj_frac  * tgt_s.adj_frac
+                          + tgt_s.adv_frac  * tgt_s.adv_frac))
+                 ELSE NULL END AS pos_similarity,
+            -- valence_gap: signed difference
+            tgt_s.valence - src_s.valence AS valence_gap,
+            -- specificity_gap: signed difference
+            tgt_s.avg_specificity - src_s.avg_specificity AS specificity_gap
+        FROM all_pairs ap
+        CROSS JOIN total_words tw
+        LEFT JOIN pair_intersection pi ON pi.source = ap.src AND pi.target = ap.tgt
+        JOIN reef_sizes ss ON ss.reef_id = ap.src
+        LEFT JOIN reef_sizes st ON st.reef_id = ap.tgt
+        JOIN island_stats src_s ON src_s.island_id = ap.src AND src_s.generation = 2
+        JOIN island_stats tgt_s ON tgt_s.island_id = ap.tgt AND tgt_s.generation = 2
+    """)
+
+    # Report
+    total = con.execute("SELECT COUNT(*) FROM reef_edges").fetchone()[0]
+    stats = con.execute("""
+        SELECT
+            COUNT(*) FILTER (WHERE containment > 0) AS n_with_overlap,
+            ROUND(AVG(containment), 6) AS avg_containment,
+            ROUND(MAX(containment), 4) AS max_containment,
+            ROUND(AVG(lift), 4) AS avg_lift,
+            ROUND(MAX(lift), 2) AS max_lift,
+            ROUND(AVG(pos_similarity), 4) AS avg_pos_sim,
+            ROUND(MIN(pos_similarity), 4) AS min_pos_sim
+        FROM reef_edges
+    """).fetchone()
+
+    print(f"  Reef edges: {total} directed pairs ({stats[0]} with word overlap)")
+    print(f"    containment: avg={stats[1]}, max={stats[2]}")
+    print(f"    lift: avg={stats[3]}, max={stats[4]}")
+    print(f"    pos_similarity: avg={stats[5]}, min={stats[6]}")

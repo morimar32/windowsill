@@ -155,7 +155,7 @@ def migrate_schema(con):
         pass
 
     # Add depth-based metrics to island_stats
-    for col, typedef in [("n_core_words", "INTEGER"), ("median_word_depth", "DOUBLE")]:
+    for col, typedef in [("n_core_words", "INTEGER"), ("median_word_depth", "DOUBLE"), ("valence", "DOUBLE")]:
         try:
             con.execute(f"ALTER TABLE island_stats ADD COLUMN {col} {typedef}")
         except duckdb.CatalogException:
@@ -183,6 +183,19 @@ def migrate_schema(con):
     for col, typedef in [("word_hash", "UBIGINT"), ("reef_idf", "DOUBLE")]:
         try:
             con.execute(f"ALTER TABLE words ADD COLUMN {col} {typedef}")
+        except duckdb.CatalogException:
+            pass
+
+    # Valence column on dim_stats
+    try:
+        con.execute("ALTER TABLE dim_stats ADD COLUMN valence DOUBLE")
+    except duckdb.CatalogException:
+        pass
+
+    # POS composition columns on dim_stats (sense-aware fractions)
+    for col in ["noun_frac", "verb_frac", "adj_frac", "adv_frac"]:
+        try:
+            con.execute(f"ALTER TABLE dim_stats ADD COLUMN {col} DOUBLE")
         except duckdb.CatalogException:
             pass
 
@@ -281,6 +294,19 @@ def migrate_schema(con):
         )
     """)
 
+    # POS composition columns on island_stats (aggregated from dims)
+    for col in ["noun_frac", "verb_frac", "adj_frac", "adv_frac"]:
+        try:
+            con.execute(f"ALTER TABLE island_stats ADD COLUMN {col} DOUBLE")
+        except duckdb.CatalogException:
+            pass
+
+    # Avg specificity on island_stats (aggregated from dim_stats)
+    try:
+        con.execute("ALTER TABLE island_stats ADD COLUMN avg_specificity DOUBLE")
+    except duckdb.CatalogException:
+        pass
+
     con.execute("""
         CREATE TABLE IF NOT EXISTS island_characteristic_words (
             island_id INTEGER NOT NULL,
@@ -309,6 +335,20 @@ def migrate_schema(con):
         )
     """)
 
+    # reef_edges table (directed reef-pair component scores)
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS reef_edges (
+            source_reef_id INTEGER NOT NULL,
+            target_reef_id INTEGER NOT NULL,
+            containment DOUBLE,
+            lift DOUBLE,
+            pos_similarity DOUBLE,
+            valence_gap DOUBLE,
+            specificity_gap DOUBLE,
+            PRIMARY KEY (source_reef_id, target_reef_id)
+        )
+    """)
+
     # word_variants table
     con.execute("""
         CREATE TABLE IF NOT EXISTS word_variants (
@@ -317,6 +357,16 @@ def migrate_schema(con):
             word_id INTEGER NOT NULL,
             source TEXT NOT NULL,
             PRIMARY KEY (variant_hash, word_id)
+        )
+    """)
+
+    # computed_vectors table (negation vector, etc.)
+    con.execute(f"""
+        CREATE TABLE IF NOT EXISTS computed_vectors (
+            name TEXT PRIMARY KEY,
+            vector FLOAT[{dim}],
+            n_pairs INTEGER,
+            description TEXT
         )
     """)
 
@@ -331,6 +381,8 @@ def migrate_schema(con):
     con.execute("CREATE INDEX IF NOT EXISTS idx_words_hash ON words(word_hash)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wv_hash ON word_variants(variant_hash)")
     con.execute("CREATE INDEX IF NOT EXISTS idx_wv_word ON word_variants(word_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_re_source ON reef_edges(source_reef_id)")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_re_target ON reef_edges(target_reef_id)")
 
     print("  Schema migration complete")
 
@@ -469,6 +521,25 @@ def run_integrity_checks(con):
         print("  [SKIP] word_reef_affinity.reef_id -> island_stats(gen=2): table not found")
         skipped += 1
 
+    # reef_edges: source/target -> island_stats(generation=2)
+    if _table_exists(con, "reef_edges"):
+        for col in ("source_reef_id", "target_reef_id"):
+            count = con.execute(f"""
+                SELECT COUNT(*) FROM reef_edges re
+                LEFT JOIN island_stats s ON re.{col} = s.island_id AND s.generation = 2
+                WHERE s.island_id IS NULL
+            """).fetchone()[0]
+            if count == 0:
+                print(f"  [PASS] reef_edges.{col} -> island_stats(gen=2): 0 orphans")
+                passed += 1
+            else:
+                print(f"  [FAIL] reef_edges.{col} -> island_stats(gen=2): {count} orphans")
+                failed += 1
+    else:
+        print("  [SKIP] reef_edges.source_reef_id -> island_stats(gen=2): table not found")
+        print("  [SKIP] reef_edges.target_reef_id -> island_stats(gen=2): table not found")
+        skipped += 2
+
     # Sanity checks
     if _table_exists(con, "dim_stats"):
         dim_count = con.execute("SELECT COUNT(*) FROM dim_stats").fetchone()[0]
@@ -537,6 +608,8 @@ def rebuild_indexes(con):
         ("idx_words_hash", "CREATE INDEX idx_words_hash ON words(word_hash)", None),
         ("idx_wv_hash", "CREATE INDEX idx_wv_hash ON word_variants(variant_hash)", "word_variants"),
         ("idx_wv_word", "CREATE INDEX idx_wv_word ON word_variants(word_id)", "word_variants"),
+        ("idx_re_source", "CREATE INDEX idx_re_source ON reef_edges(source_reef_id)", "reef_edges"),
+        ("idx_re_target", "CREATE INDEX idx_re_target ON reef_edges(target_reef_id)", "reef_edges"),
     ]
 
     dropped = 0
@@ -588,7 +661,9 @@ def print_database_report(con, db_path):
         "sense_dim_memberships", "compositionality",
         "dim_jaccard", "dim_islands", "island_stats", "island_characteristic_words",
         "word_reef_affinity",
+        "reef_edges",
         "word_variants",
+        "computed_vectors",
     ]
     total_rows = 0
     for table in tables:
