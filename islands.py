@@ -536,18 +536,33 @@ def compute_word_reef_affinity(con):
 
     con.execute("""
         INSERT INTO word_reef_affinity
-        SELECT m.word_id,
+        WITH all_activations AS (
+            -- Word-level dimension memberships (all words)
+            SELECT word_id, dim_id, z_score
+            FROM dim_memberships
+            UNION ALL
+            -- Sense-level dimension memberships (ambiguous words only)
+            SELECT ws.word_id, sdm.dim_id, sdm.z_score
+            FROM sense_dim_memberships sdm
+            JOIN word_senses ws ON sdm.sense_id = ws.sense_id
+        ),
+        deduplicated AS (
+            SELECT word_id, dim_id, MAX(z_score) AS z_score
+            FROM all_activations
+            GROUP BY word_id, dim_id
+        )
+        SELECT d.word_id,
                di.island_id AS reef_id,
                COUNT(*) AS n_dims,
-               MAX(m.z_score) AS max_z,
-               SUM(m.z_score) AS sum_z,
-               MAX(m.z_score * ds.dim_weight) AS max_weighted_z,
-               SUM(m.z_score * ds.dim_weight) AS sum_weighted_z
-        FROM dim_memberships m
-        JOIN dim_islands di ON m.dim_id = di.dim_id
-        JOIN dim_stats ds ON m.dim_id = ds.dim_id
+               MAX(d.z_score) AS max_z,
+               SUM(d.z_score) AS sum_z,
+               MAX(d.z_score * ds.dim_weight) AS max_weighted_z,
+               SUM(d.z_score * ds.dim_weight) AS sum_weighted_z
+        FROM deduplicated d
+        JOIN dim_islands di ON d.dim_id = di.dim_id
+        JOIN dim_stats ds ON d.dim_id = ds.dim_id
         WHERE di.generation = 2 AND di.island_id >= 0
-        GROUP BY m.word_id, di.island_id
+        GROUP BY d.word_id, di.island_id
     """)
 
     stats = con.execute("""
@@ -556,6 +571,13 @@ def compute_word_reef_affinity(con):
         FROM word_reef_affinity
     """).fetchone()
     print(f"    {stats[0]:,} word-reef pairs ({stats[1]:,} words x {stats[2]} reefs)")
+
+    sense_stats = con.execute("""
+        SELECT COUNT(DISTINCT word_id)
+        FROM word_reef_affinity
+        WHERE word_id IN (SELECT word_id FROM word_senses)
+    """).fetchone()
+    print(f"    sense-enriched: {sense_stats[0]:,} ambiguous words with reef affinity")
 
 
 def generate_island_names(con):
