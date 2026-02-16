@@ -160,16 +160,8 @@ def run_reef_refinement(con):
     else:
         print(f"\n  Reached max iterations ({max_iterations}) — stopping")
 
-    # Post-convergence: refresh denormalized columns and affinity scores
-    print("\n  Refreshing denormalized columns and affinity scores...")
-    islands.backfill_membership_islands(con)
-    islands.compute_word_reef_affinity(con)
-
-    # Refresh reef valence and POS composition after reassignment
-    import post_process
-    post_process.compute_reef_valence(con)
-    post_process.compute_hierarchy_pos_composition(con)
-    post_process.compute_hierarchy_specificity(con)
-    post_process.compute_reef_edges(con)
+    # Note: backfill, affinity, valence, POS composition, specificity, and
+    # reef edges all run in the consolidated reef analytics phase (phase 9)
+    # after refinement completes — no longer duplicated here.
 
     print(f"\n  Reef refinement complete: {total_moves} total dim moves")

@@ -394,11 +394,14 @@ def compute_sense_spread(con):
 
 def compute_reef_idf(con):
     """Compute reef IDF for each word based on how many reefs it appears in."""
-    con.execute("""
+    n_reefs = con.execute(
+        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 2 AND island_id >= 0"
+    ).fetchone()[0]
+    con.execute(f"""
         UPDATE words SET reef_idf = sub.idf
         FROM (
             SELECT word_id,
-                   LN((207 - COUNT(*) + 0.5) / (COUNT(*) + 0.5) + 1) AS idf
+                   LN(({n_reefs} - COUNT(*) + 0.5) / (COUNT(*) + 0.5) + 1) AS idf
             FROM word_reef_affinity
             GROUP BY word_id
         ) sub

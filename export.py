@@ -102,8 +102,9 @@ def load_reef_hierarchy(con):
         WHERE di2.generation = 2 AND di2.island_id >= 0
     """).fetchall()
 
-    assert len(reefs) == config.N_REEFS, \
-        f"Expected {config.N_REEFS} reefs, got {len(reefs)}"
+    n_reefs = len(reefs)
+    assert n_reefs > 0, "No reefs found in database"
+    assert n_reefs <= 256, f"Reef count {n_reefs} exceeds u8 limit (256)"
 
     # Islands (gen=1)
     islands = con.execute("""
@@ -111,8 +112,9 @@ def load_reef_hierarchy(con):
         FROM island_stats WHERE generation = 1 AND island_id >= 0
     """).fetchall()
 
-    assert len(islands) == config.N_ISLANDS, \
-        f"Expected {config.N_ISLANDS} islands, got {len(islands)}"
+    n_islands = len(islands)
+    assert n_islands > 0, "No islands found in database"
+    assert n_islands <= 64, f"Island count {n_islands} exceeds 6-bit limit (64)"
 
     # Archipelagos (gen=0)
     archs = con.execute("""
@@ -120,8 +122,9 @@ def load_reef_hierarchy(con):
         FROM island_stats WHERE generation = 0 AND island_id >= 0
     """).fetchall()
 
-    assert len(archs) == config.N_ARCHS, \
-        f"Expected {config.N_ARCHS} archipelagos, got {len(archs)}"
+    n_archs = len(archs)
+    assert n_archs > 0, "No archipelagos found in database"
+    assert n_archs <= 4, f"Arch count {n_archs} exceeds 2-bit limit (4)"
 
     # Build arch remap (sorted by db_arch_id for determinism)
     arch_remap = {}
@@ -141,8 +144,8 @@ def load_reef_hierarchy(con):
             "name": name,
         })
 
-    assert max(island_remap.values()) <= 51, \
-        f"Island ID {max(island_remap.values())} exceeds 6-bit limit (51)"
+    assert max(island_remap.values()) <= 63, \
+        f"Island ID {max(island_remap.values())} exceeds 6-bit limit (63)"
 
     # Build reef remap (sorted by arch → island → db_reef_id)
     reef_remap = {}
@@ -163,8 +166,8 @@ def load_reef_hierarchy(con):
             "export_arch_id": e_arch,
         })
 
-    assert max(reef_remap.values()) <= 206, \
-        f"Reef ID {max(reef_remap.values())} exceeds u8 limit (206)"
+    assert max(reef_remap.values()) <= 255, \
+        f"Reef ID {max(reef_remap.values())} exceeds u8 limit (255)"
     assert max(arch_remap.values()) <= 3, \
         f"Arch ID {max(arch_remap.values())} exceeds 2-bit limit (3)"
 
@@ -195,7 +198,6 @@ def load_reef_stats(con, id_remap):
         export_id = id_remap["reef"][db_reef_id]
         reef_stats[export_id] = {"n_dims": n_dims, "n_words": n_words}
 
-    assert len(reef_stats) == config.N_REEFS
     return reef_stats
 
 
@@ -506,7 +508,7 @@ def extract_compounds(con, selective=False):
 # Phase 10: Background model
 # ---------------------------------------------------------------------------
 
-def compute_background_model(word_reefs, words, n_samples=1000,
+def compute_background_model(word_reefs, words, n_reefs, n_samples=1000,
                               words_per_sample=15, seed=42):
     """Compute background mean and std for z-score normalization.
 
@@ -524,7 +526,7 @@ def compute_background_model(word_reefs, words, n_samples=1000,
         f"Not enough single words ({len(single_word_ids)}) for background sampling"
 
     rng = np.random.default_rng(seed)
-    all_scores = np.zeros((n_samples, config.N_REEFS))
+    all_scores = np.zeros((n_samples, n_reefs))
 
     for i in tqdm(range(n_samples), desc="Background model"):
         sample = rng.choice(single_word_ids, size=words_per_sample, replace=False)
@@ -614,16 +616,20 @@ def write_all_files(output_dir, word_lookup, word_reefs, words,
     write_msgpack(compounds, os.path.join(output_dir, "compounds.bin"))
 
     # 7. constants.bin
-    reef_total_dims = [0] * config.N_REEFS
-    reef_n_words = [0] * config.N_REEFS
+    n_reefs = len(reef_records)
+    n_islands = len(island_records)
+    # Derive n_archs from island_records
+    n_archs = len(set(ir["arch_id"] for ir in island_records))
+    reef_total_dims = [0] * n_reefs
+    reef_n_words = [0] * n_reefs
     for rid, stats in reef_stats.items():
         reef_total_dims[rid] = stats["n_dims"]
         reef_n_words[rid] = stats["n_words"]
 
     constants = {
-        "N_REEFS": config.N_REEFS,
-        "N_ISLANDS": config.N_ISLANDS,
-        "N_ARCHS": config.N_ARCHS,
+        "N_REEFS": n_reefs,
+        "N_ISLANDS": n_islands,
+        "N_ARCHS": n_archs,
         "avg_reef_words": avg_reef_words,
         "k1": config.BM25_K1,
         "b": config.BM25_B,
@@ -724,7 +730,7 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
 
     # 6. background.bin — magic WSBG
     # bg_mean[f32; N_REEFS] then bg_std[f32; N_REEFS]
-    n_reefs = config.N_REEFS
+    n_reefs = len(reef_records)
     with open(os.path.join(v2_dir, "background.bin"), "wb") as f:
         _write_v2_header(f, b"WSBG", n_reefs)
         for val in bg_mean:
@@ -750,7 +756,9 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
         f.write(bytes(string_pool))
 
     # 8. constants.bin — magic WSCN
-    # Scalars packed as fixed struct, then reef_total_dims[f32; 207], reef_n_words[f32; 207]
+    # Scalars packed as fixed struct, then reef_total_dims[f32; N], reef_n_words[f32; N]
+    n_islands = len(island_records)
+    n_archs = len(set(ir["arch_id"] for ir in island_records))
     r_total_dims = [0.0] * n_reefs
     r_n_words = [0.0] * n_reefs
     for rid, stats in reef_stats.items():
@@ -763,9 +771,9 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
         # avg_reef_words(f32), k1(f32), b(f32), IDF_SCALE(u32), BM25_SCALE(u32),
         # FNV1A_OFFSET(u64), FNV1A_PRIME(u64)
         f.write(struct.pack("<IIIfffIIQQ",
-                            config.N_REEFS,
-                            config.N_ISLANDS,
-                            config.N_ARCHS,
+                            n_reefs,
+                            n_islands,
+                            n_archs,
                             avg_reef_words,
                             config.BM25_K1,
                             config.BM25_B,
@@ -821,7 +829,7 @@ def write_manifest(output_dir, words, word_lookup, word_reefs,
         "stats": {
             "n_reefs": len(reef_records),
             "n_islands": len(island_records),
-            "n_archs": config.N_ARCHS,
+            "n_archs": len(set(ir["arch_id"] for ir in island_records)),
             "n_words": len(words),
             "n_lookup_entries": len(word_lookup),
             "n_words_with_reefs": len(word_reefs),
@@ -974,19 +982,23 @@ def verify_export(output_dir, words, word_reefs_data, reef_stats,
             else:
                 print(f"    OK: v2/{fname} checksum")
 
-    # 9. Assert counts
+    # 9. Sanity-check counts (dynamic, not hardcoded)
     print("  Checking counts...")
     stats = manifest["stats"]
-    for key, expected in [
-        ("n_reefs", config.N_REEFS),
-        ("n_islands", config.N_ISLANDS),
-        ("n_archs", config.N_ARCHS),
+    for key, limit, desc in [
+        ("n_reefs", 256, "u8 limit"),
+        ("n_islands", 64, "6-bit limit"),
+        ("n_archs", 4, "2-bit limit"),
     ]:
-        if stats[key] != expected:
-            print(f"    FAIL: {key}={stats[key]}, expected {expected}")
+        val = stats[key]
+        if val <= 0:
+            print(f"    FAIL: {key}={val} (must be > 0)")
+            errors += 1
+        elif val > limit:
+            print(f"    FAIL: {key}={val} exceeds {desc} ({limit})")
             errors += 1
         else:
-            print(f"    OK: {key}={stats[key]}")
+            print(f"    OK: {key}={val}")
 
     if stats["n_lookup_entries"] < 200000:
         print(f"    WARN: only {stats['n_lookup_entries']} lookup entries "
@@ -1053,7 +1065,7 @@ def export(args):
     # Phase 10: Background model
     print("Phase 10: Computing background model...")
     bg_mean, bg_std = compute_background_model(
-        word_reefs, words,
+        word_reefs, words, n_reefs=len(reef_records),
         n_samples=args.bg_samples,
         words_per_sample=args.bg_words,
         seed=args.seed,

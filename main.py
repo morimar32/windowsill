@@ -6,8 +6,13 @@ import numpy as np
 import config
 
 
-def run_phase2():
-    print("\n=== Phase 2: Word List Curation ===")
+# ---------------------------------------------------------------------------
+# Phase 1: Vocabulary
+# ---------------------------------------------------------------------------
+
+def run_phase1():
+    """Word list curation (extract + clean WordNet lemmas)."""
+    print("\n=== Phase 1: Vocabulary ===")
     import word_list
     words = word_list.get_word_list()
     print(f"  Word list: {len(words)} words")
@@ -16,8 +21,13 @@ def run_phase2():
     return words
 
 
-def run_phase3(words=None, no_resume=False):
-    print("\n=== Phase 3: Embedding Generation ===")
+# ---------------------------------------------------------------------------
+# Phase 2: Embeddings
+# ---------------------------------------------------------------------------
+
+def run_phase2(words=None, no_resume=False):
+    """Word embedding generation (nomic-embed-text-v1.5, CPU, ~30 min)."""
+    print("\n=== Phase 2: Embeddings ===")
     import embedder
 
     if words is None:
@@ -33,9 +43,16 @@ def run_phase3(words=None, no_resume=False):
     return embeddings
 
 
-def run_phase4(words=None, embeddings=None, db_path=None):
-    print("\n=== Phase 4: Database Schema & Bulk Insert ===")
+# ---------------------------------------------------------------------------
+# Phase 3: Database
+# ---------------------------------------------------------------------------
+
+def run_phase3(words=None, embeddings=None, db_path=None):
+    """Schema + bulk insert + POS/components backfill + word hashes."""
+    print("\n=== Phase 3: Database ===")
     import database
+    import post_process
+    import word_list
 
     if db_path is None:
         db_path = config.DB_PATH
@@ -45,7 +62,6 @@ def run_phase4(words=None, embeddings=None, db_path=None):
 
     if words is None or embeddings is None:
         if words is None:
-            import word_list
             words = word_list.get_word_list()
             print(f"  Regenerated word list: {len(words)} words")
         if embeddings is None:
@@ -55,35 +71,46 @@ def run_phase4(words=None, embeddings=None, db_path=None):
                 print(f"  Loaded embeddings from {final_path}: {embeddings.shape}")
             else:
                 raise RuntimeError(
-                    "No embeddings available. Run phase 3 first or provide embeddings_final.npy"
+                    "No embeddings available. Run phase 2 first or provide embeddings_final.npy"
                 )
 
     database.insert_words(con, words, embeddings)
     database.create_indexes(con)
     print(f"  Database ready at {db_path}")
+
+    # Schema migration + POS/category/components backfill (was phase 4b)
+    print("  Running schema migration + POS backfill...")
+    database.migrate_schema(con)
+    post_process.backfill_pos_and_category(con)
+    post_process.populate_word_components(con)
+
+    # Word hash computation (was phase 4c)
+    print("  Computing word hashes...")
+    word_list.compute_word_hashes(con)
+
+    print("  Phase 3 complete")
     return con
 
 
-def run_phase5(con=None, embeddings=None, word_ids=None, db_path=None):
-    print("\n=== Phase 5: Statistical Analysis ===")
+# ---------------------------------------------------------------------------
+# Phase 4: Analysis
+# ---------------------------------------------------------------------------
+
+def run_phase4(con=None, embeddings=None, word_ids=None, db_path=None,
+               skip_pair_overlap=False):
+    """Dimension thresholds + word counts + specificity + pair overlap."""
+    print("\n=== Phase 4: Analysis ===")
     import database
     import analyzer
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    analyzer.run_analysis(con, embedding_matrix=embeddings, word_ids=word_ids)
-    return con
-
-
-def run_phase6(con=None, db_path=None, skip_pair_overlap=False):
-    print("\n=== Phase 6: Post-Processing ===")
-    import database
     import post_process
 
     if con is None:
         con = database.get_connection(db_path)
 
+    # Statistical analysis (was phase 5)
+    analyzer.run_analysis(con, embedding_matrix=embeddings, word_ids=word_ids)
+
+    # Post-processing: dim counts, specificity, views (was phase 6)
     post_process.update_word_dim_counts(con)
     post_process.compute_word_specificity(con)
     post_process.create_views(con)
@@ -94,32 +121,25 @@ def run_phase6(con=None, db_path=None, skip_pair_overlap=False):
         print("  Skipping word pair overlap materialization")
 
     post_process.print_summary(con)
+    print("  Phase 4 complete")
     return con
 
 
-def run_phase4b(con=None, db_path=None):
-    print("\n=== Phase 4b: Schema Migration + POS/Category/Components Backfill ===")
-    import database
-    import post_process
+# ---------------------------------------------------------------------------
+# Phase 5: Senses
+# ---------------------------------------------------------------------------
 
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
-    post_process.backfill_pos_and_category(con)
-    post_process.populate_word_components(con)
-    print("  Phase 4b complete")
-    return con
-
-
-def run_phase5b(con=None, db_path=None, no_resume=False):
-    print("\n=== Phase 5b: Sense-Specific Embedding Generation ===")
+def run_phase5(con=None, db_path=None, no_resume=False):
+    """Sense embeddings + sense dim analysis + domain-anchored compounds."""
+    print("\n=== Phase 5: Senses ===")
     import database
     import embedder
+    import analyzer
 
     if con is None:
         con = database.get_connection(db_path)
 
+    # Full-gloss sense embeddings (was phase 5b)
     sense_texts = embedder.build_sense_texts(con)
     if not sense_texts:
         print("  No ambiguous words to embed")
@@ -131,39 +151,66 @@ def run_phase5b(con=None, db_path=None, no_resume=False):
 
     # Store senses and embeddings in DB
     print("  Inserting senses into database...")
-    con.execute("DELETE FROM word_senses")
+    con.execute("DELETE FROM word_senses WHERE is_domain_anchored = FALSE")
     sense_rows = []
     for i, s in enumerate(sense_texts):
         emb = sense_embeddings[i].tolist()
         sense_rows.append((
             s["sense_id"], s["word_id"], s["pos"],
-            s["synset_name"], s["gloss"], emb, 0
+            s["synset_name"], s["gloss"], emb, 0, False
         ))
     database.insert_word_senses(con, sense_rows)
-    print(f"  Inserted {len(sense_rows)} senses")
+    print(f"  Inserted {len(sense_rows)} full-gloss senses")
+
+    # Sense analysis against existing thresholds (was phase 5c)
+    sense_embs, sense_ids = database.load_sense_embedding_matrix(con)
+    if len(sense_ids) > 0:
+        analyzer.run_sense_analysis(con, sense_embs, sense_ids)
+
+    # Domain-anchored compound embeddings (NEW)
+    print("  Building domain-anchored compound embeddings...")
+    domain_texts = embedder.build_domain_compound_texts(con)
+    if domain_texts:
+        domain_embeddings = embedder.embed_domain_compounds(
+            domain_texts, model, resume=not no_resume
+        )
+        embedder.cleanup_intermediates(embedder.DOMAIN_COMPOUND_INTERMEDIATE_DIR)
+
+        # Store domain-anchored senses
+        print("  Inserting domain-anchored senses into database...")
+        con.execute("DELETE FROM word_senses WHERE is_domain_anchored = TRUE")
+        domain_rows = []
+        for i, s in enumerate(domain_texts):
+            emb = domain_embeddings[i].tolist()
+            domain_rows.append((
+                s["sense_id"], s["word_id"], s["pos"],
+                s["synset_name"], s["gloss"], emb, 0, True
+            ))
+        database.insert_word_senses(con, domain_rows)
+        print(f"  Inserted {len(domain_rows)} domain-anchored senses")
+
+        # Analyze domain-anchored sense embeddings against thresholds
+        domain_emb_rows = con.execute("""
+            SELECT sense_id, sense_embedding FROM word_senses
+            WHERE is_domain_anchored = TRUE AND sense_embedding IS NOT NULL
+            ORDER BY sense_id
+        """).fetchall()
+        if domain_emb_rows:
+            d_ids = [r[0] for r in domain_emb_rows]
+            d_matrix = np.array([r[1] for r in domain_emb_rows], dtype=np.float32)
+            analyzer.run_sense_analysis(con, d_matrix, d_ids)
+
+    print("  Phase 5 complete")
     return con
 
 
-def run_phase5c(con=None, db_path=None):
-    print("\n=== Phase 5c: Sense Analysis Against Existing Thresholds ===")
-    import database
-    import analyzer
+# ---------------------------------------------------------------------------
+# Phase 6: Enrichment
+# ---------------------------------------------------------------------------
 
-    if con is None:
-        con = database.get_connection(db_path)
-
-    sense_embeddings, sense_ids = database.load_sense_embedding_matrix(con)
-    if len(sense_ids) == 0:
-        print("  No sense embeddings found. Run phase 5b first.")
-        return con
-
-    analyzer.run_sense_analysis(con, sense_embeddings, sense_ids)
-    print("  Phase 5c complete")
-    return con
-
-
-def run_phase6b(con=None, db_path=None):
-    print("\n=== Phase 6b: POS Enrichment + Compound Contamination + Compositionality ===")
+def run_phase6(con=None, db_path=None):
+    """POS enrichment, compound contamination, compositionality, dim abstractness/specificity, sense spread, negation, valence."""
+    print("\n=== Phase 6: Enrichment ===")
     import database
     import post_process
 
@@ -179,12 +226,17 @@ def run_phase6b(con=None, db_path=None):
     post_process.compute_sense_spread(con)
     post_process.compute_negation_vector(con)
     post_process.compute_dimension_valence(con)
-    print("  Phase 6b complete")
+    print("  Phase 6 complete")
     return con
 
 
-def run_phase9(con=None, db_path=None):
-    print("\n=== Phase 9: Island Detection ===")
+# ---------------------------------------------------------------------------
+# Phase 7: Islands
+# ---------------------------------------------------------------------------
+
+def run_phase7(con=None, db_path=None):
+    """Jaccard matrix, 3-generation Leiden detection, noise recovery."""
+    print("\n=== Phase 7: Islands ===")
     import database, islands
 
     if con is None:
@@ -192,124 +244,99 @@ def run_phase9(con=None, db_path=None):
 
     database.migrate_schema(con)
     islands.run_island_detection(con)
+    print("  Phase 7 complete")
     return con
 
 
-def run_phase9b(con=None, db_path=None):
-    print("\n=== Phase 9b: Backfill + Affinity ===")
-    import database, islands
+# ---------------------------------------------------------------------------
+# Phase 8: Refinement
+# ---------------------------------------------------------------------------
+
+def run_phase8(con=None, db_path=None):
+    """Reef loyalty refinement (iterative dim reassignment)."""
+    print("\n=== Phase 8: Refinement ===")
+    import database, reef_refine
 
     if con is None:
         con = database.get_connection(db_path)
 
-    database.migrate_schema(con)
-    islands.backfill_membership_islands(con)
-    islands.compute_word_reef_affinity(con)
+    reef_refine.run_reef_refinement(con)
+    print("  Phase 8 complete")
     return con
 
 
-def run_phase9f(con=None, db_path=None):
-    print("\n=== Phase 9f: POS Composition ===")
-    import database
+# ---------------------------------------------------------------------------
+# Phase 9: Reef Analytics
+# ---------------------------------------------------------------------------
+
+def run_phase9(con=None, db_path=None):
+    """Backfill hierarchy, domain-aware affinity, reef IDF, arch concentration, reef valence, POS composition, reef edges, composite weight."""
+    print("\n=== Phase 9: Reef Analytics ===")
+    import database, islands
     import post_process
 
     if con is None:
         con = database.get_connection(db_path)
 
     database.migrate_schema(con)
+
+    # Backfill denormalized hierarchy columns (was 9b)
+    islands.backfill_membership_islands(con)
+
+    # Domain-aware word-reef affinity (was 9b, now with domain-anchored filter)
+    islands.compute_word_reef_affinity(con)
+
+    # Reef IDF (was 9e)
+    post_process.compute_reef_idf(con)
+
+    # Universal word analytics: arch concentration (was 9d)
+    post_process.compute_arch_concentration(con)
+
+    # Reef valence (was 9d)
+    post_process.compute_reef_valence(con)
+
+    # Sense-aware POS composition at all hierarchy levels (was 9f)
     post_process.compute_dim_pos_composition(con)
     post_process.compute_hierarchy_pos_composition(con)
-    print("  Phase 9f complete")
-    return con
 
-
-def run_phase9g(con=None, db_path=None):
-    print("\n=== Phase 9g: Reef Edges ===")
-    import database
-    import post_process
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
+    # Hierarchy specificity + reef edges + composite weight (was 9g)
     post_process.compute_hierarchy_specificity(con)
     post_process.compute_reef_edges(con)
     post_process.compute_composite_weight(con)
-    print("  Phase 9g complete")
+
+    # Recreate views with updated data
+    post_process.create_views(con)
+
+    print("  Phase 9 complete")
     return con
 
 
-def run_phase9c(con=None, db_path=None):
-    print("\n=== Phase 9c: Island & Reef Naming ===")
+# ---------------------------------------------------------------------------
+# Phase 10: Naming
+# ---------------------------------------------------------------------------
+
+def run_phase10(con=None, db_path=None):
+    """LLM-based naming (reefs -> islands -> archipelagos)."""
+    print("\n=== Phase 10: Naming ===")
     import database, islands
 
     if con is None:
         con = database.get_connection(db_path)
 
     islands.generate_island_names(con)
+    print("  Phase 10 complete")
     return con
 
 
-def run_phase9d(con=None, db_path=None):
-    print("\n=== Phase 9d: Universal Word Analytics (post-island) ===")
-    import database, post_process
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
-    post_process.compute_arch_concentration(con)
-    post_process.compute_reef_valence(con)
-    post_process.create_views(con)
-    print("  Phase 9d complete")
-    return con
-
-
-def run_phase4c(con=None, db_path=None):
-    print("\n=== Phase 4c: Word Hash Computation ===")
-    import database
-    import word_list
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
-    word_list.compute_word_hashes(con)
-    print("  Phase 4c complete")
-    return con
-
-
-def run_phase9e(con=None, db_path=None):
-    print("\n=== Phase 9e: Reef IDF Computation ===")
-    import database
-    import post_process
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
-    post_process.compute_reef_idf(con)
-    print("  Phase 9e complete")
-    return con
-
+# ---------------------------------------------------------------------------
+# Phase 11: Finalization
+# ---------------------------------------------------------------------------
 
 def run_phase11(con=None, db_path=None):
-    print("\n=== Phase 11: Morphy Variant Expansion ===")
+    """Morphy variant expansion + DB maintenance (integrity, indexes, optimization)."""
+    print("\n=== Phase 11: Finalization ===")
     import database
     import word_list
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    database.migrate_schema(con)
-    word_list.expand_morphy_variants(con)
-    print("  Phase 11 complete")
-    return con
-
-
-def run_phase7(con=None, db_path=None):
-    print("\n=== Phase 7: Database Maintenance ===")
-    import database
 
     if db_path is None:
         db_path = config.DB_PATH
@@ -317,23 +344,23 @@ def run_phase7(con=None, db_path=None):
     if con is None:
         con = database.get_connection(db_path)
 
+    # Morphy variant expansion (was phase 11)
+    database.migrate_schema(con)
+    word_list.expand_morphy_variants(con)
+
+    # DB maintenance (was phase 7)
     database.run_integrity_checks(con)
     database.rebuild_indexes(con)
     database.run_storage_optimization(con)
     database.print_database_report(con, db_path)
+
+    print("  Phase 11 complete")
     return con
 
 
-def run_phase10(con=None, db_path=None):
-    print("\n=== Phase 10: Reef Refinement ===")
-    import database, reef_refine
-
-    if con is None:
-        con = database.get_connection(db_path)
-
-    reef_refine.run_reef_refinement(con)
-    return con
-
+# ---------------------------------------------------------------------------
+# Explorer (standalone command, not a pipeline phase)
+# ---------------------------------------------------------------------------
 
 def run_explore(con=None, db_path=None):
     print("\n=== Interactive Explorer ===")
@@ -437,21 +464,45 @@ def run_explore(con=None, db_path=None):
             print(f"Error: {e}")
 
 
-PHASE_ORDER = ["2", "3", "4", "4b", "4c", "5", "5b", "5c", "6", "6b", "9", "9b", "9d", "9e", "10", "9f", "9g", "9c", "11", "7", "explore"]
+# ---------------------------------------------------------------------------
+# Pipeline orchestration
+# ---------------------------------------------------------------------------
+
+PHASE_ORDER = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+
+PHASE_NAMES = {
+    "1": "Vocabulary",
+    "2": "Embeddings",
+    "3": "Database",
+    "4": "Analysis",
+    "5": "Senses",
+    "6": "Enrichment",
+    "7": "Islands",
+    "8": "Refinement",
+    "9": "Reef Analytics",
+    "10": "Naming",
+    "11": "Finalization",
+}
 
 
 def main():
     parser = argparse.ArgumentParser(description="Vector Space Distillation Engine")
-    parser.add_argument("--phase", type=str, help="Run only this phase (2-9, 4b, 4c, 5b, 5c, 6b, 9b, 9c, 9d, 9e, 9f, 9g, 10, 11, 7, explore)")
-    parser.add_argument("--from", dest="from_phase", type=str, help="Run from this phase onward")
+    parser.add_argument("--phase", type=str,
+                        help="Run only this phase (1-11 or explore)")
+    parser.add_argument("--from", dest="from_phase", type=str,
+                        help="Run from this phase onward")
     parser.add_argument("--skip-pair-overlap", action="store_true",
                         help="Skip expensive pair overlap materialization")
     parser.add_argument("--no-resume", action="store_true",
                         help="Don't resume from intermediate .npy files")
-    parser.add_argument("--db", default=config.DB_PATH, help=f"Database path (default: {config.DB_PATH})")
+    parser.add_argument("--db", default=config.DB_PATH,
+                        help=f"Database path (default: {config.DB_PATH})")
     args = parser.parse_args()
 
     if args.phase:
+        if args.phase == "explore":
+            run_explore(db_path=args.db)
+            return
         phases = [args.phase]
     elif args.from_phase:
         start_idx = PHASE_ORDER.index(args.from_phase)
@@ -464,52 +515,32 @@ def main():
     con = None
 
     for phase in phases:
-        if phase == "2":
-            words = run_phase2()
+        if phase == "1":
+            words = run_phase1()
+        elif phase == "2":
+            embeddings = run_phase2(words=words, no_resume=args.no_resume)
         elif phase == "3":
-            embeddings = run_phase3(words=words, no_resume=args.no_resume)
+            con = run_phase3(words=words, embeddings=embeddings, db_path=args.db)
         elif phase == "4":
-            con = run_phase4(words=words, embeddings=embeddings, db_path=args.db)
-        elif phase == "4b":
-            con = run_phase4b(con=con, db_path=args.db)
-        elif phase == "4c":
-            con = run_phase4c(con=con, db_path=args.db)
-        elif phase == "5":
             word_ids = [w[0] for w in words] if words else None
-            con = run_phase5(con=con, embeddings=embeddings, word_ids=word_ids, db_path=args.db)
-        elif phase == "5b":
-            con = run_phase5b(con=con, db_path=args.db, no_resume=args.no_resume)
-        elif phase == "5c":
-            con = run_phase5c(con=con, db_path=args.db)
-        elif phase == "6":
-            con = run_phase6(
-                con=con, db_path=args.db,
-                skip_pair_overlap=args.skip_pair_overlap,
+            con = run_phase4(
+                con=con, embeddings=embeddings, word_ids=word_ids,
+                db_path=args.db, skip_pair_overlap=args.skip_pair_overlap,
             )
-        elif phase == "6b":
-            con = run_phase6b(con=con, db_path=args.db)
+        elif phase == "5":
+            con = run_phase5(con=con, db_path=args.db, no_resume=args.no_resume)
+        elif phase == "6":
+            con = run_phase6(con=con, db_path=args.db)
+        elif phase == "7":
+            con = run_phase7(con=con, db_path=args.db)
+        elif phase == "8":
+            con = run_phase8(con=con, db_path=args.db)
         elif phase == "9":
             con = run_phase9(con=con, db_path=args.db)
-        elif phase == "9b":
-            con = run_phase9b(con=con, db_path=args.db)
-        elif phase == "9c":
-            con = run_phase9c(con=con, db_path=args.db)
-        elif phase == "9d":
-            con = run_phase9d(con=con, db_path=args.db)
-        elif phase == "9e":
-            con = run_phase9e(con=con, db_path=args.db)
-        elif phase == "9f":
-            con = run_phase9f(con=con, db_path=args.db)
-        elif phase == "9g":
-            con = run_phase9g(con=con, db_path=args.db)
         elif phase == "10":
             con = run_phase10(con=con, db_path=args.db)
         elif phase == "11":
             con = run_phase11(con=con, db_path=args.db)
-        elif phase == "7":
-            con = run_phase7(con=con, db_path=args.db)
-        elif phase == "explore":
-            run_explore(con=con, db_path=args.db)
 
     if con is not None:
         con.close()

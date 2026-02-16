@@ -214,13 +214,54 @@ def detect_sub_islands(con, parent_generation=0):
             else:
                 community_map[idx] = -1
 
-        # Build rows for dim_islands
-        sub_rows = []
+        # Build per-dim assignment from community_map
+        dim_assignment = {}  # global_dim -> sub_id
         for idx, community in enumerate(partition):
             sub_id = community_map[idx]
             for local_v in community:
-                global_dim = dim_ids[local_v]
-                sub_rows.append((global_dim, sub_id, child_generation, parent_id))
+                dim_assignment[dim_ids[local_v]] = sub_id
+
+        # Noise recovery: assign orphan dims (singletons) to nearest sibling
+        # reef by average Jaccard affinity, if above the minimum threshold
+        noise_recovery_threshold = config.NOISE_RECOVERY_MIN_JACCARD
+        noise_dims = [d for d, sid in dim_assignment.items() if sid == -1]
+        sibling_communities = {}  # sub_id -> list of global dim_ids
+        for d, sid in dim_assignment.items():
+            if sid >= 0:
+                sibling_communities.setdefault(sid, []).append(d)
+
+        recovered = 0
+        if noise_dims and sibling_communities:
+            # Preload Jaccard data for this island's dims to avoid per-pair queries
+            placeholders = ",".join(str(d) for d in dim_ids)
+            jacc_rows = con.execute(f"""
+                SELECT dim_id_a, dim_id_b, jaccard
+                FROM dim_jaccard
+                WHERE dim_id_a IN ({placeholders}) AND dim_id_b IN ({placeholders})
+            """).fetchall()
+            local_jaccard = {}
+            for a, b, j in jacc_rows:
+                local_jaccard[(a, b)] = j
+                local_jaccard[(b, a)] = j
+
+            for noise_dim in noise_dims:
+                best_sib_id = None
+                best_avg_jacc = 0.0
+                for sib_id, sib_dims in sibling_communities.items():
+                    jaccards = [local_jaccard.get((noise_dim, sd), 0.0) for sd in sib_dims]
+                    avg_j = np.mean(jaccards) if jaccards else 0.0
+                    if avg_j > best_avg_jacc:
+                        best_avg_jacc = avg_j
+                        best_sib_id = sib_id
+                if best_sib_id is not None and best_avg_jacc >= noise_recovery_threshold:
+                    dim_assignment[noise_dim] = best_sib_id
+                    sibling_communities[best_sib_id].append(noise_dim)
+                    recovered += 1
+
+        # Build rows for dim_islands
+        sub_rows = []
+        for global_dim, sub_id in dim_assignment.items():
+            sub_rows.append((global_dim, sub_id, child_generation, parent_id))
 
         if sub_rows:
             df = pd.DataFrame(sub_rows, columns=["dim_id", "island_id", "generation", "parent_island_id"])
@@ -230,7 +271,8 @@ def detect_sub_islands(con, parent_generation=0):
         n_noise = sum(1 for r in sub_rows if r[1] == -1)
         total_sub_islands += n_subs
         total_noise += n_noise
-        print(f"    Parent {parent_id} ({parent_n_dims} dims) -> {n_subs} sub-islands, {n_noise} noise")
+        recovered_str = f", {recovered} recovered from noise" if recovered > 0 else ""
+        print(f"    Parent {parent_id} ({parent_n_dims} dims) -> {n_subs} sub-islands, {n_noise} noise{recovered_str}")
 
     print(f"    Total: {total_sub_islands} sub-islands, {total_noise} noise dims across {len(parent_islands)} parents")
 
@@ -316,7 +358,8 @@ def compute_island_stats(con, generation=0):
         "modularity_contribution", "parent_island_id", "island_name",
         "n_core_words", "median_word_depth",
     ])
-    con.execute("INSERT INTO island_stats SELECT * FROM df")
+    cols = ", ".join(df.columns)
+    con.execute(f"INSERT INTO island_stats ({cols}) SELECT * FROM df")
     print(f"    Computed stats for {len(stats_rows)} islands")
 
 
@@ -541,10 +584,12 @@ def compute_word_reef_affinity(con):
             SELECT word_id, dim_id, z_score
             FROM dim_memberships
             UNION ALL
-            -- Sense-level dimension memberships (ambiguous words only)
+            -- Domain-anchored sense memberships only (not all senses)
+            -- This prevents 3-7x reef inflation from polysemous words
             SELECT ws.word_id, sdm.dim_id, sdm.z_score
             FROM sense_dim_memberships sdm
             JOIN word_senses ws ON sdm.sense_id = ws.sense_id
+            WHERE ws.is_domain_anchored = TRUE
         ),
         deduplicated AS (
             SELECT word_id, dim_id, MAX(z_score) AS z_score
@@ -1016,7 +1061,12 @@ def _print_naming_summary(con):
 
 
 def run_island_detection(con):
-    """Entry point: run all island detection steps and print summary."""
+    """Entry point: run all island detection steps and print summary.
+
+    Note: backfill_membership_islands() and compute_word_reef_affinity() are
+    NOT called here — they run in the consolidated reef analytics phase after
+    refinement, to avoid double-computation.
+    """
     # Gen 0
     compute_jaccard_matrix(con)
     detect_islands(con)
@@ -1026,12 +1076,9 @@ def run_island_detection(con):
     detect_sub_islands(con)
     compute_island_stats(con, generation=1)
     compute_characteristic_words(con, generation=1)
-    # Gen 2
+    # Gen 2 (with noise recovery)
     detect_sub_islands(con, parent_generation=1)
     compute_island_stats(con, generation=2)
     compute_characteristic_words(con, generation=2)
-    # Backfill reef hierarchy onto dim_memberships + compute affinity scores
-    backfill_membership_islands(con)
-    compute_word_reef_affinity(con)
     # Summary
     print_archipelago_summary(con)

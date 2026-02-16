@@ -21,8 +21,9 @@ ISLAND_LEIDEN_RESOLUTION = 1.0       # Leiden resolution (higher = more/smaller 
 ISLAND_CHARACTERISTIC_WORDS_N = 100  # Top N PMI-ranked words stored per island
 ISLAND_MIN_COMMUNITY_SIZE = 2        # Communities smaller than this become noise (island_id = -1)
 ISLAND_SUB_LEIDEN_RESOLUTION = 1.5   # Leiden resolution for sub-island detection (higher = more splitting)
-ISLAND_MIN_DIMS_FOR_SUBDIVISION = 10 # Don't subdivide islands with fewer dims than this
+ISLAND_MIN_DIMS_FOR_SUBDIVISION = 2  # Don't subdivide islands with fewer dims than this
 REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef to count as meaningfully present
+NOISE_RECOVERY_MIN_JACCARD = 0.01    # Min avg Jaccard to assign orphan dim to sibling reef
 
 # Reef refinement (Phase 10)
 REEF_REFINE_MIN_DIMS = 4              # Min dims for a reef to be analyzed for misplaced dims
@@ -44,10 +45,7 @@ NEGATION_PREFIXES = ['un', 'non', 'in', 'im', 'il', 'ir', 'dis', 'mal', 'mis']
 POSITIVE_DIM_VALENCE_THRESHOLD = -0.15   # valence below this = positive-pole dim
 NEGATIVE_DIM_VALENCE_THRESHOLD = 0.15    # valence above this = negative-pole dim
 
-# Reef scoring constants
-N_REEFS = 207
-N_ISLANDS = 52
-N_ARCHS = 4
+# Reef scoring constants (computed dynamically from DB via get_hierarchy_counts)
 BM25_K1 = 1.2
 BM25_B = 0.75
 
@@ -61,3 +59,20 @@ COMPOSITE_ALPHA_SPEC = 0.5   # Specificity gap decay rate (mild effect)
 
 # Export thresholds
 EXPORT_WEIGHT_THRESHOLD = 0.01
+
+
+def get_hierarchy_counts(con):
+    """Get reef/island/archipelago counts from the database.
+
+    Returns dict with keys: n_reefs, n_islands, n_archs.
+    """
+    n_reefs = con.execute(
+        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 2 AND island_id >= 0"
+    ).fetchone()[0]
+    n_islands = con.execute(
+        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 1 AND island_id >= 0"
+    ).fetchone()[0]
+    n_archs = con.execute(
+        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 0 AND island_id >= 0"
+    ).fetchone()[0]
+    return {"n_reefs": n_reefs, "n_islands": n_islands, "n_archs": n_archs}

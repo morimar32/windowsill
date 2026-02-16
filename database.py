@@ -229,9 +229,16 @@ def migrate_schema(con):
             synset_name TEXT NOT NULL,
             gloss TEXT NOT NULL,
             sense_embedding FLOAT[{dim}],
-            total_dims INTEGER DEFAULT 0
+            total_dims INTEGER DEFAULT 0,
+            is_domain_anchored BOOLEAN DEFAULT FALSE
         )
     """)
+
+    # Migration: add is_domain_anchored to existing word_senses
+    try:
+        con.execute("ALTER TABLE word_senses ADD COLUMN is_domain_anchored BOOLEAN DEFAULT FALSE")
+    except duckdb.CatalogException:
+        pass
 
     # sense_dim_memberships table
     con.execute("""
@@ -411,7 +418,11 @@ def insert_word_components(con, rows):
 def insert_word_senses(con, rows):
     if not rows:
         return
-    df = pd.DataFrame(rows, columns=["sense_id", "word_id", "pos", "synset_name", "gloss", "sense_embedding", "total_dims"])
+    # Support both 7-column (legacy) and 8-column (with is_domain_anchored) rows
+    if rows and len(rows[0]) == 8:
+        df = pd.DataFrame(rows, columns=["sense_id", "word_id", "pos", "synset_name", "gloss", "sense_embedding", "total_dims", "is_domain_anchored"])
+    else:
+        df = pd.DataFrame(rows, columns=["sense_id", "word_id", "pos", "synset_name", "gloss", "sense_embedding", "total_dims"])
     con.execute("INSERT INTO word_senses SELECT * FROM df")
 
 
