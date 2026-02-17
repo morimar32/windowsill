@@ -791,41 +791,36 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
 
 def write_all_formats(output_dir, word_lookup, word_reefs, words,
                       reef_records, island_records, bg_mean, bg_std,
-                      compounds, reef_stats, avg_reef_words, reef_edges):
-    """Write both v1 (msgpack) and v2 (flat binary) formats."""
+                      compounds, reef_stats, avg_reef_words, reef_edges,
+                      write_v2=False):
+    """Write v1 (msgpack) and optionally v2 (flat binary) formats."""
     write_all_files(
         output_dir, word_lookup, word_reefs, words,
         reef_records, island_records, bg_mean, bg_std,
         compounds, reef_stats, avg_reef_words, reef_edges,
     )
-    write_all_files_v2(
-        output_dir, word_lookup, word_reefs, words,
-        reef_records, island_records, bg_mean, bg_std,
-        compounds, reef_stats, avg_reef_words, reef_edges,
-    )
+    if write_v2:
+        write_all_files_v2(
+            output_dir, word_lookup, word_reefs, words,
+            reef_records, island_records, bg_mean, bg_std,
+            compounds, reef_stats, avg_reef_words, reef_edges,
+        )
 
 
 def write_manifest(output_dir, words, word_lookup, word_reefs,
-                   reef_records, island_records, compounds, reef_edges):
+                   reef_records, island_records, compounds, reef_edges,
+                   write_v2=False):
     """Write manifest.json with checksums and stats."""
     checksums = {}
     for fname in EXPORT_FILES:
         path = os.path.join(output_dir, fname)
         checksums[fname] = sha256_file(path)
 
-    v2_checksums = {}
-    v2_dir = os.path.join(output_dir, "v2")
-    for fname in V2_FILES:
-        path = os.path.join(v2_dir, fname)
-        v2_checksums[fname] = sha256_file(path)
-
     manifest = {
         "version": FORMAT_VERSION,
         "format": "msgpack",
-        "v2_format": "flat_binary",
         "build_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "files": checksums,
-        "v2_files": v2_checksums,
         "stats": {
             "n_reefs": len(reef_records),
             "n_islands": len(island_records),
@@ -838,6 +833,15 @@ def write_manifest(output_dir, words, word_lookup, word_reefs,
             "edge_weight_threshold": config.EXPORT_WEIGHT_THRESHOLD,
         },
     }
+
+    if write_v2:
+        v2_checksums = {}
+        v2_dir = os.path.join(output_dir, "v2")
+        for fname in V2_FILES:
+            path = os.path.join(v2_dir, fname)
+            v2_checksums[fname] = sha256_file(path)
+        manifest["v2_format"] = "flat_binary"
+        manifest["v2_files"] = v2_checksums
 
     manifest_path = os.path.join(output_dir, "manifest.json")
     with open(manifest_path, "w") as f:
@@ -852,7 +856,7 @@ def write_manifest(output_dir, words, word_lookup, word_reefs,
 # ---------------------------------------------------------------------------
 
 def verify_export(output_dir, words, word_reefs_data, reef_stats,
-                  avg_reef_words, reef_edges):
+                  avg_reef_words, reef_edges, write_v2=False):
     """Post-export validation."""
     print("\n=== Verification ===")
     errors = 0
@@ -945,42 +949,45 @@ def verify_export(output_dir, words, word_reefs_data, reef_stats,
         print(f"    First edge: src={first[0]}, tgt={first[1]}, w={first[2]:.4f}")
         print(f"    Last edge:  src={last[0]}, tgt={last[1]}, w={last[2]:.4f}")
 
-    # 6. Verify v2 files existence and size
-    print("  Checking v2 files...")
-    v2_dir = os.path.join(output_dir, "v2")
-    for fname in V2_FILES:
-        path = os.path.join(v2_dir, fname)
-        if not os.path.exists(path):
-            print(f"    FAIL: v2/{fname} missing")
-            errors += 1
-        else:
-            size = os.path.getsize(path)
-            print(f"    OK: v2/{fname} ({size} bytes)")
-
-    # 7. Spot-check v2 reef_edges header
-    v2_re_path = os.path.join(v2_dir, "reef_edges.bin")
-    if os.path.exists(v2_re_path):
-        with open(v2_re_path, "rb") as f:
-            magic = f.read(4)
-            count = struct.unpack("<I", f.read(4))[0]
-        if magic != b"WSRE":
-            print(f"    FAIL: v2/reef_edges.bin magic={magic!r}, expected b'WSRE'")
-            errors += 1
-        elif count != len(reef_edges):
-            print(f"    FAIL: v2/reef_edges.bin count={count}, expected {len(reef_edges)}")
-            errors += 1
-        else:
-            print(f"    OK: v2/reef_edges.bin magic=WSRE, count={count}")
-
-    # 8. Verify v2 checksums
-    if "v2_files" in manifest:
-        for fname, expected_hash in manifest["v2_files"].items():
-            actual_hash = sha256_file(os.path.join(v2_dir, fname))
-            if actual_hash != expected_hash:
-                print(f"    FAIL: v2/{fname} checksum mismatch")
+    # 6-8. Verify v2 files (only if --v2 was used)
+    if write_v2:
+        print("  Checking v2 files...")
+        v2_dir = os.path.join(output_dir, "v2")
+        for fname in V2_FILES:
+            path = os.path.join(v2_dir, fname)
+            if not os.path.exists(path):
+                print(f"    FAIL: v2/{fname} missing")
                 errors += 1
             else:
-                print(f"    OK: v2/{fname} checksum")
+                size = os.path.getsize(path)
+                print(f"    OK: v2/{fname} ({size} bytes)")
+
+        # Spot-check v2 reef_edges header
+        v2_re_path = os.path.join(v2_dir, "reef_edges.bin")
+        if os.path.exists(v2_re_path):
+            with open(v2_re_path, "rb") as f:
+                magic = f.read(4)
+                count = struct.unpack("<I", f.read(4))[0]
+            if magic != b"WSRE":
+                print(f"    FAIL: v2/reef_edges.bin magic={magic!r}, expected b'WSRE'")
+                errors += 1
+            elif count != len(reef_edges):
+                print(f"    FAIL: v2/reef_edges.bin count={count}, expected {len(reef_edges)}")
+                errors += 1
+            else:
+                print(f"    OK: v2/reef_edges.bin magic=WSRE, count={count}")
+
+        # Verify v2 checksums
+        if "v2_files" in manifest:
+            for fname, expected_hash in manifest["v2_files"].items():
+                actual_hash = sha256_file(os.path.join(v2_dir, fname))
+                if actual_hash != expected_hash:
+                    print(f"    FAIL: v2/{fname} checksum mismatch")
+                    errors += 1
+                else:
+                    print(f"    OK: v2/{fname} checksum")
+    else:
+        print("  Skipping v2 checks (--v2 not specified)")
 
     # 9. Sanity-check counts (dynamic, not hardcoded)
     print("  Checking counts...")
@@ -1083,11 +1090,13 @@ def export(args):
         args.output, word_lookup, word_reefs, words,
         reef_records, island_records, bg_mean, bg_std,
         compounds, reef_stats, avg_reef_words, reef_edges,
+        write_v2=args.v2,
     )
 
     manifest = write_manifest(
         args.output, words, word_lookup, word_reefs,
         reef_records, island_records, compounds, reef_edges,
+        write_v2=args.v2,
     )
 
     elapsed = time.time() - start
@@ -1098,7 +1107,7 @@ def export(args):
     if args.verify:
         verify_errors = verify_export(
             args.output, words, word_reefs, reef_stats,
-            avg_reef_words, reef_edges,
+            avg_reef_words, reef_edges, write_v2=args.v2,
         )
         if verify_errors > 0:
             sys.exit(1)
@@ -1135,6 +1144,10 @@ def main():
     parser.add_argument(
         "--verify", action="store_true",
         help="Run post-export validation",
+    )
+    parser.add_argument(
+        "--v2", action="store_true",
+        help="Also generate v2 flat binary files (off by default)",
     )
     args = parser.parse_args()
     export(args)

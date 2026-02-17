@@ -1,3 +1,5 @@
+import math
+
 import pandas as pd
 
 import config
@@ -51,8 +53,12 @@ def create_artificial_dimensions(con):
     # Sort by domain name for deterministic dim_id assignment
     sorted_domains = sorted(qualifying.keys())
 
-    # Preload word total_dims for dim_weight computation
+    # Preload word specificity for universal_pct computation
+    # (same definition as post_process.compute_dimension_abstractness)
     total_words = con.execute("SELECT COUNT(*) FROM words").fetchone()[0]
+    universal_word_ids = set(r[0] for r in con.execute(
+        "SELECT word_id FROM words WHERE specificity < 0"
+    ).fetchall())
 
     # Build dim_stats and dim_memberships rows
     stats_rows = []
@@ -64,11 +70,13 @@ def create_artificial_dimensions(con):
         word_ids = qualifying[domain]
         n_members = len(word_ids)
 
-        # universal_pct: fraction of total vocabulary in this dim
-        universal_pct = n_members / total_words if total_words > 0 else 0.0
+        # universal_pct: fraction of THIS dim's members that are universal words
+        # (same formula as natural dims in post_process.compute_dimension_abstractness)
+        n_universal = sum(1 for wid in word_ids if wid in universal_word_ids)
+        universal_pct = n_universal / n_members if n_members > 0 else 0.0
 
-        # dim_weight: inverse of universal_pct (rare dims weight more), capped
-        dim_weight = 1.0 / universal_pct if universal_pct > 0 else 1.0
+        # dim_weight: -log2 with floor, same as natural dims
+        dim_weight = -math.log2(max(universal_pct, 0.01))
 
         stats_rows.append({
             "dim_id": dim_id,
