@@ -15,6 +15,10 @@ SENSE_INTERMEDIATE_DIR = "intermediates/senses"
 COMPOSITIONALITY_THRESHOLD = 0.20
 CONTAMINATION_ZSCORE_MIN = 2.0
 
+# Artificial dimensions (domain-based)
+MIN_ARTIFICIAL_DIM_WORDS = 5    # Minimum domain size for artificial dim creation
+ARTIFICIAL_DIM_ZSCORE = 2.0     # z-score assigned to artificial dim members
+
 # Island detection (Phase 9)
 ISLAND_JACCARD_ZSCORE = 3.0           # Min hypergeometric z-score to include edge in graph
 ISLAND_LEIDEN_RESOLUTION = 1.0       # Leiden resolution (higher = more/smaller islands)

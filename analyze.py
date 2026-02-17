@@ -14,8 +14,26 @@ import os
 from datetime import datetime
 
 import duckdb
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import pandas as pd
 
 import config
+
+
+# Archipelago colors for hierarchy chart (extend if more archipelagos emerge)
+CHART_ARCH_COLORS = [
+    (0.2, 0.4, 0.8),   # blue
+    (0.9, 0.5, 0.1),   # orange
+    (0.2, 0.7, 0.3),   # green
+    (0.8, 0.2, 0.2),   # red
+    (0.6, 0.3, 0.7),   # purple
+    (0.1, 0.7, 0.7),   # teal
+    (0.8, 0.6, 0.2),   # gold
+    (0.5, 0.5, 0.5),   # gray
+]
 
 
 # ---------------------------------------------------------------------------
@@ -599,6 +617,115 @@ def format_file_size(path):
 
 
 # ---------------------------------------------------------------------------
+# Hierarchy chart
+# ---------------------------------------------------------------------------
+
+def generate_hierarchy_chart(metrics, output_path="great_chart.png"):
+    """Generate the full hierarchy chart: islands decomposed into reefs."""
+    df_arch = pd.DataFrame(
+        metrics["archipelagos"],
+        columns=["island_id", "island_name", "n_dims", "n_words", "valence",
+                 "avg_specificity", "noun_frac", "verb_frac", "adj_frac", "adv_frac"],
+    )
+    df_islands = pd.DataFrame(
+        metrics["islands"],
+        columns=["island_id", "island_name", "parent_island_id", "n_dims", "n_words",
+                 "valence", "avg_specificity", "noun_frac", "verb_frac", "adj_frac", "adv_frac"],
+    )
+    df_reefs = pd.DataFrame(
+        metrics["reefs"],
+        columns=["island_id", "island_name", "parent_island_id", "n_dims", "n_words",
+                 "valence", "avg_specificity", "noun_frac", "verb_frac", "adj_frac", "adv_frac"],
+    )
+
+    n_arch = len(df_arch)
+    arch_colors = CHART_ARCH_COLORS[:n_arch]
+
+    fig, ax = plt.subplots(figsize=(16, max(10, len(df_islands) * 0.35)))
+
+    y = 0
+    yticks = []
+    ylabels = []
+    y_arch_boundaries = []
+
+    for arch_idx in range(n_arch):
+        arch_row = df_arch.iloc[arch_idx]
+        arch_id = int(arch_row["island_id"])
+        y_start = y
+
+        islands = df_islands[df_islands["parent_island_id"] == arch_id].sort_values(
+            "n_dims", ascending=False
+        )
+
+        for _, island_row in islands.iterrows():
+            island_id = int(island_row["island_id"])
+            reefs = df_reefs[df_reefs["parent_island_id"] == island_id].sort_values(
+                "n_dims", ascending=False
+            )
+
+            base_color = arch_colors[arch_idx]
+
+            if len(reefs) > 0:
+                n_children = len(reefs)
+                shades = [
+                    tuple(c * (0.3 + 0.7 * i / max(n_children - 1, 1)) for c in base_color)
+                    for i in range(n_children)
+                ]
+                cumulative = 0
+                for j, (_, reef_row) in enumerate(reefs.iterrows()):
+                    ax.barh(y, reef_row["n_dims"], left=cumulative, color=shades[j],
+                            edgecolor="white", linewidth=0.3, height=0.7)
+                    if reef_row["n_dims"] >= 4:
+                        ax.text(cumulative + reef_row["n_dims"] / 2, y,
+                                str(int(reef_row["n_dims"])),
+                                ha="center", va="center", fontsize=5,
+                                color="white", fontweight="bold")
+                    cumulative += reef_row["n_dims"]
+
+                noise = int(island_row["n_dims"]) - int(reefs["n_dims"].sum())
+                if noise > 0:
+                    ax.barh(y, noise, left=cumulative, color="#dddddd",
+                            edgecolor="white", linewidth=0.3, height=0.7)
+            else:
+                ax.barh(y, island_row["n_dims"], color=base_color, alpha=0.4,
+                        edgecolor="white", linewidth=0.3, height=0.7)
+
+            island_name = (
+                island_row["island_name"]
+                if pd.notna(island_row["island_name"])
+                else f"island-{island_id}"
+            )
+            yticks.append(y)
+            ylabels.append(f"  {island_name[:35]} ({int(island_row['n_dims'])}d)")
+            y += 1
+
+        y_arch_boundaries.append((y_start, y - 1, arch_row["island_name"]))
+        y += 0.5
+
+    ax.set_yticks(yticks)
+    ax.set_yticklabels(ylabels, fontsize=5)
+    ax.set_xlabel("Number of dimensions")
+    ax.set_title("Full Hierarchy: Islands decomposed into Reefs (gray = noise)")
+    ax.invert_yaxis()
+
+    for y_start, y_end, name in y_arch_boundaries:
+        mid = (y_start + y_end) / 2
+        ax.text(ax.get_xlim()[1] * 1.02, mid, name, fontsize=8, fontweight="bold",
+                va="center", ha="left", color="#333333")
+
+    patches = [
+        mpatches.Patch(color=arch_colors[i], label=str(df_arch.iloc[i]["island_name"])[:40])
+        for i in range(n_arch)
+    ]
+    patches.append(mpatches.Patch(color="#dddddd", label="Noise (unassigned)"))
+    ax.legend(handles=patches, loc="lower right", fontsize=7)
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=200, bbox_inches="tight")
+    plt.close(fig)
+    print(f"Saved hierarchy chart to {output_path}")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -626,6 +753,8 @@ def main():
             with open(args.output, "w") as f:
                 f.write(md)
             print(f"\nWrote {args.output}")
+
+            generate_hierarchy_chart(metrics)
     finally:
         con.close()
 

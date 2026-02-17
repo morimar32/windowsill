@@ -163,7 +163,8 @@ def run_phase5(con=None, db_path=None, no_resume=False):
     print(f"  Inserted {len(sense_rows)} full-gloss senses")
 
     # Sense analysis against existing thresholds (was phase 5c)
-    sense_embs, sense_ids = database.load_sense_embedding_matrix(con)
+    # Load ONLY standard senses (not domain-anchored) to avoid the second call wiping these
+    sense_embs, sense_ids = database.load_sense_embedding_matrix(con, domain_anchored=False)
     if len(sense_ids) > 0:
         analyzer.run_sense_analysis(con, sense_embs, sense_ids)
 
@@ -235,14 +236,15 @@ def run_phase6(con=None, db_path=None):
 # ---------------------------------------------------------------------------
 
 def run_phase7(con=None, db_path=None):
-    """Jaccard matrix, 3-generation Leiden detection, noise recovery."""
+    """Artificial dimensions + Jaccard matrix + 3-generation Leiden detection + noise recovery."""
     print("\n=== Phase 7: Islands ===")
-    import database, islands
+    import database, islands, artificial_dims
 
     if con is None:
         con = database.get_connection(db_path)
 
     database.migrate_schema(con)
+    artificial_dims.create_artificial_dimensions(con)
     islands.run_island_detection(con)
     print("  Phase 7 complete")
     return con

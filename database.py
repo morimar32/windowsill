@@ -192,6 +192,13 @@ def migrate_schema(con):
     except duckdb.CatalogException:
         pass
 
+    # Artificial dimension columns on dim_stats
+    for col, typedef in [("is_artificial", "BOOLEAN DEFAULT FALSE"), ("domain", "TEXT")]:
+        try:
+            con.execute(f"ALTER TABLE dim_stats ADD COLUMN {col} {typedef}")
+        except duckdb.CatalogException:
+            pass
+
     # POS composition columns on dim_stats (sense-aware fractions)
     for col in ["noun_frac", "verb_frac", "adj_frac", "adv_frac"]:
         try:
@@ -433,9 +440,12 @@ def insert_sense_dim_memberships(con, memberships):
     con.execute("INSERT INTO sense_dim_memberships SELECT * FROM df")
 
 
-def load_sense_embedding_matrix(con):
+def load_sense_embedding_matrix(con, domain_anchored=None):
+    where = "WHERE sense_embedding IS NOT NULL"
+    if domain_anchored is not None:
+        where += f" AND is_domain_anchored = {domain_anchored}"
     result = con.execute(
-        "SELECT sense_id, sense_embedding FROM word_senses WHERE sense_embedding IS NOT NULL ORDER BY sense_id"
+        f"SELECT sense_id, sense_embedding FROM word_senses {where} ORDER BY sense_id"
     ).fetchall()
     sense_ids = [r[0] for r in result]
     matrix = np.array([r[1] for r in result], dtype=np.float32)
@@ -562,11 +572,13 @@ def run_integrity_checks(con):
     if _table_exists(con, "dim_stats"):
         dim_count = con.execute("SELECT COUNT(*) FROM dim_stats").fetchone()[0]
         expected = config.MATRYOSHKA_DIM
-        if dim_count == expected:
-            print(f"  [PASS] dim_stats has exactly {expected} rows")
+        if dim_count >= expected:
+            extra = dim_count - expected
+            extra_str = f" (+{extra} artificial)" if extra > 0 else ""
+            print(f"  [PASS] dim_stats has {dim_count} rows (>= {expected}){extra_str}")
             passed += 1
         else:
-            print(f"  [FAIL] dim_stats has {dim_count} rows (expected {expected})")
+            print(f"  [FAIL] dim_stats has {dim_count} rows (expected >= {expected})")
             failed += 1
     else:
         print("  [SKIP] dim_stats row count: table not found")

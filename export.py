@@ -33,7 +33,7 @@ from word_list import fnv1a_u64
 # ---------------------------------------------------------------------------
 IDF_SCALE = 51
 BM25_SCALE = 8192
-FORMAT_VERSION = "1.1"
+FORMAT_VERSION = "2.0"
 
 EXPORT_FILES = [
     "word_lookup.bin",
@@ -63,8 +63,8 @@ V2_FILES = [
 # ---------------------------------------------------------------------------
 
 def pack_hierarchy_addr(arch_id, island_id, reef_id):
-    """Pack arch(2)|island(6)|reef(8) into a u16."""
-    return (arch_id << 14) | (island_id << 8) | reef_id
+    """Pack arch(8)|island(8)|reef(16) into a u32."""
+    return (arch_id << 24) | (island_id << 16) | reef_id
 
 
 def clamp(value, lo, hi):
@@ -104,7 +104,7 @@ def load_reef_hierarchy(con):
 
     n_reefs = len(reefs)
     assert n_reefs > 0, "No reefs found in database"
-    assert n_reefs <= 256, f"Reef count {n_reefs} exceeds u8 limit (256)"
+    assert n_reefs <= 65535, f"Reef count {n_reefs} exceeds u16 limit (65535)"
 
     # Islands (gen=1)
     islands = con.execute("""
@@ -114,7 +114,7 @@ def load_reef_hierarchy(con):
 
     n_islands = len(islands)
     assert n_islands > 0, "No islands found in database"
-    assert n_islands <= 64, f"Island count {n_islands} exceeds 6-bit limit (64)"
+    assert n_islands <= 255, f"Island count {n_islands} exceeds u8 limit (255)"
 
     # Archipelagos (gen=0)
     archs = con.execute("""
@@ -124,7 +124,7 @@ def load_reef_hierarchy(con):
 
     n_archs = len(archs)
     assert n_archs > 0, "No archipelagos found in database"
-    assert n_archs <= 4, f"Arch count {n_archs} exceeds 2-bit limit (4)"
+    assert n_archs <= 255, f"Arch count {n_archs} exceeds u8 limit (255)"
 
     # Build arch remap (sorted by db_arch_id for determinism)
     arch_remap = {}
@@ -144,8 +144,8 @@ def load_reef_hierarchy(con):
             "name": name,
         })
 
-    assert max(island_remap.values()) <= 63, \
-        f"Island ID {max(island_remap.values())} exceeds 6-bit limit (63)"
+    assert max(island_remap.values()) <= 255, \
+        f"Island ID {max(island_remap.values())} exceeds u8 limit (255)"
 
     # Build reef remap (sorted by arch → island → db_reef_id)
     reef_remap = {}
@@ -166,10 +166,10 @@ def load_reef_hierarchy(con):
             "export_arch_id": e_arch,
         })
 
-    assert max(reef_remap.values()) <= 255, \
-        f"Reef ID {max(reef_remap.values())} exceeds u8 limit (255)"
-    assert max(arch_remap.values()) <= 3, \
-        f"Arch ID {max(arch_remap.values())} exceeds 2-bit limit (3)"
+    assert max(reef_remap.values()) <= 65535, \
+        f"Reef ID {max(reef_remap.values())} exceeds u16 limit (65535)"
+    assert max(arch_remap.values()) <= 255, \
+        f"Arch ID {max(arch_remap.values())} exceeds u8 limit (255)"
 
     id_remap = {
         "reef": reef_remap,
@@ -666,11 +666,11 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
     v2_dir = os.path.join(output_dir, "v2")
     os.makedirs(v2_dir, exist_ok=True)
 
-    # 1. reef_edges.bin — magic WSRE, record: src(u8) + tgt(u8) + weight(f32) = 6 bytes
+    # 1. reef_edges.bin — magic WSRE, record: src(u16) + tgt(u16) + weight(f32) = 8 bytes
     with open(os.path.join(v2_dir, "reef_edges.bin"), "wb") as f:
         _write_v2_header(f, b"WSRE", len(reef_edges))
         for src, tgt, weight in reef_edges:
-            f.write(struct.pack("<BBf", src, tgt, weight))
+            f.write(struct.pack("<HHf", src, tgt, weight))
 
     # 2. word_lookup.bin — magic WSWL
     # record: lookup_hash(u64) + word_hash(u64) + word_id(u32) + specificity(i8) + idf_q(u8) + pad(2) = 24 bytes
@@ -688,7 +688,7 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
 
     # 3. word_reefs.bin — magic WSWR
     # Index: (max_wid+1) x [offset(u32), count(u32)] = 8 bytes per entry
-    # Data: reef_id(u8) + pad(1) + bm25_q(u16) = 4 bytes per entry
+    # Data: reef_id(u16) + bm25_q(u16) = 4 bytes per entry
     max_word_id = max(words.keys()) if words else 0
     index_count = max_word_id + 1
 
@@ -708,15 +708,15 @@ def write_all_files_v2(output_dir, word_lookup, word_reefs, words,
         for off, cnt in wr_index:
             f.write(struct.pack("<II", off, cnt))
         for reef_id, bm25_q in wr_data:
-            f.write(struct.pack("<BxH", reef_id, bm25_q))
+            f.write(struct.pack("<HH", reef_id, bm25_q))
 
     # 4. reef_meta.bin — magic WSRM
-    # record: hierarchy_addr(u16) + n_words(u16) + name(64 bytes, null-padded) = 68 bytes
+    # record: hierarchy_addr(u32) + n_words(u32) + name(64 bytes, null-padded) = 72 bytes
     with open(os.path.join(v2_dir, "reef_meta.bin"), "wb") as f:
         _write_v2_header(f, b"WSRM", len(reef_records))
         for r in reef_records:
             name_bytes = r["name"].encode("utf-8")[:64].ljust(64, b"\x00")
-            f.write(struct.pack("<HH", r["hierarchy_addr"], r["n_words"]))
+            f.write(struct.pack("<II", r["hierarchy_addr"], r["n_words"]))
             f.write(name_bytes)
 
     # 5. island_meta.bin — magic WSIM
@@ -986,9 +986,9 @@ def verify_export(output_dir, words, word_reefs_data, reef_stats,
     print("  Checking counts...")
     stats = manifest["stats"]
     for key, limit, desc in [
-        ("n_reefs", 256, "u8 limit"),
-        ("n_islands", 64, "6-bit limit"),
-        ("n_archs", 4, "2-bit limit"),
+        ("n_reefs", 65535, "u16 limit"),
+        ("n_islands", 255, "u8 limit"),
+        ("n_archs", 255, "u8 limit"),
     ]:
         val = stats[key]
         if val <= 0:

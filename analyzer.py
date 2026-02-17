@@ -100,14 +100,19 @@ def run_analysis(con, embedding_matrix=None, word_ids=None):
 
 
 def run_sense_analysis(con, sense_embeddings, sense_ids):
-    dim_stats_rows = con.execute(
-        "SELECT dim_id, threshold, mean, std FROM dim_stats ORDER BY dim_id"
-    ).fetchall()
-
     n_senses, n_dims = sense_embeddings.shape
+
+    # Only load natural dims (skip artificial dims beyond embedding width)
+    dim_stats_rows = con.execute(
+        "SELECT dim_id, threshold, mean, std FROM dim_stats WHERE dim_id < ? ORDER BY dim_id",
+        [n_dims],
+    ).fetchall()
     print(f"Analyzing {n_senses} senses against {n_dims} existing dimension thresholds...")
 
-    con.execute("DELETE FROM sense_dim_memberships")
+    # Delete ONLY the senses we're about to recompute (not the whole table)
+    if sense_ids:
+        id_list = ",".join(str(sid) for sid in sense_ids)
+        con.execute(f"DELETE FROM sense_dim_memberships WHERE sense_id IN ({id_list})")
 
     all_memberships = []
     for dim_id, threshold, mean, std in tqdm(dim_stats_rows, desc="Sense analysis"):

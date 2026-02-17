@@ -127,7 +127,7 @@ def materialize_word_pair_overlap(con, threshold=None):
     # intermediate rows that will otherwise consume all available memory.
     try:
         total_mem = os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
-        mem_limit_gb = max(total_mem * 0.5 / (1024 ** 3), 2)
+        mem_limit_gb = max(total_mem * 0.75 / (1024 ** 3), 2)
         con.execute(f"SET memory_limit='{mem_limit_gb:.0f}GB'")
         print(f"  DuckDB memory limit set to {mem_limit_gb:.0f}GB")
     except Exception:

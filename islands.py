@@ -27,8 +27,8 @@ def compute_jaccard_matrix(con):
     word_ids = np.array([r[1] for r in rows], dtype=np.int32)
     print(f"    Loaded {len(rows):,} memberships (single-token words only)")
 
-    # Build sparse binary matrix M (768 x N_words)
-    n_dims = config.MATRYOSHKA_DIM
+    # Build sparse binary matrix M (n_dims x N_words) — includes artificial dims
+    n_dims = con.execute("SELECT MAX(dim_id) + 1 FROM dim_stats").fetchone()[0]
     max_word_id = int(word_ids.max()) + 1
     data = np.ones(len(rows), dtype=np.float32)
     M = csr_matrix((data, (dim_ids, word_ids)), shape=(n_dims, max_word_id))
@@ -85,7 +85,7 @@ def detect_islands(con):
         WHERE z_score >= {config.ISLAND_JACCARD_ZSCORE}
     """).fetchall()
 
-    n_dims = config.MATRYOSHKA_DIM
+    n_dims = con.execute("SELECT MAX(dim_id) + 1 FROM dim_stats").fetchone()[0]
     g = ig.Graph(n=n_dims)
     if edges:
         edge_list = [(r[0], r[1]) for r in edges]
@@ -367,7 +367,7 @@ def compute_characteristic_words(con, generation=0):
     """Compute PMI-ranked characteristic words per island for the given generation."""
     print(f"  Computing characteristic words (PMI, gen {generation})...")
 
-    n_total_dims = config.MATRYOSHKA_DIM
+    n_total_dims = con.execute("SELECT MAX(dim_id) + 1 FROM dim_stats").fetchone()[0]
     top_n = config.ISLAND_CHARACTERISTIC_WORDS_N
 
     islands = con.execute("""
