@@ -2,7 +2,7 @@
 
 what you can see shifts when you switch from a 🔭 to a 🪟
 
-A vector space distillation engine that decomposes word embeddings into a domain-aware vocabulary engine that maps 158K English words to 444 semantic domains using transformer embeddings, XGBoost classifiers, and graph clustering. Produces compact binary files consumed by [Lagoon](../lagoon/) for real-time domain scoring of free text.
+A vector space distillation engine that decomposes word embeddings into a domain-aware vocabulary engine that maps 158K English words to 444 semantic domains using transformer embeddings, XGBoost classifiers, and graph clustering. Produces compact binary files consumed by [Lagoon](https://github.com/morimar32/lagoon) for real-time domain scoring of free text.
 
 ## What This Does
 
