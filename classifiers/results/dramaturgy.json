@@ -1,0 +1,146 @@
+{
+  "domain": "dramaturgy",
+  "n_positive": 87,
+  "n_negative": 435,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9,
+    "recall": 0.6041050903119868,
+    "f1": 0.6840099626400996,
+    "auc_pr": 0.7867356391799266
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25862068965517243,
+      "f1": 0.410958904109589,
+      "auc_pr": 0.8419779784655037
+    },
+    {
+      "precision": 0.625,
+      "recall": 0.625,
+      "f1": 0.625,
+      "auc_pr": 0.6817550505050505
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.8921568627450981
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6387704470411237
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1": 0.875,
+      "auc_pr": 0.8790178571428571
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.06316387467086315,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.03507651723921299,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.026428611832670867,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.025486575812101363,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.02310405153548345,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.01836991779273376,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.016054978594183922,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 718,
+      "importance": 0.015435457788407802,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 529,
+      "importance": 0.01469857506453991,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 632,
+      "importance": 0.014583400450646877,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.014494261465733871,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.014196243882179261,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.013324722729157657,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.012325451103970408,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.01209551263600588,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.011659255810081958,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.011570830270648003,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 368,
+      "importance": 0.010334036499261855,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 140,
+      "importance": 0.009945132490247487,
+      "reef_name": "conflict and turmoil"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.009804780595004559,
+      "reef_name": "taxonomic families genera"
+    }
+  ]
+}

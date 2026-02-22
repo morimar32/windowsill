@@ -1,0 +1,146 @@
+{
+  "domain": "industry",
+  "n_positive": 123,
+  "n_negative": 615,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8643068455452358,
+    "recall": 0.7615485829959514,
+    "f1": 0.8083257502944899,
+    "auc_pr": 0.8739598667814021
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8444444444444444,
+      "recall": 0.7307692307692307,
+      "f1": 0.7835051546391752,
+      "auc_pr": 0.8281037502136215
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.8125,
+      "f1": 0.8387096774193549,
+      "auc_pr": 0.8496762000476837
+    },
+    {
+      "precision": 0.8947368421052632,
+      "recall": 0.85,
+      "f1": 0.8717948717948718,
+      "auc_pr": 0.9233200169219573
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.625,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8402044775400039
+    },
+    {
+      "precision": 0.8823529411764706,
+      "recall": 0.7894736842105263,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9284948891837437
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.0951484315097332,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.042020395398139954,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.030335002206265928,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.02079698573797941,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.02045634682290256,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.018356912955641746,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.015528102498501539,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.013365238904953003,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.013279565144330263,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.012529082247056067,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.012296818871982395,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.01169675355340587,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.011629176896531136,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.011495247483253479,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.011175534909125418,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.01051063220947981,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 586,
+      "importance": 0.010285034216940403,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.010180607065558433,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.010134706320241094,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.009969308017753064,
+      "reef_name": "enormity and exaggeration"
+    }
+  ]
+}

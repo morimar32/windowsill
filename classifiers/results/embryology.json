@@ -1,0 +1,146 @@
+{
+  "domain": "embryology",
+  "n_positive": 50,
+  "n_negative": 250,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9166666666666667,
+    "recall": 0.4681385281385281,
+    "f1": 0.5994737288854937,
+    "auc_pr": 0.754646118213516
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.7
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5454545454545454,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.7990702479338843
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.4166666666666667,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.6669765936677702
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9276315789473684
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.42857142857142855,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.6795521705185571
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 607,
+      "importance": 0.06706301942467689,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.02733690682798624,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 209,
+      "importance": 0.02069411179982126,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.0182651050388813,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.01761116784764454,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.015363737940788269,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.015127127431333065,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.014557883329689502,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 700,
+      "importance": 0.01438880994101055,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 748,
+      "importance": 0.01431260835379362,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 451,
+      "importance": 0.013573144376277924,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.012977650109678506,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.012707570195198059,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.012619334831833839,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 406,
+      "importance": 0.01257307231426239,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 288,
+      "importance": 0.01228885215241462,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.011696515706717037,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.011532410769723356,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.011201407760381699,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.01111636757850647,
+      "reef_name": "words starting with a"
+    }
+  ]
+}

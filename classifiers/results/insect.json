@@ -1,0 +1,146 @@
+{
+  "domain": "insect",
+  "n_positive": 99,
+  "n_negative": 495,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8756643356643357,
+    "recall": 0.5323097181456314,
+    "f1": 0.6452024117140397,
+    "auc_pr": 0.7604992093799969
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9,
+      "recall": 0.2727272727272727,
+      "f1": 0.4186046511627907,
+      "auc_pr": 0.7080519416962894
+    },
+    {
+      "precision": 0.7692307692307693,
+      "recall": 0.7142857142857143,
+      "f1": 0.7407407407407407,
+      "auc_pr": 0.7196765536051252
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.47058823529411764,
+      "f1": 0.5925925925925926,
+      "auc_pr": 0.7551840384554057
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5789473684210527,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.768095118775513
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.625,
+      "f1": 0.7407407407407407,
+      "auc_pr": 0.8514883943676513
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 20,
+      "importance": 0.032038184627890584,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.03050399273633957,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.02096788741182536,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.016654951497912407,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.015711930475663393,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.013621837180107833,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.012767812609672547,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 179,
+      "importance": 0.012477974500507116,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.01226771017536521,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 190,
+      "importance": 0.011832963860069868,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.011347228390513919,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 580,
+      "importance": 0.011282218445558101,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.010748635772324633,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.010418455325998366,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.010349632892757653,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.010015015490353107,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.010000573842262384,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 379,
+      "importance": 0.009578908805269747,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 192,
+      "importance": 0.009104565135203302,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.009041651817096864,
+      "reef_name": "wind and weather"
+    }
+  ]
+}

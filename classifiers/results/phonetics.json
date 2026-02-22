@@ -1,0 +1,146 @@
+{
+  "domain": "phonetics",
+  "n_positive": 54,
+  "n_negative": 270,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6761904761904762,
+    "recall": 0.49714285714285705,
+    "f1": 0.46828828828828833,
+    "auc_pr": 0.766523191355146
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.05714285714285714,
+      "f1": 0.10810810810810811,
+      "auc_pr": 0.7099175440773177
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 1.0,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9028571428571428
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.8309523809523809
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.3888888888888889
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 225,
+      "importance": 0.033311022259294984,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.031146453134715556,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.031106466986238958,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.024232162768021225,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 453,
+      "importance": 0.02026416074950248,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.01991510905791074,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 461,
+      "importance": 0.019907791912555695,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 653,
+      "importance": 0.019200257305055857,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.01760078687220812,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 152,
+      "importance": 0.01753006875514984,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.016103719547390937,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.015697307139635085,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.015518157184123993,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 97,
+      "importance": 0.014030743949115276,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.013746020011603832,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 692,
+      "importance": 0.013683198066428304,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 601,
+      "importance": 0.012636392749845982,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.01210378143005073,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.011463698744773865,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.010876421071588992,
+      "reef_name": "triggering conditions and intensification"
+    }
+  ]
+}

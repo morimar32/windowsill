@@ -1,0 +1,146 @@
+{
+  "domain": "ornithology",
+  "n_positive": 56,
+  "n_negative": 280,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.85,
+    "recall": 0.3488888888888889,
+    "f1": 0.46728110599078343,
+    "auc_pr": 0.5959195699244908
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.1111111111111111,
+      "f1": 0.1935483870967742,
+      "auc_pr": 0.6028886236075042
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.6497626658916981
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.5838235294117646
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6506987882872447
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.49242424242424243
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 327,
+      "importance": 0.02007116680033505,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.019295484467875212,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.01810027821920812,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.016148521192371847,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 541,
+      "importance": 0.014918152429163455,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.014774869848042726,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.014676524989772588,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 251,
+      "importance": 0.014373638480901719,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 423,
+      "importance": 0.013806834816932678,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.013772104866802692,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.013701465027406812,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.013249778928002342,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 621,
+      "importance": 0.012906316854059696,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.01281273141503334,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 100,
+      "importance": 0.011268168268725277,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.010971008278283989,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.010567908952361904,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.01026562750339508,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.009872642531991004,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.009871654212474823,
+      "reef_name": "color and pigmentation"
+    }
+  ]
+}

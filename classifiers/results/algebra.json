@@ -1,0 +1,146 @@
+{
+  "domain": "algebra",
+  "metrics": {
+    "precision": 0.6914285714285715,
+    "recall": 0.4875661375661376,
+    "f1": 0.5383968972204267,
+    "auc_pr": 0.8081530991774425
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25925925925925924,
+      "f1": 0.4117647058823529,
+      "auc_pr": 0.8608592909810078
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.6676046176046175
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "f1": 0.9230769230769231,
+      "auc_pr": 0.9150793650793649
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.875
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.7222222222222222
+    }
+  ],
+  "n_positive": 47,
+  "n_negative": 235,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.048160037863999604,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.04137731110677123,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.03843147363513708,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.030551693798042834,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.028728369623422623,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.02346180872991681,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.02065616436302662,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 609,
+      "importance": 0.01762458067969419,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.017283756705000996,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.016856318339705467,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.016718047484755517,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 312,
+      "importance": 0.016124844527803363,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.015915969980414956,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.01555557264946401,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 305,
+      "importance": 0.01536940021906048,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 321,
+      "importance": 0.014949760446324945,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.014553652703762054,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 192,
+      "importance": 0.01452961687464267,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.014417733438313008,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.014320553932338952,
+      "reef_name": "cross-cultural hybridization"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "descriptive linguistics",
+  "n_positive": 60,
+  "n_negative": 300,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8055555555555556,
+    "recall": 0.5503030303030303,
+    "f1": 0.6462418300653595,
+    "auc_pr": 0.7573462643473612
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5833333333333334,
+      "recall": 0.3181818181818182,
+      "f1": 0.4117647058823529,
+      "auc_pr": 0.5699567476505698
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5555555555555556,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6969135802469137
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.856060606060606
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.7777777777777778,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.9436868686868687
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5,
+      "f1": 0.625,
+      "auc_pr": 0.7201135190918472
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 653,
+      "importance": 0.07035913094878196,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 209,
+      "importance": 0.0390172716230154,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.02862093336880207,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.025921629182994364,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.021844351093750446,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 664,
+      "importance": 0.01889999657869339,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.01770287486142479,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.01728159934282303,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 374,
+      "importance": 0.015276770759373903,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.01523857619613409,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.0142491496168077,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 522,
+      "importance": 0.014167892234399914,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 179,
+      "importance": 0.013822042528772727,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.013808705657720566,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 451,
+      "importance": 0.013095832988619804,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 526,
+      "importance": 0.012916244938969612,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.012846384942531586,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 647,
+      "importance": 0.011996090412139893,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.01175537435337901,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.011577259749174118,
+      "reef_name": "biological taxonomy genus"
+    }
+  ]
+}

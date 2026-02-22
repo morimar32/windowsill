@@ -1,0 +1,146 @@
+{
+  "domain": "genetics",
+  "n_positive": 130,
+  "n_negative": 650,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8710893246187364,
+    "recall": 0.6691424903722722,
+    "f1": 0.7490308418488992,
+    "auc_pr": 0.8668222387297945
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8518518518518519,
+      "recall": 0.5609756097560976,
+      "f1": 0.6764705882352942,
+      "auc_pr": 0.811029191833048
+    },
+    {
+      "precision": 0.85,
+      "recall": 0.8947368421052632,
+      "f1": 0.8717948717948718,
+      "auc_pr": 0.9206171829094265
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.9393377748387892
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.64,
+      "f1": 0.7441860465116279,
+      "auc_pr": 0.8555085519844142
+    },
+    {
+      "precision": 0.7647058823529411,
+      "recall": 0.65,
+      "f1": 0.7027027027027027,
+      "auc_pr": 0.8076184920832945
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.047965719178318975,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 277,
+      "importance": 0.027000123262405397,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.023071505327243357,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.021324642514809967,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.016543834819458425,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.01575447469949722,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 391,
+      "importance": 0.013737750425934791,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.011781174223870039,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.010474773170426489,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.010420858301222325,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.010015596495941281,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.009928186796605587,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 164,
+      "importance": 0.009874223172664643,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 322,
+      "importance": 0.009846970578655601,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.009388131159357726,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 328,
+      "importance": 0.009120362438261509,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 408,
+      "importance": 0.008712627738714219,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.00865097315981984,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.008643529505934566,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.008547987742349505,
+      "reef_name": "food and consumable products"
+    }
+  ]
+}

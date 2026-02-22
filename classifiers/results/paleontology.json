@@ -1,0 +1,146 @@
+{
+  "domain": "paleontology",
+  "n_positive": 71,
+  "n_negative": 355,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8486111111111111,
+    "recall": 0.6218518518518519,
+    "f1": 0.7089600971671489,
+    "auc_pr": 0.8079460355949972
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.6246031746031746
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.6666666666666666,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.8225718317630083
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5925925925925926,
+      "f1": 0.7441860465116279,
+      "auc_pr": 0.9234923399291213
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5833333333333334,
+      "f1": 0.7,
+      "auc_pr": 0.8050089165220745
+    },
+    {
+      "precision": 0.8125,
+      "recall": 0.8666666666666667,
+      "f1": 0.8387096774193549,
+      "auc_pr": 0.8640539151576072
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 214,
+      "importance": 0.057952649891376495,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.047337624803185464,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.039796206448227164,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.03309881836175919,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 95,
+      "importance": 0.021714437543414532,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 301,
+      "importance": 0.021037418767809866,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 762,
+      "importance": 0.01920531252399087,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.015068040136247874,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 590,
+      "importance": 0.014637592015787959,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.014078754466027021,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 442,
+      "importance": 0.013122363388538361,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.013060833240160719,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.012695875158533454,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.012667457852512599,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.01263499238411896,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.010847387462854385,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.010714490246027709,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 703,
+      "importance": 0.010675005242228508,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.010465591168031096,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.010438574757426978,
+      "reef_name": "surface covering and coating"
+    }
+  ]
+}

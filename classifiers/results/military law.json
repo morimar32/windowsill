@@ -1,0 +1,145 @@
+{
+  "domain": "military law",
+  "n_positive": 30,
+  "n_negative": 150,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.7421052631578947,
+    "f1": 0.8028985507246377,
+    "auc_pr": 0.8617826286540409
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.21052631578947367,
+      "f1": 0.34782608695652173,
+      "auc_pr": 0.7612940956511562
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.5476190476190477
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 633,
+      "importance": 0.12404531538486481,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.05583412647247314,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.04926765337586403,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.04671678338199854,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 712,
+      "importance": 0.045957492152228954,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.03224541866220534,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.024949602968990802,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.024897903576493262,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 449,
+      "importance": 0.018915163073688745,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.018648900371044875,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.018635474017355592,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 64,
+      "importance": 0.01838982552289963,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.016905824653804302,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.01688549481332302,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.016079691133927553,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 727,
+      "importance": 0.01502036526799202
+    },
+    {
+      "dim_id": 273,
+      "importance": 0.01479111909866333,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.01358082890510559,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.013297144323587418,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 310,
+      "importance": 0.012530641397461295,
+      "reef_name": "metallic colors and classical"
+    }
+  ]
+}

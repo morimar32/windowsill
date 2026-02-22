@@ -1,0 +1,146 @@
+{
+  "domain": "arithmetic",
+  "metrics": {
+    "precision": 0.86,
+    "recall": 0.6446031746031745,
+    "f1": 0.6853182992717877,
+    "auc_pr": 0.8488583922039201
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.19444444444444445,
+      "f1": 0.32558139534883723,
+      "auc_pr": 0.8483758673093901
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7909090909090908
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.42857142857142855,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.6050070028011204
+    },
+    {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1": 0.8888888888888888,
+      "auc_pr": 1.0
+    }
+  ],
+  "n_positive": 55,
+  "n_negative": 275,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 276,
+      "importance": 0.09367602840065956,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.04360149076674134,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 367,
+      "importance": 0.03975018188357353,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.03544831909239292,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.029663127660751343,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.027006475359667093,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 261,
+      "importance": 0.02629723250865936,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.024948496744036673,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 127,
+      "importance": 0.02361575812101364,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.021531002270057796,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.020759003330022098,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.01931547522544861,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.018344919942319394,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.016968447342514993,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 666,
+      "importance": 0.016025816672481596,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.015376303426455707,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.015358920022845269,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.014247811981476843,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 90,
+      "importance": 0.014115910220425576,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.01389261893928051,
+      "reef_name": "perception and assumption"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "animal husbandry",
+  "metrics": {
+    "precision": 0.7812121212121212,
+    "recall": 0.6419923214040861,
+    "f1": 0.6721461675579323,
+    "auc_pr": 0.8277138494143366
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9545454545454546,
+      "recall": 0.2692307692307692,
+      "f1": 0.42,
+      "auc_pr": 0.8015565084132635
+    },
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.8181818181818182,
+      "f1": 0.8181818181818182,
+      "auc_pr": 0.874301456119638
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.7058823529411765,
+      "f1": 0.75,
+      "auc_pr": 0.8291718061421622
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7901051329622759
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.75,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8434343434343434
+    }
+  ],
+  "n_positive": 123,
+  "n_negative": 615,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 22,
+      "importance": 0.039452255517244336,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.020765369385480882,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.019012826681137084,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 611,
+      "importance": 0.018477520998567344,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 457,
+      "importance": 0.018122923281043767,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 226,
+      "importance": 0.017336984910070897,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 303,
+      "importance": 0.016650121909333394,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 690,
+      "importance": 0.016078871302306653,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.015659126732498408,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.015034245254355483,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.01411431347951293,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 159,
+      "importance": 0.012449029460549354,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.012096260744147002,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.011770212650299072,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.011292215285357088,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 498,
+      "importance": 0.010769622586667537,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 561,
+      "importance": 0.010537635860964656,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.01041877530515194,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 307,
+      "importance": 0.010028833150863647,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.009576514130458236,
+      "reef_name": "medical conditions diseases"
+    }
+  ]
+}

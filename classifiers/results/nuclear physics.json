@@ -1,0 +1,146 @@
+{
+  "domain": "nuclear physics",
+  "n_positive": 41,
+  "n_negative": 205,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9028571428571428,
+    "recall": 0.7194444444444443,
+    "f1": 0.7742026600850132,
+    "auc_pr": 0.8593585341861203
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
+      "auc_pr": 0.9583333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.7865112856492167
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.8333333333333334,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8134920634920635
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8888888888888888,
+      "f1": 0.9411764705882353,
+      "auc_pr": 0.9603174603174602
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.7781385281385281
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 276,
+      "importance": 0.11389382183551788,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.033706964133307336,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.03341358676552773,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.027485738694667815,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 505,
+      "importance": 0.027166267856955528,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.025542791769839823,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 378,
+      "importance": 0.02308066226541996,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.021015653759241103,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 705,
+      "importance": 0.02071783095598221,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 447,
+      "importance": 0.020663449168205263,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.017915669456124307,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.01727662980556488,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.015735267102718352,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.01570145385339856,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 406,
+      "importance": 0.015581312775611877,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 729,
+      "importance": 0.014851690083742142,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.014762524131219834,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.013972120499238372,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 644,
+      "importance": 0.013273108808789402,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.012720681075006724,
+      "reef_name": "triggering conditions and intensification"
+    }
+  ]
+}

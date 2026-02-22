@@ -1,0 +1,146 @@
+{
+  "domain": "cooking",
+  "n_positive": 243,
+  "n_negative": 1215,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5974999999999999,
+    "recall": 0.3948773448773448,
+    "f1": 0.4314010815431937,
+    "auc_pr": 0.5788394048480742
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.17676767676767677,
+      "f1": 0.30042918454935624,
+      "auc_pr": 0.8128515863127557
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.42857142857142855,
+      "f1": 0.5217391304347826,
+      "auc_pr": 0.4826616790350063
+    },
+    {
+      "precision": 0.6875,
+      "recall": 0.7857142857142857,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.7684724402581544
+    },
+    {
+      "precision": 0.3,
+      "recall": 0.3333333333333333,
+      "f1": 0.3157894736842105,
+      "auc_pr": 0.4864502262157011
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.25,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.34376109241875313
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 517,
+      "importance": 0.03758507519960404,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 638,
+      "importance": 0.01954486269969493,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 695,
+      "importance": 0.01946340166032314,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.01660254839807749,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 292,
+      "importance": 0.015065839141607284,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 541,
+      "importance": 0.014621316827833653,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.014223057171329856,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.014150876668281853,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 307,
+      "importance": 0.013936223299242555,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 420,
+      "importance": 0.013038464298006147,
+      "reef_name": "color and hue"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.012128365272656084,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.011786991893313826,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.01156186022562906,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.010656565986573696,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.01044033709622454,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 619,
+      "importance": 0.010130451680743136,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.00998146403580904,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.009590642480179667,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 201,
+      "importance": 0.009248532101628371,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.008785503497347236,
+      "reef_name": "horses and riding"
+    }
+  ]
+}

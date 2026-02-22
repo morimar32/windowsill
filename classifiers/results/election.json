@@ -1,0 +1,146 @@
+{
+  "domain": "election",
+  "n_positive": 50,
+  "n_negative": 250,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9269841269841269,
+    "recall": 0.6255411255411255,
+    "f1": 0.726989247311828,
+    "auc_pr": 0.855095809072067
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.3181818181818182,
+      "f1": 0.45161290322580644,
+      "auc_pr": 0.7413885262698152
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6666666666666666,
+      "f1": 0.75,
+      "auc_pr": 0.8798048048048048
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9571428571428571
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6971428571428571
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 599,
+      "importance": 0.04013408278115094,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.03539877930888906,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.031733042746782306,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.026446448639035225,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.025925584509968756,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 407,
+      "importance": 0.024022480007261038,
+      "reef_name": "physical sprawl and knocking"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.023130274983122943,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.022561663016676902,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.020524725690484046,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.01957658927422017,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 319,
+      "importance": 0.019312545657157898,
+      "reef_name": "zoological taxonomy wildlife"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.01850927323102951,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 743,
+      "importance": 0.018385140877217054,
+      "reef_name": "church ministry attendance"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.01829450549557805,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.018092335015535355,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 663,
+      "importance": 0.01678904891014099,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.016742917895317077,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.015613787155598403,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.014446793496608734,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 238,
+      "importance": 0.014307780261151492,
+      "reef_name": "legal and textual authority"
+    }
+  ]
+}

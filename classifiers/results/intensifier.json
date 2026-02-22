@@ -1,0 +1,146 @@
+{
+  "domain": "intensifier",
+  "n_positive": 116,
+  "n_negative": 580,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9331652661064427,
+    "recall": 0.8076218708827405,
+    "f1": 0.8512752084429354,
+    "auc_pr": 0.9460671708741877
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9705882352941176,
+      "recall": 0.4782608695652174,
+      "f1": 0.6407766990291263,
+      "auc_pr": 0.873917815168038
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 1.0,
+      "f1": 0.9285714285714286,
+      "auc_pr": 0.958945755099601
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9683778639660992
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.8181818181818182,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9290944201372009
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.06893912944942712,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.05927827656269073,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.054219176061451435,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.031303060986101625,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 662,
+      "importance": 0.03035974595695734,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.027702603302896023,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 450,
+      "importance": 0.026090621203184127,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 7,
+      "importance": 0.02598640201613307,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.0226292634382844,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 449,
+      "importance": 0.019278686493635178,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 614,
+      "importance": 0.018078997358679773,
+      "reef_name": "social groups and identity"
+    },
+    {
+      "dim_id": 86,
+      "importance": 0.017548670968972148,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 100,
+      "importance": 0.01560046155937016,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.01548215001821518,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 203,
+      "importance": 0.013889909395948053,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 745,
+      "importance": 0.013242910063127056,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.013174803846050053,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 61,
+      "importance": 0.011417357996106148,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 218,
+      "importance": 0.010724636353552341,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.010004972200840711,
+      "reef_name": "countries and regions"
+    }
+  ]
+}

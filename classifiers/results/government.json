@@ -1,0 +1,146 @@
+{
+  "domain": "government",
+  "n_positive": 103,
+  "n_negative": 515,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8682098205283323,
+    "recall": 0.705142267433289,
+    "f1": 0.7719595800899807,
+    "auc_pr": 0.8480595311574455
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9310344827586207,
+      "recall": 0.7105263157894737,
+      "f1": 0.8059701492537313,
+      "auc_pr": 0.925817270143548
+    },
+    {
+      "precision": 0.8947368421052632,
+      "recall": 0.8947368421052632,
+      "f1": 0.8947368421052632,
+      "auc_pr": 0.9319953546896675
+    },
+    {
+      "precision": 0.9375,
+      "recall": 0.8823529411764706,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.9593005481762598
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.4666666666666667,
+      "f1": 0.5833333333333334,
+      "auc_pr": 0.7047181475257023
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5714285714285714,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7184663352520495
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 763,
+      "importance": 0.04916238561272621,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.048126159608364104,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.02520500887185335,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.024989946745336056,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 728,
+      "importance": 0.021173633635044098,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.01996171735227108,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.019390372931957243,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 89,
+      "importance": 0.018653744750190528,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.017487641773186624,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.016756354438257404,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 743,
+      "importance": 0.015819505183026196,
+      "reef_name": "church ministry attendance"
+    },
+    {
+      "dim_id": 556,
+      "importance": 0.014852908626198768,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.013305275328457355,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.012921897182241081,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.011684710159897804,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.011579331965185702,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.011392091587185859,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.011023883521556855,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.010665202327072621,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.010560660064220429,
+      "reef_name": "physiological bodily mechanics"
+    }
+  ]
+}

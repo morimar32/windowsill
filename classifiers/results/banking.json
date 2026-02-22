@@ -1,0 +1,146 @@
+{
+  "domain": "banking",
+  "metrics": {
+    "precision": 0.9252777777777776,
+    "recall": 0.694887334887335,
+    "f1": 0.7840446876424989,
+    "auc_pr": 0.8930299124273151
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9375,
+      "recall": 0.5555555555555556,
+      "f1": 0.6976744186046512,
+      "auc_pr": 0.8627727361537502
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "auc_pr": 0.9408119658119658
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5454545454545454,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.792970553197826
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.7272727272727273,
+      "f1": 0.8,
+      "auc_pr": 0.8847678769927575
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8461538461538461,
+      "f1": 0.9166666666666666,
+      "auc_pr": 0.9838264299802761
+    }
+  ],
+  "n_positive": 72,
+  "n_negative": 360,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 127,
+      "importance": 0.050374042987823484,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.046792912483215335,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.032287613209337,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.024899057298898696,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.023466973379254342,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.021864745393395425,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.020007531717419626,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 605,
+      "importance": 0.01869826763868332,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.01836041882634163,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 185,
+      "importance": 0.018358477950096132,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 133,
+      "importance": 0.017891300097107887,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 357,
+      "importance": 0.01641755036544055,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.016101821791380644,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.01563317235559225,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 122,
+      "importance": 0.015279843215830624,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.013114881888031959,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 76,
+      "importance": 0.012643354223109781,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.01169839509529993,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.011466994939837605,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 713,
+      "importance": 0.011338151898235083,
+      "reef_name": "names and proper nouns"
+    }
+  ]
+}

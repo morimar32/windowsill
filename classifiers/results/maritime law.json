@@ -1,0 +1,146 @@
+{
+  "domain": "maritime law",
+  "n_positive": 24,
+  "n_negative": 120,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7833333333333333,
+    "recall": 0.6533333333333333,
+    "f1": 0.6642857142857143,
+    "auc_pr": 0.8551324824600688
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8697100313479624
+    },
+    {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8444444444444443
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7222222222222222
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8392857142857142
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 135,
+      "importance": 0.0767142117023468,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.05808470156043768,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 587,
+      "importance": 0.055397411435842515,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.054958741459995505,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.033862580778077245,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 521,
+      "importance": 0.03291734755039215,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.031008865125477313,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 58,
+      "importance": 0.030054297298192978,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.022659756243228912,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 72,
+      "importance": 0.019832931738346816,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.018418191559612752,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.01775117814540863,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 68,
+      "importance": 0.017746633291244505,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.017695612832903863,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.01679486930370331,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.0161621518433094,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 589,
+      "importance": 0.01481327209621668,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 298,
+      "importance": 0.013654068554751575,
+      "reef_name": "explosive violent intensity"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.013476577401161195,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 80,
+      "importance": 0.013015148788690567,
+      "reef_name": "fish and wildlife"
+    }
+  ]
+}

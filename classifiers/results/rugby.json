@@ -1,0 +1,146 @@
+{
+  "domain": "rugby",
+  "n_positive": 41,
+  "n_negative": 205,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9142857142857143,
+    "recall": 0.48536231884057973,
+    "f1": 0.5385714285714286,
+    "auc_pr": 0.7703770862482193
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.043478260869565216,
+      "f1": 0.08333333333333333,
+      "auc_pr": 0.6764886058442711
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.8,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.5031746031746032
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.16666666666666666,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.8555555555555555
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.95
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.8666666666666667
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 38,
+      "importance": 0.036818937957286836,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.036128297448158264,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.02899559885263443,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.025696459331084043,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.02528662271797657,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 133,
+      "importance": 0.022816728288307785,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 490,
+      "importance": 0.020790535770356656,
+      "reef_name": "classical formal tradition"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.02060931921005249,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.02038683050777763,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.02038310617208481,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.018883422017097473,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.018670672038570046,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 68,
+      "importance": 0.01807920673163608,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.01735505610704422,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 403,
+      "importance": 0.01701769754290581,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 295,
+      "importance": 0.015603108704090119,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 108,
+      "importance": 0.014875690639019012,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 351,
+      "importance": 0.014338965900242329,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.01304021897376515,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 143,
+      "importance": 0.012962221540510655,
+      "reef_name": "bacteria and microbiology"
+    }
+  ]
+}

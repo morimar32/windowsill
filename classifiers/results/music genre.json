@@ -1,0 +1,146 @@
+{
+  "domain": "music genre",
+  "n_positive": 54,
+  "n_negative": 270,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.825,
+    "recall": 0.7431746031746032,
+    "f1": 0.7222394057401231,
+    "auc_pr": 0.8782251341114202
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.36666666666666664,
+      "f1": 0.5365853658536586,
+      "auc_pr": 0.8821448852605264
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7777777777777778,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.8641395154553051
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8809523809523809
+    },
+    {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9305555555555556
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 225,
+      "importance": 0.0796464279294014,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.03733356967568398,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 740,
+      "importance": 0.031808503717184064,
+      "reef_name": "hazardous contamination hygiene"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.0316069021821022,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.027264826744794846,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 332,
+      "importance": 0.0244436152279377,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.023580680321902036,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 44,
+      "importance": 0.021175590716302393,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.020707670599222183,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 90,
+      "importance": 0.01950254775583744,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 187,
+      "importance": 0.01910009596031159,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 108,
+      "importance": 0.01873630341142416,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.01786080072633922,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.01755363044794649,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 394,
+      "importance": 0.016281752102077007,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 700,
+      "importance": 0.014168096706271172,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.013801335380412639,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.01373007632791996,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.012785559147596359,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.012746981671079993,
+      "reef_name": "extreme violence and brutality"
+    }
+  ]
+}

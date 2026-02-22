@@ -1,0 +1,146 @@
+{
+  "domain": "motor vehicle",
+  "n_positive": 85,
+  "n_negative": 425,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8617826617826617,
+    "recall": 0.6374725274725275,
+    "f1": 0.7139257294429708,
+    "auc_pr": 0.8346626356748658
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.3142857142857143,
+      "f1": 0.4583333333333333,
+      "auc_pr": 0.7387464605847991
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9521469271469272
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.5833333333333334,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8291403041403042
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5,
+      "f1": 0.625,
+      "auc_pr": 0.7782470403160058
+    },
+    {
+      "precision": 0.9230769230769231,
+      "recall": 0.9230769230769231,
+      "f1": 0.9230769230769231,
+      "auc_pr": 0.8750324461862924
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 709,
+      "importance": 0.05152128450572491,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.025960711430525408,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 670,
+      "importance": 0.024403995741158722,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.01955651491880417,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.019077751180157067,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.0181813404080458,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.016760362801142036,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.015322280302643775,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 615,
+      "importance": 0.01381008718162775,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.01371095196227543,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 741,
+      "importance": 0.01367264250293374,
+      "reef_name": "explosive violent intensity"
+    },
+    {
+      "dim_id": 458,
+      "importance": 0.012425485187850426,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.012361583567690104,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 165,
+      "importance": 0.012287417720654049,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.012165767699480056,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 602,
+      "importance": 0.012044769944623113,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.011145500116981566,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.010753573186229914,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.010575965489260852,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 213,
+      "importance": 0.010418433009181171,
+      "reef_name": "taxonomic scientific nomenclature"
+    }
+  ]
+}

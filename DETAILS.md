@@ -1,534 +1,749 @@
 # Windowsill Technical Reference
 
-> Detailed schema, design decisions, and verification queries for the windowsill pipeline.
-> For project overview and usage, see [README.md](README.md).
-> For live database metrics, see [ANALYSIS.md](ANALYSIS.md).
+Deep technical documentation for the windowsill project. This file is optimized for getting an LLM up to speed on the codebase -- it covers the database schema, scoring formulas, feature engineering, clustering algorithms, and export format in full detail.
 
-## Key Design Decisions
+For a human-readable overview, see [README.md](README.md).
 
-- **DuckDB** for storage -- embeddings stored as `FLOAT[768]` arrays directly in the DB, enabling SQL queries alongside vector operations without a separate vector store.
-- **Z-score thresholding (mean + 2.0σ)** -- Each dimension's membership threshold is `mean + 2.0 * std`. The threshold was lowered from 2.45σ (~6 dims/word, ~800K memberships) to 2.0σ (~17 dims/word, ~2.5M memberships) to provide richer data for island/reef clustering. At 2.45σ, dimension-pair Jaccard similarities were too sparse for coherent reef formation — semantically related dimensions (e.g., musical instrument dims) had jaccard < 0.01 and couldn't cluster together. At 2.0σ, the 3x membership increase raises pairwise Jaccard into the significant range (hyper_z 5-15 for related dims), producing tighter, more semantically coherent reefs. The noise introduced by the lower threshold is addressed by a secondary **reef depth filter** (`REEF_MIN_DEPTH = 2`): a word's reef bit is only encoded if the word appears in ≥ 2 of the reef's dimensions. At 2.0σ, genuine concept membership manifests as multi-dimension overlap (e.g., "guitar" activates 7/17 music-related dims), while noise connections are single-dim and get pruned.
-- **Matryoshka at 768** -- nomic-embed-text-v1.5 supports Matryoshka dimensionality reduction. We use the full 768 for maximum resolution.
-- **`"classification: "` prefix** -- The Nomic model uses task-specific prefixes. All words are embedded with this prefix to activate the classification head, which produces more discriminative dimensions.
-- **Sense embedding format** -- Ambiguous words are re-embedded as `"classification: {word}: {gloss}"` where the gloss comes from WordNet. This contextualizes the word without changing the embedding space.
-- **Compositionality via Jaccard** -- A compound is compositional if the Jaccard similarity between its dimension set and the union of its components' dimension sets is >= 0.20. Below that threshold, it's idiomatic (meaning not derivable from parts).
-- **Contamination via residual activation** -- For a component word W in dimension D, compound_support counts how many compounds containing W are also in D AND whose residual (compound_embedding - W_embedding) still exceeds D's threshold. High support means D might be compound-derived, not intrinsic to W.
-- **Specificity bands** -- Words are classified into sigma-based bands (`+2` to `-2`) based on their `total_dims` distance from the population mean. This replaces the original hardcoded thresholds in `v_unique_words` (was `<= 15`) and `v_universal_words` (was `>= 36`) with statistically derived boundaries that adapt to the actual distribution.
-- **Noise dim recovery** -- After Leiden community detection, singleton dimensions classified as noise (island_id = -1) are recovered by computing their average Jaccard similarity to each sibling reef's dimensions. If the best match exceeds `NOISE_RECOVERY_MIN_JACCARD`, the dim is assigned to that reef. This captures coherent dimensions that Leiden's minimum community size constraint would otherwise discard.
-- **Domain-anchored sense enrichment** -- Words with WordNet `topic_domains()` or `usage_domains()` get synthetic compound embeddings (e.g., `"classification: chess rook"`). Only these domain-anchored senses contribute to `word_reef_affinity`, preventing the generic UNION ALL approach from inflating polysemous words' reef counts 3-7x.
-- **Dynamic hierarchy counts** -- Reef, island, and archipelago counts are computed at runtime from the `island_stats` table via `config.get_hierarchy_counts()`, rather than hardcoded. This makes the system robust to changes in subdivision thresholds, noise recovery, or input data.
+## Table of Contents
+
+- [Architecture Overview](#architecture-overview)
+- [Database Schema](#database-schema)
+- [Pipeline Stages](#pipeline-stages)
+  - [Stage 1: Extract](#stage-1-extract)
+  - [Stage 2: Transform (XGBoost)](#stage-2-transform-xgboost)
+  - [Stage 3: Reef Subdivision](#stage-3-reef-subdivision)
+  - [Stage 4: Archipelago Clustering](#stage-4-archipelago-clustering)
+  - [Stage 5: Scoring](#stage-5-scoring)
+  - [Stage 6: Export (Load)](#stage-6-export-load)
+- [Scoring Formulas](#scoring-formulas)
+- [Feature Engineering (777 Features)](#feature-engineering-777-features)
+- [Clustering Algorithms](#clustering-algorithms)
+- [Export Format v6.0](#export-format-v60)
+- [Configuration Reference](#configuration-reference)
+- [Lagoon Integration](#lagoon-integration)
+- [Important Implementation Details](#important-implementation-details)
+
+---
+
+## Architecture Overview
+
+Windowsill is a six-stage pipeline that transforms raw word embeddings into a scored domain taxonomy, exported as compact binary files for the Lagoon search scoring library.
+
+```
+WordNet vocab + Claude domain words
+        |
+        v
+  [extract.py]  ──> v2.db (words, embeddings, variants, domains)
+        |
+        v
+  [transform.py] ──> XGBoost classifiers (models/*.json)
+        |               augmented_domains table updated with predictions
+        v
+  [reef.py]     ──> domain_reefs, domain_reef_stats (sub-domain clusters)
+        |
+        v
+  [archipelago.py] ──> domain_archipelagos, domain_archipelago_stats
+        |
+        v
+  [score.py]    ──> domain_word_scores (materialized scores)
+        |
+        v
+  [load.py]     ──> v2_export/*.bin (10 msgpack files + manifest.json)
+        |
+        v
+  [Lagoon]      ──> real-time domain scoring of free text
+```
+
+The hierarchy is: **words** belong to **domains** (444), domains contain **sub-reefs** (5,150), and domains are grouped into **archipelagos** (11).
+
+In the export format, domains are called "reefs" and archipelagos are called "archs" (legacy naming from the v1 pipeline where the hierarchy was dimensions → reefs → islands → archipelagos).
+
+---
 
 ## Database Schema
 
-> For full column-level detail — types, nullability, value ranges, example values, FK relationships, and join patterns — see the [Data Dictionary](data_dictionary.md).
+All data lives in `v2.db` (SQLite, ~1 GB). Schema defined in `lib/db.py`.
 
-### Core Tables (Phases 1-4)
+### Core Tables
 
-**`words`** -- One row per vocabulary entry
-```
-word_id       INTEGER PK    Sequential ID (1-indexed, alphabetical order)
-word          TEXT          The word (spaces for multi-word, lowercase)
-total_dims    INTEGER       Number of dimensions this word belongs to
-embedding     FLOAT[768]    Raw embedding vector
-pos           TEXT          Part-of-speech (NULL if ambiguous across POS)
-category      TEXT          'single' | 'compound' | 'taxonomic' | 'phrasal_verb' | 'named_entity'
-word_count    INTEGER       Number of space-separated tokens
-specificity        INTEGER    Sigma band: +2/+1/0/-1/-2 (positive = specific, negative = universal)
-sense_spread       INTEGER    MAX(total_dims) - MIN(total_dims) across senses (NULL if < 2 senses)
-polysemy_inflated  BOOLEAN    TRUE if universal (specificity < 0) and sense_spread >= 15
-arch_concentration DOUBLE     Max fraction of dims in any single archipelago (universal words only)
-word_hash          UBIGINT    FNV-1a u64 hash (zero collisions confirmed across full vocabulary)
-reef_idf           DOUBLE     BM25 IDF: ln((N_reefs - n + 0.5) / (n + 0.5) + 1) where n = reefs containing word
-```
-
-**`dim_stats`** -- One row per embedding dimension (768 total)
-```
-dim_id           INTEGER PK    Dimension index (0-767)
-mean, std, min_val, max_val, median, skewness, kurtosis   -- distribution stats
-threshold        DOUBLE        Activation threshold for membership (mean + 2.0σ)
-threshold_method TEXT          'zscore'
-n_members        INTEGER       How many words exceed the threshold
-selectivity      DOUBLE        n_members / total_words
-verb_enrichment  DOUBLE        Ratio of verb rate in dim vs corpus base rate
-adj_enrichment   DOUBLE        Same for adjectives
-adv_enrichment   DOUBLE        Same for adverbs
-noun_pct         DOUBLE        Fraction of dim members that are nouns
-universal_pct    DOUBLE        Fraction of dim members that are universal words (specificity < 0)
-dim_weight       DOUBLE        -log2(max(universal_pct, 0.01)) — information-theoretic weight
-avg_specificity  DOUBLE        Mean specificity of member words (positive = concrete, negative = abstract)
-valence          DOUBLE        Projection onto negation vector: positive = negative-pole, negative = positive-pole
-noun_frac        DOUBLE        Sense-aware fractional noun composition (0.0-1.0)
-verb_frac        DOUBLE        Sense-aware fractional verb composition (0.0-1.0)
-adj_frac         DOUBLE        Sense-aware fractional adjective composition (0.0-1.0)
-adv_frac         DOUBLE        Sense-aware fractional adverb composition (0.0-1.0)
+#### words (158,060 rows)
+```sql
+CREATE TABLE words (
+    word_id    INTEGER PRIMARY KEY,
+    word       TEXT NOT NULL,
+    pos        TEXT,                -- dominant POS: n, v, a, r, or NULL
+    category   TEXT,                -- single, compound, phrasal_verb, named_entity, taxonomic
+    word_count INTEGER DEFAULT 1,   -- number of space-separated tokens
+    word_hash  INTEGER,             -- FNV-1a u64 hash of word text
+    total_dims INTEGER DEFAULT 0,   -- count of z-score dimensions where word is a member
+    is_noun    INTEGER DEFAULT 0,
+    is_verb    INTEGER DEFAULT 0,
+    is_adj     INTEGER DEFAULT 0,
+    is_adv     INTEGER DEFAULT 0,
+    is_stop    INTEGER DEFAULT 0,   -- flagged as stop word
+    is_wordnet INTEGER DEFAULT 1,   -- 1 = from WordNet, 0 = Claude-generated
+    n_synsets  INTEGER DEFAULT 0,   -- WordNet synset count
+    n_domains  INTEGER DEFAULT 0,   -- distinct domain count from augmented_domains
+    embedding  BLOB                 -- float32 x 768 = 3072 bytes
+)
 ```
 
-**`dim_memberships`** -- Which words belong to which dimensions
-```
-dim_id           INTEGER       (PK with word_id)
-word_id          INTEGER
-value            DOUBLE        Raw activation value
-z_score          DOUBLE        Standard deviations above mean
-compound_support INTEGER       How many compounds contribute to this membership
-archipelago_id   INTEGER       Gen-0 island_id for this dim (NULL = noise)
-island_id        INTEGER       Gen-1 island_id for this dim (NULL = noise)
-reef_id          INTEGER       Gen-2 island_id for this dim (NULL = noise)
+Embeddings are stored as raw float32 bytes. Use `lib.db.pack_embedding(ndarray)` to serialize and `lib.db.unpack_embedding(blob)` to deserialize.
+
+#### dim_stats (768 rows)
+```sql
+CREATE TABLE dim_stats (
+    dim_id      INTEGER PRIMARY KEY,  -- 0..767
+    mean        REAL,                 -- mean activation across all words
+    std         REAL,                 -- standard deviation
+    threshold   REAL,                 -- mean + 2.0 * std (z-score membership cutoff)
+    n_members   INTEGER,              -- words exceeding threshold
+    selectivity REAL                  -- 1.0 - (n_members / total_words)
+)
 ```
 
-**`word_pair_overlap`** -- Precomputed word similarity (expensive, optional)
-```
-word_id_a    INTEGER    (PK with word_id_b, enforced a < b)
-word_id_b    INTEGER
-shared_dims  INTEGER    Number of shared dimension memberships
-```
-
-### Enrichment Tables (Phases 5-6)
-
-**`word_pos`** -- All POS tags per word (even ambiguous ones)
-```
-word_id       INTEGER    (PK with pos)
-pos           TEXT       'noun' | 'verb' | 'adj' | 'adv'
-synset_count  INTEGER    Number of WordNet synsets for this word+pos
+#### word_variants (509,579 rows)
+```sql
+CREATE TABLE word_variants (
+    variant_hash INTEGER NOT NULL,    -- FNV-1a u64 of variant text (stored as signed i64)
+    variant      TEXT NOT NULL,
+    word_id      INTEGER NOT NULL,
+    source       TEXT NOT NULL,        -- "base", "morphy", or "snowball"
+    PRIMARY KEY (variant_hash, word_id)
+)
 ```
 
-**`word_components`** -- Decomposition of multi-word expressions
-```
-compound_word_id   INTEGER    (PK with position)
-component_word_id  INTEGER    FK to words (NULL if component not in vocabulary)
-component_text     TEXT       The component word text
-position           INTEGER    0-indexed position in the compound
+Note: SQLite stores the u64 hash as signed i64. The export pipeline converts back: `vh & 0xFFFFFFFFFFFFFFFF`.
+
+### Domain Tables
+
+#### wordnet_domains (10,463 rows)
+```sql
+CREATE TABLE wordnet_domains (
+    domain      TEXT NOT NULL,
+    word_id     INTEGER NOT NULL,
+    word        TEXT NOT NULL,
+    synset_name TEXT NOT NULL,
+    gloss       TEXT NOT NULL,
+    PRIMARY KEY (domain, word_id, synset_name)
+)
 ```
 
-**`word_senses`** -- Sense-specific embeddings for ambiguous words
-```
-sense_id            INTEGER PK    Sequential sense ID
-word_id             INTEGER       FK to words
-pos                 TEXT          POS for this specific sense
-synset_name         TEXT          WordNet synset (e.g., 'bank.n.02')
-gloss               TEXT          WordNet definition text
-sense_embedding     FLOAT[768]    Embedding of "classification: word: gloss"
-total_dims          INTEGER       Dimensions this sense belongs to
-is_domain_anchored  BOOLEAN       TRUE if sense comes from WordNet topic/usage domain enrichment
+Ground-truth domain associations from WordNet's topic and usage domain pointers.
+
+#### augmented_domains (820,804 rows)
+```sql
+CREATE TABLE augmented_domains (
+    domain        TEXT NOT NULL,
+    word          TEXT NOT NULL,
+    word_id       INTEGER,            -- NULL if word not in vocabulary
+    matched_word  TEXT,               -- actual matched word (may differ from input)
+    source        TEXT NOT NULL,       -- "wordnet", "claude_augmented", "xgboost", "pipeline", "morphy"
+    confidence    TEXT,               -- "core" or "peripheral" for Claude words
+    has_embedding INTEGER DEFAULT 0,
+    score         REAL,               -- XGBoost prediction probability (for source=xgboost)
+    PRIMARY KEY (domain, word)
+)
 ```
 
-**`sense_dim_memberships`** -- Dimension memberships per sense
-```
-dim_id    INTEGER    (PK with sense_id)
-sense_id  INTEGER
-value     DOUBLE
-z_score   DOUBLE
+The central domain membership table. Sources:
+- `wordnet`: from wordnet_domains table
+- `claude_augmented`: Claude-generated domain vocabularies
+- `xgboost`: XGBoost classifier predictions above threshold
+- `pipeline`/`morphy`: morphological variant expansion
+
+### Clustering Tables
+
+#### domain_reefs (807,988 rows)
+```sql
+CREATE TABLE domain_reefs (
+    domain       TEXT NOT NULL,
+    reef_id      INTEGER NOT NULL,    -- sub-reef ID within domain (0-based)
+    word_id      INTEGER NOT NULL,
+    word         TEXT NOT NULL,
+    is_core      INTEGER NOT NULL,    -- 1 = Leiden core member, 0 = assigned to nearest
+    centroid_sim REAL,                -- cosine similarity to sub-reef centroid
+    PRIMARY KEY (domain, word_id)
+)
 ```
 
-**`compositionality`** -- Compositionality analysis results
-```
-word_id              INTEGER PK
-word                 TEXT
-jaccard              DOUBLE     Jaccard(compound_dims, union_of_component_dims)
-is_compositional     BOOLEAN    jaccard >= 0.20
-compound_dims        INTEGER    Total dims the compound belongs to
-component_union_dims INTEGER    Total dims in union of all components
-shared_dims          INTEGER    Dims in both compound and component union
-emergent_dims        INTEGER    Dims in compound but not in any component
-```
-
-### Island Tables (Phases 7-10)
-
-**`dim_jaccard`** -- Pairwise Jaccard similarity between all 768 dimensions
-```
-dim_id_a              INTEGER    (PK with dim_id_b, enforced a < b)
-dim_id_b              INTEGER
-intersection_size     INTEGER    Size of word set intersection
-union_size            INTEGER    Size of word set union
-jaccard               DOUBLE     intersection_size / union_size
-expected_intersection DOUBLE     Hypergeometric expected intersection (n_i * n_j / N)
-z_score               DOUBLE     (observed - expected) / sqrt(variance)
+#### domain_reef_stats (5,150 rows)
+```sql
+CREATE TABLE domain_reef_stats (
+    domain     TEXT NOT NULL,
+    reef_id    INTEGER NOT NULL,
+    n_core     INTEGER NOT NULL,
+    n_assigned INTEGER NOT NULL,
+    n_total    INTEGER NOT NULL,
+    label      TEXT,                  -- top 3 words joined with underscores
+    top_words  TEXT,                  -- JSON array of top-10 characteristic words
+    centroid   BLOB,                  -- L2-normalized float32 embedding
+    PRIMARY KEY (domain, reef_id)
+)
 ```
 
-**`dim_islands`** -- Dimension-to-island assignments
-```
-dim_id             INTEGER    (PK with generation)
-island_id          INTEGER    -1 = noise/singleton
-generation         INTEGER    0 = archipelago, 1 = island, 2 = reef
-parent_island_id   INTEGER    NULL for gen 0, FK to island_id for gen 1+
-```
-
-**`island_stats`** -- Per-island summary
-```
-island_id              INTEGER    (PK with generation)
-generation             INTEGER    0 = archipelago, 1 = island, 2 = reef
-n_dims                 INTEGER    Number of dimensions in island
-n_words                INTEGER    Unique words across all dims in island (union count)
-avg_internal_jaccard   DOUBLE     Mean Jaccard among island dims
-max_internal_jaccard   DOUBLE
-min_internal_jaccard   DOUBLE
-modularity_contribution DOUBLE    Placeholder (NULL for now)
-parent_island_id       INTEGER
-island_name            TEXT       Human-readable label (set by phase 10 naming pipeline)
-n_core_words           INTEGER    Words in >= max(2, ceil(n_dims*0.10)) island dims
-median_word_depth      DOUBLE     Median island-dim count per word
-valence                DOUBLE     Mean dimension valence across dims in this island/reef/archipelago
-noun_frac              DOUBLE     Mean sense-aware noun fraction across dims (0.0-1.0)
-verb_frac              DOUBLE     Mean sense-aware verb fraction across dims (0.0-1.0)
-adj_frac               DOUBLE     Mean sense-aware adjective fraction across dims (0.0-1.0)
-adv_frac               DOUBLE     Mean sense-aware adverb fraction across dims (0.0-1.0)
-avg_specificity        DOUBLE     Mean dim-level avg_specificity (positive = concrete, negative = abstract)
+#### domain_archipelagos (444 rows)
+```sql
+CREATE TABLE domain_archipelagos (
+    domain          TEXT NOT NULL PRIMARY KEY,
+    archipelago_id  INTEGER NOT NULL,
+    centroid_sim    REAL              -- cosine similarity to archipelago centroid
+)
 ```
 
-**`island_characteristic_words`** -- PMI-ranked diagnostic words per island
-```
-island_id          INTEGER    (PK with generation, word_id)
-generation         INTEGER
-word_id            INTEGER
-word               TEXT
-pmi                DOUBLE     log2(P(word|island) / P(word))
-island_freq        DOUBLE     P(word|island) = dims_in_island / n_island_dims
-corpus_freq        DOUBLE     P(word) = total_dims / 768
-n_dims_in_island   INTEGER    How many island dims contain this word
-```
-
-**`word_reef_affinity`** -- Continuous affinity scores for every word-reef pair
-```
-word_id            INTEGER    (PK with reef_id) FK to words
-reef_id            INTEGER    FK to island_stats where generation=2
-n_dims             INTEGER    Number of reef dims the word activates
-max_z              DOUBLE     Max z_score across reef dims
-sum_z              DOUBLE     Sum of z_scores across reef dims
-max_weighted_z     DOUBLE     Max (z_score * dim_weight) across reef dims
-sum_weighted_z     DOUBLE     Sum of (z_score * dim_weight) across reef dims
+#### domain_archipelago_stats (11 rows)
+```sql
+CREATE TABLE domain_archipelago_stats (
+    archipelago_id  INTEGER NOT NULL PRIMARY KEY,
+    n_domains       INTEGER NOT NULL,
+    label           TEXT,             -- top 3 domains joined with underscores
+    top_domains     TEXT,             -- JSON array of top-10 domains
+    centroid        BLOB              -- L2-normalized float32 embedding
+)
 ```
 
-**`reef_edges`** -- Directed component scores for all reef pairs (N_reefs x (N_reefs - 1) rows)
-```
-source_reef_id  INTEGER    (PK with target_reef_id) FK to island_stats where generation=2
-target_reef_id  INTEGER    FK to island_stats where generation=2
-containment     DOUBLE     Fraction of source's words (depth >= 2) also in target
-lift            DOUBLE     P(target | source) / P(target) — co-activation above baseline
-pos_similarity  DOUBLE     Cosine similarity of [noun_frac, verb_frac, adj_frac, adv_frac] vectors
-valence_gap     DOUBLE     Signed: target.valence - source.valence
-specificity_gap DOUBLE     Signed: target.avg_specificity - source.avg_specificity
-```
+### Scoring Table
 
-**`word_variants`** -- Morphy expansion mapping inflected forms to base word_ids
-```
-variant_hash   UBIGINT    (PK with word_id) FNV-1a hash of the variant string
-variant        TEXT       The variant text (e.g., "running")
-word_id        INTEGER    FK to words — the base word this variant maps to
-source         TEXT       'base' for the word itself, 'morphy' for inflected forms
-```
-
-**`computed_vectors`** -- Stored analytical vectors (negation vector, etc.)
-```
-name           TEXT PK     Vector name (e.g., 'negation')
-vector         FLOAT[768]  The vector itself
-n_pairs        INTEGER     Number of word pairs used to compute it
-description    TEXT        Human-readable description
+#### domain_word_scores (807,988 rows)
+```sql
+CREATE TABLE domain_word_scores (
+    domain          TEXT NOT NULL,
+    word_id         INTEGER NOT NULL,
+    reef_id         INTEGER NOT NULL,   -- sub-reef within domain (-1 if no reef)
+    source          TEXT NOT NULL,
+    source_quality  REAL NOT NULL,      -- 1.0 for curated, xgb_score for ML
+    centroid_sim    REAL,               -- cosine sim to sub-reef centroid (default 0.8)
+    n_word_domains  INTEGER NOT NULL,   -- how many domains this word appears in
+    idf             REAL NOT NULL,      -- log2(N/n), floored at 0.1
+    domain_score    REAL NOT NULL,      -- idf * source_quality * centroid_sim
+    reef_score      REAL NOT NULL,      -- source_quality * centroid_sim
+    PRIMARY KEY (domain, word_id)
+)
 ```
 
-### Views
+This is the final pre-computed table that `load.py` reads for export.
 
-- `v_unique_words` -- Words with positive specificity (1σ+ fewer dims than mean; specific words)
-- `v_universal_words` -- Words with negative specificity (1σ+ more dims than mean; general words)
-- `v_selective_dims` -- Dimensions with selectivity < 5% (sharp concepts)
-- `v_abstract_dims` -- Dimensions where >= 30% of members are universal words (dominated by abstract/social concepts)
-- `v_concrete_dims` -- Dimensions where <= 15% of members are universal words (concrete/taxonomic domains)
-- `v_domain_generals` -- Universal words with arch_concentration >= 0.75 (concentrated in one archipelago)
-- `v_positive_dims` -- Dimensions with valence <= -0.15 (positive-pole: negation decreases activation)
-- `v_negative_dims` -- Dimensions with valence >= 0.15 (negative-pole: negation increases activation)
+---
 
-### Indexes
+## Pipeline Stages
 
+### Stage 1: Extract
+
+**Entry point:** `extract.py` (13 internal steps)
+
+Builds `v2.db` from scratch:
+
+1. Create fresh database with schema
+2. Load WordNet vocabulary + compute embeddings via nomic-embed-text-v1.5 (`lib/vocab.py`)
+3. Load Claude-generated domain words, embed any unmatched ones
+4. Compute `dim_stats`: per-dimension mean, std, threshold (mean + 2.0*std), member count
+5. Compute `total_dims` per word (how many dimensions each word is a member of)
+6. Backfill POS and category from WordNet
+7. Flag stop words
+8. Compute synset counts
+9. Compute FNV-1a word hashes
+10. Expand morphy variants (WordNet morphological analysis)
+11. Populate `wordnet_domains` from WordNet topic/usage domain pointers
+12. Load `augmented_domains` (WordNet domains + Claude domains)
+13. Backfill `n_domains` per word
+
+**Key dependency:** `lib/vocab.py` imports `embedder` for embedding computation. The `embedder` module uses sentence-transformers with nomic-embed-text-v1.5 (Matryoshka 768-dim). This is only needed when building the database from scratch.
+
+### Stage 2: Transform (XGBoost)
+
+**Entry point:** `transform.py`
+
+Trains one binary XGBoost classifier per domain and runs inference on all words.
+
+#### Training pipeline:
+1. Load all word embeddings, compute z-scores using `dim_stats`
+2. Build global feature matrix (775 columns -- see [Feature Engineering](#feature-engineering-777-features))
+3. For each domain with >= `AUGMENT_MIN_DOMAIN_WORDS` (20) positive examples:
+   - Positive set: domain members with embeddings
+   - Negative set: random non-members at `AUGMENT_NEG_RATIO` (5:1) ratio
+   - Add 2 domain-specific features (centroid cosine + KNN-5 mean cosine)
+   - Train XGBoost with StratifiedGroupKFold CV (morphological groups prevent data leakage)
+   - Save model to `models/{domain}.json`
+
+#### Inference pipeline:
+1. Load each trained model
+2. Score all words (build domain-specific features per domain)
+3. Insert predictions above `XGBOOST_SCORE_THRESHOLD` (0.4) into `augmented_domains`
+
+#### IDF Post-Processing (`post_process_xgb.py`):
+For XGBoost predictions with raw_score < 0.7:
 ```
-idx_dm_word        dim_memberships(word_id)
-idx_dm_dim         dim_memberships(dim_id)
-idx_words_total    words(total_dims DESC)
-idx_ds_selectivity dim_stats(selectivity)
-idx_wpo_a/b/shared word_pair_overlap indexes
-idx_wp_word        word_pos(word_id)
-idx_wc_compound    word_components(compound_word_id)
-idx_wc_component   word_components(component_word_id)
-idx_ws_word        word_senses(word_id)
-idx_sdm_sense      sense_dim_memberships(sense_id)
-idx_sdm_dim        sense_dim_memberships(dim_id)
-idx_dj_a/b         dim_jaccard indexes
-idx_di_island      dim_islands(island_id, generation)
-idx_is_gen         island_stats(generation)
-idx_icw_island     island_characteristic_words(island_id, generation)
-idx_icw_word       island_characteristic_words(word_id)
-idx_wra_reef       word_reef_affinity(reef_id)
-idx_wra_wz         word_reef_affinity(max_weighted_z DESC)
-idx_words_hash     words(word_hash)
-idx_wv_hash        word_variants(variant_hash)
-idx_wv_word        word_variants(word_id)
-idx_re_source      reef_edges(source_reef_id)
-idx_re_target      reef_edges(target_reef_id)
+idf = log2(N_total_domains / n_word_domains) / log2(N_total_domains)
+adjusted_score = raw_score * idf
+```
+High-confidence predictions (>= 0.7) pass through unchanged. Words appearing in many domains get penalized. After adjustment, rows below 0.4 are pruned.
+
+Domainless words (simple single words with embeddings that aren't in any domain) are tagged with pseudo-domain "domainless".
+
+### Stage 3: Reef Subdivision
+
+**Entry point:** `reef.py`
+
+Subdivides each domain into semantic sub-reefs using Leiden community detection.
+
+For each domain with >= `REEF_MIN_DOMAIN_SIZE` (10) core words (score >= `REEF_SCORE_THRESHOLD` 0.6):
+
+1. **Compute hybrid similarity matrix:**
+   ```
+   sim = 0.7 * embedding_cosine + 0.3 * pmi_cosine
+   ```
+   PMI vectors encode domain co-membership patterns (see [Clustering Algorithms](#clustering-algorithms))
+
+2. **Build kNN graph** (k=15), symmetrized
+
+3. **Run Leiden clustering** (resolution=1.0, min_community_size=3)
+
+4. **Compute sub-reef centroids** from core members
+
+5. **Assign non-core words** to nearest centroid (if cosine >= 0.05)
+
+6. **Store results** in `domain_reefs` and `domain_reef_stats`
+
+### Stage 4: Archipelago Clustering
+
+**Entry point:** `archipelago.py`
+
+Groups the 444 domains into ~11 higher-level archipelagos.
+
+1. **Compute domain embeddings** as weighted average of sub-reef centroids (weighted by sub-reef size)
+2. **Compute PMI matrix** from word-domain co-memberships
+3. **Build hybrid similarity** (same formula: 70% embedding + 30% PMI)
+4. **kNN graph** (k=10) + **Leiden clustering** (resolution=1.0, min_community_size=2)
+5. **Store results** in `domain_archipelagos` and `domain_archipelago_stats`
+
+### Stage 5: Scoring
+
+**Entry point:** `score.py`
+
+Materializes `domain_word_scores` from `augmented_domains` + `domain_reefs`.
+
+For each (domain, word_id) pair:
+1. Resolve `source_quality` (1.0 for curated, xgb_score for ML predictions)
+2. Look up `centroid_sim` from `domain_reefs` (default 0.8 if no reef assignment)
+3. Compute `idf = max(log2(N_total / n_word_domains), 0.1)`
+4. Compute `domain_score = idf * source_quality * centroid_sim`
+5. Compute `reef_score = source_quality * centroid_sim`
+
+Pairs are deduplicated by (domain, word_id), keeping the highest source_quality.
+
+Includes 17 built-in test queries for verification (e.g., "DNA genetic mutation heredity" should surface biology/genetics domains in top 10).
+
+### Stage 6: Export (Load)
+
+**Entry point:** `load.py`
+
+Exports the database into 10 MessagePack binary files for Lagoon consumption. See [Export Format v6.0](#export-format-v60) for full details.
+
+---
+
+## Scoring Formulas
+
+### Source Quality
+```python
+if source in ("wordnet", "claude_augmented"):
+    source_quality = 1.0
+else:  # xgboost predictions
+    source_quality = max(xgb_score or 0.5, 0.1)
 ```
 
-## Embedding Mechanics
-
-### How words are embedded
-
-Each word is embedded as `"classification: {word}"` using nomic-embed-text-v1.5 via sentence-transformers. The `"classification: "` prefix activates the model's classification head, producing more discriminative (less smooth) embeddings -- exactly what we want for dimension-level analysis.
-
-### How senses are embedded
-
-Ambiguous words (pos IS NULL, ~8% of vocabulary) get additional sense-specific embeddings. For each WordNet synset of an ambiguous word, we embed:
+### IDF (Inverse Domain Frequency)
+```python
+idf = max(log2(n_total_domains / n_word_domains), 0.1)
 ```
-"classification: {word}: {gloss}"
+Words in fewer domains score higher. Floored at 0.1.
+
+### Domain Score
+```python
+domain_score = idf * source_quality * centroid_sim
 ```
-For example:
+This is the primary weight exported to Lagoon. Quantized as:
+```python
+weight_q = clamp(round(domain_score * WEIGHT_SCALE), 0, 65535)  # u16
 ```
-"classification: bank: a financial institution that accepts deposits"
-"classification: bank: sloping land beside a body of water"
+Where `WEIGHT_SCALE = 100.0`.
+
+### Reef Score
+```python
+reef_score = source_quality * centroid_sim
+```
+Used internally for clustering quality assessment.
+
+### IDF Quantization (for word lookup)
+```python
+idf_q = clamp(round(idf * IDF_SCALE), 0, 255)  # u8
+```
+Where `IDF_SCALE = 51`.
+
+### Specificity Categories
+Based on n_word_domains (number of domains a word appears in):
+```
+<= 3 domains:   specificity = 2  (highly specific)
+<= 10 domains:  specificity = 1
+<= 50 domains:  specificity = 0
+<= 150 domains: specificity = -1
+> 150 domains:  specificity = -2 (very generic)
 ```
 
-These sense embeddings are evaluated against the **same dimension thresholds** computed from the full word set in phase 4. No thresholds are recomputed -- senses are measured against the existing statistical framework.
+---
 
-### How domain compounds are embedded
+## Feature Engineering (777 Features)
 
-Words with WordNet topic or usage domains get additional domain-anchored sense embeddings. For a word like "rook" with the chess domain, the system generates:
+XGBoost classifiers use 777 features per word per domain.
+
+### Global Features (775 columns, same for all domains)
+
+**Embedding Z-scores (768 columns):**
+```python
+z_score[i] = (embedding[i] - dim_mean[i]) / dim_std[i]
 ```
-"classification: chess rook"
+Using `dim_stats` mean and std per dimension.
+
+**Metadata Features (7 columns):**
+- `total_dims`: number of dimension memberships
+- `is_noun`, `is_verb`, `is_adj`, `is_adv`: binary POS indicators
+- `n_synsets`: WordNet synset count
+- `n_domains`: domain count
+
+### Domain-Specific Features (2 columns, recomputed per domain)
+
+**Centroid Cosine Similarity (1 column):**
+```python
+core_centroid = normalize(mean(embeddings[positive_word_ids]))
+centroid_cos = normalize(embedding) @ core_centroid
 ```
-These domain compounds use the domain label as a disambiguating prefix, producing sharper dimension activations in the relevant domain. Domain compound senses are marked with `is_domain_anchored = TRUE` in the `word_senses` table. Only domain-anchored senses contribute to `word_reef_affinity`, preventing generic sense overlap from inflating polysemous words' reef counts.
 
-### Intermediate checkpointing
+**KNN Top-5 Mean Cosine (1 column):**
+```python
+cos_to_core = normalize(embedding) @ normalize(core_embeddings).T
+top5_mean = mean(top_5_values(cos_to_core, axis=1))
+```
 
-Embedding is the most expensive operation. The system saves `.npy` checkpoint files every 50 batches to `intermediates/` (or `intermediates/senses/` for sense embeddings, `intermediates/domain_senses/` for domain compound embeddings). If interrupted, it resumes from the last checkpoint. A `embeddings_final.npy` file is saved on completion and used for instant reload on re-runs.
+### Cross-Validation
+- **StratifiedGroupKFold** preserves label distribution and morphological groups
+- Groups: words linked via shared `variant_hash` values (morphy equivalence classes)
+- Union-find builds equivalence classes to prevent train/test leakage between word forms
+
+### XGBoost Hyperparameters
+```python
+objective = "binary:logistic"
+device = "cuda"
+max_depth = 8
+n_estimators = 2000
+learning_rate = 0.08
+subsample = 0.82
+colsample_bytree = 0.84
+scale_pos_weight = n_neg / n_pos
+reg_alpha = 0.12
+reg_lambda = 0.06
+early_stopping_rounds = 200
+eval_metric = "logloss"
+```
+
+---
+
+## Clustering Algorithms
+
+### PMI (Pointwise Mutual Information)
+
+Global co-occurrence metric between domains, computed from word-domain memberships:
+
+```python
+P(d) = count_words_in(d) / total_vocab
+P(d1, d2) = count_words_in_both(d1, d2) / total_vocab
+PMI(d1, d2) = log2(P(d1,d2) / (P(d1) * P(d2)))
+```
+
+Only positive PMI retained (negative clamped to 0). Produces a symmetric (n_domains x n_domains) matrix.
+
+**PMI word vectors:** For reef clustering within a domain, each word gets a PMI vector of length n_domains, where entry[i] = PMI(parent_domain, domain_i) if the word is also in domain_i, else 0.
+
+### Hybrid Similarity
+
+Used for both reef subdivision and archipelago clustering:
+
+```python
+similarity = alpha * cosine_sim(embeddings) + (1 - alpha) * cosine_sim(pmi_vectors)
+```
+
+- Reef level: `alpha = 0.7` (REEF_ALPHA)
+- Archipelago level: `alpha = 0.7` (ARCH_ALPHA)
+- Fallback: embedding-only cosine if a word/domain lacks PMI neighbors
+
+### kNN Graph Construction
+
+1. Compute pairwise hybrid similarity matrix
+2. For each node, keep top-k neighbors (excluding self)
+3. Symmetrize: union of directed k-nearest edges
+4. Deduplicate: keep maximum weight for duplicate edges
+5. Result: undirected weighted iGraph graph
+
+Parameters: k=15 for reefs, k=10 for archipelagos.
+
+### Leiden Community Detection
+
+Uses `leidenalg` with `RBConfigurationVertexPartition`:
+
+```python
+partition = la.find_partition(graph, RBConfigurationVertexPartition,
+                              weights="weight", resolution_parameter=resolution)
+```
+
+Post-processing:
+1. Communities smaller than `min_community_size` are merged into noise (label = -1)
+2. Remaining communities relabeled contiguously (0, 1, 2, ...)
+3. Returns: label array and modularity score
+
+Parameters:
+- Reefs: resolution=1.0, min_community_size=3
+- Archipelagos: resolution=1.0, min_community_size=2
+
+### Centroid Computation and Assignment
+
+For each cluster (sub-reef or archipelago):
+1. Centroid = L2-normalized mean of member embeddings
+2. Non-core words assigned to nearest centroid (if cosine >= 0.05)
+3. Unassigned words labeled as noise (reef_id = -1)
+
+---
+
+## Export Format v6.0
+
+**Format:** MessagePack binary files, deserialized by Lagoon.
+
+### Terminology Mapping (DB → Export)
+
+| Database concept | Export concept | Reason |
+|-----------------|---------------|--------|
+| Domain (444) | Reef | Lagoon's hierarchy: reef → island → arch |
+| Domain (same) | Island | 1:1 with reef in v2 (no separate island layer) |
+| Sub-reef (5,150) | Sub-reef | Subdivision within a domain |
+| Archipelago (11) | Arch | Top-level grouping |
+
+### File Descriptions
+
+#### word_lookup.bin (~4.8 MB)
+```python
+{word_hash: [word_hash, word_id, specificity, idf_q], ...}
+```
+Hash table for O(1) word lookup. Priority resolution: base words > morphy variants > snowball stems. Within same priority, higher specificity wins.
+
+#### word_reefs.bin (~7.4 MB)
+```python
+[
+    [],                                    # word_id 0 (unused)
+    [[reef_id, weight_q, sub_reef_id], ...],  # word_id 1
+    ...
+]
+```
+Indexed by word_id. Each entry lists domain memberships with quantized weights (u16).
+
+#### reef_meta.bin (~72 KB)
+```python
+[{
+    "hierarchy_addr": u32,    # pack: (arch_id << 16) | reef_id
+    "n_words": int,
+    "name": str,              # domain name
+    "valence": 0.0,           # placeholder (no valence in v2)
+    "avg_specificity": float,
+    "noun_frac": float,
+    "verb_frac": float,
+    "adj_frac": float,
+    "adv_frac": float,
+}, ...]
+```
+
+#### island_meta.bin (~11 KB)
+```python
+[{"arch_id": int, "name": str}, ...]
+```
+1:1 with reef_meta in v2 (each domain is both a "reef" and an "island").
+
+#### sub_reef_meta.bin (~347 KB)
+```python
+[{"parent_island_id": int, "n_words": int, "name": str}, ...]
+```
+5,150 sub-reef records with Leiden cluster labels as names.
+
+#### background.bin (~8 KB)
+```python
+{"bg_mean": [float, ...], "bg_std": [float, ...]}
+```
+Per-reef background model for z-score normalization in Lagoon. Computed by sampling 1000 random 15-word queries and measuring per-reef score distributions.
+
+**Background adjustment algorithm:**
+1. Identify "unreliable" reefs: expected sample hit rate < 30 occurrences
+2. Fit power-law regression on reliable reefs: `log(std) = a * log(mean) + b` (defaults: a=0.513, b=1.482)
+3. Replace unreliable stds with regression prediction (floored at median reliable std)
+4. Specificity modulation: `adjusted_std[r] = std[r] / (1.0 + 0.3 * avg_specificity[r])`
+
+#### constants.bin (~131 KB)
+```python
+{
+    "N_REEFS": 444,
+    "N_ISLANDS": 444,
+    "N_ARCHS": 11,
+    "N_SUB_REEFS": 5150,
+    "avg_reef_words": float,
+    "IDF_SCALE": 51,
+    "WEIGHT_SCALE": 100.0,
+    "FNV1A_OFFSET": 14695981039346656037,
+    "FNV1A_PRIME": 1099511628211,
+    "reef_total_dims": [0, ...],      # always 0 in v2
+    "reef_n_words": [n, ...],         # words per reef
+    "domainless_word_ids": [id, ...], # words not in any domain
+}
+```
+
+#### compounds.bin (~1.4 MB)
+```python
+[[word_text, word_id], ...]
+```
+69,793 multi-word expressions for Aho-Corasick tokenization in Lagoon.
+
+#### reef_edges.bin (~1 byte)
+Empty in v2 (no inter-reef edges at the domain level).
+
+#### word_reef_detail.bin (~158 KB)
+```python
+[[], [], [[island_id, sub_reef_id, weight_q], ...], ...]
+```
+Indexed by word_id. Sub-reef level detail for words that have sub-reef assignments.
+
+#### manifest.json
+```json
+{
+    "version": "6.0",
+    "format": "msgpack",
+    "build_timestamp": "ISO-8601",
+    "files": {"filename.bin": "sha256_hex", ...},
+    "stats": {
+        "n_reefs": 444,
+        "n_islands": 444,
+        "n_archs": 11,
+        "n_words": 158060,
+        "n_lookup_entries": 186184,
+        "n_words_with_reefs": 126163,
+        "n_compounds": 69793,
+        "n_sub_reefs": 5150,
+        "n_edges": 0
+    }
+}
+```
+
+### Hierarchy Address Packing
+```python
+def pack_hierarchy_addr(arch_id, reef_id):
+    return (arch_id << 16) | reef_id  # u32: arch(16) | reef(16)
+```
+
+---
 
 ## Configuration Reference
 
-All constants are in `config.py`:
+All constants in `config.py`:
 
-| Constant | Value | Purpose |
-|----------|-------|---------|
-| `MODEL_NAME` | `nomic-ai/nomic-embed-text-v1.5` | Embedding model |
-| `EMBEDDING_PREFIX` | `"classification: "` | Task prefix for Nomic model |
-| `MATRYOSHKA_DIM` | `768` | Embedding dimensionality |
-| `BATCH_SIZE` | `256` | Words per embedding batch |
-| `DB_PATH` | `vector_distillery.duckdb` | Default database file |
-| `ZSCORE_THRESHOLD` | `2.0` | Membership threshold: mean + N*std |
-| `PAIR_OVERLAP_THRESHOLD` | `3` | Min shared dims for pair table |
-| `COMMIT_INTERVAL` | `50` | Dimensions per DB batch commit |
-| `INTERMEDIATE_DIR` | `intermediates` | Checkpoint directory for embeddings |
-| `SENSE_EMBEDDING_PREFIX` | `"classification: "` | Same prefix, context from gloss |
-| `SENSE_BATCH_SIZE` | `256` | Senses per embedding batch |
-| `SENSE_INTERMEDIATE_DIR` | `intermediates/senses` | Checkpoint dir for sense embeddings |
-| `DOMAIN_COMPOUND_INTERMEDIATE_DIR` | `intermediates/domain_senses` | Checkpoint dir for domain compound embeddings |
-| `COMPOSITIONALITY_THRESHOLD` | `0.20` | Jaccard below this = idiomatic |
-| `CONTAMINATION_ZSCORE_MIN` | `2.0` | Min residual activation to flag |
-| `ISLAND_JACCARD_ZSCORE` | `3.0` | Min hypergeometric z-score to include edge in island graph |
-| `ISLAND_LEIDEN_RESOLUTION` | `1.0` | Leiden resolution (higher = more/smaller islands) |
-| `ISLAND_CHARACTERISTIC_WORDS_N` | `100` | Top N PMI-ranked words stored per island |
-| `ISLAND_MIN_COMMUNITY_SIZE` | `2` | Communities smaller than this become noise (island_id = -1) |
-| `ISLAND_SUB_LEIDEN_RESOLUTION` | `1.5` | Leiden resolution for sub-island detection (higher = more splitting) |
-| `ISLAND_MIN_DIMS_FOR_SUBDIVISION` | `2` | Don't subdivide islands with fewer dims than this |
-| `REEF_MIN_DEPTH` | `2` | Min dims a word must activate in a reef to count as meaningfully present |
-| `REEF_REFINE_MIN_DIMS` | `4` | Min dims for a reef to be analyzed for misplaced dims |
-| `REEF_REFINE_LOYALTY_THRESHOLD` | `1.0` | Dims with loyalty_ratio below this are considered misplaced |
-| `REEF_REFINE_MAX_ITERATIONS` | `5` | Max refinement rounds before stopping |
-| `SENSE_SPREAD_INFLATED_THRESHOLD` | `15` | Min sense_spread to flag a universal word as polysemy-inflated |
-| `DOMAIN_GENERAL_THRESHOLD` | `0.75` | Min arch_concentration for `v_domain_generals` view |
-| `ABSTRACT_DIM_THRESHOLD` | `0.30` | Min universal_pct for `v_abstract_dims` view |
-| `CONCRETE_DIM_THRESHOLD` | `0.15` | Max universal_pct for `v_concrete_dims` view |
-| `FNV1A_OFFSET` | `14695981039346656037` | FNV-1a 64-bit offset basis |
-| `FNV1A_PRIME` | `1099511628211` | FNV-1a 64-bit prime |
-| `NOISE_RECOVERY_MIN_JACCARD` | `0.01` | Min avg Jaccard for noise dim recovery to nearest sibling reef |
-| `BM25_K1` | `1.2` | BM25 term frequency saturation |
-| `BM25_B` | `0.75` | BM25 length normalization |
-| `NEGATION_PREFIXES` | `['un', 'non', 'in', ...]` | Morphological negation prefixes for directed pair extraction |
-| `POSITIVE_DIM_VALENCE_THRESHOLD` | `-0.15` | Valence below this = positive-pole dimension |
-| `NEGATIVE_DIM_VALENCE_THRESHOLD` | `0.15` | Valence above this = negative-pole dimension |
+```python
+# FNV-1a u64 hashing
+FNV1A_OFFSET = 14695981039346656037
+FNV1A_PRIME  = 1099511628211
 
-## Verification Queries
+# Domain augmentation (Claude API)
+AUGMENT_CLAUDE_MODEL     = "claude-sonnet-4-5-20250929"
+AUGMENT_BATCH_SIZE       = 5       # domains per API call
+AUGMENT_API_DELAY        = 0.5     # seconds between calls
+AUGMENT_MIN_DOMAIN_WORDS = 20      # min matched words for XGBoost training
+AUGMENT_NEG_RATIO        = 5       # negative:positive sampling ratio
 
-After running the full pipeline, these queries confirm everything worked:
+# XGBoost threshold
+XGBOOST_SCORE_THRESHOLD  = 0.4    # min score for domain membership
 
-```sql
--- POS coverage: expect ~135K (92%)
-SELECT count(*) FROM words WHERE pos IS NOT NULL;
+# Reef subdivision (Leiden clustering within domains)
+REEF_SCORE_THRESHOLD       = 0.6  # min xgb score for core words
+REEF_ALPHA                 = 0.7  # hybrid: 70% embedding, 30% PMI
+REEF_KNN_K                 = 15   # kNN neighbors
+REEF_LEIDEN_RESOLUTION     = 1.0
+REEF_MIN_COMMUNITY_SIZE    = 3    # merge smaller communities into noise
+REEF_MIN_DOMAIN_SIZE       = 10   # skip domains with fewer core words
+REEF_CHARACTERISTIC_WORDS_N = 10  # top words per sub-reef label
 
--- Category distribution
-SELECT category, count(*) FROM words GROUP BY category ORDER BY count(*) DESC;
+# Archipelago clustering (domain-level)
+ARCH_ALPHA                 = 0.7  # hybrid: 70% embedding, 30% PMI
+ARCH_KNN_K                 = 10   # kNN neighbors
+ARCH_LEIDEN_RESOLUTION     = 1.0
+ARCH_MIN_COMMUNITY_SIZE    = 2
+ARCH_CHARACTERISTIC_DOMAINS_N = 10
 
--- Component decomposition: expect ~100K+ rows
-SELECT count(*) FROM word_components;
-
--- Sense count: expect ~61K (all synsets for ambiguous words)
-SELECT count(*) FROM word_senses;
-
--- Sense memberships populated
-SELECT count(*) FROM sense_dim_memberships;
-
--- Top verb-enriched dimensions (should see dims 687, 636, 727 near top)
-SELECT dim_id, verb_enrichment FROM dim_stats
-ORDER BY verb_enrichment DESC LIMIT 10;
-
--- Most idiomatic compounds
-SELECT word, jaccard, emergent_dims FROM compositionality
-WHERE NOT is_compositional ORDER BY jaccard ASC LIMIT 20;
-
--- Words with highest compound contamination
-SELECT w.word, count(*) as contaminated_dims
-FROM dim_memberships dm JOIN words w ON w.word_id = dm.word_id
-WHERE dm.compound_support > 0
-GROUP BY w.word ORDER BY contaminated_dims DESC LIMIT 20;
-
--- Island count
-SELECT COUNT(DISTINCT island_id) FROM dim_islands WHERE generation = 0 AND island_id >= 0;
-
--- Largest islands
-SELECT island_id, n_dims, n_words, avg_internal_jaccard
-FROM island_stats WHERE generation = 0 ORDER BY n_dims DESC LIMIT 10;
-
--- Top words for island 0
-SELECT word, pmi, island_freq, corpus_freq
-FROM island_characteristic_words WHERE island_id = 0 AND generation = 0
-ORDER BY pmi DESC LIMIT 20;
-
--- Sub-island count
-SELECT COUNT(DISTINCT island_id) FROM dim_islands WHERE generation = 1 AND island_id >= 0;
-
--- Sub-islands per parent
-SELECT parent_island_id, COUNT(DISTINCT island_id) as n_sub_islands
-FROM dim_islands WHERE generation = 1 AND island_id >= 0
-GROUP BY parent_island_id ORDER BY parent_island_id;
-
--- Gen-2 reef count
-SELECT COUNT(DISTINCT island_id) FROM dim_islands WHERE generation = 2 AND island_id >= 0;
-
--- Specificity distribution
-SELECT specificity, COUNT(*), MIN(total_dims), MAX(total_dims)
-FROM words GROUP BY specificity ORDER BY specificity DESC;
-
--- Naming coverage: expect all non-noise islands named after phase 10
-SELECT generation, COUNT(*) as total,
-       COUNT(island_name) as named, COUNT(*) - COUNT(island_name) as unnamed
-FROM island_stats WHERE island_id >= 0 GROUP BY generation ORDER BY generation;
-
--- Sample names per generation
-SELECT generation, island_id, island_name
-FROM island_stats WHERE island_id >= 0 AND island_name IS NOT NULL
-ORDER BY generation, island_id LIMIT 20;
-
--- Universal word analytics: dimension abstractness (expect 768)
-SELECT COUNT(*) FROM dim_stats WHERE universal_pct IS NOT NULL;
-
--- Most abstract dims (highest universal word fraction)
-SELECT dim_id, universal_pct, dim_weight FROM dim_stats
-ORDER BY universal_pct DESC LIMIT 10;
-
--- Most concrete dims (lowest universal word fraction)
-SELECT dim_id, universal_pct, dim_weight FROM dim_stats
-WHERE universal_pct IS NOT NULL ORDER BY universal_pct ASC LIMIT 10;
-
--- Sense spread: words with polysemy inflation
-SELECT COUNT(*) FROM words WHERE sense_spread IS NOT NULL;
-SELECT COUNT(*) FROM words WHERE polysemy_inflated = TRUE;
-
--- Arch concentration: domain generals
-SELECT COUNT(*) FROM words WHERE arch_concentration IS NOT NULL;
-SELECT * FROM v_domain_generals LIMIT 20;
-
--- View counts
-SELECT COUNT(*) FROM v_abstract_dims;
-SELECT COUNT(*) FROM v_concrete_dims;
-
--- Word hashes: expect 0 nulls, 0 collisions
-SELECT COUNT(*) FROM words WHERE word_hash IS NULL;
-SELECT COUNT(*) = COUNT(DISTINCT word_hash) FROM words WHERE word_hash IS NOT NULL;
-
--- Reef IDF: expect ~146K with IDF, range ~0.94 to ~5.05
-SELECT COUNT(*) FROM words WHERE reef_idf IS NOT NULL;
-SELECT MIN(reef_idf), MAX(reef_idf) FROM words WHERE reef_idf IS NOT NULL;
-
--- Word variants: expect ~490K total, ~146K base + morphy
-SELECT source, COUNT(*) FROM word_variants GROUP BY source;
-SELECT COUNT(DISTINCT variant_hash) FROM word_variants;
-
--- Negation vector: expect 1 row
-SELECT name, n_pairs, description FROM computed_vectors;
-
--- Dimension valence: expect 768 with valence, range ~[-0.70, 0.98]
-SELECT COUNT(*) FROM dim_stats WHERE valence IS NOT NULL;
-SELECT MIN(valence), MAX(valence) FROM dim_stats;
-
--- Positive/negative pole dims
-SELECT COUNT(*) FROM v_positive_dims;
-SELECT COUNT(*) FROM v_negative_dims;
-
--- Spot-check: dim 47 (futility) should have high positive valence
-SELECT dim_id, valence FROM dim_stats WHERE dim_id IN (47, 205) ORDER BY dim_id;
-
--- Reef valence: expect N_archs + N_islands + N_reefs
-SELECT COUNT(*) FROM island_stats WHERE valence IS NOT NULL;
-SELECT generation, MIN(valence), MAX(valence) FROM island_stats
-WHERE valence IS NOT NULL GROUP BY generation ORDER BY generation;
-
--- Most positive-pole and negative-pole reefs
-SELECT island_id, island_name, valence FROM island_stats
-WHERE generation = 2 AND valence IS NOT NULL ORDER BY valence ASC LIMIT 5;
-SELECT island_id, island_name, valence FROM island_stats
-WHERE generation = 2 AND valence IS NOT NULL ORDER BY valence DESC LIMIT 5;
-
--- POS composition: expect 768 dims with fractions summing to ~1.0
-SELECT COUNT(*), AVG(noun_frac + verb_frac + adj_frac + adv_frac)
-FROM dim_stats WHERE noun_frac IS NOT NULL;
-
--- Compare sense-aware vs unambiguous-only (noun_frac should be slightly lower than noun_pct)
-SELECT ROUND(AVG(noun_pct), 4) AS old_noun, ROUND(AVG(noun_frac), 4) AS new_noun,
-       ROUND(AVG(noun_pct) - AVG(noun_frac), 4) AS delta
-FROM dim_stats WHERE noun_frac IS NOT NULL;
-
--- Reef POS composition: most verb-heavy reefs
-SELECT island_name, noun_frac, verb_frac, adj_frac, adv_frac
-FROM island_stats WHERE generation = 2
-ORDER BY verb_frac DESC LIMIT 10;
-
--- Hierarchy POS coverage: expect N_archs + N_islands + N_reefs
-SELECT COUNT(*) FROM island_stats WHERE noun_frac IS NOT NULL;
-
--- Hierarchy specificity: expect N_archs + N_islands + N_reefs entities
-SELECT COUNT(*) FROM island_stats WHERE avg_specificity IS NOT NULL;
-
--- Reef edges: expect N_reefs * (N_reefs - 1)
-SELECT COUNT(*) FROM reef_edges;
-
--- Pairs with word overlap
-SELECT COUNT(*) FROM reef_edges WHERE containment > 0;
-
--- Containment range: [0, ~0.197]
-SELECT MIN(containment), MAX(containment), AVG(containment) FROM reef_edges;
-
--- Lift range: [0, ~21.4]
-SELECT MIN(lift), MAX(lift), AVG(lift) FROM reef_edges WHERE lift > 0;
-
--- POS similarity: all non-null, range ~[0.7, 1.0]
-SELECT COUNT(*) FILTER (WHERE pos_similarity IS NULL), MIN(pos_similarity), MAX(pos_similarity)
-FROM reef_edges;
-
--- Asymmetry check: containment(A→B) != containment(B→A) for most pairs
-SELECT COUNT(*) FROM reef_edges a
-JOIN reef_edges b ON a.source_reef_id = b.target_reef_id
-  AND a.target_reef_id = b.source_reef_id
-WHERE ABS(a.containment - b.containment) > 0.01;
-
--- Specificity gap: signed, should span both directions
-SELECT MIN(specificity_gap), MAX(specificity_gap) FROM reef_edges;
-
+# Export
+EXPORT_WEIGHT_THRESHOLD    = 0.01  # min weight to include in export
 ```
 
-## File Artifacts
+---
 
-After a full run, the project directory will contain:
+## Lagoon Integration
 
+Lagoon is the downstream consumer -- a Python search scoring library at `../lagoon/src/lagoon/`. It loads the 10 `.bin` files and provides:
+
+- **Tokenization:** Aho-Corasick multi-word matching using `compounds.bin`, then FNV-1a lookup using `word_lookup.bin`
+- **Domain scoring:** For each query word, look up domain memberships from `word_reefs.bin`, accumulate weighted scores per domain
+- **Z-score normalization:** Compare accumulated scores against `background.bin` (bg_mean, bg_std) to produce z-scores
+- **Ranking:** Return domains ranked by z-score
+
+The export format is designed for fast deserialization and O(1) lookups. All numeric values are pre-quantized to minimize runtime computation.
+
+---
+
+## Important Implementation Details
+
+### FNV-1a Hashing (`word_list.py`)
+```python
+def fnv1a_u64(s):
+    h = FNV1A_OFFSET  # 14695981039346656037
+    for byte in s.encode("utf-8"):
+        h ^= byte
+        h = (h * FNV1A_PRIME) & 0xFFFFFFFFFFFFFFFF
+    return h
 ```
-vector_distillery.duckdb       The database (~500MB+ with embeddings)
-intermediates/
-  embeddings_final.npy         Cached word embeddings (~146K x 768 float32)
-intermediates/senses/
-  embeddings_final.npy         Cached sense embeddings (~61K x 768 float32)
-intermediates/domain_senses/
-  embeddings_final.npy         Cached domain compound embeddings
+Used for all word lookups. Deterministic, fast, good distribution. The same hash function must be used by Lagoon.
+
+### Embedding Model
+- **Model:** nomic-embed-text-v1.5
+- **Dimensions:** 768 (Matryoshka)
+- **Prefix:** `"search_document: "` for indexing, `"search_query: "` for queries
+- **Storage:** float32 blobs in SQLite (3072 bytes per word)
+
+### Z-Score Dimension Membership
+A word is a "member" of dimension d if:
+```
+embedding[d] > dim_stats.mean[d] + 2.0 * dim_stats.std[d]
+```
+This produces ~1-2% membership rate per dimension, with `total_dims` averaging ~17.5 per word.
+
+### Word Priority in Lookup Table
+When multiple variants map to the same hash:
+1. Base words (priority 0) > morphy variants (priority 1) > snowball stems (priority 2)
+2. Within same priority: higher specificity wins
+3. Ensures the most informative word form is returned
+
+### Signed/Unsigned Hash Conversion
+SQLite stores integers as signed i64. FNV-1a produces u64 values. The export pipeline converts:
+```python
+unsigned_hash = signed_hash & 0xFFFFFFFFFFFFFFFF
 ```
 
-The `.npy` files are caches. If deleted, phase 2 or 5 will regenerate them (expensive). The database is the source of truth once populated.
+### Morphological Groups for CV
+XGBoost cross-validation uses morphological equivalence classes (union-find on shared variant_hash values) to prevent data leakage. Words like "run", "running", "ran" are always in the same CV fold.
+
+### Background Model Sampling
+The background model represents "what does a random query look like?" for each domain:
+- 1000 random samples of 15 single words each
+- Per-domain mean and std of raw accumulated scores
+- Unreliable domains (low expected hit rate) get regression-predicted stds
+- Specificity modulation: more specific domains get tighter (lower) stds, making it easier to achieve a significant z-score
+
+### The "domainless" Pseudo-Domain
+Words with embeddings that don't belong to any real domain are tagged as "domainless" in `augmented_domains`. Their word_ids are stored in `constants.bin["domainless_word_ids"]` for Lagoon to handle specially (they contribute to tokenization but not domain scoring).

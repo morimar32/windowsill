@@ -1,0 +1,146 @@
+{
+  "domain": "mammal",
+  "n_positive": 80,
+  "n_negative": 400,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8769841269841269,
+    "recall": 0.43106060606060603,
+    "f1": 0.5499618611746758,
+    "auc_pr": 0.7239759659647501
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.15151515151515152,
+      "f1": 0.2631578947368421,
+      "auc_pr": 0.7085401369531412
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7179434707241911
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.375,
+      "f1": 0.5217391304347826,
+      "auc_pr": 0.6919536426737514
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.5833333333333334,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7533751017928898
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5454545454545454,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.7480674776797772
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 52,
+      "importance": 0.027014416828751563,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 538,
+      "importance": 0.025289922289084645,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.023247938603162766,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 154,
+      "importance": 0.02157319262623787,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.016777448914945127,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.01666943971067667,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 431,
+      "importance": 0.016480996343307196,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.01461728848516941,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 444,
+      "importance": 0.013613349717343227,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.013021329417824745,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.011481618951074779,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 663,
+      "importance": 0.010986843449063598,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 285,
+      "importance": 0.010848991805687547,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 741,
+      "importance": 0.010704223671928048,
+      "reef_name": "explosive violent intensity"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.010421648621559143,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.009960414585657417,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.00995625127106905,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.009778477996587754,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 430,
+      "importance": 0.009753266721963883,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 703,
+      "importance": 0.009633298544213176,
+      "reef_name": "machinery and motors"
+    }
+  ]
+}

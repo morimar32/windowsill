@@ -1,0 +1,146 @@
+{
+  "domain": "surgery",
+  "n_positive": 92,
+  "n_negative": 460,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.915897435897436,
+    "recall": 0.721933471933472,
+    "f1": 0.7952480852480852,
+    "auc_pr": 0.8866361319919116
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5135135135135135,
+      "f1": 0.6785714285714286,
+      "auc_pr": 0.8808203497615382
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.8461538461538461,
+      "f1": 0.8461538461538461,
+      "auc_pr": 0.8982084155161076
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.901456346292524
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8668295353174925
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.75,
+      "f1": 0.8181818181818182,
+      "auc_pr": 0.8858660130718955
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 409,
+      "importance": 0.050207798928022386,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 609,
+      "importance": 0.04291525222361088,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.04031651029363274,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.021369632537243888,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 676,
+      "importance": 0.019962477218359708,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.01957608964294195,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.0162336646579206,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.015927851665765047,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.015585790760815144,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 357,
+      "importance": 0.014752928912639619,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.014326985145453363,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 534,
+      "importance": 0.014321349561214447,
+      "reef_name": "german language terms"
+    },
+    {
+      "dim_id": 589,
+      "importance": 0.013812806271016598,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 278,
+      "importance": 0.012224267539568245,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 453,
+      "importance": 0.01191103514865972,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 168,
+      "importance": 0.010673285741358996,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.010083568305708468,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.010026081884279846,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 163,
+      "importance": 0.009965020325034856,
+      "reef_name": "reading and actions"
+    },
+    {
+      "dim_id": 431,
+      "importance": 0.009848763502668589,
+      "reef_name": "urban landscape geography"
+    }
+  ]
+}

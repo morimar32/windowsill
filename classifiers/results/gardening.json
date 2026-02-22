@@ -1,0 +1,146 @@
+{
+  "domain": "gardening",
+  "n_positive": 90,
+  "n_negative": 450,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7462930052403737,
+    "recall": 0.5675252525252525,
+    "f1": 0.633174416145503,
+    "auc_pr": 0.7671344669820485
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7894736842105263,
+      "recall": 0.375,
+      "f1": 0.5084745762711864,
+      "auc_pr": 0.752030425120112
+    },
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.8181818181818182,
+      "f1": 0.8181818181818182,
+      "auc_pr": 0.9403069153069155
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8359883522909839
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4444444444444444,
+      "f1": 0.5333333333333333,
+      "auc_pr": 0.620651455026455
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1": 0.6,
+      "auc_pr": 0.6866951871657754
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 250,
+      "importance": 0.0801462098956108,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 61,
+      "importance": 0.0388008089736104,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 655,
+      "importance": 0.02090605879202485,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.019607418065425007,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 187,
+      "importance": 0.01923771873116493,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 261,
+      "importance": 0.018931610172148793,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 447,
+      "importance": 0.0188624277128838,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.01835556123405695,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 349,
+      "importance": 0.013746419758535921,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.01296961698681116,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.012750664725899696,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.012709662318229675,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.01219866368919611,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.012011902965605259,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 321,
+      "importance": 0.010194618999958039,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 337,
+      "importance": 0.010107669979333878,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.009804186059045605,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.009500713460147381,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.009271395765244961,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.009223309345543385,
+      "reef_name": "quantity and magnitude"
+    }
+  ]
+}

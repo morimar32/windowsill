@@ -1,0 +1,146 @@
+{
+  "domain": "west indies",
+  "n_positive": 61,
+  "n_negative": 305,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8242063492063492,
+    "recall": 0.4942132867132867,
+    "f1": 0.6150623885918003,
+    "auc_pr": 0.7262705217770427
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.875,
+      "recall": 0.4375,
+      "f1": 0.5833333333333334,
+      "auc_pr": 0.7379337858778648
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.36363636363636365,
+      "f1": 0.47058823529411764,
+      "auc_pr": 0.5684485105537737
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.45454545454545453,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.6802538370720189
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8179503339797457
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.6153846153846154,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8267661414018097
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 181,
+      "importance": 0.03936323705129326,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.022991390409879388,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.021026414632797242,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.02013951912522316,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.019210101751377807,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 153,
+      "importance": 0.017962420359253883,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.017130587506107985,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.01671006567776203,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.016142979636788367,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.0156915545463562,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 36,
+      "importance": 0.01461549459490925,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.01420796881429851,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.01391683453693986,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.013256153464317322,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 455,
+      "importance": 0.012791113927960396,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.012410687934607267,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.011926692724227906,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 640,
+      "importance": 0.011423331685364246,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.011095174914225936,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 418,
+      "importance": 0.010963273420929908,
+      "reef_name": "devotion and compassion"
+    }
+  ]
+}

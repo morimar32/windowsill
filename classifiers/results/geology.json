@@ -1,0 +1,146 @@
+{
+  "domain": "geology",
+  "n_positive": 163,
+  "n_negative": 815,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.837030703849926,
+    "recall": 0.5814319014319015,
+    "f1": 0.6710388208687643,
+    "auc_pr": 0.7528211908729363
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.2727272727272727,
+      "f1": 0.39473684210526316,
+      "auc_pr": 0.5996270462097354
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5357142857142857,
+      "f1": 0.6976744186046512,
+      "auc_pr": 0.7800631251954016
+    },
+    {
+      "precision": 0.8421052631578947,
+      "recall": 0.6153846153846154,
+      "f1": 0.7111111111111111,
+      "auc_pr": 0.7437572953867324
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.7333333333333333,
+      "f1": 0.7857142857142857,
+      "auc_pr": 0.8390024820329076
+    },
+    {
+      "precision": 0.782608695652174,
+      "recall": 0.75,
+      "f1": 0.7659574468085106,
+      "auc_pr": 0.8016560055399047
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 687,
+      "importance": 0.030310070887207986,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.023928333475487305,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.021456566359847783,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.019069817662239075,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.016933892481029035,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.013456407928606496,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.01336217112839222,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.013323945936281233,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.012716276943683625,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.010856653493829072,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 250,
+      "importance": 0.010678867041133345,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.010129287745803595,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.009335602819919585,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 524,
+      "importance": 0.008643675316125154,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.0086075933650136,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 401,
+      "importance": 0.008604544773697853,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.008022303879261016,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.007984067383222281,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 510,
+      "importance": 0.007106342446058988,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.0070899863261729475,
+      "reef_name": "political impropriety and moral failing"
+    }
+  ]
+}

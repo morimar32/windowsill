@@ -1,0 +1,146 @@
+{
+  "domain": "terrorism",
+  "n_positive": 162,
+  "n_negative": 810,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8654792960662526,
+    "recall": 0.61220768478833,
+    "f1": 0.7126979561837199,
+    "auc_pr": 0.8464549724603178
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.84,
+      "recall": 0.5833333333333334,
+      "f1": 0.6885245901639344,
+      "auc_pr": 0.7863408318251716
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.7878787878787878,
+      "f1": 0.8253968253968254,
+      "auc_pr": 0.8864505048802453
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.5,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.839907596261114
+    },
+    {
+      "precision": 0.8260869565217391,
+      "recall": 0.6129032258064516,
+      "f1": 0.7037037037037037,
+      "auc_pr": 0.8245959317281919
+    },
+    {
+      "precision": 0.9375,
+      "recall": 0.5769230769230769,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8949799976068658
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 382,
+      "importance": 0.02317736707627773,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 56,
+      "importance": 0.021322206035256384,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 364,
+      "importance": 0.01977507919073105,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.018824282661080362,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.0137538519105874,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 505,
+      "importance": 0.013284061196827679,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.01312394710839726,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.012178957470314344,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 255,
+      "importance": 0.01215063752606511,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 228,
+      "importance": 0.01086300722672604,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.010556287411600352,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 176,
+      "importance": 0.010241720359772444,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 58,
+      "importance": 0.010232555400580167,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.009796659593484946,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 693,
+      "importance": 0.009549231004348258,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.009515080453275005,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.009222458535805344,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 626,
+      "importance": 0.008924208728421945,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.008761031180620193,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.008205371382064185,
+      "reef_name": "physical flexibility capability"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "anglican church",
+  "metrics": {
+    "precision": 0.793218954248366,
+    "recall": 0.5171714452371339,
+    "f1": 0.615014438040022,
+    "auc_pr": 0.745754182511714
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.5294117647058824,
+      "f1": 0.6206896551724138,
+      "auc_pr": 0.6173563183797
+    },
+    {
+      "precision": 0.8125,
+      "recall": 0.5652173913043478,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8076608633004556
+    },
+    {
+      "precision": 0.7647058823529411,
+      "recall": 0.6842105263157895,
+      "f1": 0.7222222222222222,
+      "auc_pr": 0.8440349054712677
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.3333333333333333,
+      "f1": 0.48484848484848486,
+      "auc_pr": 0.7450360658767415
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.47368421052631576,
+      "f1": 0.5806451612903226,
+      "auc_pr": 0.7146827595304048
+    }
+  ],
+  "n_positive": 102,
+  "n_negative": 510,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 3,
+      "importance": 0.02790124826133251,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.026080828803242185,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.025776428729295732,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.02364227771759033,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.018172097802744248,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 589,
+      "importance": 0.018131969426758588,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.017683202959597112,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.013619279302656651,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.012729422003030778,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 304,
+      "importance": 0.012264133431017399,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.0120768153690733,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.01202117996290326,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.011882158275693656,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 637,
+      "importance": 0.011524394940352067,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.01075424551963806,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 659,
+      "importance": 0.010734452679753304,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 133,
+      "importance": 0.010124541074037551,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.009784506366122514,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.009691523155197501,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.009267581807216629,
+      "reef_name": "taxonomic families genera"
+    }
+  ]
+}

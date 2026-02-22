@@ -1,0 +1,146 @@
+{
+  "domain": "astronomy",
+  "metrics": {
+    "precision": 0.771904761904762,
+    "recall": 0.5166666666666667,
+    "f1": 0.5851227204168381,
+    "auc_pr": 0.7253463437238052
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.25,
+      "f1": 0.3939393939393939,
+      "auc_pr": 0.6599385891451897
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.5,
+      "f1": 0.6470588235294118,
+      "auc_pr": 0.7448051968483262
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7197629037557443
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.8333333333333334,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8405666093166094
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.6616584195531564
+    }
+  ],
+  "n_positive": 114,
+  "n_negative": 570,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 445,
+      "importance": 0.026113184355199336,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 547,
+      "importance": 0.022602405957877637,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.020210343704093248,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.017304054787382485,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.017027225717902182,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 731,
+      "importance": 0.014920212281867861,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.013960044749546796,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.012478319462388754,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.01051941404293757,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.010440137179102749,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 524,
+      "importance": 0.00993867707438767,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 77,
+      "importance": 0.009464158327318728,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.009015002101659775,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.00884251743555069,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.008743725600652397,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 248,
+      "importance": 0.008732946589589119,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.008653593930648639,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 270,
+      "importance": 0.008564967289566993,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.008430971950292587,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.008342321263626218,
+      "reef_name": "combustible liquids and fuels"
+    }
+  ]
+}

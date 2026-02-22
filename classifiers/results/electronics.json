@@ -1,0 +1,146 @@
+{
+  "domain": "electronics",
+  "n_positive": 50,
+  "n_negative": 250,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7433333333333334,
+    "recall": 0.4444996549344375,
+    "f1": 0.5292429792429794,
+    "auc_pr": 0.7152276732614612
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.13043478260869565,
+      "f1": 0.2222222222222222,
+      "auc_pr": 0.6404109803393996
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.3333333333333333,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.6087962962962963
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8482142857142856
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.4444444444444444,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.7964587394411957
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.682258064516129
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.06697515398263931,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.04119303077459335,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.029621152952313424,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.026926067471504212,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 626,
+      "importance": 0.026359839737415312,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 202,
+      "importance": 0.02429789062589407,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.02285790666937828,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.020396316051483156,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.019325857609510423,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.018697108142077923,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.01750061847269535,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.016241968795657157,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 215,
+      "importance": 0.01622842319775373,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.015491613745689392,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.01457962989807129,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 756,
+      "importance": 0.01358507089316845,
+      "reef_name": "ornate pompous elegance"
+    },
+    {
+      "dim_id": 563,
+      "importance": 0.013441893830895424,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 686,
+      "importance": 0.012931373226456344,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.012710277736186982,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.012512275762856007,
+      "reef_name": "european cities and locations"
+    }
+  ]
+}

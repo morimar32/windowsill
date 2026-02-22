@@ -1,0 +1,146 @@
+{
+  "domain": "basketball",
+  "metrics": {
+    "precision": 0.6666666666666666,
+    "recall": 0.4666666666666667,
+    "f1": 0.49567099567099565,
+    "auc_pr": 0.7250498704082935
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.06666666666666667,
+      "f1": 0.12121212121212122,
+      "auc_pr": 0.6952368207131466
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.6666666666666666,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.75
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.5726315789473684
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.6073809523809524
+    }
+  ],
+  "n_positive": 46,
+  "n_negative": 230,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 276,
+      "importance": 0.07555740177631379,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 646,
+      "importance": 0.030734821781516077,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 293,
+      "importance": 0.03016420193016529,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 401,
+      "importance": 0.029902278259396554,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 403,
+      "importance": 0.02085246043279767,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.019930831901729108,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.019327856588643045,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 248,
+      "importance": 0.017957941442728043,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.01642632995499298,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.015986356139183044,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 7,
+      "importance": 0.015619750693440437,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.014521598722785712,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 666,
+      "importance": 0.013722459971904754,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 673,
+      "importance": 0.013692296762019395,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.012470953166484833,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 600,
+      "importance": 0.012346671521663665,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.012105736485682427,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.011951332632452249,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.011276571173220873,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.011126146465539933,
+      "reef_name": "separation and distinction"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "air travel",
+  "metrics": {
+    "precision": 0.7316666666666667,
+    "recall": 0.43249639249639243,
+    "f1": 0.5386404023975182,
+    "auc_pr": 0.6785695601363683
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.95,
+      "recall": 0.4523809523809524,
+      "f1": 0.6129032258064516,
+      "auc_pr": 0.8258207584087641
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5555555555555556,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8099190299645305
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.1488095238095238
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8474341834635951
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.45454545454545453,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.760864305035428
+    }
+  ],
+  "n_positive": 74,
+  "n_negative": 370,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 746,
+      "importance": 0.03584281429648399,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.03257011659443378,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 292,
+      "importance": 0.028370022401213647,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 269,
+      "importance": 0.021365398587659002,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 523,
+      "importance": 0.02064455673098564,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.020602579228579998,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.019716595113277436,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.01903611661400646,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.01894848626689054,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.018822098171222025,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.01813962608575821,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.01723711266531609,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 337,
+      "importance": 0.016058428259566427,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.014024418592453004,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 453,
+      "importance": 0.012567333038896322,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.012191022385377438,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.012116652354598046,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 374,
+      "importance": 0.01166195496916771,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 546,
+      "importance": 0.01146562208305113,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.011161792793427595,
+      "reef_name": "political impropriety and moral failing"
+    }
+  ]
+}

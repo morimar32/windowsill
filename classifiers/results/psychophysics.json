@@ -1,0 +1,146 @@
+{
+  "domain": "psychophysics",
+  "n_positive": 21,
+  "n_negative": 105,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5,
+    "recall": 0.20714285714285713,
+    "f1": 0.28888888888888886,
+    "auc_pr": 0.5429877344877345
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.8273809523809523
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.25,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.3930735930735931
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.3903174603174603
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.25
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8541666666666666
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.10075987130403519,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.03289202563464642,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.02906235884875059,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 250,
+      "importance": 0.028195953369140624,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.025321203679777683,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.02493956603575498,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 658,
+      "importance": 0.024654839560389517,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.021849262714385986,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 280,
+      "importance": 0.02132129520177841,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.020893409848213196,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 229,
+      "importance": 0.02017240859568119,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 332,
+      "importance": 0.01925889402627945,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 385,
+      "importance": 0.018407796137034894,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 554,
+      "importance": 0.01806149217300117,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.017825329303741456,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 731,
+      "importance": 0.017394302785396575,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.016038652043789625,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.015955395996570587,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 342,
+      "importance": 0.015572793781757355,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 89,
+      "importance": 0.01468139374628663,
+      "reef_name": "physiological bodily mechanics"
+    }
+  ]
+}

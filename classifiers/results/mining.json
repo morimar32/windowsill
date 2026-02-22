@@ -1,0 +1,146 @@
+{
+  "domain": "mining",
+  "n_positive": 102,
+  "n_negative": 510,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6799999999999999,
+    "recall": 0.27898550724637683,
+    "f1": 0.38014029180695846,
+    "auc_pr": 0.5523909477406307
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.14492753623188406,
+      "f1": 0.24691358024691357,
+      "auc_pr": 0.6754971366125823
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.2857142857142857,
+      "f1": 0.4,
+      "auc_pr": 0.43818004352278545
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.25,
+      "f1": 0.375,
+      "auc_pr": 0.5180857382499149
+    },
+    {
+      "precision": 0.4,
+      "recall": 0.2857142857142857,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.5956279947876586
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.42857142857142855,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.5345638255302121
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 412,
+      "importance": 0.03647995013743639,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.0226777923759073,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.021999741462059318,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.020879038516432046,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.020470422506332398,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.016189903547638097,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.015699246572330593,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.014733544696355239,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.013232450559735298,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.012694011488929392,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.012656383402645587,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 332,
+      "importance": 0.012499505653977394,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 457,
+      "importance": 0.01192494468705263,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.011671902029775083,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 61,
+      "importance": 0.01130635136505589,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.011059397645294667,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.010653259919490666,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.010449269611854106,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.010237008368130773,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 338,
+      "importance": 0.009920743107795716,
+      "reef_name": "shape and spatial properties"
+    }
+  ]
+}

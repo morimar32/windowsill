@@ -1,0 +1,146 @@
+{
+  "domain": "biology",
+  "metrics": {
+    "precision": 0.7572238804520797,
+    "recall": 0.5286662360734639,
+    "f1": 0.6037011483012711,
+    "auc_pr": 0.7077948695214047
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8529411764705882,
+      "recall": 0.24786324786324787,
+      "f1": 0.3841059602649007,
+      "auc_pr": 0.6566786310059168
+    },
+    {
+      "precision": 0.7959183673469388,
+      "recall": 0.6842105263157895,
+      "f1": 0.7358490566037735,
+      "auc_pr": 0.8026194581989715
+    },
+    {
+      "precision": 0.782608695652174,
+      "recall": 0.5806451612903226,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8010280353184586
+    },
+    {
+      "precision": 0.6046511627906976,
+      "recall": 0.5306122448979592,
+      "f1": 0.5652173913043478,
+      "auc_pr": 0.5906025025716262
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6880457205120507
+    }
+  ],
+  "n_positive": 340,
+  "n_negative": 1700,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 674,
+      "importance": 0.02113426011055708,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.01929202638566494,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.01895311251282692,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.01744886822998524,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.012625243607908487,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.011138423345983028,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 349,
+      "importance": 0.010078075644560158,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 391,
+      "importance": 0.009813874401152134,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.009217850025743246,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.008845563512295485,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 80,
+      "importance": 0.007643711476703174,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.007572696765419096,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.007508875522762537,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.00716698746655311,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.007099314965307713,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.006286321394145489,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.0062506409260095095,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 94,
+      "importance": 0.005918596603441984,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 451,
+      "importance": 0.005810265336185694,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.005551687069237232,
+      "reef_name": "bacteria and microbiology"
+    }
+  ]
+}

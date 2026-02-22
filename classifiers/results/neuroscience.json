@@ -1,0 +1,146 @@
+{
+  "domain": "neuroscience",
+  "n_positive": 46,
+  "n_negative": 230,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9714285714285715,
+    "recall": 0.7228571428571429,
+    "f1": 0.8235087719298246,
+    "auc_pr": 0.9079835067466646
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.75,
+      "f1": 0.8,
+      "auc_pr": 0.8264411027568922
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9121212121212123
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1": 0.9473684210526315,
+      "auc_pr": 0.9625
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9999999999999998
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5833333333333334,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.8388552188552189
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 25,
+      "importance": 0.07523367535322904,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 501,
+      "importance": 0.0344079190865159,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.033508578687906264,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.03145859967917204,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 414,
+      "importance": 0.029276305832900106,
+      "reef_name": "central anatomical structures"
+    },
+    {
+      "dim_id": 353,
+      "importance": 0.02810661857947707,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.027736383583396675,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.024025200866162777,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.023648729990236463,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 529,
+      "importance": 0.023532035085372625,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.022907713055610658,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 364,
+      "importance": 0.022347608115524054,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.0215138703584671,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.02095629647374153,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.02064946498721838,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.019332873076200484,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.019319250917760655,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 718,
+      "importance": 0.018504234869033097,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.01812682575546205,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.017955626640468837,
+      "reef_name": "physical fluid states"
+    }
+  ]
+}

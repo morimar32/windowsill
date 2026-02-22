@@ -1,0 +1,146 @@
+{
+  "domain": "handwriting",
+  "n_positive": 35,
+  "n_negative": 175,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8733333333333334,
+    "recall": 0.5694444444444444,
+    "f1": 0.6725541125541125,
+    "auc_pr": 0.8726765198067377
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7,
+      "recall": 0.5833333333333334,
+      "f1": 0.6363636363636364,
+      "auc_pr": 0.7575955619966509
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.375,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.8395833333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5555555555555556,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.899537037037037
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8666666666666667
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 293,
+      "importance": 0.11319608390331268,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 388,
+      "importance": 0.056715598702430724,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.049988284893333915,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.04190612784586847,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.027952375169843436,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.027883238904178143,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 68,
+      "importance": 0.023218551464378834,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.021583515219390392,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 206,
+      "importance": 0.020478438958525656,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.018554170429706574,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.018529577041044833,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 590,
+      "importance": 0.018321356642991303,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.01584988534450531,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 663,
+      "importance": 0.014961699396371842,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.014637192618101836,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 497,
+      "importance": 0.014308734238147736,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 254,
+      "importance": 0.013182703033089637,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.011929991096258164,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.011866221483796836,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 601,
+      "importance": 0.011749707348644733,
+      "reef_name": "international travel movement"
+    }
+  ]
+}

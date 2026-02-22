@@ -1,0 +1,146 @@
+{
+  "domain": "bookkeeping",
+  "metrics": {
+    "precision": 0.9011904761904763,
+    "recall": 0.7113333333333334,
+    "f1": 0.7815673815673815,
+    "auc_pr": 0.8977853634155961
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.44,
+      "f1": 0.5945945945945946,
+      "auc_pr": 0.7953626035137671
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.9811507936507938
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9861111111111112
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.8333333333333334,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8357142857142856
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8905880230880231
+    }
+  ],
+  "n_positive": 61,
+  "n_negative": 305,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 545,
+      "importance": 0.058566031791269776,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.036108072753995656,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.033646909333765504,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.031182484328746797,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 420,
+      "importance": 0.0246320562902838,
+      "reef_name": "color and hue"
+    },
+    {
+      "dim_id": 577,
+      "importance": 0.023354383278638126,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 402,
+      "importance": 0.022639998199883847,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 177,
+      "importance": 0.021492205909453332,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.02109537459909916,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 95,
+      "importance": 0.019158340990543365,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.01894071470014751,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.018101589300204068,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.018071814998984338,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.017729688179679216,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.01602405197918415,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.01556018739938736,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.015031263954006136,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.014079339057207107,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.013292784057557582,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.013153329491615295,
+      "reef_name": "trees and outdoor canopy"
+    }
+  ]
+}

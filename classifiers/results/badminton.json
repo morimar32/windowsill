@@ -1,0 +1,146 @@
+{
+  "domain": "badminton",
+  "metrics": {
+    "precision": 0.55,
+    "recall": 0.44074074074074077,
+    "f1": 0.38712643678160924,
+    "auc_pr": 0.652180595076959
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5,
+      "recall": 0.037037037037037035,
+      "f1": 0.06896551724137931,
+      "auc_pr": 0.45721633944009427
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.10368663594470046
+    },
+    {
+      "precision": 0.25,
+      "recall": 1.0,
+      "f1": 0.4,
+      "auc_pr": 1.0
+    }
+  ],
+  "n_positive": 35,
+  "n_negative": 175,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 652,
+      "importance": 0.04832943696528673,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.043381184712052344,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.03826077207922936,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.033489960711449385,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.030053873918950556,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.029151047207415105,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.02834821045398712,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.027659908682107926,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.027547823172062634,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.02226727290544659,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.019906578364316373,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.019877883791923522,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 730,
+      "importance": 0.017711526388302444,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.017455708980560303,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 570,
+      "importance": 0.016258088871836662,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.016076461970806123,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 237,
+      "importance": 0.012115019373595715,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.011970724165439605,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.01193215507082641,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 160,
+      "importance": 0.011293824357562699,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

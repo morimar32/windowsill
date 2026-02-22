@@ -1,0 +1,146 @@
+{
+  "domain": "education",
+  "n_positive": 54,
+  "n_negative": 270,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.845375939849624,
+    "recall": 0.7016402116402116,
+    "f1": 0.7633816425120773,
+    "auc_pr": 0.8905869836780422
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8947368421052632,
+      "recall": 0.6296296296296297,
+      "f1": 0.7391304347826086,
+      "auc_pr": 0.9108928515634809
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.75,
+      "f1": 0.8,
+      "auc_pr": 0.9526289682539683
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.6951530612244898
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8942600373482726
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 613,
+      "importance": 0.12391513884067536,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 216,
+      "importance": 0.047184102982282636,
+      "reef_name": "conflict and turmoil"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.044812606647610664,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.030152269918471575,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.027661167085170746,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.02503442782908678,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 310,
+      "importance": 0.02197249624878168,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.02139564212411642,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 446,
+      "importance": 0.0199705071747303,
+      "reef_name": "commotion and outbursts"
+    },
+    {
+      "dim_id": 650,
+      "importance": 0.01913616803358309,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.01899476652033627,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.018697354197502136,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.018293275008909406,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.01691918969154358,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.014759314060211182,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.01443417752161622,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.014120909571647643,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.013716316304635257,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.013551679509691893,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 593,
+      "importance": 0.01270168237388134,
+      "reef_name": "color and pigmentation"
+    }
+  ]
+}

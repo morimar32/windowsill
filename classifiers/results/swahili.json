@@ -1,0 +1,146 @@
+{
+  "domain": "swahili",
+  "n_positive": 20,
+  "n_negative": 100,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.5866666666666667,
+    "f1": 0.7261904761904762,
+    "auc_pr": 0.863111111111111
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.875
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9166666666666666
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.885
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8611111111111112
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.7777777777777777
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 746,
+      "importance": 0.06675897592213005,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.037387019768357274,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 206,
+      "importance": 0.03714166320860386,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.03680327236652374,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.03327772747725248,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.030069825053215028,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 176,
+      "importance": 0.02955610603094101,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.02870916239917278,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 542,
+      "importance": 0.028300764551386238,
+      "reef_name": "proper nouns and organisms"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.026252164179459213,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 153,
+      "importance": 0.025912280194461346,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.024941129982471465,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.02365221157670021,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 292,
+      "importance": 0.02122638039290905,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 340,
+      "importance": 0.020350507460534573,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.01841621994972229,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 151,
+      "importance": 0.0182143434882164,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.017883822321891785,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 185,
+      "importance": 0.017818382382392882,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.016191267967224122,
+      "reef_name": "taxonomic scientific nomenclature"
+    }
+  ]
+}

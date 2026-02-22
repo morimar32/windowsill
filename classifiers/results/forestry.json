@@ -1,0 +1,146 @@
+{
+  "domain": "forestry",
+  "n_positive": 38,
+  "n_negative": 190,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7666666666666667,
+    "recall": 0.4453968253968254,
+    "f1": 0.5348484848484849,
+    "auc_pr": 0.7339003275042466
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.7145232825428779
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8051948051948052
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.3666666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8588744588744588
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9242424242424242
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 416,
+      "importance": 0.03947816677391529,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 679,
+      "importance": 0.03327039816067554,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.030605694465339183,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 193,
+      "importance": 0.0303056463599205,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.028748524188995362,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.026670031249523163,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.022769687138497828,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 560,
+      "importance": 0.022366702556610107,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.02162264883518219,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.020797871751710773,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.020367804169654845,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 667,
+      "importance": 0.01819709506817162,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 315,
+      "importance": 0.01761726438999176,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.017427387461066247,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 229,
+      "importance": 0.016362814605236052,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 118,
+      "importance": 0.016086529521271587,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.015764941088855268,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 134,
+      "importance": 0.015750784962438046,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.014846125245094299,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.013605784997344017,
+      "reef_name": "extreme violence and brutality"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "tort",
+  "n_positive": 27,
+  "n_negative": 135,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8,
+    "recall": 0.6066666666666667,
+    "f1": 0.6484848484848484,
+    "auc_pr": 0.8274869353012928
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.8398156288874166
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.2976190476190476
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 412,
+      "importance": 0.15253831893205644,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.04585023447871208,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.029243636433966456,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 127,
+      "importance": 0.02489437684416771,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 310,
+      "importance": 0.02376081293914467,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 324,
+      "importance": 0.023072829842567442,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 495,
+      "importance": 0.022031858866102993,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.020670184493064882,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 503,
+      "importance": 0.020521681010723113,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.020265637338161467,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.01999528631567955,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.019944950938224792,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 362,
+      "importance": 0.019083985686302186,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 95,
+      "importance": 0.019055123440921307,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 635,
+      "importance": 0.01870658602565527,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.01836028918623924,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 442,
+      "importance": 0.018235885724425315,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 749,
+      "importance": 0.017874713242053985,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.015954681672155857,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 396,
+      "importance": 0.015352354571223258,
+      "reef_name": "decorative coloration and adornment"
+    }
+  ]
+}

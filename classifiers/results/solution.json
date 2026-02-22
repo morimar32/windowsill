@@ -1,0 +1,146 @@
+{
+  "domain": "solution",
+  "n_positive": 67,
+  "n_negative": 335,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8264285714285714,
+    "recall": 0.5305194805194804,
+    "f1": 0.6379070066056982,
+    "auc_pr": 0.7845014510694377
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9,
+      "recall": 0.42857142857142855,
+      "f1": 0.5806451612903226,
+      "auc_pr": 0.7848318289652876
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6666666666666666,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.801796737213404
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5454545454545454,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.6975665748393022
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5833333333333334,
+      "f1": 0.7,
+      "auc_pr": 0.862367724867725
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.42857142857142855,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.7759443894614702
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 485,
+      "importance": 0.026337205758318306,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.025525241438299418,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.025061379792168735,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.022525320202112196,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 572,
+      "importance": 0.021620450541377068,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.019546494632959367,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.019537060149013998,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.018111173156648876,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.017065960523905233,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.016027451492846012,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.015990043291822076,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.015606139833107591,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 650,
+      "importance": 0.01445844512199983,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 483,
+      "importance": 0.01438127076253295,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.014055672101676464,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 499,
+      "importance": 0.014007869409397244,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.012865331768989564,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.012731288297800347,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.011326530203223228,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.011062669393140823,
+      "reef_name": "spatial positioning and movement"
+    }
+  ]
+}

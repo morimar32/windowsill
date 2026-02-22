@@ -1,0 +1,146 @@
+{
+  "domain": "radio",
+  "n_positive": 86,
+  "n_negative": 430,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9204545454545455,
+    "recall": 0.6271841336957615,
+    "f1": 0.7433563546876241,
+    "auc_pr": 0.8778434208274752
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.4186046511627907,
+      "f1": 0.5538461538461539,
+      "auc_pr": 0.7401090187866163
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6363636363636364,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.920067810976902
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.9651515151515152
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.6666666666666666,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9207210573589883
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8431677018633539
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 98,
+      "importance": 0.04952766350470483,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.03418977595865726,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.03334903495851904,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.029240983724594116,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 626,
+      "importance": 0.027734999358654023,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.026732249185442924,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.019782725907862186,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 749,
+      "importance": 0.01789289265871048,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.01690981462597847,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.016631607874296607,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 458,
+      "importance": 0.016508149867877363,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 572,
+      "importance": 0.015562132695049514,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.015145494183525444,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.014122380921617151,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.013909268379211425,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 152,
+      "importance": 0.013665971159934998,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 661,
+      "importance": 0.013565771002322435,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.013499926216900349,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 192,
+      "importance": 0.012784948945045472,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.012508693407289684,
+      "reef_name": "orange and brown hues"
+    }
+  ]
+}

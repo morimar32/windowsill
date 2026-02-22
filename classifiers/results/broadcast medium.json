@@ -1,0 +1,146 @@
+{
+  "domain": "broadcast medium",
+  "metrics": {
+    "precision": 0.8694736842105263,
+    "recall": 0.5382608695652173,
+    "f1": 0.6495571095571095,
+    "auc_pr": 0.7780434758319191
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9473684210526315,
+      "recall": 0.391304347826087,
+      "f1": 0.5538461538461539,
+      "auc_pr": 0.8187843578158599
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8214285714285714
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "auc_pr": 0.9033974358974358
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6579861111111112
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.6886209029066173
+    }
+  ],
+  "n_positive": 78,
+  "n_negative": 390,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 636,
+      "importance": 0.05359232611954212,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.04572903588414192,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.03772868663072586,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.03234806396067143,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.03190308418124914,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 208,
+      "importance": 0.02396243643015623,
+      "reef_name": "central anatomical structures"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.019649608992040157,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.018700681580230593,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.017136835027486086,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.014595119655132294,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.014207640168024227,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 393,
+      "importance": 0.013808543235063553,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.01255371468141675,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.01253400375135243,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.011635490343905985,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.011497882171534001,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.011078017391264438,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 323,
+      "importance": 0.010886543709784747,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.010841501876711845,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 458,
+      "importance": 0.01001544629689306,
+      "reef_name": "portable power equipment"
+    }
+  ]
+}

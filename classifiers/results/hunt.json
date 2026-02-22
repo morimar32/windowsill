@@ -1,0 +1,146 @@
+{
+  "domain": "hunt",
+  "n_positive": 72,
+  "n_negative": 360,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5928571428571429,
+    "recall": 0.49466666666666664,
+    "f1": 0.4733840871771907,
+    "auc_pr": 0.671506813222108
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.875,
+      "recall": 0.14,
+      "f1": 0.2413793103448276,
+      "auc_pr": 0.663349199181313
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.5,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.45
+    },
+    {
+      "precision": 0.625,
+      "recall": 0.8333333333333334,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8234126984126984
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.7142857142857143,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.800250626566416
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2857142857142857,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.6205215419501133
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 350,
+      "importance": 0.029506335500627756,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 608,
+      "importance": 0.02564398981630802,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 295,
+      "importance": 0.02394463140517473,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.02206784812733531,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 190,
+      "importance": 0.02010812535881996,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.017056956887245178,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.015233323536813259,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.014712055027484894,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.01463221237063408,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.014090632274746894,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.014076329139061271,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.013741517066955566,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 273,
+      "importance": 0.013701438484713436,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 278,
+      "importance": 0.013549288734793663,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.012650006264448167,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 369,
+      "importance": 0.011353310197591782,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.011153190769255162,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 399,
+      "importance": 0.010876074433326721,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 64,
+      "importance": 0.010394021123647689,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.01038556806743145,
+      "reef_name": "lines shading gradation"
+    }
+  ]
+}

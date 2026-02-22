@@ -1,0 +1,146 @@
+{
+  "domain": "blend",
+  "metrics": {
+    "precision": 0.7833333333333333,
+    "recall": 0.299023199023199,
+    "f1": 0.413968253968254,
+    "auc_pr": 0.5546969926566847
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.25,
+      "recall": 0.16666666666666666,
+      "f1": 0.2,
+      "auc_pr": 0.35842890638937736
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.15384615384615385,
+      "f1": 0.26666666666666666,
+      "auc_pr": 0.5510842538557471
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.6289337474120082
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.3333333333333333,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.4194295900178253
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5555555555555556,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8156084656084657
+    }
+  ],
+  "n_positive": 41,
+  "n_negative": 205,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 460,
+      "importance": 0.020299961045384406,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.019573686411604285,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.01885536052286625,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 474,
+      "importance": 0.018821176470373756,
+      "reef_name": "fraud and deception"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.0170380637049675,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.01673990860581398,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.016589415495400318,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.015615736693143844,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 644,
+      "importance": 0.015200066287070513,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 168,
+      "importance": 0.014931754022836686,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.014557194150984287,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.01422606990672648,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.013821563124656678,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.012829816015437246,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.012592709547607227,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 592,
+      "importance": 0.012268630787730217,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.012261909991502761,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.011611506988992914,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.01145917255198583,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 527,
+      "importance": 0.010037736594676971,
+      "reef_name": "medical procedures and treatments"
+    }
+  ]
+}

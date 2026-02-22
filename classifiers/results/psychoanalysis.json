@@ -1,0 +1,146 @@
+{
+  "domain": "psychoanalysis",
+  "n_positive": 66,
+  "n_negative": 330,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6973809523809524,
+    "recall": 0.3593790267703311,
+    "f1": 0.4626573153313391,
+    "auc_pr": 0.6729580956770437
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.625,
+      "recall": 0.21739130434782608,
+      "f1": 0.3225806451612903,
+      "auc_pr": 0.6458332510258848
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.46153846153846156,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.7730695472598306
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.2727272727272727,
+      "f1": 0.375,
+      "auc_pr": 0.5467327213016868
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.4166666666666667,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.8217853442853443
+    },
+    {
+      "precision": 0.42857142857142855,
+      "recall": 0.42857142857142855,
+      "f1": 0.42857142857142855,
+      "auc_pr": 0.5773696145124716
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 501,
+      "importance": 0.034619593527168036,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.03138013668358326,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.028978586941957474,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.027992472052574158,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.01956796427257359,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.01529717557132244,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.01526735641527921,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.014915955066680909,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.014263293147087098,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.013930399832315744,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.013044916605576874,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 667,
+      "importance": 0.012243957258760929,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 536,
+      "importance": 0.012128313968423754,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.011992927826941013,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 396,
+      "importance": 0.011652046721428633,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.010930507816374302,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 115,
+      "importance": 0.010929026082158089,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 93,
+      "importance": 0.010545657307375222,
+      "reef_name": "size and greatness"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.010440766799729318,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.009956740587949754,
+      "reef_name": "decay and dissolution"
+    }
+  ]
+}

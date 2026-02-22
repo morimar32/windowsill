@@ -1,0 +1,146 @@
+{
+  "domain": "molecular biology",
+  "n_positive": 107,
+  "n_negative": 535,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9222672064777327,
+    "recall": 0.634920634920635,
+    "f1": 0.7317902843519541,
+    "auc_pr": 0.8585727749358467
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.7821588654449968
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6190476190476191,
+      "f1": 0.7647058823529411,
+      "auc_pr": 0.8810966491859904
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8666666666666667,
+      "f1": 0.9285714285714286,
+      "auc_pr": 0.9559159159159158
+    },
+    {
+      "precision": 0.8421052631578947,
+      "recall": 0.8,
+      "f1": 0.8205128205128205,
+      "auc_pr": 0.8740164257063125
+    },
+    {
+      "precision": 0.7692307692307693,
+      "recall": 0.5555555555555556,
+      "f1": 0.6451612903225806,
+      "auc_pr": 0.7996760184260183
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.06346871927380562,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 63,
+      "importance": 0.03898642391723115,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.02229947317391634,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.02050702439446468,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.019807174801826477,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.019248463958501816,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.018236215319484474,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.013708700006827713,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 409,
+      "importance": 0.012834147654939444,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.010981711371277925,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.01008066339418292,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.009522908585495315,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.009414887224556879,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 637,
+      "importance": 0.00916592639987357,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.00872911447659135,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 327,
+      "importance": 0.008672844618558884,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 270,
+      "importance": 0.008579732716316357,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.008515933499438688,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.0077281976875383405,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 649,
+      "importance": 0.00771125853061676,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "psychology",
+  "n_positive": 120,
+  "n_negative": 600,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7438721664808622,
+    "recall": 0.5568559329357877,
+    "f1": 0.6179211469534049,
+    "auc_pr": 0.7575455810347393
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.782608695652174,
+      "recall": 0.3103448275862069,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.7275313847632533
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5263157894736842,
+      "f1": 0.6451612903225806,
+      "auc_pr": 0.7798188995712214
+    },
+    {
+      "precision": 0.6111111111111112,
+      "recall": 0.7333333333333333,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8255517568850901
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5714285714285714,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7675648036992575
+    },
+    {
+      "precision": 0.6923076923076923,
+      "recall": 0.6428571428571429,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6872610602548743
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.04413047805428505,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.02689027115702629,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.02428654581308365,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.018608092702925204,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 690,
+      "importance": 0.013927326165139675,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.011403689719736576,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.011185459699481726,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.010408696439117193,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 305,
+      "importance": 0.010259038128424436,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.010154313873499632,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 195,
+      "importance": 0.010154223535209894,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.00973438061773777,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 481,
+      "importance": 0.009647970960941166,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.009422387927770615,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.009383274661377072,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 647,
+      "importance": 0.009100239165127278,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.008798898849636316,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 634,
+      "importance": 0.00858232295140624,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 259,
+      "importance": 0.008119315654039384,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.008067799196578563,
+      "reef_name": "perception and assumption"
+    }
+  ]
+}

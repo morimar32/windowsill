@@ -1,0 +1,146 @@
+{
+  "domain": "gnosticism",
+  "n_positive": 35,
+  "n_negative": 175,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8,
+    "recall": 0.3422222222222222,
+    "f1": 0.4554761904761905,
+    "auc_pr": 0.6804267388385036
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.1111111111111111,
+      "f1": 0.2,
+      "auc_pr": 0.7248318130671072
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5,
+      "f1": 0.625,
+      "auc_pr": 0.7884776334776333
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.5366300366300367
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.6642857142857144
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6879084967320261
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 3,
+      "importance": 0.04536573588848114,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.04237154227448627,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.0339895136654377,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.03157833870500326,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 238,
+      "importance": 0.02573670744895935,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 440,
+      "importance": 0.024596482142806055,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.023481521010398864,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.02146721677854657,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 63,
+      "importance": 0.02051360607147217,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.020061900047585367,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.01898147944593802,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.014301421493291855,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.01413010060787201,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.014094090461730957,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 670,
+      "importance": 0.013859126972965896,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 760,
+      "importance": 0.013577887881547212,
+      "reef_name": "zoological and temporal"
+    },
+    {
+      "dim_id": 20,
+      "importance": 0.013343733549118043,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.012999169249087571,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.012375751137733459,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.012209794670343398,
+      "reef_name": "geometric and anatomical"
+    }
+  ]
+}

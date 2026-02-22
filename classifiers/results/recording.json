@@ -1,0 +1,146 @@
+{
+  "domain": "recording",
+  "n_positive": 62,
+  "n_negative": 310,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8114285714285716,
+    "recall": 0.7311355311355311,
+    "f1": 0.7214285714285713,
+    "auc_pr": 0.8432141232057621
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.8364787792941168
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.7129251700680271
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8461538461538461,
+      "f1": 0.9166666666666666,
+      "auc_pr": 0.9999999999999998
+    },
+    {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1": 0.8888888888888888,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.4,
+      "recall": 0.6666666666666666,
+      "f1": 0.5,
+      "auc_pr": 0.6666666666666666
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 749,
+      "importance": 0.07456596121191979,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 598,
+      "importance": 0.0406188203021884,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 563,
+      "importance": 0.031226883083581923,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.030832077004015447,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.023240050300955772,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.02077957986330148,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.01801445297896862,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.017850527167320253,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.017816804710309952,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 678,
+      "importance": 0.016177704185247423,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.014713706960901619,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.014181395468767732,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.013069206709042191,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.011977740889415145,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 97,
+      "importance": 0.011801821831613778,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.010940638091415166,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.010573071613907813,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.010423036525025964,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.010227064974606037,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 474,
+      "importance": 0.010214494587853552,
+      "reef_name": "fraud and deception"
+    }
+  ]
+}

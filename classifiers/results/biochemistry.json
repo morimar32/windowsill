@@ -1,0 +1,146 @@
+{
+  "domain": "biochemistry",
+  "metrics": {
+    "precision": 0.8932467532467532,
+    "recall": 0.6659955924293494,
+    "f1": 0.7453998109170523,
+    "auc_pr": 0.8530971575157308
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.3448275862068966,
+      "f1": 0.5,
+      "auc_pr": 0.7180670519987035
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9619653709436995
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.625,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8127367631332184
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.9285714285714286,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9446377696377695
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.631578947368421,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8280788318652628
+    }
+  ],
+  "n_positive": 98,
+  "n_negative": 490,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 306,
+      "importance": 0.05469614937901497,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 204,
+      "importance": 0.02883075550198555,
+      "reef_name": "gases and atomization"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.026663613319396973,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.024235580302774905,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.022460988350212575,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.022343014366924763,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 378,
+      "importance": 0.015286847815150394,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 686,
+      "importance": 0.014747848361730575,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.014090409129858017,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.01379358721897006,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.013077445048838853,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.012608269788324833,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.012458261847496033,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.012370467931032181,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.011368880653753877,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.011187528632581234,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 69,
+      "importance": 0.011108667775988578,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.010968647338449955,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.010748170735314488,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 748,
+      "importance": 0.010715246479958297,
+      "reef_name": "medical conditions diseases"
+    }
+  ]
+}

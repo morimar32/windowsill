@@ -1,0 +1,146 @@
+{
+  "domain": "electricity",
+  "n_positive": 74,
+  "n_negative": 370,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8797619047619047,
+    "recall": 0.6057692307692307,
+    "f1": 0.6989559460147696,
+    "auc_pr": 0.7780783278725562
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.7824851141816606
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.6153846153846154,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.851525294414432
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5384615384615384,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7436673576455435
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.6724215061743666
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.875,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.8402923669467788
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 626,
+      "importance": 0.05480752438306809,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 215,
+      "importance": 0.046243685856461526,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.02225879905745387,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.019683331437408923,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.016453246027231215,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.014224023395217954,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 686,
+      "importance": 0.013248037360608578,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 172,
+      "importance": 0.012968626315705478,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 61,
+      "importance": 0.012684201821684837,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.012381841288879513,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.011505758482962846,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.009934022673405707,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.009905933868139982,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.00977386711165309,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 621,
+      "importance": 0.009721110438113101,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 284,
+      "importance": 0.009615258779376745,
+      "reef_name": "rare technical adjectives"
+    },
+    {
+      "dim_id": 368,
+      "importance": 0.009547154488973319,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 468,
+      "importance": 0.00938272662460804,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 675,
+      "importance": 0.00908336490392685,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 267,
+      "importance": 0.00870831087231636,
+      "reef_name": "animals and people"
+    }
+  ]
+}

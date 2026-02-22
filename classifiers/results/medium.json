@@ -1,0 +1,146 @@
+{
+  "domain": "medium",
+  "n_positive": 37,
+  "n_negative": 185,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8357142857142857,
+    "recall": 0.6616666666666666,
+    "f1": 0.7301754385964913,
+    "auc_pr": 0.8431351490990263
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.5416666666666666,
+      "f1": 0.6842105263157895,
+      "auc_pr": 0.9112313010506874
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.7361111111111112
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.835
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.7333333333333334
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 38,
+      "importance": 0.08361168354749679,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.03731428915634751,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.03726666923612356,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.03368137674406171,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.0308903768658638,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.025849747657775878,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.024070751667022706,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.023822937719523908,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 192,
+      "importance": 0.02218828946352005,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 437,
+      "importance": 0.020834956818725915,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.017867038026452065,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.015988667169585823,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 749,
+      "importance": 0.015632966160774232,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.015557268261909485,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.014540424104779959,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 581,
+      "importance": 0.014133298955857753,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.013726904150098562,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.01341642290353775,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 515,
+      "importance": 0.013165341690182686,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 275,
+      "importance": 0.013008639216423035,
+      "reef_name": "sensory observation instruments"
+    }
+  ]
+}

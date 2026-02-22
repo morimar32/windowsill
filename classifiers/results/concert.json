@@ -1,0 +1,146 @@
+{
+  "domain": "concert",
+  "n_positive": 131,
+  "n_negative": 655,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9298168498168499,
+    "recall": 0.7486111111111111,
+    "f1": 0.8202576328336978,
+    "auc_pr": 0.9353664227845156
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8974358974358975,
+      "recall": 0.4375,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.8264272350037675
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9742002063983488
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8888888888888888,
+      "f1": 0.9411764705882353,
+      "auc_pr": 1.0000000000000002
+    },
+    {
+      "precision": 0.9230769230769231,
+      "recall": 0.8,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9519983233141127
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.75,
+      "f1": 0.8181818181818182,
+      "auc_pr": 0.9242063492063494
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.03571924939751625,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.03537677749991417,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.0342718749307096,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 185,
+      "importance": 0.026225923839956523,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.025153686851263048,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.023907044087536633,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.01952566672116518,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.01838514390401542,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.01683841780759394,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 385,
+      "importance": 0.015465903398580848,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.015175739023834466,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.01494356807670556,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.014910627715289592,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.01310539934784174,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.013011660092161037,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 217,
+      "importance": 0.012370082747656852,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.011988161224871874,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.011594490671996027,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 123,
+      "importance": 0.010940165771171451,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.010376475099474192,
+      "reef_name": "financial holdings and assets"
+    }
+  ]
+}

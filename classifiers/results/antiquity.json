@@ -1,0 +1,146 @@
+{
+  "domain": "antiquity",
+  "metrics": {
+    "precision": 0.824098124098124,
+    "recall": 0.4324956700694826,
+    "f1": 0.5570282131661443,
+    "auc_pr": 0.710488753739971
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.3170731707317073,
+      "f1": 0.4727272727272727,
+      "auc_pr": 0.6961570236477097
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.5555555555555556,
+      "f1": 0.6896551724137931,
+      "auc_pr": 0.7980054667554668
+    },
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.5714285714285714,
+      "f1": 0.64,
+      "auc_pr": 0.6690450425661615
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.35,
+      "f1": 0.4827586206896552,
+      "auc_pr": 0.700143221625563
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.3684210526315789,
+      "f1": 0.5,
+      "auc_pr": 0.689093014104954
+    }
+  ],
+  "n_positive": 112,
+  "n_negative": 560,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 346,
+      "importance": 0.018137896806001662,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.01812390498816967,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.01667990507557988,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.01609847543295473,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.012102445145137608,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.01151192444958724,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 523,
+      "importance": 0.011145571758970619,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 307,
+      "importance": 0.010699578942148947,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.010665106447413563,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.009864355204626918,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 147,
+      "importance": 0.009678253531455993,
+      "reef_name": "physical pressure activation"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.009475827997084707,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 663,
+      "importance": 0.009160465095192194,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.008741934625140857,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 610,
+      "importance": 0.008642684668302536,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 499,
+      "importance": 0.008457659929990768,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 122,
+      "importance": 0.008308170060627163,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.00819053562809131,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 286,
+      "importance": 0.008023947561741806,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 743,
+      "importance": 0.007942167017608881,
+      "reef_name": "church ministry attendance"
+    }
+  ]
+}

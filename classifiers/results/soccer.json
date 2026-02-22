@@ -1,0 +1,146 @@
+{
+  "domain": "soccer",
+  "n_positive": 52,
+  "n_negative": 260,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7133333333333334,
+    "recall": 0.3773809523809523,
+    "f1": 0.4743434343434343,
+    "auc_pr": 0.7262662746210445
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5,
+      "recall": 0.125,
+      "f1": 0.2,
+      "auc_pr": 0.551695157690932
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.8292624521072798
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.6356912236244714
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8708333333333333
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.3333333333333333,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.7438492063492063
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 344,
+      "importance": 0.03694839607924223,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.032121875253506,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.028902651369571687,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.02309683314524591,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 403,
+      "importance": 0.02306480654515326,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.022738007083535194,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.020095965592190623,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.019623051024973394,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.01910059928195551,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.018459077924489975,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 221,
+      "importance": 0.01796506028622389,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 10,
+      "importance": 0.017582633772690315,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.014819293189793825,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 589,
+      "importance": 0.014681689441204071,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.013914933940395714,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 673,
+      "importance": 0.013621085556223989,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.013616964593529702,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.013473616912961006,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.012920256098732352,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.012796033825725316,
+      "reef_name": "chemical compounds and substances"
+    }
+  ]
+}

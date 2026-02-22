@@ -1,0 +1,145 @@
+{
+  "domain": "euphemism",
+  "n_positive": 55,
+  "n_negative": 275,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.26666666666666666,
+    "recall": 0.24,
+    "f1": 0.23714285714285716,
+    "auc_pr": 0.4904803374030774
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.641610248445167
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.532258064516129
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.37392344497607655
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.5712765957446808
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1": 0.4,
+      "auc_pr": 0.3333333333333333
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 656,
+      "importance": 0.03772331855725497,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 397,
+      "importance": 0.032760067656636235,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 727,
+      "importance": 0.02541229031048715
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.022987205162644388,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.02113775908946991,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.016528059914708137,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.016372874891385437,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 693,
+      "importance": 0.016339075565338135,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.016289569708169437,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 259,
+      "importance": 0.015600059274584055,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 602,
+      "importance": 0.015315392008051276,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 201,
+      "importance": 0.014566556390491314,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.014514702744781971,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.014388194493949413,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 297,
+      "importance": 0.014361749589443206,
+      "reef_name": "zoological and temporal"
+    },
+    {
+      "dim_id": 420,
+      "importance": 0.014147798763588071,
+      "reef_name": "color and hue"
+    },
+    {
+      "dim_id": 447,
+      "importance": 0.013424790883436798,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.01245855106972158,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 343,
+      "importance": 0.011090683937072753,
+      "reef_name": "german language terms"
+    },
+    {
+      "dim_id": 562,
+      "importance": 0.010431984439492226,
+      "reef_name": "scientific taxonomic terms"
+    }
+  ]
+}

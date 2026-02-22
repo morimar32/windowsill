@@ -1,0 +1,202 @@
+[
+  {
+    "name": "machine_learning",
+    "category": "computer_science",
+    "description": "Algorithms, models, and techniques for training systems to learn from data including neural networks, supervised/unsupervised learning, and deep learning."
+  },
+  {
+    "name": "artificial_intelligence",
+    "category": "computer_science",
+    "description": "Intelligent agents, knowledge representation, natural language processing, computer vision, and AI system architecture."
+  },
+  {
+    "name": "cryptography",
+    "category": "computer_science",
+    "description": "Encryption, decryption, hash functions, digital signatures, and security protocols for protecting information."
+  },
+  {
+    "name": "distributed_systems",
+    "category": "computer_science",
+    "description": "Systems spanning multiple computers including consensus algorithms, replication, partitioning, and distributed databases."
+  },
+  {
+    "name": "cloud_computing",
+    "category": "computer_science",
+    "description": "Virtual machines, containers, serverless computing, cloud services, and infrastructure as code."
+  },
+  {
+    "name": "version_control",
+    "category": "software_engineering",
+    "description": "Systems and practices for tracking changes to code including branching, merging, commits, and repositories."
+  },
+  {
+    "name": "software_testing",
+    "category": "software_engineering",
+    "description": "Unit tests, integration tests, test coverage, mocking, test-driven development, and quality assurance practices."
+  },
+  {
+    "name": "databases",
+    "category": "computer_science",
+    "description": "Relational and non-relational data storage, queries, indexing, transactions, normalization, and database management systems."
+  },
+  {
+    "name": "web_development",
+    "category": "software_engineering",
+    "description": "Frontend and backend web technologies, HTTP, APIs, frameworks, responsive design, and web standards."
+  },
+  {
+    "name": "cybersecurity",
+    "category": "computer_science",
+    "description": "Network security, vulnerabilities, attacks, firewalls, intrusion detection, and information security practices."
+  },
+  {
+    "name": "cryptocurrency",
+    "category": "finance",
+    "description": "Digital currencies, blockchain technology, mining, wallets, decentralized finance, and crypto trading."
+  },
+  {
+    "name": "genomics",
+    "category": "biology",
+    "description": "DNA sequencing, gene expression, genome assembly, bioinformatics, and genetic variation analysis."
+  },
+  {
+    "name": "nanotechnology",
+    "category": "science",
+    "description": "Manipulation of matter at atomic and molecular scale including nanomaterials, nanoparticles, and nanodevices."
+  },
+  {
+    "name": "climate_science",
+    "category": "science",
+    "description": "Climate change, greenhouse gases, carbon cycles, climate modeling, and global warming phenomena."
+  },
+  {
+    "name": "social_media",
+    "category": "digital_culture",
+    "description": "Online platforms, content sharing, viral phenomena, influencers, engagement metrics, and social networking."
+  },
+  {
+    "name": "video_gaming",
+    "category": "digital_culture",
+    "description": "Game mechanics, game engines, graphics rendering, multiplayer systems, and gaming platforms."
+  },
+  {
+    "name": "esports",
+    "category": "sport",
+    "description": "Competitive video gaming, tournaments, professional players, teams, streaming, and gaming leagues."
+  },
+  {
+    "name": "agile_methodology",
+    "category": "project_management",
+    "description": "Iterative development, sprints, scrum, kanban, user stories, retrospectives, and agile practices."
+  },
+  {
+    "name": "user_experience",
+    "category": "design",
+    "description": "User interface design, usability, interaction design, wireframes, prototypes, and user research."
+  },
+  {
+    "name": "data_science",
+    "category": "computer_science",
+    "description": "Data analysis, visualization, statistical modeling, data mining, and extracting insights from large datasets."
+  },
+  {
+    "name": "robotics",
+    "category": "engineering",
+    "description": "Robot design, sensors, actuators, motion planning, autonomous systems, and human-robot interaction."
+  },
+  {
+    "name": "renewable_energy",
+    "category": "engineering",
+    "description": "Solar power, wind energy, hydroelectric systems, energy storage, and sustainable energy technologies."
+  },
+  {
+    "name": "streaming_media",
+    "category": "digital_culture",
+    "description": "Video and audio streaming platforms, content delivery, live streaming, and on-demand media services."
+  },
+  {
+    "name": "mobile_computing",
+    "category": "computer_science",
+    "description": "Smartphones, mobile apps, mobile operating systems, touch interfaces, and mobile development frameworks."
+  },
+  {
+    "name": "quantum_computing",
+    "category": "computer_science",
+    "description": "Qubits, quantum gates, quantum algorithms, superposition, entanglement, and quantum information processing."
+  },
+  {
+    "name": "supply_chain",
+    "category": "business",
+    "description": "Logistics, inventory management, procurement, warehousing, distribution, and supply chain optimization."
+  },
+  {
+    "name": "fintech",
+    "category": "finance",
+    "description": "Digital payments, mobile banking, peer-to-peer lending, robo-advisors, and financial technology innovations."
+  },
+  {
+    "name": "virtual_reality",
+    "category": "technology",
+    "description": "Immersive environments, VR headsets, 3D simulation, presence, motion tracking, and virtual worlds."
+  },
+  {
+    "name": "augmented_reality",
+    "category": "technology",
+    "description": "Overlay of digital content on physical world, AR devices, computer vision, and mixed reality applications."
+  },
+  {
+    "name": "podcasting",
+    "category": "digital_culture",
+    "description": "Audio content creation, podcast hosting, RSS feeds, episodic series, and podcast distribution platforms."
+  },
+  {
+    "name": "3d_printing",
+    "category": "manufacturing",
+    "description": "Additive manufacturing, layer-by-layer fabrication, filaments, print resolution, and 3D modeling for printing."
+  },
+  {
+    "name": "drones",
+    "category": "technology",
+    "description": "Unmanned aerial vehicles, quadcopters, flight controllers, autonomous navigation, and drone operations."
+  },
+  {
+    "name": "bioinformatics",
+    "category": "biology",
+    "description": "Computational analysis of biological data, sequence alignment, protein structure prediction, and biological databases."
+  },
+  {
+    "name": "neuroscience_imaging",
+    "category": "neuroscience",
+    "description": "Brain imaging techniques, fMRI, PET scans, neural connectivity, and brain mapping technologies."
+  },
+  {
+    "name": "materials_science",
+    "category": "science",
+    "description": "Properties of materials, composites, polymers, semiconductors, and development of new materials."
+  },
+  {
+    "name": "network_engineering",
+    "category": "engineering",
+    "description": "Network protocols, routing, switches, routers, network topology, bandwidth, and network infrastructure."
+  },
+  {
+    "name": "devops",
+    "category": "software_engineering",
+    "description": "Continuous integration, continuous deployment, automation, infrastructure management, and development operations practices."
+  },
+  {
+    "name": "containers",
+    "category": "software_engineering",
+    "description": "Container orchestration, containerization, images, registries, and isolated application environments."
+  },
+  {
+    "name": "astrophysics",
+    "category": "physics",
+    "description": "Black holes, dark matter, stellar evolution, cosmological phenomena, and physics of celestial objects."
+  },
+  {
+    "name": "particle_accelerators",
+    "category": "physics",
+    "description": "Colliders, beam dynamics, particle detection, synchrotrons, and high-energy physics experiments."
+  }
+]

@@ -1,0 +1,146 @@
+{
+  "domain": "chemistry",
+  "metrics": {
+    "precision": 0.7842257714124793,
+    "recall": 0.5869817583649013,
+    "f1": 0.6592971549034561,
+    "auc_pr": 0.7533436517813993
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8955223880597015,
+      "recall": 0.379746835443038,
+      "f1": 0.5333333333333333,
+      "auc_pr": 0.710906589178296
+    },
+    {
+      "precision": 0.8163265306122449,
+      "recall": 0.7142857142857143,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.7529943510399253
+    },
+    {
+      "precision": 0.6428571428571429,
+      "recall": 0.43902439024390244,
+      "f1": 0.5217391304347826,
+      "auc_pr": 0.658336609040743
+    },
+    {
+      "precision": 0.8113207547169812,
+      "recall": 0.7166666666666667,
+      "f1": 0.7610619469026548,
+      "auc_pr": 0.8183088165321266
+    },
+    {
+      "precision": 0.7551020408163265,
+      "recall": 0.6851851851851852,
+      "f1": 0.7184466019417476,
+      "auc_pr": 0.8261718931159052
+    }
+  ],
+  "n_positive": 369,
+  "n_negative": 1845,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 554,
+      "importance": 0.06545634875074029,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.023981569707393645,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.02072816826403141,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.019801435619592668,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.015705889835953713,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.015502409171313047,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.01125049041584134,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.011029568524099887,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.010487435106188058,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.01016484247520566,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 322,
+      "importance": 0.009846983058378101,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.009819017659174279,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 4,
+      "importance": 0.009298878477420659,
+      "reef_name": "military tactics warfare"
+    },
+    {
+      "dim_id": 319,
+      "importance": 0.008905519638210535,
+      "reef_name": "zoological taxonomy wildlife"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.007972682267427445,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 267,
+      "importance": 0.007061125617474318,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 437,
+      "importance": 0.006933258245408069,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.006199172674678266,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.006132930470630527,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 136,
+      "importance": 0.006095939641818404,
+      "reef_name": "seductive sensual allure"
+    }
+  ]
+}

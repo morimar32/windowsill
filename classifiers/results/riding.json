@@ -1,0 +1,146 @@
+{
+  "domain": "riding",
+  "n_positive": 94,
+  "n_negative": 470,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7,
+    "recall": 0.31066666666666665,
+    "f1": 0.3758087201125176,
+    "auc_pr": 0.49338444266359494
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.05333333333333334,
+      "f1": 0.10126582278481013,
+      "auc_pr": 0.7149633009142645
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8859649122807017
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.3333333333333333,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.43676673567977914
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.058474576271186435
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.370752688172043
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 306,
+      "importance": 0.038708876445889474,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.029385902918875217,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.016549386421684176,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 379,
+      "importance": 0.015510508976876735,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.015215273201465606,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.01482789684087038,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.01392167568556033,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 422,
+      "importance": 0.013000067789107561,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 453,
+      "importance": 0.012309479888062923,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.012030467391014099,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 632,
+      "importance": 0.011665861494839192,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.011008229159051553,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 762,
+      "importance": 0.010321085958275944,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.009552300721406937,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 360,
+      "importance": 0.008926942199468612,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.008843404054641724,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.008457045257091522,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 229,
+      "importance": 0.008423971605952828,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 93,
+      "importance": 0.008254442038014531,
+      "reef_name": "size and greatness"
+    },
+    {
+      "dim_id": 713,
+      "importance": 0.00800776870455593,
+      "reef_name": "names and proper nouns"
+    }
+  ]
+}

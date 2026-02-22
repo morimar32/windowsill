@@ -1,0 +1,146 @@
+{
+  "domain": "architecture",
+  "metrics": {
+    "precision": 0.8083333333333332,
+    "recall": 0.47879932970255557,
+    "f1": 0.5893987049028677,
+    "auc_pr": 0.7059921977491208
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9375,
+      "recall": 0.3409090909090909,
+      "f1": 0.5,
+      "auc_pr": 0.7521311066666674
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.42857142857142855,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.6111003565086717
+    },
+    {
+      "precision": 0.9375,
+      "recall": 0.4838709677419355,
+      "f1": 0.6382978723404256,
+      "auc_pr": 0.7733453071284628
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.56,
+      "f1": 0.6086956521739131,
+      "auc_pr": 0.6685940619458955
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5806451612903226,
+      "f1": 0.6545454545454545,
+      "auc_pr": 0.7247901564959066
+    }
+  ],
+  "n_positive": 196,
+  "n_negative": 980,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.01941212210804224,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 116,
+      "importance": 0.01929508103057742,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 725,
+      "importance": 0.01750478334724903,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.016500160470604895,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.013829951989464462,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.013082713494077325,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.012033965718001128,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 321,
+      "importance": 0.01098632188513875,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.008211961318738758,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.008160037454217672,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.00796739405777771,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.007821257670730119,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 461,
+      "importance": 0.007652934425277635,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.007430867513176054,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.007244683429598808,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.007138864265289158,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.00708687895530602,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 644,
+      "importance": 0.0066699528513709085,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 280,
+      "importance": 0.006611447577597573,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.006593468171195127,
+      "reef_name": "geological earth features"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "ocean",
+  "n_positive": 75,
+  "n_negative": 375,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8601807549175969,
+    "recall": 0.7662222222222221,
+    "f1": 0.8063714063714065,
+    "auc_pr": 0.8972943366198383
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9473684210526315,
+      "recall": 0.72,
+      "f1": 0.8181818181818182,
+      "auc_pr": 0.9319943526864705
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6955958306488683
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.6666666666666666,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9151946310769838
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 0.9999999999999998
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.7777777777777778,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.9436868686868689
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 680,
+      "importance": 0.10545450896024704,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 408,
+      "importance": 0.06313047260046005,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.031912700086832044,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 430,
+      "importance": 0.029617952276021244,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.02698924522846937,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.025918579054996373,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.024915456026792526,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.02433302872814238,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 657,
+      "importance": 0.02034482844173908,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 515,
+      "importance": 0.016977964295074345,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.016096497792750596,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 514,
+      "importance": 0.015673605259507895,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.01563896667212248,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.014946199697442352,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.011874546814942733,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.011850561201572418,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.010619949176907539,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 561,
+      "importance": 0.010587630420923233,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.010537197906523943,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.010354086069855838,
+      "reef_name": "trees and outdoor canopy"
+    }
+  ]
+}

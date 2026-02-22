@@ -1,0 +1,145 @@
+{
+  "domain": "virology",
+  "n_positive": 33,
+  "n_negative": 165,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9142857142857143,
+    "recall": 0.6721212121212121,
+    "f1": 0.7626090868196131,
+    "auc_pr": 0.8022339786855917
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.8666666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7975265475265475
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.6666666666666666,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.5987734487734488
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.832258064516129
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578947,
+      "auc_pr": 0.9159451659451661
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 567,
+      "importance": 0.07846831679344177,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.048610089160501954,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.03916069091646932,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.036477394960820676,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 751,
+      "importance": 0.03628457151353359,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.02790145743638277,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.02405557818710804,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.01968345195055008,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.0180609792470932,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.01771390587091446,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 727,
+      "importance": 0.017422758042812347
+    },
+    {
+      "dim_id": 430,
+      "importance": 0.017374733835458754,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 250,
+      "importance": 0.016735075414180754,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.01673474907875061,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.016575051844120024,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 108,
+      "importance": 0.016212334297597407,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 611,
+      "importance": 0.01551031693816185,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.015249185264110565,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 461,
+      "importance": 0.014545575901865958,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 160,
+      "importance": 0.013859458919614553,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

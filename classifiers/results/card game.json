@@ -1,0 +1,146 @@
+{
+  "domain": "card game",
+  "metrics": {
+    "precision": 0.25,
+    "recall": 0.16666666666666666,
+    "f1": 0.19666666666666668,
+    "auc_pr": 0.44706396240866236
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.5196743872067104
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.5444444444444444
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.25,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.46875
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.31666666666666665
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.25,
+      "f1": 0.25,
+      "auc_pr": 0.3857843137254902
+    }
+  ],
+  "n_positive": 87,
+  "n_negative": 435,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 517,
+      "importance": 0.02859124504029751,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.02612656131386757,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 192,
+      "importance": 0.022143083810806274,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 736,
+      "importance": 0.02024610140360892,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.019867880269885063,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.019415077194571494,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.01903905048966408,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 283,
+      "importance": 0.017754187673563137,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 731,
+      "importance": 0.01730695771984756,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.015488318540155888,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.012355034053325654,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.012107742205262183,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.011557478984468617,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.010758402571082116,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.010405948618426919,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.010119472537189722,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 489,
+      "importance": 0.010006868094205857,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.009605136765458155,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.009383595921099186,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.008861953765153885,
+      "reef_name": "noble elegance refined"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "printing",
+  "n_positive": 82,
+  "n_negative": 410,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7187301587301587,
+    "recall": 0.4392918192918193,
+    "f1": 0.51910417755619,
+    "auc_pr": 0.6715767097419241
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.19047619047619047,
+      "f1": 0.3137254901960784,
+      "auc_pr": 0.6598529173030936
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.6449123047132415
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.5,
+      "f1": 0.5333333333333333,
+      "auc_pr": 0.6377589807852966
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.46153846153846156,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.7306050724037148
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.4444444444444444,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6847542735042735
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.02117422721348703,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.021107146888971327,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.021057511027902365,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.019075865857303143,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.01801002025604248,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.017873924400191754,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.01394740710966289,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.012906761537306011,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.012872002273797988,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 132,
+      "importance": 0.01160851534223184,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 712,
+      "importance": 0.011313944682478904,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.010629942012019455,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.010541892610490322,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.010063439179793932,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 457,
+      "importance": 0.00990141206420958,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.009860344920889474,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 501,
+      "importance": 0.009574522078037263,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 56,
+      "importance": 0.009446703852154315,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 541,
+      "importance": 0.008596410509198904,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.008432700857520103,
+      "reef_name": "masculine persons and roles"
+    }
+  ]
+}

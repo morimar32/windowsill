@@ -1,0 +1,146 @@
+{
+  "domain": "a cappella singing",
+  "metrics": {
+    "precision": 0.8,
+    "recall": 0.49976190476190474,
+    "f1": 0.5862981162981163,
+    "auc_pr": 0.684816309317249
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5416666666666666,
+      "f1": 0.7027027027027027,
+      "auc_pr": 0.9400839304457724
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.5,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.29166666666666663
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6538461538461537
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.42857142857142855,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.839909297052154
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.6985754985754986
+    }
+  ],
+  "n_positive": 45,
+  "n_negative": 225,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 699,
+      "importance": 0.05311333667486906,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.0448383598937653,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.04292244277894497,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 474,
+      "importance": 0.03298530913889408,
+      "reef_name": "fraud and deception"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.0278491398319602,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 351,
+      "importance": 0.027398666366934776,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.02521978016011417,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.02379889562726021,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.023761414643377065,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 653,
+      "importance": 0.020907753705978395,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.019366016052663325,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 97,
+      "importance": 0.018847609707154333,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.017295179702341557,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 516,
+      "importance": 0.01710039643512573,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.01700931340456009,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 647,
+      "importance": 0.01693650633096695,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 508,
+      "importance": 0.01613219976425171,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.016025242430623622,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 301,
+      "importance": 0.014213246759027243,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.013196923537179828,
+      "reef_name": "sensory stimulation arousal"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "falconry",
+  "n_positive": 49,
+  "n_negative": 245,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7166666666666666,
+    "recall": 0.41666666666666663,
+    "f1": 0.43380952380952376,
+    "auc_pr": 0.6571517136272874
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.08333333333333333,
+      "f1": 0.15,
+      "auc_pr": 0.5387214901473465
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.25,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.33572755417956657
+    },
+    {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6738095238095239
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.7375
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 306,
+      "importance": 0.061233367025852206,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.027234899764880537,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.024502864689566195,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.02398123129969463,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.023903565108776094,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.02342618415132165,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.019666235148906707,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 703,
+      "importance": 0.017914761463180183,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.015383541956543923,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.014937148708850146,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 516,
+      "importance": 0.014833151415223256,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 159,
+      "importance": 0.01472697388380766,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.013970036804676057,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 272,
+      "importance": 0.01324356272816658,
+      "reef_name": "military tactics warfare"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.013040537806227803,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.012960387766361237,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.012871000624727458,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.011377461347728967,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 56,
+      "importance": 0.01041218377649784,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.010316751012578607,
+      "reef_name": "color and pigmentation"
+    }
+  ]
+}

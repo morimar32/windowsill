@@ -1,0 +1,146 @@
+{
+  "domain": "performing arts",
+  "n_positive": 92,
+  "n_negative": 460,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8480952380952381,
+    "recall": 0.6088059701492538,
+    "f1": 0.6704545454545455,
+    "auc_pr": 0.8559397838635826
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.19402985074626866,
+      "f1": 0.325,
+      "auc_pr": 0.850877903732192
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.75,
+      "f1": 0.8,
+      "auc_pr": 0.8399321266968326
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8388888888888889
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.9166666666666666
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.07925514709204436,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.07488188296556472,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.030698349326848985,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.027355197723954915,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.022152124717831612,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 293,
+      "importance": 0.020251120533794166,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 97,
+      "importance": 0.018799703940749167,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 632,
+      "importance": 0.018200096022337676,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.017288381047546864,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.017143042758107185,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 649,
+      "importance": 0.016951539926230906,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.016267441911622882,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.016136030852794647,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.015542980842292308,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.01512669064104557,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.015106861293315888,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 380,
+      "importance": 0.013409416191279888,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.013052433857228606,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 327,
+      "importance": 0.01301342472434044,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 197,
+      "importance": 0.012274030223488807,
+      "reef_name": "scattered erratic behavior"
+    }
+  ]
+}

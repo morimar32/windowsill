@@ -208,6 +208,8 @@ __marimo__/
 
 # local db files
 *.duckdb
+*.db
+*.sqlite
 *.wal
 *.bz2
 *.parquet

@@ -1,0 +1,146 @@
+{
+  "domain": "anatomy",
+  "metrics": {
+    "precision": 0.8393997400449014,
+    "recall": 0.5783904983904984,
+    "f1": 0.6768754506800173,
+    "auc_pr": 0.7972033250038747
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9047619047619048,
+      "recall": 0.4318181818181818,
+      "f1": 0.5846153846153846,
+      "auc_pr": 0.7551849715158366
+    },
+    {
+      "precision": 0.8095238095238095,
+      "recall": 0.6071428571428571,
+      "f1": 0.6938775510204082,
+      "auc_pr": 0.8431035988684652
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.4888888888888889,
+      "f1": 0.6197183098591549,
+      "auc_pr": 0.749369309971757
+    },
+    {
+      "precision": 0.9032258064516129,
+      "recall": 0.8,
+      "f1": 0.8484848484848485,
+      "auc_pr": 0.8869836290043971
+    },
+    {
+      "precision": 0.7333333333333333,
+      "recall": 0.5641025641025641,
+      "f1": 0.6376811594202898,
+      "auc_pr": 0.7513751156589176
+    }
+  ],
+  "n_positive": 191,
+  "n_negative": 955,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 675,
+      "importance": 0.02203540615737438,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.017829365283250808,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.01766191776841879,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 742,
+      "importance": 0.01564283184707165,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 414,
+      "importance": 0.014934522241310333,
+      "reef_name": "central anatomical structures"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.014552688132971526,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.0136772222496802,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 523,
+      "importance": 0.013630275032483041,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.013398526795208454,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 464,
+      "importance": 0.013165548513643443,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 328,
+      "importance": 0.012904049846110866,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 640,
+      "importance": 0.012870074156671763,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 312,
+      "importance": 0.012579471804201603,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.01175377368927002,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 436,
+      "importance": 0.01132446862757206,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 56,
+      "importance": 0.010403982386924327,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.009667042712680995,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 534,
+      "importance": 0.008984423907531892,
+      "reef_name": "german language terms"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.00854680542834103,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.008321593033906538,
+      "reef_name": "human roles and occupations"
+    }
+  ]
+}

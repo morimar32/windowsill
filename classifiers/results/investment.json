@@ -1,0 +1,146 @@
+{
+  "domain": "investment",
+  "n_positive": 57,
+  "n_negative": 285,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8736507936507936,
+    "recall": 0.6641428571428573,
+    "f1": 0.7458823529411764,
+    "auc_pr": 0.9069612310360519
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9333333333333333,
+      "recall": 0.56,
+      "f1": 0.7,
+      "auc_pr": 0.8086681166315068
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9617346938775508
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.875,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.959375
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5714285714285714,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9240362811791383
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8809920634920635
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.041178598254919055,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 71,
+      "importance": 0.03551544449292123,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.03501410409808159,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 655,
+      "importance": 0.031412816606462,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.0278196862898767,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.025664642453193665,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.023957249266095458,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 587,
+      "importance": 0.022413065284490587,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.019622089713811873,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.019581762212328612,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.01803454350447282,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.017346506263129412,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 234,
+      "importance": 0.015027938038110733,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.014267811179161071,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 391,
+      "importance": 0.013628944754600525,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.013317876309156419,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 586,
+      "importance": 0.01298375679180026,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.012330069299787283,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.012021523341536522,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.011753583559766412,
+      "reef_name": "food and consumable products"
+    }
+  ]
+}

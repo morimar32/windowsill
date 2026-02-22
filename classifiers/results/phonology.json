@@ -1,0 +1,146 @@
+{
+  "domain": "phonology",
+  "n_positive": 30,
+  "n_negative": 150,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.51,
+    "recall": 0.35333333333333333,
+    "f1": 0.4121212121212121,
+    "auc_pr": 0.5807193073712682
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.34481707557687946
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8766666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.740909090909091
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.137037037037037
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8041666666666666
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 13,
+      "importance": 0.058970223367214206,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 749,
+      "importance": 0.03757323753088713,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.03569391204509884,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.029939101194031537,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 584,
+      "importance": 0.027866773307323456,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.027349813655018807,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.02698515132069588,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.02611291706562042,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.024530250969110056,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 432,
+      "importance": 0.023923185467720032,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.019901077076792718,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 243,
+      "importance": 0.018044263124465942,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.017868297087261453,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.017725590511690825,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.017237830720841885,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.01693120151758194,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.014150549471378327,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.013632937613874675,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.013254570960998534,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 446,
+      "importance": 0.012859382759779691,
+      "reef_name": "commotion and outbursts"
+    }
+  ]
+}

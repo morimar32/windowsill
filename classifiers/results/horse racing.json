@@ -1,0 +1,146 @@
+{
+  "domain": "horse racing",
+  "n_positive": 67,
+  "n_negative": 335,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8333333333333334,
+    "recall": 0.32611111111111113,
+    "f1": 0.4501708817498291,
+    "auc_pr": 0.5841869512976897
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.2,
+      "f1": 0.3157894736842105,
+      "auc_pr": 0.6719724868028991
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.5128369601277459
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.375,
+      "f1": 0.5,
+      "auc_pr": 0.48630060728744934
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.6167889879846402
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6330357142857143
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 25,
+      "importance": 0.061458180844783786,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 303,
+      "importance": 0.02179739698767662,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.020932203042320907,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.019220884516835214,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 723,
+      "importance": 0.019103745743632317,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 521,
+      "importance": 0.015188784690690228,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.014537084358744323,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.01244736285880208,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.01182674509473145,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 632,
+      "importance": 0.011741568939760328,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 100,
+      "importance": 0.01092267781496048,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 635,
+      "importance": 0.010733777657151222,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.010581059008836746,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 106,
+      "importance": 0.010424674768000842,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 36,
+      "importance": 0.010376921575516462,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 648,
+      "importance": 0.010153790283948184,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 614,
+      "importance": 0.009842884819954633,
+      "reef_name": "social groups and identity"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.009729312919080257,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 525,
+      "importance": 0.009471318543182861,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 458,
+      "importance": 0.009247211506590247,
+      "reef_name": "portable power equipment"
+    }
+  ]
+}

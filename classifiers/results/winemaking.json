@@ -1,0 +1,145 @@
+{
+  "domain": "winemaking",
+  "n_positive": 83,
+  "n_negative": 415,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.76,
+    "recall": 0.4517171717171717,
+    "f1": 0.5451878936692645,
+    "auc_pr": 0.6927803419428795
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8,
+      "recall": 0.16666666666666666,
+      "f1": 0.27586206896551724,
+      "auc_pr": 0.724315991854686
+    },
+    {
+      "precision": 0.625,
+      "recall": 0.5555555555555556,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.7038600288600287
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5,
+      "f1": 0.625,
+      "auc_pr": 0.5696362229102166
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6363636363636364,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.841847041847042
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.6242424242424243
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 52,
+      "importance": 0.02790037654340267,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 337,
+      "importance": 0.024815552309155463,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.022038839757442474,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 407,
+      "importance": 0.019976666569709776,
+      "reef_name": "physical sprawl and knocking"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.01724362699314952,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 727,
+      "importance": 0.015093084183172322
+    },
+    {
+      "dim_id": 121,
+      "importance": 0.014066536558675579,
+      "reef_name": "hydration and breathing states"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.013777162693440915,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.012128477543592453,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.011865662597119808,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.0116043423069641,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.011559787392616271,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 164,
+      "importance": 0.011557589894073317,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 527,
+      "importance": 0.011039888858795166,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.011026203527580946,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 357,
+      "importance": 0.01097557032480836,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 304,
+      "importance": 0.010970879694650649,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.010893004387617112,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.010660976258077427,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 324,
+      "importance": 0.010462646838277578,
+      "reef_name": "mystical elusive qualities"
+    }
+  ]
+}

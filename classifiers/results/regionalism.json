@@ -1,0 +1,146 @@
+{
+  "domain": "regionalism",
+  "n_positive": 58,
+  "n_negative": 290,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8969696969696971,
+    "recall": 0.5756998556998557,
+    "f1": 0.6905827505827508,
+    "auc_pr": 0.8273445605652647
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.6,
+      "f1": 0.6923076923076923,
+      "auc_pr": 0.80309534266056
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8181818181818182,
+      "f1": 0.9,
+      "auc_pr": 0.9674931129476584
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9626543209876544
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8521999443052074
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.2222222222222222,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.5512800819252432
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 754,
+      "importance": 0.04904628535732627,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.03523115664720535,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.027573339454829694,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.025434275344014167,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.023605108819901945,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.020621006190776826,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.02041098017216427,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 497,
+      "importance": 0.017312807426787914,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.016942298924550413,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 483,
+      "importance": 0.014465711871162057,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.013376184890512377,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.013270196411758662,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.01311888052150607,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.012807101756334306,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 265,
+      "importance": 0.012781294621527195,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.012106693722307682,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.011949270451441407,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 758,
+      "importance": 0.011886450018209871,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.010803746432065964,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.010761991143226624,
+      "reef_name": "urban landscape geography"
+    }
+  ]
+}

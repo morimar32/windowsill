@@ -1,0 +1,146 @@
+{
+  "domain": "library science",
+  "n_positive": 57,
+  "n_negative": 285,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9666666666666668,
+    "recall": 0.5285714285714286,
+    "f1": 0.6554778554778554,
+    "auc_pr": 0.8713585062962949
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.17857142857142858,
+      "f1": 0.30303030303030304,
+      "auc_pr": 0.825046499735443
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9325396825396826
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7569444444444443
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.975
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8672619047619048
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 747,
+      "importance": 0.04011632837355137,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 481,
+      "importance": 0.03060055776149966,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 433,
+      "importance": 0.022489378717727958,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.019931308552622796,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 431,
+      "importance": 0.01982221659272909,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.019499402912333607,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.01945621520280838,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 254,
+      "importance": 0.01927704904228449,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.01906023514457047,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.01901975190266967,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.0182589840143919,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.01788826547563076,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 740,
+      "importance": 0.017166781332343818,
+      "reef_name": "hazardous contamination hygiene"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.015327958017587661,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.014240122842602431,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 197,
+      "importance": 0.013659947738051414,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 705,
+      "importance": 0.013496534526348114,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.013025141647085547,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 547,
+      "importance": 0.012797375023365021,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 670,
+      "importance": 0.012760347127914429,
+      "reef_name": "admirable excellence and splendor"
+    }
+  ]
+}

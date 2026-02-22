@@ -1,0 +1,146 @@
+{
+  "domain": "christian theology",
+  "metrics": {
+    "precision": 0.8458333333333332,
+    "recall": 0.691602564102564,
+    "f1": 0.7591649780479568,
+    "auc_pr": 0.8469092823867083
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8095238095238095,
+      "recall": 0.6538461538461539,
+      "f1": 0.723404255319149,
+      "auc_pr": 0.8801896998792094
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8756100158011926
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6666666666666666,
+      "f1": 0.75,
+      "auc_pr": 0.8908697621416921
+    },
+    {
+      "precision": 0.6875,
+      "recall": 0.6875,
+      "f1": 0.6875,
+      "auc_pr": 0.7031894303278332
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8846875037836139
+    }
+  ],
+  "n_positive": 100,
+  "n_negative": 500,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 238,
+      "importance": 0.07514499127864838,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.03118831943720579,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.02352752983570099,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 123,
+      "importance": 0.022778427228331566,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.020880134438630193,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 582,
+      "importance": 0.018999594263732433,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.018208188749849797,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.017914805188775064,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.015923328418284654,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.015529799088835717,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 252,
+      "importance": 0.01433991938829422,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.014304228546097874,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 605,
+      "importance": 0.014016389846801758,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.013671560026705266,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.013311985949985682,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.01229276261292398,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 493,
+      "importance": 0.012195714982226491,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.011458372697234154,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 367,
+      "importance": 0.011446933634579182,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.011377273220568895,
+      "reef_name": "agreement and specification"
+    }
+  ]
+}

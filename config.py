@@ -1,82 +1,32 @@
-MODEL_NAME = "nomic-ai/nomic-embed-text-v1.5"
-EMBEDDING_PREFIX = "classification: "
-MATRYOSHKA_DIM = 768
-TRUST_REMOTE_CODE = True
-BATCH_SIZE = 256
-INTERMEDIATE_SAVE_INTERVAL = 50
-DB_PATH = "vector_distillery.duckdb"
-ZSCORE_THRESHOLD = 2.0
-PAIR_OVERLAP_THRESHOLD = 3
-COMMIT_INTERVAL = 50
-INTERMEDIATE_DIR = "intermediates"
-SENSE_EMBEDDING_PREFIX = "classification: "
-SENSE_BATCH_SIZE = 256
-SENSE_INTERMEDIATE_DIR = "intermediates/senses"
-COMPOSITIONALITY_THRESHOLD = 0.20
-CONTAMINATION_ZSCORE_MIN = 2.0
-
-# Artificial dimensions (domain-based)
-MIN_ARTIFICIAL_DIM_WORDS = 5    # Minimum domain size for artificial dim creation
-ARTIFICIAL_DIM_ZSCORE = 2.0     # z-score assigned to artificial dim members
-
-# Island detection (Phase 9)
-ISLAND_JACCARD_ZSCORE = 3.0           # Min hypergeometric z-score to include edge in graph
-ISLAND_LEIDEN_RESOLUTION = 1.0       # Leiden resolution (higher = more/smaller islands)
-ISLAND_CHARACTERISTIC_WORDS_N = 100  # Top N PMI-ranked words stored per island
-ISLAND_MIN_COMMUNITY_SIZE = 2        # Communities smaller than this become noise (island_id = -1)
-ISLAND_SUB_LEIDEN_RESOLUTION = 1.5   # Leiden resolution for sub-island detection (higher = more splitting)
-ISLAND_MIN_DIMS_FOR_SUBDIVISION = 2  # Don't subdivide islands with fewer dims than this
-REEF_MIN_DEPTH = 2                   # Min dims a word must activate in a reef to count as meaningfully present
-NOISE_RECOVERY_MIN_JACCARD = 0.01    # Min avg Jaccard to assign orphan dim to sibling reef
-
-# Reef refinement (Phase 10)
-REEF_REFINE_MIN_DIMS = 4              # Min dims for a reef to be analyzed for misplaced dims
-REEF_REFINE_LOYALTY_THRESHOLD = 1.0   # Dims with loyalty_ratio below this are considered misplaced
-REEF_REFINE_MAX_ITERATIONS = 5        # Safety valve: max refinement rounds before stopping
-
-# Universal word analytics
-SENSE_SPREAD_INFLATED_THRESHOLD = 15   # Min sense_spread to flag as polysemy-inflated
-DOMAIN_GENERAL_THRESHOLD = 0.75        # Min arch_concentration for v_domain_generals
-ABSTRACT_DIM_THRESHOLD = 0.30          # Min universal_pct for v_abstract_dims
-CONCRETE_DIM_THRESHOLD = 0.15          # Max universal_pct for v_concrete_dims
-
 # FNV-1a u64 hashing
 FNV1A_OFFSET = 14695981039346656037
 FNV1A_PRIME = 1099511628211
 
-# Valence analytics
-NEGATION_PREFIXES = ['un', 'non', 'in', 'im', 'il', 'ir', 'dis', 'mal', 'mis']
-POSITIVE_DIM_VALENCE_THRESHOLD = -0.15   # valence below this = positive-pole dim
-NEGATIVE_DIM_VALENCE_THRESHOLD = 0.15    # valence above this = negative-pole dim
+# Domain augmentation (Claude-assisted domain discovery + XGBoost classifiers)
+AUGMENT_CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
+AUGMENT_BATCH_SIZE = 5           # Domains per Claude API call
+AUGMENT_API_DELAY = 0.5          # Seconds between API calls
+AUGMENT_MIN_DOMAIN_WORDS = 20    # Min matched words for XGBoost training
+AUGMENT_NEG_RATIO = 5            # Negative:positive sampling ratio
 
-# Reef scoring constants (computed dynamically from DB via get_hierarchy_counts)
-BM25_K1 = 1.2
-BM25_B = 0.75
+# XGBoost inference threshold
+XGBOOST_SCORE_THRESHOLD = 0.4
 
-# Composite weight formula coefficients
-# weight = (containment * lift) * pos_similarity^ALPHA_POS
-#          * exp(-ALPHA_VAL * |valence_gap|)
-#          * exp(-ALPHA_SPEC * |specificity_gap|)
-COMPOSITE_ALPHA_POS = 2.0    # POS similarity exponent (higher = stronger gating)
-COMPOSITE_ALPHA_VAL = 2.92   # Valence gap decay rate (higher = more suppression)
-COMPOSITE_ALPHA_SPEC = 0.5   # Specificity gap decay rate (mild effect)
+# Domain reef subdivision (v2 domain word clustering)
+REEF_SCORE_THRESHOLD = 0.6       # Min xgboost score for "core" clustering words
+REEF_ALPHA = 0.7                 # Hybrid weight: α * emb_cos + (1-α) * pmi_cos
+REEF_KNN_K = 15                  # kNN neighbors for graph construction
+REEF_LEIDEN_RESOLUTION = 1.0     # Leiden resolution parameter
+REEF_MIN_COMMUNITY_SIZE = 3      # Smaller communities become noise
+REEF_MIN_DOMAIN_SIZE = 10        # Skip domains with fewer core words
+REEF_CHARACTERISTIC_WORDS_N = 10 # Top centroid-closest words per reef
+
+# Archipelago clustering (domain-level grouping)
+ARCH_ALPHA = 0.7                    # Hybrid weight: α * emb_cos + (1-α) * pmi_norm
+ARCH_KNN_K = 10                     # kNN neighbors (444 domains, ~2% connectivity)
+ARCH_LEIDEN_RESOLUTION = 1.0        # Leiden resolution parameter
+ARCH_MIN_COMMUNITY_SIZE = 2         # Smaller communities become noise
+ARCH_CHARACTERISTIC_DOMAINS_N = 10  # Top centroid-closest domains per archipelago
 
 # Export thresholds
 EXPORT_WEIGHT_THRESHOLD = 0.01
-
-
-def get_hierarchy_counts(con):
-    """Get reef/island/archipelago counts from the database.
-
-    Returns dict with keys: n_reefs, n_islands, n_archs.
-    """
-    n_reefs = con.execute(
-        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 2 AND island_id >= 0"
-    ).fetchone()[0]
-    n_islands = con.execute(
-        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 1 AND island_id >= 0"
-    ).fetchone()[0]
-    n_archs = con.execute(
-        "SELECT COUNT(DISTINCT island_id) FROM island_stats WHERE generation = 0 AND island_id >= 0"
-    ).fetchone()[0]
-    return {"n_reefs": n_reefs, "n_islands": n_islands, "n_archs": n_archs}

@@ -1,0 +1,146 @@
+{
+  "domain": "vessel",
+  "n_positive": 89,
+  "n_negative": 445,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8917989417989418,
+    "recall": 0.6138801036362012,
+    "f1": 0.7111671335200747,
+    "auc_pr": 0.8813968926768686
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8518518518518519,
+      "recall": 0.5609756097560976,
+      "f1": 0.6764705882352942,
+      "auc_pr": 0.8140500041213062
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9237891737891739
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8461236424394319
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9682539682539681
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.38461538461538464,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.8547676747804624
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 645,
+      "importance": 0.03575880853459239,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.031160640344023705,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.029792196676135065,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.025988249969668687,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 36,
+      "importance": 0.025373418256640433,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.023032268136739732,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.02070179060101509,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.01795794488862157,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.01638254998251796,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 526,
+      "importance": 0.016190750151872636,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.015887659136205913,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.015645296731963753,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 551,
+      "importance": 0.015539850597269833,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.0153846625238657,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.015012486594787332,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.014792202587705106,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.014466329384595156,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 388,
+      "importance": 0.014357444643974305,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.013635323918424546,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.012674229219555855,
+      "reef_name": "riding equipment gear"
+    }
+  ]
+}

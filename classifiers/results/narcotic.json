@@ -1,0 +1,146 @@
+{
+  "domain": "narcotic",
+  "n_positive": 58,
+  "n_negative": 290,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9777777777777779,
+    "recall": 0.8601307189542483,
+    "f1": 0.8944444444444445,
+    "auc_pr": 0.9785055047317094
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4117647058823529,
+      "f1": 0.5833333333333334,
+      "auc_pr": 0.9159843137820036
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9765432098765434
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 622,
+      "importance": 0.07115126475691795,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.0662114717066288,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.062299782410264015,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.04895132817327976,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 215,
+      "importance": 0.025852687680162488,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.025648230873048305,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 751,
+      "importance": 0.024816622212529182,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 560,
+      "importance": 0.024168768711388112,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.023737044632434846,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.0197279840009287,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.018060222454369067,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 755,
+      "importance": 0.017967702262103556,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 227,
+      "importance": 0.01670623868703842,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 527,
+      "importance": 0.015629322826862337,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.014823457598686219,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 380,
+      "importance": 0.014274939149618148,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 106,
+      "importance": 0.01367142628878355,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.013607007265090943,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.012043451145291328,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 37,
+      "importance": 0.0115030747896526,
+      "reef_name": "chemical compounds and substances"
+    }
+  ]
+}

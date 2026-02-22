@@ -1,0 +1,146 @@
+{
+  "domain": "gymnastics",
+  "n_positive": 38,
+  "n_negative": 190,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5933333333333334,
+    "recall": 0.2980952380952381,
+    "f1": 0.378998778998779,
+    "auc_pr": 0.540563052179659
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8,
+      "recall": 0.19047619047619047,
+      "f1": 0.3076923076923077,
+      "auc_pr": 0.6187132517962863
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6083333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6412698412698412
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.22424242424242424
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.4,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.6102564102564103
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.049302644282579425,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.04231424648314715,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.03775099143385887,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.02638268657028675,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.026022574375383557,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.02454194501042366,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.024075760133564474,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.022006709105335177,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.019166550040245055,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 675,
+      "importance": 0.015928593184798955,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.015473055839538574,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 440,
+      "importance": 0.015092204511165618,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 373,
+      "importance": 0.015084391832351685,
+      "reef_name": "filth and physical decay"
+    },
+    {
+      "dim_id": 572,
+      "importance": 0.014368048682808877,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.013524052500724793,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 725,
+      "importance": 0.013280997425317765,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.01245836615562439,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.01067434623837471,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.010359343467280268,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 249,
+      "importance": 0.010075768083333969,
+      "reef_name": "legal and textual authority"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "war",
+  "n_positive": 135,
+  "n_negative": 675,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8205864814619945,
+    "recall": 0.7025647451963242,
+    "f1": 0.7404849027828809,
+    "auc_pr": 0.8465203225061341
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9302325581395349,
+      "recall": 0.5263157894736842,
+      "f1": 0.6722689075630253,
+      "auc_pr": 0.8682188747827191
+    },
+    {
+      "precision": 0.7692307692307693,
+      "recall": 0.5555555555555556,
+      "f1": 0.6451612903225806,
+      "auc_pr": 0.7196533593078259
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9074602801493556
+    },
+    {
+      "precision": 0.6470588235294118,
+      "recall": 0.9166666666666666,
+      "f1": 0.7586206896551724,
+      "auc_pr": 0.7792101689160513
+    },
+    {
+      "precision": 0.9230769230769231,
+      "recall": 0.8,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9580589293747188
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 417,
+      "importance": 0.05088411048054695,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 714,
+      "importance": 0.02498566098511219,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.024856995791196823,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.022191282361745834,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.01850723884999752,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.013439740240573882,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.01324685402214527,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.012994774337857961,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.012026833044365049,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 152,
+      "importance": 0.011984805390238763,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.011941700195893645,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.011617287155240774,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 731,
+      "importance": 0.011540216964203865,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 746,
+      "importance": 0.01102513142686803,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 277,
+      "importance": 0.010783613473176957,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.01052070059813559,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 4,
+      "importance": 0.010491278674453496,
+      "reef_name": "military tactics warfare"
+    },
+    {
+      "dim_id": 147,
+      "importance": 0.009764846949838101,
+      "reef_name": "physical pressure activation"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.009511563740670682,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.0092631203122437,
+      "reef_name": "surface covering and coating"
+    }
+  ]
+}

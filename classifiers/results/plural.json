@@ -1,0 +1,146 @@
+{
+  "domain": "plural",
+  "n_positive": 308,
+  "n_negative": 1540,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8097394040428096,
+    "recall": 0.5002585076417976,
+    "f1": 0.6062920235984647,
+    "auc_pr": 0.7267512158704561
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9384615384615385,
+      "recall": 0.3112244897959184,
+      "f1": 0.4674329501915709,
+      "auc_pr": 0.8164263118889475
+    },
+    {
+      "precision": 0.6842105263157895,
+      "recall": 0.5652173913043478,
+      "f1": 0.6190476190476191,
+      "auc_pr": 0.7056902122208998
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.45161290322580644,
+      "f1": 0.5384615384615384,
+      "auc_pr": 0.6389947878463936
+    },
+    {
+      "precision": 0.9411764705882353,
+      "recall": 0.5925925925925926,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.7226774222615314
+    },
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.5806451612903226,
+      "f1": 0.6792452830188679,
+      "auc_pr": 0.7499673451345085
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 613,
+      "importance": 0.015456590708345175,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.01407849881798029,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.011771979264449329,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.011608433816581965,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.009870311501435936,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 586,
+      "importance": 0.009395102597773075,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.009307750314474107,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 173,
+      "importance": 0.008932157675735653,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 522,
+      "importance": 0.00861308015882969,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.008543545287102461,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.008524665504228323,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 179,
+      "importance": 0.007867408676247578,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 761,
+      "importance": 0.007513374829431996,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.007443315361160785,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 42,
+      "importance": 0.007391694094985723,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.00733190905302763,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.007185704354196787,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.007099452242255211,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 55,
+      "importance": 0.007074311589531135,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.006843238323926926,
+      "reef_name": "shape and spatial properties"
+    }
+  ]
+}

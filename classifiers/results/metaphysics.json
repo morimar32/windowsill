@@ -1,0 +1,146 @@
+{
+  "domain": "metaphysics",
+  "n_positive": 40,
+  "n_negative": 200,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.82,
+    "recall": 0.45397435897435895,
+    "f1": 0.540052053209948,
+    "auc_pr": 0.7211342618172749
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.46153846153846156,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.8736498643475388
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.7846886446886446
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.16666666666666666,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.49797979797979797
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.375,
+      "f1": 0.46153846153846156,
+      "auc_pr": 0.5826863354037267
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.6666666666666666,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8666666666666667
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 398,
+      "importance": 0.05399251729249954,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 238,
+      "importance": 0.03526941258460283,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.033789701759815216,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 396,
+      "importance": 0.03102600760757923,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 745,
+      "importance": 0.02210739254951477,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.02158322064206004,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.021266067773103713,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.019695423170924188,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 74,
+      "importance": 0.019181615533307196,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 235,
+      "importance": 0.01869966518133879,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 229,
+      "importance": 0.01846388280391693,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.018432447267696262,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.01645941026508808,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 605,
+      "importance": 0.015984655008651316,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 577,
+      "importance": 0.01294749901862815,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.012079938128590584,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 199,
+      "importance": 0.01186654504854232,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.01182788759469986,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.0116510224994272,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.010992240160703659,
+      "reef_name": "trees and outdoor canopy"
+    }
+  ]
+}

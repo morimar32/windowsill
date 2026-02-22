@@ -1,0 +1,146 @@
+{
+  "domain": "organism",
+  "n_positive": 87,
+  "n_negative": 435,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.784981684981685,
+    "recall": 0.5825,
+    "f1": 0.6499840357598978,
+    "auc_pr": 0.7372682440663354
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.2,
+      "f1": 0.3125,
+      "auc_pr": 0.603872298211577
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9556505912388265
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.6875,
+      "f1": 0.7586206896551724,
+      "auc_pr": 0.7843142429157968
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5333333333333333,
+      "f1": 0.5925925925925926,
+      "auc_pr": 0.6609509716976866
+    },
+    {
+      "precision": 0.7692307692307693,
+      "recall": 0.625,
+      "f1": 0.6896551724137931,
+      "auc_pr": 0.6815531162677901
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 581,
+      "importance": 0.0381145317107439,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.03335532557684928,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.029815606027841567,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.02934486884623766,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.025324415415525436,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.02330364231020212,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 74,
+      "importance": 0.018361839186400174,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.015372414980083704,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 397,
+      "importance": 0.013529191631823778,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.0135037399828434,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 94,
+      "importance": 0.013473469763994217,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.013305135670816527,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.01293816715478897,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.012629962991923094,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 363,
+      "importance": 0.012329048849642277,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 674,
+      "importance": 0.012282684387173504,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.012016261665849015,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 623,
+      "importance": 0.011124265968101099,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 317,
+      "importance": 0.010586779750883579,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 546,
+      "importance": 0.010311901802197099,
+      "reef_name": "small physical objects"
+    }
+  ]
+}

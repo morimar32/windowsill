@@ -1,0 +1,146 @@
+{
+  "domain": "accounting",
+  "metrics": {
+    "precision": 0.8375816993464053,
+    "recall": 0.8075396825396826,
+    "f1": 0.8174525745257452,
+    "auc_pr": 0.9183561877918185
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8823529411764706,
+      "recall": 0.625,
+      "f1": 0.7317073170731707,
+      "auc_pr": 0.8492400629595702
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.8571428571428571,
+      "f1": 0.8,
+      "auc_pr": 0.8893662728249194
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9166666666666665
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9365079365079365
+    }
+  ],
+  "n_positive": 44,
+  "n_negative": 220,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.07100819051265717,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.06349002122879029,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 177,
+      "importance": 0.062203568033874036,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.047219745069742206,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 127,
+      "importance": 0.033060523914173245,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 749,
+      "importance": 0.02748158574104309,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.024046122469007968,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 418,
+      "importance": 0.021755116619169713,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.021733842417597772,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.021223331801593304,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.019779790518805386,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 361,
+      "importance": 0.01950196027755737,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 352,
+      "importance": 0.01850140243768692,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.017299437336623667,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.01701919883489609,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.016895148938056083,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.016674423962831496,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.016296112537384035,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.015239673107862473,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.0150965278968215,
+      "reef_name": "trees and outdoor canopy"
+    }
+  ]
+}

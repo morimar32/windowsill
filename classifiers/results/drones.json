@@ -1,0 +1,146 @@
+{
+  "domain": "drones",
+  "n_positive": 21,
+  "n_negative": 105,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9666666666666668,
+    "recall": 0.7133333333333333,
+    "f1": 0.7894372294372294,
+    "auc_pr": 0.9031111111111112
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.7555555555555555
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333334
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.9266666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 689,
+      "importance": 0.08103061616420745,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 20,
+      "importance": 0.07160235540941358,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 327,
+      "importance": 0.0439030647277832,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.038213988207280634,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.03784562945365906,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.03747962573543191,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.03670500367879868,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.028775621578097342,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 401,
+      "importance": 0.027935625240206718,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 172,
+      "importance": 0.026869158446788787,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 450,
+      "importance": 0.026104652881622316,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.023753820359706877,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.0228546807076782,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 227,
+      "importance": 0.0213945209980011,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 714,
+      "importance": 0.01768940296024084,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 321,
+      "importance": 0.01739456821233034,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.017083738651126622,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.016238996386528017,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.016093083610758185,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.015525585412979126,
+      "reef_name": "riding equipment gear"
+    }
+  ]
+}

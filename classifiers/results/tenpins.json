@@ -1,0 +1,146 @@
+{
+  "domain": "tenpins",
+  "n_positive": 35,
+  "n_negative": 175,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5666666666666667,
+    "recall": 0.4,
+    "f1": 0.4402484472049689,
+    "auc_pr": 0.6601764135885828
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.05,
+      "f1": 0.08695652173913043,
+      "auc_pr": 0.5264053028779134
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.553109243697479
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.6324786324786325
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.6666666666666666,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.7555555555555555
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 519,
+      "importance": 0.036429266631603244,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 359,
+      "importance": 0.036423413828015325,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.03631997983902693,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.02993500274606049,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.02957884967327118,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.029441598616540433,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.027924908127170057,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.025597602338530125,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.020123201608657836,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.019585778389591725,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 464,
+      "importance": 0.017851010710000993,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.01767563670873642,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 467,
+      "importance": 0.017556843161582947,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.017413083463907242,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 317,
+      "importance": 0.017200250923633576,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.016823408007621766,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.01624894291162491,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 301,
+      "importance": 0.01503740418702364,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.014588167425245047,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.013954497850500047,
+      "reef_name": "psychological disturbance and cruelty"
+    }
+  ]
+}

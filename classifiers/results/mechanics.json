@@ -1,0 +1,146 @@
+{
+  "domain": "mechanics",
+  "n_positive": 42,
+  "n_negative": 210,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8333333333333333,
+    "recall": 0.856043956043956,
+    "f1": 0.7968676368676368,
+    "auc_pr": 0.962507479597386
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4230769230769231,
+      "f1": 0.5945945945945946,
+      "auc_pr": 0.8839659694155021
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8571428571428571,
+      "f1": 0.9230769230769231,
+      "auc_pr": 0.9285714285714284
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.5,
+      "recall": 1.0,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.10677283033728599,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.07819979935884476,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.0401318222284317,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 200,
+      "importance": 0.03587078214623034,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.03184441323392093,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 141,
+      "importance": 0.028716277703642844,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.028145758109167217,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.023497243877500296,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.023349047033116223,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 153,
+      "importance": 0.02333407402038574,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 468,
+      "importance": 0.020930801751092076,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 490,
+      "importance": 0.02017708458006382,
+      "reef_name": "classical formal tradition"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.01794724613428116,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 619,
+      "importance": 0.017639533174224196,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 471,
+      "importance": 0.016452592983841895,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.016325474029872566,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.014775790274143219,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 715,
+      "importance": 0.013329561427235603,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.013039097003638745,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.012993912895717585,
+      "reef_name": "enormity and exaggeration"
+    }
+  ]
+}

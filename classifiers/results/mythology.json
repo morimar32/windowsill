@@ -1,0 +1,146 @@
+{
+  "domain": "mythology",
+  "n_positive": 106,
+  "n_negative": 530,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8779411764705882,
+    "recall": 0.6344755168553796,
+    "f1": 0.7332548153600786,
+    "auc_pr": 0.8462774523551225
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7647058823529411,
+      "recall": 0.6190476190476191,
+      "f1": 0.6842105263157895,
+      "auc_pr": 0.8334649055494775
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6363636363636364,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.8754626660032583
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6086956521739131,
+      "f1": 0.717948717948718,
+      "auc_pr": 0.7832025855470679
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7368421052631579,
+      "f1": 0.8,
+      "auc_pr": 0.8929580301870785
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.84629907448873
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 450,
+      "importance": 0.03140245582908392,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.028596062585711478,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 338,
+      "importance": 0.024930903589120135,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 477,
+      "importance": 0.019583462132140995,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.016250675451010464,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.013399963022675366,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.013172576914075761,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 347,
+      "importance": 0.01271192878484726,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.01226109138224274,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 474,
+      "importance": 0.012192197004333138,
+      "reef_name": "fraud and deception"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.011830386682413518,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 526,
+      "importance": 0.011786069348454475,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.011496114358305932,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.010719340271316468,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 256,
+      "importance": 0.010391239076852798,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 686,
+      "importance": 0.009451958909630775,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.009384175008744933,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 612,
+      "importance": 0.009295031314104562,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.009199430649459828,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.008984257001429796,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

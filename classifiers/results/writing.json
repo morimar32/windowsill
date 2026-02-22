@@ -1,0 +1,146 @@
+{
+  "domain": "writing",
+  "n_positive": 66,
+  "n_negative": 330,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8666666666666666,
+    "recall": 0.576111111111111,
+    "f1": 0.6725961538461538,
+    "auc_pr": 0.8413874218286445
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4222222222222222,
+      "f1": 0.59375,
+      "auc_pr": 0.8843791115852244
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7801587301587302
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6738095238095239
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9519230769230769
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9166666666666665
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 672,
+      "importance": 0.05105168633162975,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.04759584404528141,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.02780310083180666,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.025719946064054967,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.025456622755154968,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.022534719109535216,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.0205904146656394,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.020345145696774126,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.019480283348821105,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 242,
+      "importance": 0.01744731510989368,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.0170192651450634,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.015922788018360733,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.015227270498871803,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 536,
+      "importance": 0.014265420753508807,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.01393435038626194,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.013191689038649201,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 440,
+      "importance": 0.013043930381536483,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.012576862145215273,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.011615553498268127,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 585,
+      "importance": 0.010919615812599658,
+      "reef_name": "separation and distinction"
+    }
+  ]
+}

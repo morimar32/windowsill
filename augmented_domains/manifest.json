@@ -1,0 +1,3989 @@
+[
+  {
+    "domain": "3d_printing",
+    "timestamp": "2026-02-21T08:14:17.840963+00:00",
+    "n_words": 72,
+    "n_core": 42,
+    "n_peripheral": 30,
+    "n_matched": 15,
+    "match_rate": 20.8
+  },
+  {
+    "domain": "a cappella singing",
+    "timestamp": "2026-02-21T07:28:46.303340+00:00",
+    "n_words": 52,
+    "n_core": 43,
+    "n_peripheral": 9,
+    "n_matched": 43,
+    "match_rate": 82.7
+  },
+  {
+    "domain": "abbreviation",
+    "timestamp": "2026-02-21T07:28:46.303340+00:00",
+    "n_words": 19,
+    "n_core": 14,
+    "n_peripheral": 5,
+    "n_matched": 16,
+    "match_rate": 84.2
+  },
+  {
+    "domain": "academia",
+    "timestamp": "2026-02-21T07:28:46.303340+00:00",
+    "n_words": 47,
+    "n_core": 37,
+    "n_peripheral": 11,
+    "n_matched": 41,
+    "match_rate": 87.2
+  },
+  {
+    "domain": "accounting",
+    "timestamp": "2026-02-21T07:28:46.303340+00:00",
+    "n_words": 52,
+    "n_core": 42,
+    "n_peripheral": 10,
+    "n_matched": 38,
+    "match_rate": 73.1
+  },
+  {
+    "domain": "acoustics",
+    "timestamp": "2026-02-21T07:28:46.303340+00:00",
+    "n_words": 49,
+    "n_core": 36,
+    "n_peripheral": 13,
+    "n_matched": 35,
+    "match_rate": 71.4
+  },
+  {
+    "domain": "acronym",
+    "timestamp": "2026-02-21T07:29:12.170563+00:00",
+    "n_words": 35,
+    "n_core": 20,
+    "n_peripheral": 16,
+    "n_matched": 20,
+    "match_rate": 57.1
+  },
+  {
+    "domain": "aeronautics",
+    "timestamp": "2026-02-21T07:29:12.170563+00:00",
+    "n_words": 56,
+    "n_core": 38,
+    "n_peripheral": 18,
+    "n_matched": 36,
+    "match_rate": 64.3
+  },
+  {
+    "domain": "african american vernacular english",
+    "timestamp": "2026-02-21T07:29:12.170563+00:00",
+    "n_words": 96,
+    "n_core": 53,
+    "n_peripheral": 44,
+    "n_matched": 38,
+    "match_rate": 39.6
+  },
+  {
+    "domain": "agile_methodology",
+    "timestamp": "2026-02-21T08:13:19.654800+00:00",
+    "n_words": 49,
+    "n_core": 24,
+    "n_peripheral": 25,
+    "n_matched": 8,
+    "match_rate": 16.3
+  },
+  {
+    "domain": "air travel",
+    "timestamp": "2026-02-21T07:29:12.170563+00:00",
+    "n_words": 73,
+    "n_core": 44,
+    "n_peripheral": 29,
+    "n_matched": 44,
+    "match_rate": 60.3
+  },
+  {
+    "domain": "aircraft",
+    "timestamp": "2026-02-21T07:29:12.170563+00:00",
+    "n_words": 60,
+    "n_core": 40,
+    "n_peripheral": 21,
+    "n_matched": 49,
+    "match_rate": 81.7
+  },
+  {
+    "domain": "airplane",
+    "timestamp": "2026-02-21T07:29:40.476051+00:00",
+    "n_words": 83,
+    "n_core": 49,
+    "n_peripheral": 34,
+    "n_matched": 69,
+    "match_rate": 83.1
+  },
+  {
+    "domain": "alchemy",
+    "timestamp": "2026-02-21T07:29:40.476051+00:00",
+    "n_words": 60,
+    "n_core": 39,
+    "n_peripheral": 21,
+    "n_matched": 46,
+    "match_rate": 76.7
+  },
+  {
+    "domain": "algebra",
+    "timestamp": "2026-02-21T07:29:40.476051+00:00",
+    "n_words": 74,
+    "n_core": 46,
+    "n_peripheral": 28,
+    "n_matched": 46,
+    "match_rate": 62.2
+  },
+  {
+    "domain": "american football",
+    "timestamp": "2026-02-21T07:29:40.476051+00:00",
+    "n_words": 70,
+    "n_core": 42,
+    "n_peripheral": 29,
+    "n_matched": 49,
+    "match_rate": 70.0
+  },
+  {
+    "domain": "anatomy",
+    "timestamp": "2026-02-21T07:29:40.476051+00:00",
+    "n_words": 124,
+    "n_core": 76,
+    "n_peripheral": 48,
+    "n_matched": 120,
+    "match_rate": 96.8
+  },
+  {
+    "domain": "anglican church",
+    "timestamp": "2026-02-21T07:30:19.044951+00:00",
+    "n_words": 109,
+    "n_core": 83,
+    "n_peripheral": 26,
+    "n_matched": 96,
+    "match_rate": 88.1
+  },
+  {
+    "domain": "animal husbandry",
+    "timestamp": "2026-02-21T07:30:19.044951+00:00",
+    "n_words": 112,
+    "n_core": 80,
+    "n_peripheral": 32,
+    "n_matched": 98,
+    "match_rate": 87.5
+  },
+  {
+    "domain": "animal",
+    "timestamp": "2026-02-21T07:30:19.044951+00:00",
+    "n_words": 102,
+    "n_core": 79,
+    "n_peripheral": 25,
+    "n_matched": 93,
+    "match_rate": 91.2
+  },
+  {
+    "domain": "anthropology",
+    "timestamp": "2026-02-21T07:30:19.044951+00:00",
+    "n_words": 101,
+    "n_core": 72,
+    "n_peripheral": 29,
+    "n_matched": 67,
+    "match_rate": 66.3
+  },
+  {
+    "domain": "antiquity",
+    "timestamp": "2026-02-21T07:30:19.044951+00:00",
+    "n_words": 119,
+    "n_core": 77,
+    "n_peripheral": 43,
+    "n_matched": 85,
+    "match_rate": 71.4
+  },
+  {
+    "domain": "apocrypha",
+    "timestamp": "2026-02-21T07:31:00.002851+00:00",
+    "n_words": 38,
+    "n_core": 25,
+    "n_peripheral": 13,
+    "n_matched": 23,
+    "match_rate": 60.5
+  },
+  {
+    "domain": "arabic",
+    "timestamp": "2026-02-21T07:31:00.002851+00:00",
+    "n_words": 113,
+    "n_core": 103,
+    "n_peripheral": 10,
+    "n_matched": 55,
+    "match_rate": 48.7
+  },
+  {
+    "domain": "archaism",
+    "timestamp": "2026-02-21T07:31:00.002851+00:00",
+    "n_words": 154,
+    "n_core": 146,
+    "n_peripheral": 10,
+    "n_matched": 81,
+    "match_rate": 52.6
+  },
+  {
+    "domain": "archeology",
+    "timestamp": "2026-02-21T07:31:00.002851+00:00",
+    "n_words": 109,
+    "n_core": 87,
+    "n_peripheral": 22,
+    "n_matched": 76,
+    "match_rate": 69.7
+  },
+  {
+    "domain": "architecture",
+    "timestamp": "2026-02-21T07:31:00.002851+00:00",
+    "n_words": 154,
+    "n_core": 138,
+    "n_peripheral": 19,
+    "n_matched": 134,
+    "match_rate": 87.0
+  },
+  {
+    "domain": "aristotle",
+    "timestamp": "2026-02-21T07:31:16.789196+00:00",
+    "n_words": 32,
+    "n_core": 19,
+    "n_peripheral": 13,
+    "n_matched": 20,
+    "match_rate": 62.5
+  },
+  {
+    "domain": "arithmetic",
+    "timestamp": "2026-02-21T07:31:16.789196+00:00",
+    "n_words": 35,
+    "n_core": 20,
+    "n_peripheral": 15,
+    "n_matched": 25,
+    "match_rate": 71.4
+  },
+  {
+    "domain": "art",
+    "timestamp": "2026-02-21T07:31:16.789196+00:00",
+    "n_words": 71,
+    "n_core": 51,
+    "n_peripheral": 20,
+    "n_matched": 55,
+    "match_rate": 77.5
+  },
+  {
+    "domain": "arthurian legend",
+    "timestamp": "2026-02-21T07:31:16.789196+00:00",
+    "n_words": 24,
+    "n_core": 15,
+    "n_peripheral": 9,
+    "n_matched": 9,
+    "match_rate": 37.5
+  },
+  {
+    "domain": "artificial_intelligence",
+    "timestamp": "2026-02-21T08:11:36.517582+00:00",
+    "n_words": 54,
+    "n_core": 34,
+    "n_peripheral": 20,
+    "n_matched": 23,
+    "match_rate": 42.6
+  },
+  {
+    "domain": "astrology",
+    "timestamp": "2026-02-21T07:31:16.789196+00:00",
+    "n_words": 55,
+    "n_core": 42,
+    "n_peripheral": 13,
+    "n_matched": 19,
+    "match_rate": 34.5
+  },
+  {
+    "domain": "astronomy",
+    "timestamp": "2026-02-21T07:31:43.559779+00:00",
+    "n_words": 74,
+    "n_core": 53,
+    "n_peripheral": 21,
+    "n_matched": 62,
+    "match_rate": 83.8
+  },
+  {
+    "domain": "astrophysics",
+    "timestamp": "2026-02-21T08:15:12.834699+00:00",
+    "n_words": 87,
+    "n_core": 47,
+    "n_peripheral": 40,
+    "n_matched": 38,
+    "match_rate": 43.7
+  },
+  {
+    "domain": "auction",
+    "timestamp": "2026-02-21T07:31:43.559779+00:00",
+    "n_words": 55,
+    "n_core": 41,
+    "n_peripheral": 14,
+    "n_matched": 25,
+    "match_rate": 45.5
+  },
+  {
+    "domain": "augmented_reality",
+    "timestamp": "2026-02-21T08:14:17.840963+00:00",
+    "n_words": 42,
+    "n_core": 23,
+    "n_peripheral": 19,
+    "n_matched": 6,
+    "match_rate": 14.3
+  },
+  {
+    "domain": "auto racing",
+    "timestamp": "2026-02-21T07:31:43.559779+00:00",
+    "n_words": 65,
+    "n_core": 38,
+    "n_peripheral": 28,
+    "n_matched": 31,
+    "match_rate": 47.7
+  },
+  {
+    "domain": "bacteria",
+    "timestamp": "2026-02-21T07:31:43.559779+00:00",
+    "n_words": 59,
+    "n_core": 40,
+    "n_peripheral": 19,
+    "n_matched": 39,
+    "match_rate": 66.1
+  },
+  {
+    "domain": "bacteriology",
+    "timestamp": "2026-02-21T07:31:43.559779+00:00",
+    "n_words": 39,
+    "n_core": 27,
+    "n_peripheral": 12,
+    "n_matched": 17,
+    "match_rate": 43.6
+  },
+  {
+    "domain": "badminton",
+    "timestamp": "2026-02-21T07:32:11.944134+00:00",
+    "n_words": 36,
+    "n_core": 25,
+    "n_peripheral": 11,
+    "n_matched": 25,
+    "match_rate": 69.4
+  },
+  {
+    "domain": "ball game",
+    "timestamp": "2026-02-21T07:32:11.944134+00:00",
+    "n_words": 58,
+    "n_core": 35,
+    "n_peripheral": 23,
+    "n_matched": 41,
+    "match_rate": 70.7
+  },
+  {
+    "domain": "ballet",
+    "timestamp": "2026-02-21T07:32:11.944134+00:00",
+    "n_words": 75,
+    "n_core": 58,
+    "n_peripheral": 17,
+    "n_matched": 20,
+    "match_rate": 26.7
+  },
+  {
+    "domain": "banking",
+    "timestamp": "2026-02-21T07:32:11.944134+00:00",
+    "n_words": 91,
+    "n_core": 64,
+    "n_peripheral": 27,
+    "n_matched": 71,
+    "match_rate": 78.0
+  },
+  {
+    "domain": "baseball",
+    "timestamp": "2026-02-21T07:32:11.944134+00:00",
+    "n_words": 94,
+    "n_core": 70,
+    "n_peripheral": 24,
+    "n_matched": 57,
+    "match_rate": 60.6
+  },
+  {
+    "domain": "basketball",
+    "timestamp": "2026-02-21T07:32:41.277808+00:00",
+    "n_words": 61,
+    "n_core": 43,
+    "n_peripheral": 18,
+    "n_matched": 34,
+    "match_rate": 55.7
+  },
+  {
+    "domain": "bible",
+    "timestamp": "2026-02-21T07:32:41.277808+00:00",
+    "n_words": 95,
+    "n_core": 73,
+    "n_peripheral": 22,
+    "n_matched": 83,
+    "match_rate": 87.4
+  },
+  {
+    "domain": "billiards",
+    "timestamp": "2026-02-21T07:32:41.277808+00:00",
+    "n_words": 55,
+    "n_core": 42,
+    "n_peripheral": 13,
+    "n_matched": 33,
+    "match_rate": 60.0
+  },
+  {
+    "domain": "biochemistry",
+    "timestamp": "2026-02-21T07:32:41.277808+00:00",
+    "n_words": 100,
+    "n_core": 78,
+    "n_peripheral": 23,
+    "n_matched": 80,
+    "match_rate": 80.0
+  },
+  {
+    "domain": "bioinformatics",
+    "timestamp": "2026-02-21T08:14:51.228369+00:00",
+    "n_words": 82,
+    "n_core": 52,
+    "n_peripheral": 30,
+    "n_matched": 10,
+    "match_rate": 12.2
+  },
+  {
+    "domain": "biology",
+    "timestamp": "2026-02-21T07:32:41.277808+00:00",
+    "n_words": 101,
+    "n_core": 72,
+    "n_peripheral": 29,
+    "n_matched": 95,
+    "match_rate": 94.1
+  },
+  {
+    "domain": "blend",
+    "timestamp": "2026-02-21T07:33:29.098099+00:00",
+    "n_words": 103,
+    "n_core": 72,
+    "n_peripheral": 31,
+    "n_matched": 34,
+    "match_rate": 33.0
+  },
+  {
+    "domain": "board game",
+    "timestamp": "2026-02-21T07:33:29.098099+00:00",
+    "n_words": 90,
+    "n_core": 39,
+    "n_peripheral": 51,
+    "n_matched": 49,
+    "match_rate": 54.4
+  },
+  {
+    "domain": "boat",
+    "timestamp": "2026-02-21T07:33:29.098099+00:00",
+    "n_words": 112,
+    "n_core": 66,
+    "n_peripheral": 46,
+    "n_matched": 107,
+    "match_rate": 95.5
+  },
+  {
+    "domain": "bookkeeping",
+    "timestamp": "2026-02-21T07:33:29.098099+00:00",
+    "n_words": 96,
+    "n_core": 47,
+    "n_peripheral": 49,
+    "n_matched": 60,
+    "match_rate": 62.5
+  },
+  {
+    "domain": "botany",
+    "timestamp": "2026-02-21T07:33:29.098099+00:00",
+    "n_words": 236,
+    "n_core": 161,
+    "n_peripheral": 75,
+    "n_matched": 219,
+    "match_rate": 92.8
+  },
+  {
+    "domain": "bowling",
+    "timestamp": "2026-02-21T07:34:05.650051+00:00",
+    "n_words": 73,
+    "n_core": 55,
+    "n_peripheral": 18,
+    "n_matched": 40,
+    "match_rate": 54.8
+  },
+  {
+    "domain": "boxing",
+    "timestamp": "2026-02-21T07:34:05.650051+00:00",
+    "n_words": 85,
+    "n_core": 68,
+    "n_peripheral": 17,
+    "n_matched": 49,
+    "match_rate": 57.6
+  },
+  {
+    "domain": "brazil",
+    "timestamp": "2026-02-21T07:34:05.650051+00:00",
+    "n_words": 89,
+    "n_core": 73,
+    "n_peripheral": 16,
+    "n_matched": 24,
+    "match_rate": 27.0
+  },
+  {
+    "domain": "bridge",
+    "timestamp": "2026-02-21T07:34:05.650051+00:00",
+    "n_words": 92,
+    "n_core": 76,
+    "n_peripheral": 17,
+    "n_matched": 47,
+    "match_rate": 51.1
+  },
+  {
+    "domain": "broadcast medium",
+    "timestamp": "2026-02-21T07:34:05.650051+00:00",
+    "n_words": 107,
+    "n_core": 85,
+    "n_peripheral": 22,
+    "n_matched": 63,
+    "match_rate": 58.9
+  },
+  {
+    "domain": "broadcasting",
+    "timestamp": "2026-02-21T07:34:38.137698+00:00",
+    "n_words": 65,
+    "n_core": 52,
+    "n_peripheral": 13,
+    "n_matched": 26,
+    "match_rate": 40.0
+  },
+  {
+    "domain": "buddhism",
+    "timestamp": "2026-02-21T07:34:38.137698+00:00",
+    "n_words": 89,
+    "n_core": 67,
+    "n_peripheral": 22,
+    "n_matched": 40,
+    "match_rate": 44.9
+  },
+  {
+    "domain": "bus",
+    "timestamp": "2026-02-21T07:34:38.137698+00:00",
+    "n_words": 62,
+    "n_core": 47,
+    "n_peripheral": 15,
+    "n_matched": 28,
+    "match_rate": 45.2
+  },
+  {
+    "domain": "business",
+    "timestamp": "2026-02-21T07:34:38.137698+00:00",
+    "n_words": 124,
+    "n_core": 84,
+    "n_peripheral": 40,
+    "n_matched": 76,
+    "match_rate": 61.3
+  },
+  {
+    "domain": "cabinetwork",
+    "timestamp": "2026-02-21T07:34:38.137698+00:00",
+    "n_words": 67,
+    "n_core": 49,
+    "n_peripheral": 18,
+    "n_matched": 26,
+    "match_rate": 38.8
+  },
+  {
+    "domain": "canada",
+    "timestamp": "2026-02-21T07:35:09.503651+00:00",
+    "n_words": 72,
+    "n_core": 42,
+    "n_peripheral": 30,
+    "n_matched": 56,
+    "match_rate": 77.8
+  },
+  {
+    "domain": "car",
+    "timestamp": "2026-02-21T07:35:09.503651+00:00",
+    "n_words": 82,
+    "n_core": 49,
+    "n_peripheral": 34,
+    "n_matched": 71,
+    "match_rate": 86.6
+  },
+  {
+    "domain": "card game",
+    "timestamp": "2026-02-21T07:35:09.503651+00:00",
+    "n_words": 75,
+    "n_core": 54,
+    "n_peripheral": 23,
+    "n_matched": 57,
+    "match_rate": 76.0
+  },
+  {
+    "domain": "carpentry",
+    "timestamp": "2026-02-21T07:35:09.503651+00:00",
+    "n_words": 137,
+    "n_core": 81,
+    "n_peripheral": 56,
+    "n_matched": 109,
+    "match_rate": 79.6
+  },
+  {
+    "domain": "case law",
+    "timestamp": "2026-02-21T07:35:09.503651+00:00",
+    "n_words": 108,
+    "n_core": 61,
+    "n_peripheral": 49,
+    "n_matched": 86,
+    "match_rate": 79.6
+  },
+  {
+    "domain": "celestial body",
+    "timestamp": "2026-02-21T07:35:45.341895+00:00",
+    "n_words": 115,
+    "n_core": 73,
+    "n_peripheral": 42,
+    "n_matched": 97,
+    "match_rate": 84.3
+  },
+  {
+    "domain": "cell",
+    "timestamp": "2026-02-21T07:35:45.341895+00:00",
+    "n_words": 94,
+    "n_core": 53,
+    "n_peripheral": 41,
+    "n_matched": 64,
+    "match_rate": 68.1
+  },
+  {
+    "domain": "ceramics",
+    "timestamp": "2026-02-21T07:35:45.341895+00:00",
+    "n_words": 84,
+    "n_core": 39,
+    "n_peripheral": 45,
+    "n_matched": 30,
+    "match_rate": 35.7
+  },
+  {
+    "domain": "checkers",
+    "timestamp": "2026-02-21T07:35:45.341895+00:00",
+    "n_words": 73,
+    "n_core": 38,
+    "n_peripheral": 35,
+    "n_matched": 32,
+    "match_rate": 43.8
+  },
+  {
+    "domain": "chemical analysis",
+    "timestamp": "2026-02-21T07:35:45.341895+00:00",
+    "n_words": 93,
+    "n_core": 47,
+    "n_peripheral": 47,
+    "n_matched": 50,
+    "match_rate": 53.8
+  },
+  {
+    "domain": "chemistry",
+    "timestamp": "2026-02-21T07:36:25.431931+00:00",
+    "n_words": 112,
+    "n_core": 73,
+    "n_peripheral": 39,
+    "n_matched": 110,
+    "match_rate": 98.2
+  },
+  {
+    "domain": "chess",
+    "timestamp": "2026-02-21T07:36:25.431931+00:00",
+    "n_words": 114,
+    "n_core": 60,
+    "n_peripheral": 54,
+    "n_matched": 79,
+    "match_rate": 69.3
+  },
+  {
+    "domain": "christian theology",
+    "timestamp": "2026-02-21T07:36:25.431931+00:00",
+    "n_words": 120,
+    "n_core": 73,
+    "n_peripheral": 47,
+    "n_matched": 95,
+    "match_rate": 79.2
+  },
+  {
+    "domain": "christianity",
+    "timestamp": "2026-02-21T07:36:25.431931+00:00",
+    "n_words": 158,
+    "n_core": 95,
+    "n_peripheral": 63,
+    "n_matched": 155,
+    "match_rate": 98.1
+  },
+  {
+    "domain": "church service",
+    "timestamp": "2026-02-21T07:36:25.431931+00:00",
+    "n_words": 125,
+    "n_core": 71,
+    "n_peripheral": 54,
+    "n_matched": 105,
+    "match_rate": 84.0
+  },
+  {
+    "domain": "civil law",
+    "timestamp": "2026-02-21T07:37:21.397518+00:00",
+    "n_words": 126,
+    "n_core": 74,
+    "n_peripheral": 52,
+    "n_matched": 95,
+    "match_rate": 75.4
+  },
+  {
+    "domain": "classical architecture",
+    "timestamp": "2026-02-21T07:37:21.397518+00:00",
+    "n_words": 94,
+    "n_core": 47,
+    "n_peripheral": 47,
+    "n_matched": 65,
+    "match_rate": 69.1
+  },
+  {
+    "domain": "classical mythology",
+    "timestamp": "2026-02-21T07:37:21.397518+00:00",
+    "n_words": 161,
+    "n_core": 148,
+    "n_peripheral": 13,
+    "n_matched": 140,
+    "match_rate": 87.0
+  },
+  {
+    "domain": "climate_science",
+    "timestamp": "2026-02-21T08:12:57.222815+00:00",
+    "n_words": 61,
+    "n_core": 30,
+    "n_peripheral": 31,
+    "n_matched": 6,
+    "match_rate": 9.8
+  },
+  {
+    "domain": "cloud_computing",
+    "timestamp": "2026-02-21T08:11:55.494671+00:00",
+    "n_words": 37,
+    "n_core": 19,
+    "n_peripheral": 18,
+    "n_matched": 5,
+    "match_rate": 13.5
+  },
+  {
+    "domain": "cockfighting",
+    "timestamp": "2026-02-21T07:37:21.397518+00:00",
+    "n_words": 55,
+    "n_core": 35,
+    "n_peripheral": 20,
+    "n_matched": 39,
+    "match_rate": 70.9
+  },
+  {
+    "domain": "colloquialism",
+    "timestamp": "2026-02-21T07:37:21.397518+00:00",
+    "n_words": 264,
+    "n_core": 197,
+    "n_peripheral": 68,
+    "n_matched": 170,
+    "match_rate": 64.4
+  },
+  {
+    "domain": "combining form",
+    "timestamp": "2026-02-21T07:38:01.074378+00:00",
+    "n_words": 120,
+    "n_core": 76,
+    "n_peripheral": 48,
+    "n_matched": 80,
+    "match_rate": 66.7
+  },
+  {
+    "domain": "commerce",
+    "timestamp": "2026-02-21T07:38:01.074378+00:00",
+    "n_words": 104,
+    "n_core": 57,
+    "n_peripheral": 52,
+    "n_matched": 91,
+    "match_rate": 87.5
+  },
+  {
+    "domain": "commercial enterprise",
+    "timestamp": "2026-02-21T07:38:01.074378+00:00",
+    "n_words": 117,
+    "n_core": 55,
+    "n_peripheral": 64,
+    "n_matched": 93,
+    "match_rate": 79.5
+  },
+  {
+    "domain": "communications",
+    "timestamp": "2026-02-21T07:38:01.074378+00:00",
+    "n_words": 112,
+    "n_core": 58,
+    "n_peripheral": 55,
+    "n_matched": 85,
+    "match_rate": 75.9
+  },
+  {
+    "domain": "comparative",
+    "timestamp": "2026-02-21T07:38:01.074378+00:00",
+    "n_words": 204,
+    "n_core": 109,
+    "n_peripheral": 97,
+    "n_matched": 54,
+    "match_rate": 26.5
+  },
+  {
+    "domain": "computer science",
+    "timestamp": "2026-02-21T07:38:45.005954+00:00",
+    "n_words": 147,
+    "n_core": 88,
+    "n_peripheral": 59,
+    "n_matched": 90,
+    "match_rate": 61.2
+  },
+  {
+    "domain": "computer technology",
+    "timestamp": "2026-02-21T07:38:45.005954+00:00",
+    "n_words": 149,
+    "n_core": 75,
+    "n_peripheral": 78,
+    "n_matched": 85,
+    "match_rate": 57.0
+  },
+  {
+    "domain": "computer",
+    "timestamp": "2026-02-21T07:38:45.005954+00:00",
+    "n_words": 131,
+    "n_core": 79,
+    "n_peripheral": 54,
+    "n_matched": 90,
+    "match_rate": 68.7
+  },
+  {
+    "domain": "concert",
+    "timestamp": "2026-02-21T07:38:45.005954+00:00",
+    "n_words": 139,
+    "n_core": 86,
+    "n_peripheral": 55,
+    "n_matched": 131,
+    "match_rate": 94.2
+  },
+  {
+    "domain": "construction",
+    "timestamp": "2026-02-21T07:38:45.005954+00:00",
+    "n_words": 174,
+    "n_core": 93,
+    "n_peripheral": 83,
+    "n_matched": 163,
+    "match_rate": 93.7
+  },
+  {
+    "domain": "containers",
+    "timestamp": "2026-02-21T08:15:12.834699+00:00",
+    "n_words": 84,
+    "n_core": 45,
+    "n_peripheral": 39,
+    "n_matched": 18,
+    "match_rate": 21.4
+  },
+  {
+    "domain": "contract law",
+    "timestamp": "2026-02-21T07:39:15.201958+00:00",
+    "n_words": 85,
+    "n_core": 61,
+    "n_peripheral": 24,
+    "n_matched": 44,
+    "match_rate": 51.8
+  },
+  {
+    "domain": "contract",
+    "timestamp": "2026-02-21T07:39:15.201958+00:00",
+    "n_words": 74,
+    "n_core": 50,
+    "n_peripheral": 24,
+    "n_matched": 49,
+    "match_rate": 66.2
+  },
+  {
+    "domain": "cooking",
+    "timestamp": "2026-02-21T07:39:15.201958+00:00",
+    "n_words": 77,
+    "n_core": 53,
+    "n_peripheral": 26,
+    "n_matched": 73,
+    "match_rate": 94.8
+  },
+  {
+    "domain": "corporate finance",
+    "timestamp": "2026-02-21T07:39:15.201958+00:00",
+    "n_words": 84,
+    "n_core": 58,
+    "n_peripheral": 26,
+    "n_matched": 46,
+    "match_rate": 54.8
+  },
+  {
+    "domain": "corporation",
+    "timestamp": "2026-02-21T07:39:15.201958+00:00",
+    "n_words": 91,
+    "n_core": 59,
+    "n_peripheral": 32,
+    "n_matched": 45,
+    "match_rate": 49.5
+  },
+  {
+    "domain": "cosmology",
+    "timestamp": "2026-02-21T07:39:50.847826+00:00",
+    "n_words": 94,
+    "n_core": 62,
+    "n_peripheral": 33,
+    "n_matched": 36,
+    "match_rate": 38.3
+  },
+  {
+    "domain": "counterpoint",
+    "timestamp": "2026-02-21T07:39:50.847826+00:00",
+    "n_words": 85,
+    "n_core": 43,
+    "n_peripheral": 42,
+    "n_matched": 36,
+    "match_rate": 42.4
+  },
+  {
+    "domain": "court game",
+    "timestamp": "2026-02-21T07:39:50.847826+00:00",
+    "n_words": 69,
+    "n_core": 48,
+    "n_peripheral": 21,
+    "n_matched": 34,
+    "match_rate": 49.3
+  },
+  {
+    "domain": "craps",
+    "timestamp": "2026-02-21T07:39:50.847826+00:00",
+    "n_words": 69,
+    "n_core": 46,
+    "n_peripheral": 23,
+    "n_matched": 14,
+    "match_rate": 20.3
+  },
+  {
+    "domain": "cricket",
+    "timestamp": "2026-02-21T07:39:50.847826+00:00",
+    "n_words": 92,
+    "n_core": 75,
+    "n_peripheral": 20,
+    "n_matched": 31,
+    "match_rate": 33.7
+  },
+  {
+    "domain": "crime",
+    "timestamp": "2026-02-21T07:40:19.525043+00:00",
+    "n_words": 90,
+    "n_core": 50,
+    "n_peripheral": 40,
+    "n_matched": 83,
+    "match_rate": 92.2
+  },
+  {
+    "domain": "criminal law",
+    "timestamp": "2026-02-21T07:40:19.525043+00:00",
+    "n_words": 86,
+    "n_core": 40,
+    "n_peripheral": 46,
+    "n_matched": 77,
+    "match_rate": 89.5
+  },
+  {
+    "domain": "cryptocurrency",
+    "timestamp": "2026-02-21T08:12:27.859489+00:00",
+    "n_words": 81,
+    "n_core": 51,
+    "n_peripheral": 30,
+    "n_matched": 9,
+    "match_rate": 11.1
+  },
+  {
+    "domain": "cryptography",
+    "timestamp": "2026-02-21T08:11:55.494671+00:00",
+    "n_words": 50,
+    "n_core": 35,
+    "n_peripheral": 15,
+    "n_matched": 6,
+    "match_rate": 12.0
+  },
+  {
+    "domain": "crystallography",
+    "timestamp": "2026-02-21T07:40:19.525043+00:00",
+    "n_words": 66,
+    "n_core": 41,
+    "n_peripheral": 25,
+    "n_matched": 37,
+    "match_rate": 56.1
+  },
+  {
+    "domain": "cybersecurity",
+    "timestamp": "2026-02-21T08:12:27.859489+00:00",
+    "n_words": 76,
+    "n_core": 50,
+    "n_peripheral": 26,
+    "n_matched": 7,
+    "match_rate": 9.2
+  },
+  {
+    "domain": "cytology",
+    "timestamp": "2026-02-21T07:40:19.525043+00:00",
+    "n_words": 83,
+    "n_core": 49,
+    "n_peripheral": 34,
+    "n_matched": 69,
+    "match_rate": 83.1
+  },
+  {
+    "domain": "dance",
+    "timestamp": "2026-02-21T07:40:19.525043+00:00",
+    "n_words": 89,
+    "n_core": 53,
+    "n_peripheral": 37,
+    "n_matched": 59,
+    "match_rate": 66.3
+  },
+  {
+    "domain": "dancing",
+    "timestamp": "2026-02-21T07:40:46.668625+00:00",
+    "n_words": 77,
+    "n_core": 63,
+    "n_peripheral": 15,
+    "n_matched": 34,
+    "match_rate": 44.2
+  },
+  {
+    "domain": "data_science",
+    "timestamp": "2026-02-21T08:13:19.654800+00:00",
+    "n_words": 59,
+    "n_core": 30,
+    "n_peripheral": 29,
+    "n_matched": 10,
+    "match_rate": 16.9
+  },
+  {
+    "domain": "databases",
+    "timestamp": "2026-02-21T08:12:27.859489+00:00",
+    "n_words": 83,
+    "n_core": 51,
+    "n_peripheral": 32,
+    "n_matched": 16,
+    "match_rate": 19.3
+  },
+  {
+    "domain": "dentistry",
+    "timestamp": "2026-02-21T07:40:46.668625+00:00",
+    "n_words": 82,
+    "n_core": 67,
+    "n_peripheral": 16,
+    "n_matched": 56,
+    "match_rate": 68.3
+  },
+  {
+    "domain": "descriptive linguistics",
+    "timestamp": "2026-02-21T07:40:46.668625+00:00",
+    "n_words": 89,
+    "n_core": 61,
+    "n_peripheral": 28,
+    "n_matched": 59,
+    "match_rate": 66.3
+  },
+  {
+    "domain": "devops",
+    "timestamp": "2026-02-21T08:14:51.228369+00:00",
+    "n_words": 62,
+    "n_core": 28,
+    "n_peripheral": 34,
+    "n_matched": 3,
+    "match_rate": 4.8
+  },
+  {
+    "domain": "dialect",
+    "timestamp": "2026-02-21T07:40:46.668625+00:00",
+    "n_words": 44,
+    "n_core": 25,
+    "n_peripheral": 19,
+    "n_matched": 24,
+    "match_rate": 54.5
+  },
+  {
+    "domain": "diplomacy",
+    "timestamp": "2026-02-21T07:40:46.668625+00:00",
+    "n_words": 56,
+    "n_core": 35,
+    "n_peripheral": 21,
+    "n_matched": 42,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "disparagement",
+    "timestamp": "2026-02-21T07:41:13.284611+00:00",
+    "n_words": 96,
+    "n_core": 73,
+    "n_peripheral": 23,
+    "n_matched": 78,
+    "match_rate": 81.2
+  },
+  {
+    "domain": "distributed_systems",
+    "timestamp": "2026-02-21T08:11:55.494671+00:00",
+    "n_words": 45,
+    "n_core": 25,
+    "n_peripheral": 20,
+    "n_matched": 4,
+    "match_rate": 8.9
+  },
+  {
+    "domain": "drama",
+    "timestamp": "2026-02-21T07:41:13.284611+00:00",
+    "n_words": 58,
+    "n_core": 42,
+    "n_peripheral": 17,
+    "n_matched": 52,
+    "match_rate": 89.7
+  },
+  {
+    "domain": "dramaturgy",
+    "timestamp": "2026-02-21T07:41:13.284611+00:00",
+    "n_words": 71,
+    "n_core": 46,
+    "n_peripheral": 26,
+    "n_matched": 60,
+    "match_rate": 84.5
+  },
+  {
+    "domain": "dressage",
+    "timestamp": "2026-02-21T07:41:13.284611+00:00",
+    "n_words": 62,
+    "n_core": 27,
+    "n_peripheral": 35,
+    "n_matched": 39,
+    "match_rate": 62.9
+  },
+  {
+    "domain": "driving",
+    "timestamp": "2026-02-21T07:41:13.284611+00:00",
+    "n_words": 88,
+    "n_core": 62,
+    "n_peripheral": 26,
+    "n_matched": 78,
+    "match_rate": 88.6
+  },
+  {
+    "domain": "drones",
+    "timestamp": "2026-02-21T08:14:17.840963+00:00",
+    "n_words": 68,
+    "n_core": 42,
+    "n_peripheral": 26,
+    "n_matched": 21,
+    "match_rate": 30.9
+  },
+  {
+    "domain": "drug",
+    "timestamp": "2026-02-21T07:41:37.250427+00:00",
+    "n_words": 75,
+    "n_core": 57,
+    "n_peripheral": 18,
+    "n_matched": 71,
+    "match_rate": 94.7
+  },
+  {
+    "domain": "ecology",
+    "timestamp": "2026-02-21T07:41:37.250427+00:00",
+    "n_words": 70,
+    "n_core": 47,
+    "n_peripheral": 23,
+    "n_matched": 54,
+    "match_rate": 77.1
+  },
+  {
+    "domain": "economics",
+    "timestamp": "2026-02-21T07:41:37.250427+00:00",
+    "n_words": 74,
+    "n_core": 56,
+    "n_peripheral": 18,
+    "n_matched": 48,
+    "match_rate": 64.9
+  },
+  {
+    "domain": "education",
+    "timestamp": "2026-02-21T07:41:37.250427+00:00",
+    "n_words": 65,
+    "n_core": 47,
+    "n_peripheral": 19,
+    "n_matched": 54,
+    "match_rate": 83.1
+  },
+  {
+    "domain": "election",
+    "timestamp": "2026-02-21T07:41:37.250427+00:00",
+    "n_words": 70,
+    "n_core": 51,
+    "n_peripheral": 20,
+    "n_matched": 49,
+    "match_rate": 70.0
+  },
+  {
+    "domain": "electrical engineering",
+    "timestamp": "2026-02-21T07:42:16.787979+00:00",
+    "n_words": 102,
+    "n_core": 68,
+    "n_peripheral": 34,
+    "n_matched": 22,
+    "match_rate": 21.6
+  },
+  {
+    "domain": "electricity",
+    "timestamp": "2026-02-21T07:42:16.787979+00:00",
+    "n_words": 84,
+    "n_core": 54,
+    "n_peripheral": 30,
+    "n_matched": 68,
+    "match_rate": 81.0
+  },
+  {
+    "domain": "electronics",
+    "timestamp": "2026-02-21T07:42:16.787979+00:00",
+    "n_words": 102,
+    "n_core": 65,
+    "n_peripheral": 37,
+    "n_matched": 26,
+    "match_rate": 25.5
+  },
+  {
+    "domain": "embryology",
+    "timestamp": "2026-02-21T07:42:16.787979+00:00",
+    "n_words": 99,
+    "n_core": 70,
+    "n_peripheral": 29,
+    "n_matched": 50,
+    "match_rate": 50.5
+  },
+  {
+    "domain": "engineering",
+    "timestamp": "2026-02-21T07:42:16.787979+00:00",
+    "n_words": 94,
+    "n_core": 70,
+    "n_peripheral": 24,
+    "n_matched": 36,
+    "match_rate": 38.3
+  },
+  {
+    "domain": "entomology",
+    "timestamp": "2026-02-21T07:42:46.114122+00:00",
+    "n_words": 88,
+    "n_core": 60,
+    "n_peripheral": 28,
+    "n_matched": 65,
+    "match_rate": 73.9
+  },
+  {
+    "domain": "epidemiology",
+    "timestamp": "2026-02-21T07:42:46.114122+00:00",
+    "n_words": 65,
+    "n_core": 31,
+    "n_peripheral": 34,
+    "n_matched": 28,
+    "match_rate": 43.1
+  },
+  {
+    "domain": "episcopal church",
+    "timestamp": "2026-02-21T07:42:46.114122+00:00",
+    "n_words": 78,
+    "n_core": 31,
+    "n_peripheral": 47,
+    "n_matched": 54,
+    "match_rate": 69.2
+  },
+  {
+    "domain": "esports",
+    "timestamp": "2026-02-21T08:12:57.222815+00:00",
+    "n_words": 55,
+    "n_core": 25,
+    "n_peripheral": 30,
+    "n_matched": 2,
+    "match_rate": 3.6
+  },
+  {
+    "domain": "ethics",
+    "timestamp": "2026-02-21T07:42:46.114122+00:00",
+    "n_words": 68,
+    "n_core": 24,
+    "n_peripheral": 44,
+    "n_matched": 33,
+    "match_rate": 48.5
+  },
+  {
+    "domain": "ethiopia",
+    "timestamp": "2026-02-21T07:42:46.114122+00:00",
+    "n_words": 65,
+    "n_core": 38,
+    "n_peripheral": 27,
+    "n_matched": 23,
+    "match_rate": 35.4
+  },
+  {
+    "domain": "ethnic slur",
+    "timestamp": "2026-02-21T07:43:09.104396+00:00",
+    "n_words": 63,
+    "n_core": 49,
+    "n_peripheral": 14,
+    "n_matched": 48,
+    "match_rate": 76.2
+  },
+  {
+    "domain": "euphemism",
+    "timestamp": "2026-02-21T07:43:09.104396+00:00",
+    "n_words": 73,
+    "n_core": 50,
+    "n_peripheral": 23,
+    "n_matched": 40,
+    "match_rate": 54.8
+  },
+  {
+    "domain": "existentialism",
+    "timestamp": "2026-02-21T07:43:09.104396+00:00",
+    "n_words": 28,
+    "n_core": 13,
+    "n_peripheral": 15,
+    "n_matched": 16,
+    "match_rate": 57.1
+  },
+  {
+    "domain": "factory",
+    "timestamp": "2026-02-21T07:43:09.104396+00:00",
+    "n_words": 49,
+    "n_core": 30,
+    "n_peripheral": 20,
+    "n_matched": 25,
+    "match_rate": 51.0
+  },
+  {
+    "domain": "fairytale",
+    "timestamp": "2026-02-21T07:43:09.104396+00:00",
+    "n_words": 51,
+    "n_core": 31,
+    "n_peripheral": 20,
+    "n_matched": 23,
+    "match_rate": 45.1
+  },
+  {
+    "domain": "falconry",
+    "timestamp": "2026-02-21T07:43:42.282912+00:00",
+    "n_words": 82,
+    "n_core": 53,
+    "n_peripheral": 29,
+    "n_matched": 48,
+    "match_rate": 58.5
+  },
+  {
+    "domain": "farming",
+    "timestamp": "2026-02-21T07:43:42.282912+00:00",
+    "n_words": 99,
+    "n_core": 64,
+    "n_peripheral": 35,
+    "n_matched": 87,
+    "match_rate": 87.9
+  },
+  {
+    "domain": "fashion",
+    "timestamp": "2026-02-21T07:43:42.282912+00:00",
+    "n_words": 103,
+    "n_core": 49,
+    "n_peripheral": 54,
+    "n_matched": 86,
+    "match_rate": 83.5
+  },
+  {
+    "domain": "fencing",
+    "timestamp": "2026-02-21T07:43:42.282912+00:00",
+    "n_words": 83,
+    "n_core": 43,
+    "n_peripheral": 40,
+    "n_matched": 52,
+    "match_rate": 62.7
+  },
+  {
+    "domain": "field hockey",
+    "timestamp": "2026-02-21T07:43:42.282912+00:00",
+    "n_words": 87,
+    "n_core": 43,
+    "n_peripheral": 44,
+    "n_matched": 60,
+    "match_rate": 69.0
+  },
+  {
+    "domain": "film",
+    "timestamp": "2026-02-21T07:44:20.379524+00:00",
+    "n_words": 116,
+    "n_core": 80,
+    "n_peripheral": 36,
+    "n_matched": 67,
+    "match_rate": 57.8
+  },
+  {
+    "domain": "finance",
+    "timestamp": "2026-02-21T07:44:20.379524+00:00",
+    "n_words": 114,
+    "n_core": 63,
+    "n_peripheral": 51,
+    "n_matched": 75,
+    "match_rate": 65.8
+  },
+  {
+    "domain": "fine arts",
+    "timestamp": "2026-02-21T07:44:20.379524+00:00",
+    "n_words": 121,
+    "n_core": 73,
+    "n_peripheral": 48,
+    "n_matched": 100,
+    "match_rate": 82.6
+  },
+  {
+    "domain": "fintech",
+    "timestamp": "2026-02-21T08:13:51.110117+00:00",
+    "n_words": 65,
+    "n_core": 35,
+    "n_peripheral": 30,
+    "n_matched": 7,
+    "match_rate": 10.8
+  },
+  {
+    "domain": "fishing",
+    "timestamp": "2026-02-21T07:44:20.379524+00:00",
+    "n_words": 92,
+    "n_core": 64,
+    "n_peripheral": 28,
+    "n_matched": 53,
+    "match_rate": 57.6
+  },
+  {
+    "domain": "folklore",
+    "timestamp": "2026-02-21T07:44:20.379524+00:00",
+    "n_words": 109,
+    "n_core": 82,
+    "n_peripheral": 27,
+    "n_matched": 96,
+    "match_rate": 88.1
+  },
+  {
+    "domain": "football",
+    "timestamp": "2026-02-21T07:44:50.376230+00:00",
+    "n_words": 81,
+    "n_core": 50,
+    "n_peripheral": 31,
+    "n_matched": 57,
+    "match_rate": 70.4
+  },
+  {
+    "domain": "foreign service",
+    "timestamp": "2026-02-21T07:44:50.376230+00:00",
+    "n_words": 43,
+    "n_core": 24,
+    "n_peripheral": 19,
+    "n_matched": 28,
+    "match_rate": 65.1
+  },
+  {
+    "domain": "forestry",
+    "timestamp": "2026-02-21T07:44:50.376230+00:00",
+    "n_words": 67,
+    "n_core": 48,
+    "n_peripheral": 19,
+    "n_matched": 37,
+    "match_rate": 55.2
+  },
+  {
+    "domain": "formality",
+    "timestamp": "2026-02-21T07:44:50.376230+00:00",
+    "n_words": 63,
+    "n_core": 35,
+    "n_peripheral": 28,
+    "n_matched": 50,
+    "match_rate": 79.4
+  },
+  {
+    "domain": "french",
+    "timestamp": "2026-02-21T07:44:50.376230+00:00",
+    "n_words": 110,
+    "n_core": 59,
+    "n_peripheral": 51,
+    "n_matched": 68,
+    "match_rate": 61.8
+  },
+  {
+    "domain": "fungi",
+    "timestamp": "2026-02-21T07:45:22.233308+00:00",
+    "n_words": 84,
+    "n_core": 50,
+    "n_peripheral": 34,
+    "n_matched": 60,
+    "match_rate": 71.4
+  },
+  {
+    "domain": "fungus",
+    "timestamp": "2026-02-21T07:45:22.233308+00:00",
+    "n_words": 55,
+    "n_core": 36,
+    "n_peripheral": 19,
+    "n_matched": 28,
+    "match_rate": 50.9
+  },
+  {
+    "domain": "furniture",
+    "timestamp": "2026-02-21T07:45:22.233308+00:00",
+    "n_words": 96,
+    "n_core": 74,
+    "n_peripheral": 22,
+    "n_matched": 67,
+    "match_rate": 69.8
+  },
+  {
+    "domain": "game bird",
+    "timestamp": "2026-02-21T07:45:22.233308+00:00",
+    "n_words": 56,
+    "n_core": 28,
+    "n_peripheral": 28,
+    "n_matched": 43,
+    "match_rate": 76.8
+  },
+  {
+    "domain": "game",
+    "timestamp": "2026-02-21T07:45:22.233308+00:00",
+    "n_words": 107,
+    "n_core": 68,
+    "n_peripheral": 40,
+    "n_matched": 90,
+    "match_rate": 84.1
+  },
+  {
+    "domain": "gardening",
+    "timestamp": "2026-02-21T07:45:54.603938+00:00",
+    "n_words": 95,
+    "n_core": 48,
+    "n_peripheral": 47,
+    "n_matched": 86,
+    "match_rate": 90.5
+  },
+  {
+    "domain": "genesis",
+    "timestamp": "2026-02-21T07:45:54.603938+00:00",
+    "n_words": 100,
+    "n_core": 36,
+    "n_peripheral": 64,
+    "n_matched": 90,
+    "match_rate": 90.0
+  },
+  {
+    "domain": "genetics",
+    "timestamp": "2026-02-21T07:45:54.603938+00:00",
+    "n_words": 95,
+    "n_core": 54,
+    "n_peripheral": 41,
+    "n_matched": 80,
+    "match_rate": 84.2
+  },
+  {
+    "domain": "genomics",
+    "timestamp": "2026-02-21T08:12:27.859489+00:00",
+    "n_words": 95,
+    "n_core": 66,
+    "n_peripheral": 29,
+    "n_matched": 19,
+    "match_rate": 20.0
+  },
+  {
+    "domain": "geology",
+    "timestamp": "2026-02-21T07:45:54.603938+00:00",
+    "n_words": 113,
+    "n_core": 64,
+    "n_peripheral": 49,
+    "n_matched": 101,
+    "match_rate": 89.4
+  },
+  {
+    "domain": "geometry",
+    "timestamp": "2026-02-21T07:45:54.603938+00:00",
+    "n_words": 135,
+    "n_core": 68,
+    "n_peripheral": 67,
+    "n_matched": 130,
+    "match_rate": 96.3
+  },
+  {
+    "domain": "german",
+    "timestamp": "2026-02-21T07:46:21.397529+00:00",
+    "n_words": 83,
+    "n_core": 68,
+    "n_peripheral": 15,
+    "n_matched": 39,
+    "match_rate": 47.0
+  },
+  {
+    "domain": "gnosticism",
+    "timestamp": "2026-02-21T07:46:21.397529+00:00",
+    "n_words": 62,
+    "n_core": 28,
+    "n_peripheral": 34,
+    "n_matched": 35,
+    "match_rate": 56.5
+  },
+  {
+    "domain": "golf",
+    "timestamp": "2026-02-21T07:46:21.397529+00:00",
+    "n_words": 67,
+    "n_core": 49,
+    "n_peripheral": 18,
+    "n_matched": 54,
+    "match_rate": 80.6
+  },
+  {
+    "domain": "government",
+    "timestamp": "2026-02-21T07:46:21.397529+00:00",
+    "n_words": 90,
+    "n_core": 68,
+    "n_peripheral": 22,
+    "n_matched": 89,
+    "match_rate": 98.9
+  },
+  {
+    "domain": "grammar",
+    "timestamp": "2026-02-21T07:46:21.397529+00:00",
+    "n_words": 73,
+    "n_core": 52,
+    "n_peripheral": 21,
+    "n_matched": 57,
+    "match_rate": 78.1
+  },
+  {
+    "domain": "greek mythology",
+    "timestamp": "2026-02-21T07:46:45.815112+00:00",
+    "n_words": 102,
+    "n_core": 93,
+    "n_peripheral": 9,
+    "n_matched": 95,
+    "match_rate": 93.1
+  },
+  {
+    "domain": "growth",
+    "timestamp": "2026-02-21T07:46:45.815112+00:00",
+    "n_words": 46,
+    "n_core": 21,
+    "n_peripheral": 25,
+    "n_matched": 36,
+    "match_rate": 78.3
+  },
+  {
+    "domain": "gymnastics",
+    "timestamp": "2026-02-21T07:46:45.815112+00:00",
+    "n_words": 63,
+    "n_core": 39,
+    "n_peripheral": 24,
+    "n_matched": 38,
+    "match_rate": 60.3
+  },
+  {
+    "domain": "haiti",
+    "timestamp": "2026-02-21T07:46:45.815112+00:00",
+    "n_words": 41,
+    "n_core": 19,
+    "n_peripheral": 22,
+    "n_matched": 13,
+    "match_rate": 31.7
+  },
+  {
+    "domain": "handicraft",
+    "timestamp": "2026-02-21T07:46:45.815112+00:00",
+    "n_words": 64,
+    "n_core": 46,
+    "n_peripheral": 18,
+    "n_matched": 48,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "handwriting",
+    "timestamp": "2026-02-21T07:47:08.930957+00:00",
+    "n_words": 36,
+    "n_core": 22,
+    "n_peripheral": 14,
+    "n_matched": 26,
+    "match_rate": 72.2
+  },
+  {
+    "domain": "health food",
+    "timestamp": "2026-02-21T07:47:08.930957+00:00",
+    "n_words": 59,
+    "n_core": 42,
+    "n_peripheral": 17,
+    "n_matched": 23,
+    "match_rate": 39.0
+  },
+  {
+    "domain": "hebrew",
+    "timestamp": "2026-02-21T07:47:08.930957+00:00",
+    "n_words": 60,
+    "n_core": 47,
+    "n_peripheral": 13,
+    "n_matched": 35,
+    "match_rate": 58.3
+  },
+  {
+    "domain": "heraldry",
+    "timestamp": "2026-02-21T07:47:08.930957+00:00",
+    "n_words": 62,
+    "n_core": 45,
+    "n_peripheral": 17,
+    "n_matched": 45,
+    "match_rate": 72.6
+  },
+  {
+    "domain": "hinduism",
+    "timestamp": "2026-02-21T07:47:08.930957+00:00",
+    "n_words": 80,
+    "n_core": 66,
+    "n_peripheral": 14,
+    "n_matched": 53,
+    "match_rate": 66.2
+  },
+  {
+    "domain": "histology",
+    "timestamp": "2026-02-21T07:47:35.835658+00:00",
+    "n_words": 111,
+    "n_core": 85,
+    "n_peripheral": 27,
+    "n_matched": 79,
+    "match_rate": 71.2
+  },
+  {
+    "domain": "historical linguistics",
+    "timestamp": "2026-02-21T07:47:35.835658+00:00",
+    "n_words": 60,
+    "n_core": 40,
+    "n_peripheral": 21,
+    "n_matched": 41,
+    "match_rate": 68.3
+  },
+  {
+    "domain": "history",
+    "timestamp": "2026-02-21T07:47:35.835658+00:00",
+    "n_words": 89,
+    "n_core": 36,
+    "n_peripheral": 54,
+    "n_matched": 84,
+    "match_rate": 94.4
+  },
+  {
+    "domain": "holism",
+    "timestamp": "2026-02-21T07:47:35.835658+00:00",
+    "n_words": 24,
+    "n_core": 13,
+    "n_peripheral": 11,
+    "n_matched": 19,
+    "match_rate": 79.2
+  },
+  {
+    "domain": "homo",
+    "timestamp": "2026-02-21T07:47:35.835658+00:00",
+    "n_words": 86,
+    "n_core": 63,
+    "n_peripheral": 24,
+    "n_matched": 70,
+    "match_rate": 81.4
+  },
+  {
+    "domain": "horse racing",
+    "timestamp": "2026-02-21T07:48:11.996148+00:00",
+    "n_words": 96,
+    "n_core": 61,
+    "n_peripheral": 35,
+    "n_matched": 64,
+    "match_rate": 66.7
+  },
+  {
+    "domain": "hunt",
+    "timestamp": "2026-02-21T07:48:11.996148+00:00",
+    "n_words": 85,
+    "n_core": 44,
+    "n_peripheral": 42,
+    "n_matched": 62,
+    "match_rate": 72.9
+  },
+  {
+    "domain": "ice hockey",
+    "timestamp": "2026-02-21T07:48:11.996148+00:00",
+    "n_words": 85,
+    "n_core": 49,
+    "n_peripheral": 36,
+    "n_matched": 45,
+    "match_rate": 52.9
+  },
+  {
+    "domain": "ichthyology",
+    "timestamp": "2026-02-21T07:48:11.996148+00:00",
+    "n_words": 100,
+    "n_core": 55,
+    "n_peripheral": 45,
+    "n_matched": 51,
+    "match_rate": 51.0
+  },
+  {
+    "domain": "immunology",
+    "timestamp": "2026-02-21T07:48:11.996148+00:00",
+    "n_words": 100,
+    "n_core": 61,
+    "n_peripheral": 39,
+    "n_matched": 64,
+    "match_rate": 64.0
+  },
+  {
+    "domain": "industry",
+    "timestamp": "2026-02-21T07:48:53.107433+00:00",
+    "n_words": 154,
+    "n_core": 104,
+    "n_peripheral": 51,
+    "n_matched": 117,
+    "match_rate": 76.0
+  },
+  {
+    "domain": "information science",
+    "timestamp": "2026-02-21T07:48:53.107433+00:00",
+    "n_words": 93,
+    "n_core": 52,
+    "n_peripheral": 41,
+    "n_matched": 38,
+    "match_rate": 40.9
+  },
+  {
+    "domain": "insect",
+    "timestamp": "2026-02-21T07:48:53.107433+00:00",
+    "n_words": 106,
+    "n_core": 60,
+    "n_peripheral": 46,
+    "n_matched": 97,
+    "match_rate": 91.5
+  },
+  {
+    "domain": "intensifier",
+    "timestamp": "2026-02-21T07:48:53.107433+00:00",
+    "n_words": 112,
+    "n_core": 59,
+    "n_peripheral": 53,
+    "n_matched": 89,
+    "match_rate": 79.5
+  },
+  {
+    "domain": "invertebrate",
+    "timestamp": "2026-02-21T07:48:53.107433+00:00",
+    "n_words": 117,
+    "n_core": 69,
+    "n_peripheral": 48,
+    "n_matched": 99,
+    "match_rate": 84.6
+  },
+  {
+    "domain": "investing",
+    "timestamp": "2026-02-21T07:49:36.697720+00:00",
+    "n_words": 126,
+    "n_core": 88,
+    "n_peripheral": 38,
+    "n_matched": 53,
+    "match_rate": 42.1
+  },
+  {
+    "domain": "investment",
+    "timestamp": "2026-02-21T07:49:36.697720+00:00",
+    "n_words": 108,
+    "n_core": 69,
+    "n_peripheral": 39,
+    "n_matched": 48,
+    "match_rate": 44.4
+  },
+  {
+    "domain": "irony",
+    "timestamp": "2026-02-21T07:49:36.697720+00:00",
+    "n_words": 63,
+    "n_core": 32,
+    "n_peripheral": 31,
+    "n_matched": 46,
+    "match_rate": 73.0
+  },
+  {
+    "domain": "islam",
+    "timestamp": "2026-02-21T07:49:36.697720+00:00",
+    "n_words": 118,
+    "n_core": 88,
+    "n_peripheral": 30,
+    "n_matched": 64,
+    "match_rate": 54.2
+  },
+  {
+    "domain": "italian",
+    "timestamp": "2026-02-21T07:49:36.697720+00:00",
+    "n_words": 123,
+    "n_core": 89,
+    "n_peripheral": 34,
+    "n_matched": 58,
+    "match_rate": 47.2
+  },
+  {
+    "domain": "jainism",
+    "timestamp": "2026-02-21T07:50:03.662374+00:00",
+    "n_words": 37,
+    "n_core": 25,
+    "n_peripheral": 12,
+    "n_matched": 5,
+    "match_rate": 13.5
+  },
+  {
+    "domain": "jamaica",
+    "timestamp": "2026-02-21T07:50:03.662374+00:00",
+    "n_words": 60,
+    "n_core": 34,
+    "n_peripheral": 26,
+    "n_matched": 27,
+    "match_rate": 45.0
+  },
+  {
+    "domain": "japanese",
+    "timestamp": "2026-02-21T07:50:03.662374+00:00",
+    "n_words": 87,
+    "n_core": 70,
+    "n_peripheral": 17,
+    "n_matched": 43,
+    "match_rate": 49.4
+  },
+  {
+    "domain": "jazz",
+    "timestamp": "2026-02-21T07:50:03.662374+00:00",
+    "n_words": 58,
+    "n_core": 32,
+    "n_peripheral": 26,
+    "n_matched": 26,
+    "match_rate": 44.8
+  },
+  {
+    "domain": "jet engine",
+    "timestamp": "2026-02-21T07:50:03.662374+00:00",
+    "n_words": 51,
+    "n_core": 25,
+    "n_peripheral": 26,
+    "n_matched": 16,
+    "match_rate": 31.4
+  },
+  {
+    "domain": "judaism",
+    "timestamp": "2026-02-21T07:50:34.655856+00:00",
+    "n_words": 130,
+    "n_core": 99,
+    "n_peripheral": 31,
+    "n_matched": 83,
+    "match_rate": 63.8
+  },
+  {
+    "domain": "jung",
+    "timestamp": "2026-02-21T07:50:34.655856+00:00",
+    "n_words": 59,
+    "n_core": 30,
+    "n_peripheral": 29,
+    "n_matched": 31,
+    "match_rate": 52.5
+  },
+  {
+    "domain": "justice",
+    "timestamp": "2026-02-21T07:50:34.655856+00:00",
+    "n_words": 88,
+    "n_core": 50,
+    "n_peripheral": 38,
+    "n_matched": 67,
+    "match_rate": 76.1
+  },
+  {
+    "domain": "lacrosse",
+    "timestamp": "2026-02-21T07:50:34.655856+00:00",
+    "n_words": 73,
+    "n_core": 41,
+    "n_peripheral": 33,
+    "n_matched": 23,
+    "match_rate": 31.5
+  },
+  {
+    "domain": "lake",
+    "timestamp": "2026-02-21T07:50:34.655856+00:00",
+    "n_words": 51,
+    "n_core": 20,
+    "n_peripheral": 31,
+    "n_matched": 22,
+    "match_rate": 43.1
+  },
+  {
+    "domain": "language",
+    "timestamp": "2026-02-21T07:51:04.817710+00:00",
+    "n_words": 57,
+    "n_core": 37,
+    "n_peripheral": 20,
+    "n_matched": 50,
+    "match_rate": 87.7
+  },
+  {
+    "domain": "latin",
+    "timestamp": "2026-02-21T07:51:04.817710+00:00",
+    "n_words": 111,
+    "n_core": 91,
+    "n_peripheral": 20,
+    "n_matched": 60,
+    "match_rate": 54.1
+  },
+  {
+    "domain": "law",
+    "timestamp": "2026-02-21T07:51:04.817710+00:00",
+    "n_words": 96,
+    "n_core": 55,
+    "n_peripheral": 42,
+    "n_matched": 80,
+    "match_rate": 83.3
+  },
+  {
+    "domain": "legend",
+    "timestamp": "2026-02-21T07:51:04.817710+00:00",
+    "n_words": 92,
+    "n_core": 52,
+    "n_peripheral": 40,
+    "n_matched": 87,
+    "match_rate": 94.6
+  },
+  {
+    "domain": "legislation",
+    "timestamp": "2026-02-21T07:51:04.817710+00:00",
+    "n_words": 93,
+    "n_core": 58,
+    "n_peripheral": 35,
+    "n_matched": 77,
+    "match_rate": 82.8
+  },
+  {
+    "domain": "legislature",
+    "timestamp": "2026-02-21T07:51:42.037736+00:00",
+    "n_words": 95,
+    "n_core": 56,
+    "n_peripheral": 39,
+    "n_matched": 78,
+    "match_rate": 82.1
+  },
+  {
+    "domain": "library science",
+    "timestamp": "2026-02-21T07:51:42.037736+00:00",
+    "n_words": 92,
+    "n_core": 46,
+    "n_peripheral": 47,
+    "n_matched": 57,
+    "match_rate": 62.0
+  },
+  {
+    "domain": "linguistics",
+    "timestamp": "2026-02-21T07:51:42.037736+00:00",
+    "n_words": 112,
+    "n_core": 72,
+    "n_peripheral": 40,
+    "n_matched": 84,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "literature",
+    "timestamp": "2026-02-21T07:51:42.037736+00:00",
+    "n_words": 148,
+    "n_core": 92,
+    "n_peripheral": 60,
+    "n_matched": 139,
+    "match_rate": 93.9
+  },
+  {
+    "domain": "livestock",
+    "timestamp": "2026-02-21T07:51:42.037736+00:00",
+    "n_words": 141,
+    "n_core": 87,
+    "n_peripheral": 57,
+    "n_matched": 117,
+    "match_rate": 83.0
+  },
+  {
+    "domain": "living thing",
+    "timestamp": "2026-02-21T07:52:11.283928+00:00",
+    "n_words": 104,
+    "n_core": 61,
+    "n_peripheral": 43,
+    "n_matched": 99,
+    "match_rate": 95.2
+  },
+  {
+    "domain": "logic",
+    "timestamp": "2026-02-21T07:52:11.283928+00:00",
+    "n_words": 93,
+    "n_core": 56,
+    "n_peripheral": 38,
+    "n_matched": 57,
+    "match_rate": 61.3
+  },
+  {
+    "domain": "luke",
+    "timestamp": "2026-02-21T07:52:11.283928+00:00",
+    "n_words": 72,
+    "n_core": 37,
+    "n_peripheral": 35,
+    "n_matched": 63,
+    "match_rate": 87.5
+  },
+  {
+    "domain": "machine_learning",
+    "timestamp": "2026-02-21T08:11:36.517582+00:00",
+    "n_words": 63,
+    "n_core": 38,
+    "n_peripheral": 25,
+    "n_matched": 21,
+    "match_rate": 33.3
+  },
+  {
+    "domain": "mafia",
+    "timestamp": "2026-02-21T07:52:11.283928+00:00",
+    "n_words": 69,
+    "n_core": 39,
+    "n_peripheral": 31,
+    "n_matched": 50,
+    "match_rate": 72.5
+  },
+  {
+    "domain": "mammal",
+    "timestamp": "2026-02-21T07:52:11.283928+00:00",
+    "n_words": 74,
+    "n_core": 39,
+    "n_peripheral": 35,
+    "n_matched": 66,
+    "match_rate": 89.2
+  },
+  {
+    "domain": "maritime law",
+    "timestamp": "2026-02-21T07:52:34.463278+00:00",
+    "n_words": 49,
+    "n_core": 29,
+    "n_peripheral": 20,
+    "n_matched": 23,
+    "match_rate": 46.9
+  },
+  {
+    "domain": "marxism",
+    "timestamp": "2026-02-21T07:52:34.463278+00:00",
+    "n_words": 48,
+    "n_core": 27,
+    "n_peripheral": 21,
+    "n_matched": 23,
+    "match_rate": 47.9
+  },
+  {
+    "domain": "masonry",
+    "timestamp": "2026-02-21T07:52:34.463278+00:00",
+    "n_words": 53,
+    "n_core": 31,
+    "n_peripheral": 22,
+    "n_matched": 23,
+    "match_rate": 43.4
+  },
+  {
+    "domain": "materials_science",
+    "timestamp": "2026-02-21T08:14:51.228369+00:00",
+    "n_words": 77,
+    "n_core": 47,
+    "n_peripheral": 30,
+    "n_matched": 11,
+    "match_rate": 14.3
+  },
+  {
+    "domain": "mathematics",
+    "timestamp": "2026-02-21T07:52:34.463278+00:00",
+    "n_words": 79,
+    "n_core": 35,
+    "n_peripheral": 44,
+    "n_matched": 59,
+    "match_rate": 74.7
+  },
+  {
+    "domain": "matrix algebra",
+    "timestamp": "2026-02-21T07:52:34.463278+00:00",
+    "n_words": 58,
+    "n_core": 33,
+    "n_peripheral": 25,
+    "n_matched": 12,
+    "match_rate": 20.7
+  },
+  {
+    "domain": "mechanics",
+    "timestamp": "2026-02-21T07:53:19.012106+00:00",
+    "n_words": 94,
+    "n_core": 64,
+    "n_peripheral": 30,
+    "n_matched": 40,
+    "match_rate": 42.6
+  },
+  {
+    "domain": "medicine",
+    "timestamp": "2026-02-21T07:53:19.012106+00:00",
+    "n_words": 200,
+    "n_core": 165,
+    "n_peripheral": 35,
+    "n_matched": 191,
+    "match_rate": 95.5
+  },
+  {
+    "domain": "medium",
+    "timestamp": "2026-02-21T07:53:19.012106+00:00",
+    "n_words": 79,
+    "n_core": 38,
+    "n_peripheral": 41,
+    "n_matched": 31,
+    "match_rate": 39.2
+  },
+  {
+    "domain": "metallurgy",
+    "timestamp": "2026-02-21T07:53:19.012106+00:00",
+    "n_words": 105,
+    "n_core": 63,
+    "n_peripheral": 42,
+    "n_matched": 46,
+    "match_rate": 43.8
+  },
+  {
+    "domain": "metaphysics",
+    "timestamp": "2026-02-21T07:53:19.012106+00:00",
+    "n_words": 89,
+    "n_core": 50,
+    "n_peripheral": 39,
+    "n_matched": 38,
+    "match_rate": 42.7
+  },
+  {
+    "domain": "meteorology",
+    "timestamp": "2026-02-21T07:53:48.498435+00:00",
+    "n_words": 100,
+    "n_core": 61,
+    "n_peripheral": 40,
+    "n_matched": 66,
+    "match_rate": 66.0
+  },
+  {
+    "domain": "metonymy",
+    "timestamp": "2026-02-21T07:53:48.498435+00:00",
+    "n_words": 40,
+    "n_core": 21,
+    "n_peripheral": 19,
+    "n_matched": 31,
+    "match_rate": 77.5
+  },
+  {
+    "domain": "microbiology",
+    "timestamp": "2026-02-21T07:53:48.498435+00:00",
+    "n_words": 128,
+    "n_core": 80,
+    "n_peripheral": 48,
+    "n_matched": 107,
+    "match_rate": 83.6
+  },
+  {
+    "domain": "microorganism",
+    "timestamp": "2026-02-21T07:53:48.498435+00:00",
+    "n_words": 59,
+    "n_core": 32,
+    "n_peripheral": 27,
+    "n_matched": 38,
+    "match_rate": 64.4
+  },
+  {
+    "domain": "microscopy",
+    "timestamp": "2026-02-21T07:53:48.498435+00:00",
+    "n_words": 65,
+    "n_core": 41,
+    "n_peripheral": 25,
+    "n_matched": 47,
+    "match_rate": 72.3
+  },
+  {
+    "domain": "middle ages",
+    "timestamp": "2026-02-21T07:54:29.260732+00:00",
+    "n_words": 128,
+    "n_core": 76,
+    "n_peripheral": 53,
+    "n_matched": 116,
+    "match_rate": 90.6
+  },
+  {
+    "domain": "military law",
+    "timestamp": "2026-02-21T07:54:29.260732+00:00",
+    "n_words": 52,
+    "n_core": 27,
+    "n_peripheral": 25,
+    "n_matched": 29,
+    "match_rate": 55.8
+  },
+  {
+    "domain": "military",
+    "timestamp": "2026-02-21T07:54:29.260732+00:00",
+    "n_words": 135,
+    "n_core": 90,
+    "n_peripheral": 45,
+    "n_matched": 120,
+    "match_rate": 88.9
+  },
+  {
+    "domain": "mineralogy",
+    "timestamp": "2026-02-21T07:54:29.260732+00:00",
+    "n_words": 142,
+    "n_core": 87,
+    "n_peripheral": 56,
+    "n_matched": 117,
+    "match_rate": 82.4
+  },
+  {
+    "domain": "mining",
+    "timestamp": "2026-02-21T07:54:29.260732+00:00",
+    "n_words": 124,
+    "n_core": 92,
+    "n_peripheral": 33,
+    "n_matched": 84,
+    "match_rate": 67.7
+  },
+  {
+    "domain": "mobile_computing",
+    "timestamp": "2026-02-21T08:13:51.110117+00:00",
+    "n_words": 81,
+    "n_core": 52,
+    "n_peripheral": 29,
+    "n_matched": 9,
+    "match_rate": 11.1
+  },
+  {
+    "domain": "molecular biology",
+    "timestamp": "2026-02-21T07:55:12.062703+00:00",
+    "n_words": 152,
+    "n_core": 98,
+    "n_peripheral": 54,
+    "n_matched": 104,
+    "match_rate": 68.4
+  },
+  {
+    "domain": "motor vehicle",
+    "timestamp": "2026-02-21T07:55:12.062703+00:00",
+    "n_words": 107,
+    "n_core": 62,
+    "n_peripheral": 45,
+    "n_matched": 80,
+    "match_rate": 74.8
+  },
+  {
+    "domain": "mountain climbing",
+    "timestamp": "2026-02-21T07:55:12.062703+00:00",
+    "n_words": 107,
+    "n_core": 78,
+    "n_peripheral": 29,
+    "n_matched": 52,
+    "match_rate": 48.6
+  },
+  {
+    "domain": "movie",
+    "timestamp": "2026-02-21T07:55:12.062703+00:00",
+    "n_words": 123,
+    "n_core": 74,
+    "n_peripheral": 49,
+    "n_matched": 60,
+    "match_rate": 48.8
+  },
+  {
+    "domain": "muscle",
+    "timestamp": "2026-02-21T07:55:12.062703+00:00",
+    "n_words": 109,
+    "n_core": 75,
+    "n_peripheral": 34,
+    "n_matched": 92,
+    "match_rate": 84.4
+  },
+  {
+    "domain": "music genre",
+    "timestamp": "2026-02-21T07:55:44.143422+00:00",
+    "n_words": 93,
+    "n_core": 58,
+    "n_peripheral": 35,
+    "n_matched": 53,
+    "match_rate": 57.0
+  },
+  {
+    "domain": "music",
+    "timestamp": "2026-02-21T07:55:44.143422+00:00",
+    "n_words": 127,
+    "n_core": 70,
+    "n_peripheral": 58,
+    "n_matched": 113,
+    "match_rate": 89.0
+  },
+  {
+    "domain": "mythology",
+    "timestamp": "2026-02-21T07:55:44.143422+00:00",
+    "n_words": 101,
+    "n_core": 82,
+    "n_peripheral": 19,
+    "n_matched": 94,
+    "match_rate": 93.1
+  },
+  {
+    "domain": "nanotechnology",
+    "timestamp": "2026-02-21T08:12:57.222815+00:00",
+    "n_words": 71,
+    "n_core": 47,
+    "n_peripheral": 24,
+    "n_matched": 6,
+    "match_rate": 8.5
+  },
+  {
+    "domain": "narcotic",
+    "timestamp": "2026-02-21T07:55:44.143422+00:00",
+    "n_words": 62,
+    "n_core": 31,
+    "n_peripheral": 31,
+    "n_matched": 54,
+    "match_rate": 87.1
+  },
+  {
+    "domain": "navigation",
+    "timestamp": "2026-02-21T07:55:44.143422+00:00",
+    "n_words": 111,
+    "n_core": 73,
+    "n_peripheral": 38,
+    "n_matched": 100,
+    "match_rate": 90.1
+  },
+  {
+    "domain": "navy",
+    "timestamp": "2026-02-21T07:56:16.473601+00:00",
+    "n_words": 67,
+    "n_core": 43,
+    "n_peripheral": 24,
+    "n_matched": 66,
+    "match_rate": 98.5
+  },
+  {
+    "domain": "network_engineering",
+    "timestamp": "2026-02-21T08:14:51.228369+00:00",
+    "n_words": 87,
+    "n_core": 50,
+    "n_peripheral": 37,
+    "n_matched": 4,
+    "match_rate": 4.6
+  },
+  {
+    "domain": "neurology",
+    "timestamp": "2026-02-21T07:56:16.473601+00:00",
+    "n_words": 72,
+    "n_core": 49,
+    "n_peripheral": 23,
+    "n_matched": 62,
+    "match_rate": 86.1
+  },
+  {
+    "domain": "neurophysiology",
+    "timestamp": "2026-02-21T07:56:16.473601+00:00",
+    "n_words": 52,
+    "n_core": 35,
+    "n_peripheral": 17,
+    "n_matched": 12,
+    "match_rate": 23.1
+  },
+  {
+    "domain": "neuroscience",
+    "timestamp": "2026-02-21T07:56:16.473601+00:00",
+    "n_words": 66,
+    "n_core": 44,
+    "n_peripheral": 22,
+    "n_matched": 45,
+    "match_rate": 68.2
+  },
+  {
+    "domain": "neuroscience_imaging",
+    "timestamp": "2026-02-21T08:14:51.228369+00:00",
+    "n_words": 73,
+    "n_core": 46,
+    "n_peripheral": 27,
+    "n_matched": 10,
+    "match_rate": 13.7
+  },
+  {
+    "domain": "new testament",
+    "timestamp": "2026-02-21T07:56:16.473601+00:00",
+    "n_words": 105,
+    "n_core": 79,
+    "n_peripheral": 26,
+    "n_matched": 79,
+    "match_rate": 75.2
+  },
+  {
+    "domain": "news article",
+    "timestamp": "2026-02-21T07:56:33.983148+00:00",
+    "n_words": 40,
+    "n_core": 22,
+    "n_peripheral": 18,
+    "n_matched": 28,
+    "match_rate": 70.0
+  },
+  {
+    "domain": "norse mythology",
+    "timestamp": "2026-02-21T07:56:33.983148+00:00",
+    "n_words": 54,
+    "n_core": 42,
+    "n_peripheral": 12,
+    "n_matched": 29,
+    "match_rate": 53.7
+  },
+  {
+    "domain": "nuclear physics",
+    "timestamp": "2026-02-21T07:56:33.983148+00:00",
+    "n_words": 52,
+    "n_core": 42,
+    "n_peripheral": 10,
+    "n_matched": 39,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "numeration system",
+    "timestamp": "2026-02-21T07:56:33.983148+00:00",
+    "n_words": 38,
+    "n_core": 27,
+    "n_peripheral": 12,
+    "n_matched": 22,
+    "match_rate": 57.9
+  },
+  {
+    "domain": "obscenity",
+    "timestamp": "2026-02-21T07:56:33.983148+00:00",
+    "n_words": 35,
+    "n_core": 23,
+    "n_peripheral": 12,
+    "n_matched": 29,
+    "match_rate": 82.9
+  },
+  {
+    "domain": "obstetrics",
+    "timestamp": "2026-02-21T07:57:15.253928+00:00",
+    "n_words": 97,
+    "n_core": 66,
+    "n_peripheral": 33,
+    "n_matched": 63,
+    "match_rate": 64.9
+  },
+  {
+    "domain": "ocean",
+    "timestamp": "2026-02-21T07:57:15.253928+00:00",
+    "n_words": 96,
+    "n_core": 57,
+    "n_peripheral": 39,
+    "n_matched": 72,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "old testament",
+    "timestamp": "2026-02-21T07:57:15.253928+00:00",
+    "n_words": 151,
+    "n_core": 107,
+    "n_peripheral": 44,
+    "n_matched": 103,
+    "match_rate": 68.2
+  },
+  {
+    "domain": "operation",
+    "timestamp": "2026-02-21T07:57:15.253928+00:00",
+    "n_words": 114,
+    "n_core": 79,
+    "n_peripheral": 35,
+    "n_matched": 88,
+    "match_rate": 77.2
+  },
+  {
+    "domain": "ophthalmology",
+    "timestamp": "2026-02-21T07:57:15.253928+00:00",
+    "n_words": 113,
+    "n_core": 84,
+    "n_peripheral": 29,
+    "n_matched": 89,
+    "match_rate": 78.8
+  },
+  {
+    "domain": "optics",
+    "timestamp": "2026-02-21T07:57:48.070993+00:00",
+    "n_words": 62,
+    "n_core": 46,
+    "n_peripheral": 16,
+    "n_matched": 49,
+    "match_rate": 79.0
+  },
+  {
+    "domain": "order",
+    "timestamp": "2026-02-21T07:57:48.070993+00:00",
+    "n_words": 66,
+    "n_core": 41,
+    "n_peripheral": 25,
+    "n_matched": 50,
+    "match_rate": 75.8
+  },
+  {
+    "domain": "organism",
+    "timestamp": "2026-02-21T07:57:48.070993+00:00",
+    "n_words": 91,
+    "n_core": 61,
+    "n_peripheral": 30,
+    "n_matched": 79,
+    "match_rate": 86.8
+  },
+  {
+    "domain": "ornithology",
+    "timestamp": "2026-02-21T07:57:48.070993+00:00",
+    "n_words": 82,
+    "n_core": 56,
+    "n_peripheral": 26,
+    "n_matched": 55,
+    "match_rate": 67.1
+  },
+  {
+    "domain": "orthodox church",
+    "timestamp": "2026-02-21T07:57:48.070993+00:00",
+    "n_words": 93,
+    "n_core": 55,
+    "n_peripheral": 38,
+    "n_matched": 56,
+    "match_rate": 60.2
+  },
+  {
+    "domain": "orthopedics",
+    "timestamp": "2026-02-21T07:58:25.294353+00:00",
+    "n_words": 133,
+    "n_core": 102,
+    "n_peripheral": 31,
+    "n_matched": 69,
+    "match_rate": 51.9
+  },
+  {
+    "domain": "otology",
+    "timestamp": "2026-02-21T07:58:25.294353+00:00",
+    "n_words": 97,
+    "n_core": 77,
+    "n_peripheral": 20,
+    "n_matched": 58,
+    "match_rate": 59.8
+  },
+  {
+    "domain": "ovid",
+    "timestamp": "2026-02-21T07:58:25.294353+00:00",
+    "n_words": 29,
+    "n_core": 15,
+    "n_peripheral": 14,
+    "n_matched": 11,
+    "match_rate": 37.9
+  },
+  {
+    "domain": "pakistan",
+    "timestamp": "2026-02-21T07:58:25.294353+00:00",
+    "n_words": 66,
+    "n_core": 42,
+    "n_peripheral": 24,
+    "n_matched": 29,
+    "match_rate": 43.9
+  },
+  {
+    "domain": "paleontology",
+    "timestamp": "2026-02-21T07:58:25.294353+00:00",
+    "n_words": 101,
+    "n_core": 78,
+    "n_peripheral": 23,
+    "n_matched": 71,
+    "match_rate": 70.3
+  },
+  {
+    "domain": "parliament",
+    "timestamp": "2026-02-21T07:58:53.235595+00:00",
+    "n_words": 62,
+    "n_core": 37,
+    "n_peripheral": 25,
+    "n_matched": 23,
+    "match_rate": 37.1
+  },
+  {
+    "domain": "particle physics",
+    "timestamp": "2026-02-21T07:58:53.235595+00:00",
+    "n_words": 67,
+    "n_core": 39,
+    "n_peripheral": 28,
+    "n_matched": 18,
+    "match_rate": 26.9
+  },
+  {
+    "domain": "particle_accelerators",
+    "timestamp": "2026-02-21T08:15:12.834699+00:00",
+    "n_words": 77,
+    "n_core": 38,
+    "n_peripheral": 39,
+    "n_matched": 28,
+    "match_rate": 36.4
+  },
+  {
+    "domain": "pashto",
+    "timestamp": "2026-02-21T07:58:53.235595+00:00",
+    "n_words": 42,
+    "n_core": 24,
+    "n_peripheral": 18,
+    "n_matched": 13,
+    "match_rate": 31.0
+  },
+  {
+    "domain": "pathology",
+    "timestamp": "2026-02-21T07:58:53.235595+00:00",
+    "n_words": 82,
+    "n_core": 46,
+    "n_peripheral": 36,
+    "n_matched": 32,
+    "match_rate": 39.0
+  },
+  {
+    "domain": "performing arts",
+    "timestamp": "2026-02-21T07:58:53.235595+00:00",
+    "n_words": 60,
+    "n_core": 25,
+    "n_peripheral": 35,
+    "n_matched": 40,
+    "match_rate": 66.7
+  },
+  {
+    "domain": "persian",
+    "timestamp": "2026-02-21T07:59:17.929019+00:00",
+    "n_words": 55,
+    "n_core": 42,
+    "n_peripheral": 13,
+    "n_matched": 32,
+    "match_rate": 58.2
+  },
+  {
+    "domain": "pharmacology",
+    "timestamp": "2026-02-21T07:59:17.929019+00:00",
+    "n_words": 58,
+    "n_core": 43,
+    "n_peripheral": 15,
+    "n_matched": 35,
+    "match_rate": 60.3
+  },
+  {
+    "domain": "philosophy",
+    "timestamp": "2026-02-21T07:59:17.929019+00:00",
+    "n_words": 68,
+    "n_core": 46,
+    "n_peripheral": 22,
+    "n_matched": 51,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "phonetics",
+    "timestamp": "2026-02-21T07:59:17.929019+00:00",
+    "n_words": 62,
+    "n_core": 45,
+    "n_peripheral": 17,
+    "n_matched": 39,
+    "match_rate": 62.9
+  },
+  {
+    "domain": "phonology",
+    "timestamp": "2026-02-21T07:59:17.929019+00:00",
+    "n_words": 59,
+    "n_core": 39,
+    "n_peripheral": 20,
+    "n_matched": 28,
+    "match_rate": 47.5
+  },
+  {
+    "domain": "photography",
+    "timestamp": "2026-02-21T07:59:48.645781+00:00",
+    "n_words": 58,
+    "n_core": 40,
+    "n_peripheral": 18,
+    "n_matched": 23,
+    "match_rate": 39.7
+  },
+  {
+    "domain": "physical chemistry",
+    "timestamp": "2026-02-21T07:59:48.645781+00:00",
+    "n_words": 66,
+    "n_core": 44,
+    "n_peripheral": 22,
+    "n_matched": 38,
+    "match_rate": 57.6
+  },
+  {
+    "domain": "physics",
+    "timestamp": "2026-02-21T07:59:48.645781+00:00",
+    "n_words": 79,
+    "n_core": 46,
+    "n_peripheral": 33,
+    "n_matched": 45,
+    "match_rate": 57.0
+  },
+  {
+    "domain": "physiology",
+    "timestamp": "2026-02-21T07:59:48.645781+00:00",
+    "n_words": 96,
+    "n_core": 63,
+    "n_peripheral": 33,
+    "n_matched": 79,
+    "match_rate": 82.3
+  },
+  {
+    "domain": "plant",
+    "timestamp": "2026-02-21T07:59:48.645781+00:00",
+    "n_words": 79,
+    "n_core": 57,
+    "n_peripheral": 22,
+    "n_matched": 74,
+    "match_rate": 93.7
+  },
+  {
+    "domain": "plural",
+    "timestamp": "2026-02-21T08:00:20.571657+00:00",
+    "n_words": 145,
+    "n_core": 100,
+    "n_peripheral": 48,
+    "n_matched": 112,
+    "match_rate": 77.2
+  },
+  {
+    "domain": "podcasting",
+    "timestamp": "2026-02-21T08:14:17.840963+00:00",
+    "n_words": 67,
+    "n_core": 37,
+    "n_peripheral": 30,
+    "n_matched": 15,
+    "match_rate": 22.4
+  },
+  {
+    "domain": "poetry",
+    "timestamp": "2026-02-21T08:00:20.571657+00:00",
+    "n_words": 96,
+    "n_core": 61,
+    "n_peripheral": 36,
+    "n_matched": 81,
+    "match_rate": 84.4
+  },
+  {
+    "domain": "poker",
+    "timestamp": "2026-02-21T08:00:20.571657+00:00",
+    "n_words": 97,
+    "n_core": 59,
+    "n_peripheral": 38,
+    "n_matched": 52,
+    "match_rate": 53.6
+  },
+  {
+    "domain": "politics",
+    "timestamp": "2026-02-21T08:00:20.571657+00:00",
+    "n_words": 95,
+    "n_core": 42,
+    "n_peripheral": 53,
+    "n_matched": 89,
+    "match_rate": 93.7
+  },
+  {
+    "domain": "polo",
+    "timestamp": "2026-02-21T08:00:20.571657+00:00",
+    "n_words": 33,
+    "n_core": 15,
+    "n_peripheral": 18,
+    "n_matched": 25,
+    "match_rate": 75.8
+  },
+  {
+    "domain": "pregnancy",
+    "timestamp": "2026-02-21T08:00:51.686007+00:00",
+    "n_words": 86,
+    "n_core": 63,
+    "n_peripheral": 23,
+    "n_matched": 72,
+    "match_rate": 83.7
+  },
+  {
+    "domain": "printing",
+    "timestamp": "2026-02-21T08:00:51.686007+00:00",
+    "n_words": 94,
+    "n_core": 60,
+    "n_peripheral": 34,
+    "n_matched": 67,
+    "match_rate": 71.3
+  },
+  {
+    "domain": "professional basketball",
+    "timestamp": "2026-02-21T08:00:51.686007+00:00",
+    "n_words": 80,
+    "n_core": 48,
+    "n_peripheral": 33,
+    "n_matched": 45,
+    "match_rate": 56.2
+  },
+  {
+    "domain": "programming",
+    "timestamp": "2026-02-21T08:00:51.686007+00:00",
+    "n_words": 110,
+    "n_core": 67,
+    "n_peripheral": 43,
+    "n_matched": 55,
+    "match_rate": 50.0
+  },
+  {
+    "domain": "prosody",
+    "timestamp": "2026-02-21T08:00:51.686007+00:00",
+    "n_words": 77,
+    "n_core": 47,
+    "n_peripheral": 30,
+    "n_matched": 52,
+    "match_rate": 67.5
+  },
+  {
+    "domain": "protestant church",
+    "timestamp": "2026-02-21T08:01:21.032990+00:00",
+    "n_words": 84,
+    "n_core": 56,
+    "n_peripheral": 28,
+    "n_matched": 61,
+    "match_rate": 72.6
+  },
+  {
+    "domain": "psychiatry",
+    "timestamp": "2026-02-21T08:01:21.032990+00:00",
+    "n_words": 76,
+    "n_core": 53,
+    "n_peripheral": 23,
+    "n_matched": 50,
+    "match_rate": 65.8
+  },
+  {
+    "domain": "psychoanalysis",
+    "timestamp": "2026-02-21T08:01:21.032990+00:00",
+    "n_words": 73,
+    "n_core": 52,
+    "n_peripheral": 22,
+    "n_matched": 51,
+    "match_rate": 69.9
+  },
+  {
+    "domain": "psychology",
+    "timestamp": "2026-02-21T08:01:21.032990+00:00",
+    "n_words": 97,
+    "n_core": 64,
+    "n_peripheral": 33,
+    "n_matched": 47,
+    "match_rate": 48.5
+  },
+  {
+    "domain": "psychophysics",
+    "timestamp": "2026-02-21T08:01:21.032990+00:00",
+    "n_words": 47,
+    "n_core": 31,
+    "n_peripheral": 16,
+    "n_matched": 20,
+    "match_rate": 42.6
+  },
+  {
+    "domain": "psychotherapy",
+    "timestamp": "2026-02-21T08:01:58.999154+00:00",
+    "n_words": 91,
+    "n_core": 45,
+    "n_peripheral": 46,
+    "n_matched": 12,
+    "match_rate": 13.2
+  },
+  {
+    "domain": "publication",
+    "timestamp": "2026-02-21T08:01:58.999154+00:00",
+    "n_words": 98,
+    "n_core": 58,
+    "n_peripheral": 40,
+    "n_matched": 24,
+    "match_rate": 24.5
+  },
+  {
+    "domain": "quadruped",
+    "timestamp": "2026-02-21T08:01:58.999154+00:00",
+    "n_words": 68,
+    "n_core": 34,
+    "n_peripheral": 34,
+    "n_matched": 14,
+    "match_rate": 20.6
+  },
+  {
+    "domain": "quantum_computing",
+    "timestamp": "2026-02-21T08:13:51.110117+00:00",
+    "n_words": 67,
+    "n_core": 39,
+    "n_peripheral": 28,
+    "n_matched": 4,
+    "match_rate": 6.0
+  },
+  {
+    "domain": "quarrying",
+    "timestamp": "2026-02-21T08:01:58.999154+00:00",
+    "n_words": 66,
+    "n_core": 32,
+    "n_peripheral": 34,
+    "n_matched": 4,
+    "match_rate": 6.1
+  },
+  {
+    "domain": "quoits",
+    "timestamp": "2026-02-21T08:01:58.999154+00:00",
+    "n_words": 53,
+    "n_core": 20,
+    "n_peripheral": 33,
+    "n_matched": 1,
+    "match_rate": 1.9
+  },
+  {
+    "domain": "racing",
+    "timestamp": "2026-02-21T08:02:39.757333+00:00",
+    "n_words": 107,
+    "n_core": 74,
+    "n_peripheral": 33,
+    "n_matched": 57,
+    "match_rate": 53.3
+  },
+  {
+    "domain": "radio",
+    "timestamp": "2026-02-21T08:02:39.757333+00:00",
+    "n_words": 118,
+    "n_core": 77,
+    "n_peripheral": 42,
+    "n_matched": 83,
+    "match_rate": 70.3
+  },
+  {
+    "domain": "radiology",
+    "timestamp": "2026-02-21T08:02:39.757333+00:00",
+    "n_words": 112,
+    "n_core": 72,
+    "n_peripheral": 40,
+    "n_matched": 68,
+    "match_rate": 60.7
+  },
+  {
+    "domain": "recording",
+    "timestamp": "2026-02-21T08:02:39.757333+00:00",
+    "n_words": 116,
+    "n_core": 69,
+    "n_peripheral": 47,
+    "n_matched": 56,
+    "match_rate": 48.3
+  },
+  {
+    "domain": "regionalism",
+    "timestamp": "2026-02-21T08:02:39.757333+00:00",
+    "n_words": 102,
+    "n_core": 60,
+    "n_peripheral": 43,
+    "n_matched": 57,
+    "match_rate": 55.9
+  },
+  {
+    "domain": "relativity",
+    "timestamp": "2026-02-21T08:16:01.176728+00:00",
+    "n_words": 71,
+    "n_core": 51,
+    "n_peripheral": 20,
+    "n_matched": 30,
+    "match_rate": 42.3
+  },
+  {
+    "domain": "religion",
+    "timestamp": "2026-02-21T08:16:01.176728+00:00",
+    "n_words": 165,
+    "n_core": 145,
+    "n_peripheral": 20,
+    "n_matched": 162,
+    "match_rate": 98.2
+  },
+  {
+    "domain": "renewable_energy",
+    "timestamp": "2026-02-21T08:13:19.654800+00:00",
+    "n_words": 47,
+    "n_core": 21,
+    "n_peripheral": 26,
+    "n_matched": 14,
+    "match_rate": 29.8
+  },
+  {
+    "domain": "rhetoric",
+    "timestamp": "2026-02-21T08:16:01.176728+00:00",
+    "n_words": 87,
+    "n_core": 63,
+    "n_peripheral": 24,
+    "n_matched": 61,
+    "match_rate": 70.1
+  },
+  {
+    "domain": "rhyme",
+    "timestamp": "2026-02-21T08:16:01.176728+00:00",
+    "n_words": 70,
+    "n_core": 53,
+    "n_peripheral": 18,
+    "n_matched": 47,
+    "match_rate": 67.1
+  },
+  {
+    "domain": "riding",
+    "timestamp": "2026-02-21T08:16:01.176728+00:00",
+    "n_words": 103,
+    "n_core": 80,
+    "n_peripheral": 24,
+    "n_matched": 75,
+    "match_rate": 72.8
+  },
+  {
+    "domain": "river",
+    "timestamp": "2026-02-21T08:03:46.528080+00:00",
+    "n_words": 66,
+    "n_core": 44,
+    "n_peripheral": 22,
+    "n_matched": 56,
+    "match_rate": 84.8
+  },
+  {
+    "domain": "robotics",
+    "timestamp": "2026-02-21T08:13:19.654800+00:00",
+    "n_words": 54,
+    "n_core": 27,
+    "n_peripheral": 27,
+    "n_matched": 13,
+    "match_rate": 24.1
+  },
+  {
+    "domain": "rock 'n' roll",
+    "timestamp": "2026-02-21T08:03:46.528080+00:00",
+    "n_words": 68,
+    "n_core": 43,
+    "n_peripheral": 25,
+    "n_matched": 43,
+    "match_rate": 63.2
+  },
+  {
+    "domain": "roman catholic",
+    "timestamp": "2026-02-21T08:03:46.528080+00:00",
+    "n_words": 111,
+    "n_core": 72,
+    "n_peripheral": 39,
+    "n_matched": 103,
+    "match_rate": 92.8
+  },
+  {
+    "domain": "roman law",
+    "timestamp": "2026-02-21T08:03:46.528080+00:00",
+    "n_words": 73,
+    "n_core": 46,
+    "n_peripheral": 27,
+    "n_matched": 28,
+    "match_rate": 38.4
+  },
+  {
+    "domain": "roman mythology",
+    "timestamp": "2026-02-21T08:03:46.528080+00:00",
+    "n_words": 96,
+    "n_core": 69,
+    "n_peripheral": 27,
+    "n_matched": 72,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "rugby",
+    "timestamp": "2026-02-21T08:04:22.225899+00:00",
+    "n_words": 84,
+    "n_core": 48,
+    "n_peripheral": 36,
+    "n_matched": 31,
+    "match_rate": 36.9
+  },
+  {
+    "domain": "ruminant",
+    "timestamp": "2026-02-21T08:04:22.225899+00:00",
+    "n_words": 61,
+    "n_core": 36,
+    "n_peripheral": 25,
+    "n_matched": 37,
+    "match_rate": 60.7
+  },
+  {
+    "domain": "sailing vessel",
+    "timestamp": "2026-02-21T08:04:22.225899+00:00",
+    "n_words": 92,
+    "n_core": 51,
+    "n_peripheral": 41,
+    "n_matched": 66,
+    "match_rate": 71.7
+  },
+  {
+    "domain": "sailing",
+    "timestamp": "2026-02-21T08:04:22.225899+00:00",
+    "n_words": 101,
+    "n_core": 69,
+    "n_peripheral": 32,
+    "n_matched": 61,
+    "match_rate": 60.4
+  },
+  {
+    "domain": "sanskrit",
+    "timestamp": "2026-02-21T08:04:22.225899+00:00",
+    "n_words": 107,
+    "n_core": 78,
+    "n_peripheral": 29,
+    "n_matched": 63,
+    "match_rate": 58.9
+  },
+  {
+    "domain": "science fiction",
+    "timestamp": "2026-02-21T08:04:53.624503+00:00",
+    "n_words": 84,
+    "n_core": 49,
+    "n_peripheral": 36,
+    "n_matched": 49,
+    "match_rate": 58.3
+  },
+  {
+    "domain": "science",
+    "timestamp": "2026-02-21T08:04:53.624503+00:00",
+    "n_words": 80,
+    "n_core": 56,
+    "n_peripheral": 24,
+    "n_matched": 78,
+    "match_rate": 97.5
+  },
+  {
+    "domain": "seafaring",
+    "timestamp": "2026-02-21T08:04:53.624503+00:00",
+    "n_words": 95,
+    "n_core": 56,
+    "n_peripheral": 39,
+    "n_matched": 92,
+    "match_rate": 96.8
+  },
+  {
+    "domain": "sewing",
+    "timestamp": "2026-02-21T08:04:53.624503+00:00",
+    "n_words": 68,
+    "n_core": 43,
+    "n_peripheral": 25,
+    "n_matched": 55,
+    "match_rate": 80.9
+  },
+  {
+    "domain": "shariah",
+    "timestamp": "2026-02-21T08:04:53.624503+00:00",
+    "n_words": 115,
+    "n_core": 77,
+    "n_peripheral": 38,
+    "n_matched": 67,
+    "match_rate": 58.3
+  },
+  {
+    "domain": "ship",
+    "timestamp": "2026-02-21T08:05:29.385931+00:00",
+    "n_words": 108,
+    "n_core": 69,
+    "n_peripheral": 39,
+    "n_matched": 100,
+    "match_rate": 92.6
+  },
+  {
+    "domain": "shipbuilding",
+    "timestamp": "2026-02-21T08:05:29.385931+00:00",
+    "n_words": 79,
+    "n_core": 53,
+    "n_peripheral": 26,
+    "n_matched": 31,
+    "match_rate": 39.2
+  },
+  {
+    "domain": "sikhism",
+    "timestamp": "2026-02-21T08:05:29.385931+00:00",
+    "n_words": 75,
+    "n_core": 51,
+    "n_peripheral": 24,
+    "n_matched": 25,
+    "match_rate": 33.3
+  },
+  {
+    "domain": "singing",
+    "timestamp": "2026-02-21T08:05:29.385931+00:00",
+    "n_words": 89,
+    "n_core": 53,
+    "n_peripheral": 36,
+    "n_matched": 74,
+    "match_rate": 83.1
+  },
+  {
+    "domain": "skiing",
+    "timestamp": "2026-02-21T08:05:29.385931+00:00",
+    "n_words": 107,
+    "n_core": 66,
+    "n_peripheral": 41,
+    "n_matched": 49,
+    "match_rate": 45.8
+  },
+  {
+    "domain": "slang",
+    "timestamp": "2026-02-21T08:06:06.070779+00:00",
+    "n_words": 144,
+    "n_core": 103,
+    "n_peripheral": 41,
+    "n_matched": 102,
+    "match_rate": 70.8
+  },
+  {
+    "domain": "soccer",
+    "timestamp": "2026-02-21T08:06:06.070779+00:00",
+    "n_words": 76,
+    "n_core": 47,
+    "n_peripheral": 29,
+    "n_matched": 44,
+    "match_rate": 57.9
+  },
+  {
+    "domain": "social_media",
+    "timestamp": "2026-02-21T08:12:57.222815+00:00",
+    "n_words": 56,
+    "n_core": 26,
+    "n_peripheral": 30,
+    "n_matched": 1,
+    "match_rate": 1.8
+  },
+  {
+    "domain": "sociology",
+    "timestamp": "2026-02-21T08:06:06.070779+00:00",
+    "n_words": 91,
+    "n_core": 47,
+    "n_peripheral": 44,
+    "n_matched": 55,
+    "match_rate": 60.4
+  },
+  {
+    "domain": "softball",
+    "timestamp": "2026-02-21T08:06:06.070779+00:00",
+    "n_words": 84,
+    "n_core": 52,
+    "n_peripheral": 33,
+    "n_matched": 57,
+    "match_rate": 67.9
+  },
+  {
+    "domain": "software_testing",
+    "timestamp": "2026-02-21T08:11:55.494671+00:00",
+    "n_words": 36,
+    "n_core": 24,
+    "n_peripheral": 12,
+    "n_matched": 4,
+    "match_rate": 11.1
+  },
+  {
+    "domain": "solution",
+    "timestamp": "2026-02-21T08:06:06.070779+00:00",
+    "n_words": 87,
+    "n_core": 60,
+    "n_peripheral": 27,
+    "n_matched": 61,
+    "match_rate": 70.1
+  },
+  {
+    "domain": "spaceflight",
+    "timestamp": "2026-02-21T08:06:42.248070+00:00",
+    "n_words": 81,
+    "n_core": 61,
+    "n_peripheral": 20,
+    "n_matched": 17,
+    "match_rate": 21.0
+  },
+  {
+    "domain": "spanish",
+    "timestamp": "2026-02-21T08:06:42.248070+00:00",
+    "n_words": 89,
+    "n_core": 66,
+    "n_peripheral": 23,
+    "n_matched": 50,
+    "match_rate": 56.2
+  },
+  {
+    "domain": "spiritualism",
+    "timestamp": "2026-02-21T08:06:42.248070+00:00",
+    "n_words": 80,
+    "n_core": 54,
+    "n_peripheral": 26,
+    "n_matched": 12,
+    "match_rate": 15.0
+  },
+  {
+    "domain": "sport",
+    "timestamp": "2026-02-21T08:06:42.248070+00:00",
+    "n_words": 85,
+    "n_core": 66,
+    "n_peripheral": 19,
+    "n_matched": 27,
+    "match_rate": 31.8
+  },
+  {
+    "domain": "squash",
+    "timestamp": "2026-02-21T08:06:42.248070+00:00",
+    "n_words": 34,
+    "n_core": 19,
+    "n_peripheral": 15,
+    "n_matched": 4,
+    "match_rate": 11.8
+  },
+  {
+    "domain": "statistics",
+    "timestamp": "2026-02-21T08:07:13.188443+00:00",
+    "n_words": 103,
+    "n_core": 58,
+    "n_peripheral": 45,
+    "n_matched": 56,
+    "match_rate": 54.4
+  },
+  {
+    "domain": "stock exchange",
+    "timestamp": "2026-02-21T08:07:13.188443+00:00",
+    "n_words": 98,
+    "n_core": 54,
+    "n_peripheral": 44,
+    "n_matched": 62,
+    "match_rate": 63.3
+  },
+  {
+    "domain": "streaming_media",
+    "timestamp": "2026-02-21T08:13:51.110117+00:00",
+    "n_words": 70,
+    "n_core": 47,
+    "n_peripheral": 23,
+    "n_matched": 5,
+    "match_rate": 7.1
+  },
+  {
+    "domain": "street name",
+    "timestamp": "2026-02-21T08:07:13.188443+00:00",
+    "n_words": 66,
+    "n_core": 44,
+    "n_peripheral": 22,
+    "n_matched": 52,
+    "match_rate": 78.8
+  },
+  {
+    "domain": "superlative",
+    "timestamp": "2026-02-21T08:07:13.188443+00:00",
+    "n_words": 98,
+    "n_core": 93,
+    "n_peripheral": 5,
+    "n_matched": 10,
+    "match_rate": 10.2
+  },
+  {
+    "domain": "supply_chain",
+    "timestamp": "2026-02-21T08:13:51.110117+00:00",
+    "n_words": 77,
+    "n_core": 47,
+    "n_peripheral": 30,
+    "n_matched": 4,
+    "match_rate": 5.2
+  },
+  {
+    "domain": "surgery",
+    "timestamp": "2026-02-21T08:07:13.188443+00:00",
+    "n_words": 95,
+    "n_core": 55,
+    "n_peripheral": 40,
+    "n_matched": 78,
+    "match_rate": 82.1
+  },
+  {
+    "domain": "swahili",
+    "timestamp": "2026-02-21T08:07:33.167237+00:00",
+    "n_words": 55,
+    "n_core": 42,
+    "n_peripheral": 13,
+    "n_matched": 18,
+    "match_rate": 32.7
+  },
+  {
+    "domain": "synecdoche",
+    "timestamp": "2026-02-21T08:07:33.167237+00:00",
+    "n_words": 34,
+    "n_core": 17,
+    "n_peripheral": 17,
+    "n_matched": 22,
+    "match_rate": 64.7
+  },
+  {
+    "domain": "table tennis",
+    "timestamp": "2026-02-21T08:07:33.167237+00:00",
+    "n_words": 48,
+    "n_core": 22,
+    "n_peripheral": 26,
+    "n_matched": 27,
+    "match_rate": 56.2
+  },
+  {
+    "domain": "taoism",
+    "timestamp": "2026-02-21T08:07:33.167237+00:00",
+    "n_words": 41,
+    "n_core": 19,
+    "n_peripheral": 22,
+    "n_matched": 23,
+    "match_rate": 56.1
+  },
+  {
+    "domain": "tasting",
+    "timestamp": "2026-02-21T08:07:33.167237+00:00",
+    "n_words": 62,
+    "n_core": 25,
+    "n_peripheral": 37,
+    "n_matched": 50,
+    "match_rate": 80.6
+  },
+  {
+    "domain": "tax",
+    "timestamp": "2026-02-21T08:07:59.754622+00:00",
+    "n_words": 66,
+    "n_core": 49,
+    "n_peripheral": 17,
+    "n_matched": 18,
+    "match_rate": 27.3
+  },
+  {
+    "domain": "tectonics",
+    "timestamp": "2026-02-21T08:07:59.754622+00:00",
+    "n_words": 56,
+    "n_core": 29,
+    "n_peripheral": 27,
+    "n_matched": 12,
+    "match_rate": 21.4
+  },
+  {
+    "domain": "telecommunication",
+    "timestamp": "2026-02-21T08:07:59.754622+00:00",
+    "n_words": 57,
+    "n_core": 40,
+    "n_peripheral": 17,
+    "n_matched": 12,
+    "match_rate": 21.1
+  },
+  {
+    "domain": "telegraphy",
+    "timestamp": "2026-02-21T08:07:59.754622+00:00",
+    "n_words": 64,
+    "n_core": 43,
+    "n_peripheral": 21,
+    "n_matched": 14,
+    "match_rate": 21.9
+  },
+  {
+    "domain": "telephone",
+    "timestamp": "2026-02-21T08:07:59.754622+00:00",
+    "n_words": 60,
+    "n_core": 41,
+    "n_peripheral": 19,
+    "n_matched": 25,
+    "match_rate": 41.7
+  },
+  {
+    "domain": "television",
+    "timestamp": "2026-02-21T08:08:28.448799+00:00",
+    "n_words": 67,
+    "n_core": 47,
+    "n_peripheral": 20,
+    "n_matched": 30,
+    "match_rate": 44.8
+  },
+  {
+    "domain": "tennis",
+    "timestamp": "2026-02-21T08:08:28.448799+00:00",
+    "n_words": 65,
+    "n_core": 41,
+    "n_peripheral": 24,
+    "n_matched": 29,
+    "match_rate": 44.6
+  },
+  {
+    "domain": "tenpins",
+    "timestamp": "2026-02-21T08:08:28.448799+00:00",
+    "n_words": 66,
+    "n_core": 51,
+    "n_peripheral": 15,
+    "n_matched": 34,
+    "match_rate": 51.5
+  },
+  {
+    "domain": "terrorism",
+    "timestamp": "2026-02-21T08:08:28.448799+00:00",
+    "n_words": 71,
+    "n_core": 51,
+    "n_peripheral": 20,
+    "n_matched": 33,
+    "match_rate": 46.5
+  },
+  {
+    "domain": "teuton",
+    "timestamp": "2026-02-21T08:08:28.448799+00:00",
+    "n_words": 61,
+    "n_core": 39,
+    "n_peripheral": 22,
+    "n_matched": 30,
+    "match_rate": 49.2
+  },
+  {
+    "domain": "theology",
+    "timestamp": "2026-02-21T08:08:54.450220+00:00",
+    "n_words": 118,
+    "n_core": 77,
+    "n_peripheral": 41,
+    "n_matched": 113,
+    "match_rate": 95.8
+  },
+  {
+    "domain": "thermodynamics",
+    "timestamp": "2026-02-21T08:08:54.450220+00:00",
+    "n_words": 71,
+    "n_core": 41,
+    "n_peripheral": 30,
+    "n_matched": 50,
+    "match_rate": 70.4
+  },
+  {
+    "domain": "tort",
+    "timestamp": "2026-02-21T08:08:54.450220+00:00",
+    "n_words": 43,
+    "n_core": 22,
+    "n_peripheral": 21,
+    "n_matched": 27,
+    "match_rate": 62.8
+  },
+  {
+    "domain": "toxicology",
+    "timestamp": "2026-02-21T08:08:54.450220+00:00",
+    "n_words": 65,
+    "n_core": 35,
+    "n_peripheral": 30,
+    "n_matched": 38,
+    "match_rate": 58.5
+  },
+  {
+    "domain": "trade name",
+    "timestamp": "2026-02-21T08:09:20.662891+00:00",
+    "n_words": 79,
+    "n_core": 51,
+    "n_peripheral": 28,
+    "n_matched": 63,
+    "match_rate": 79.7
+  },
+  {
+    "domain": "trade",
+    "timestamp": "2026-02-21T08:08:54.450220+00:00",
+    "n_words": 56,
+    "n_core": 26,
+    "n_peripheral": 30,
+    "n_matched": 40,
+    "match_rate": 71.4
+  },
+  {
+    "domain": "trademark",
+    "timestamp": "2026-02-21T08:09:20.662891+00:00",
+    "n_words": 75,
+    "n_core": 60,
+    "n_peripheral": 15,
+    "n_matched": 63,
+    "match_rate": 84.0
+  },
+  {
+    "domain": "train",
+    "timestamp": "2026-02-21T08:09:20.662891+00:00",
+    "n_words": 58,
+    "n_core": 35,
+    "n_peripheral": 23,
+    "n_matched": 49,
+    "match_rate": 84.5
+  },
+  {
+    "domain": "transportation",
+    "timestamp": "2026-02-21T08:09:20.662891+00:00",
+    "n_words": 80,
+    "n_core": 47,
+    "n_peripheral": 33,
+    "n_matched": 68,
+    "match_rate": 85.0
+  },
+  {
+    "domain": "trope",
+    "timestamp": "2026-02-21T08:09:20.662891+00:00",
+    "n_words": 83,
+    "n_core": 52,
+    "n_peripheral": 32,
+    "n_matched": 73,
+    "match_rate": 88.0
+  },
+  {
+    "domain": "university",
+    "timestamp": "2026-02-21T08:09:46.794073+00:00",
+    "n_words": 85,
+    "n_core": 41,
+    "n_peripheral": 44,
+    "n_matched": 76,
+    "match_rate": 89.4
+  },
+  {
+    "domain": "user_experience",
+    "timestamp": "2026-02-21T08:13:19.654800+00:00",
+    "n_words": 59,
+    "n_core": 31,
+    "n_peripheral": 28,
+    "n_matched": 6,
+    "match_rate": 10.2
+  },
+  {
+    "domain": "vegetation",
+    "timestamp": "2026-02-21T08:09:46.794073+00:00",
+    "n_words": 83,
+    "n_core": 42,
+    "n_peripheral": 41,
+    "n_matched": 81,
+    "match_rate": 97.6
+  },
+  {
+    "domain": "vent",
+    "timestamp": "2026-02-21T08:09:46.794073+00:00",
+    "n_words": 64,
+    "n_core": 32,
+    "n_peripheral": 33,
+    "n_matched": 48,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "version_control",
+    "timestamp": "2026-02-21T08:11:55.494671+00:00",
+    "n_words": 40,
+    "n_core": 31,
+    "n_peripheral": 9,
+    "n_matched": 22,
+    "match_rate": 55.0
+  },
+  {
+    "domain": "vertebrate",
+    "timestamp": "2026-02-21T08:09:46.794073+00:00",
+    "n_words": 69,
+    "n_core": 37,
+    "n_peripheral": 32,
+    "n_matched": 65,
+    "match_rate": 94.2
+  },
+  {
+    "domain": "vessel",
+    "timestamp": "2026-02-21T08:09:46.794073+00:00",
+    "n_words": 88,
+    "n_core": 53,
+    "n_peripheral": 38,
+    "n_matched": 87,
+    "match_rate": 98.9
+  },
+  {
+    "domain": "veterinary medicine",
+    "timestamp": "2026-02-21T08:10:13.310112+00:00",
+    "n_words": 64,
+    "n_core": 43,
+    "n_peripheral": 21,
+    "n_matched": 40,
+    "match_rate": 62.5
+  },
+  {
+    "domain": "video_gaming",
+    "timestamp": "2026-02-21T08:12:57.222815+00:00",
+    "n_words": 71,
+    "n_core": 42,
+    "n_peripheral": 29,
+    "n_matched": 3,
+    "match_rate": 4.2
+  },
+  {
+    "domain": "virology",
+    "timestamp": "2026-02-21T08:10:13.310112+00:00",
+    "n_words": 70,
+    "n_core": 46,
+    "n_peripheral": 24,
+    "n_matched": 32,
+    "match_rate": 45.7
+  },
+  {
+    "domain": "virtual_reality",
+    "timestamp": "2026-02-21T08:14:17.840963+00:00",
+    "n_words": 61,
+    "n_core": 44,
+    "n_peripheral": 17,
+    "n_matched": 15,
+    "match_rate": 24.6
+  },
+  {
+    "domain": "virus",
+    "timestamp": "2026-02-21T08:10:13.310112+00:00",
+    "n_words": 55,
+    "n_core": 25,
+    "n_peripheral": 30,
+    "n_matched": 36,
+    "match_rate": 65.5
+  },
+  {
+    "domain": "viticulture",
+    "timestamp": "2026-02-21T08:10:13.310112+00:00",
+    "n_words": 58,
+    "n_core": 38,
+    "n_peripheral": 20,
+    "n_matched": 37,
+    "match_rate": 63.8
+  },
+  {
+    "domain": "voodoo",
+    "timestamp": "2026-02-21T08:10:13.310112+00:00",
+    "n_words": 57,
+    "n_core": 33,
+    "n_peripheral": 24,
+    "n_matched": 27,
+    "match_rate": 47.4
+  },
+  {
+    "domain": "war",
+    "timestamp": "2026-02-21T08:10:47.516547+00:00",
+    "n_words": 137,
+    "n_core": 94,
+    "n_peripheral": 45,
+    "n_matched": 126,
+    "match_rate": 92.0
+  },
+  {
+    "domain": "water sport",
+    "timestamp": "2026-02-21T08:10:47.516547+00:00",
+    "n_words": 70,
+    "n_core": 35,
+    "n_peripheral": 35,
+    "n_matched": 44,
+    "match_rate": 62.9
+  },
+  {
+    "domain": "water travel",
+    "timestamp": "2026-02-21T08:10:47.516547+00:00",
+    "n_words": 101,
+    "n_core": 84,
+    "n_peripheral": 17,
+    "n_matched": 99,
+    "match_rate": 98.0
+  },
+  {
+    "domain": "web_development",
+    "timestamp": "2026-02-21T08:12:27.859489+00:00",
+    "n_words": 74,
+    "n_core": 39,
+    "n_peripheral": 35,
+    "n_matched": 4,
+    "match_rate": 5.4
+  },
+  {
+    "domain": "west indies",
+    "timestamp": "2026-02-21T08:10:47.516547+00:00",
+    "n_words": 84,
+    "n_core": 55,
+    "n_peripheral": 30,
+    "n_matched": 59,
+    "match_rate": 70.2
+  },
+  {
+    "domain": "winemaking",
+    "timestamp": "2026-02-21T08:10:47.516547+00:00",
+    "n_words": 107,
+    "n_core": 81,
+    "n_peripheral": 26,
+    "n_matched": 82,
+    "match_rate": 76.6
+  },
+  {
+    "domain": "wit",
+    "timestamp": "2026-02-21T08:11:11.392525+00:00",
+    "n_words": 43,
+    "n_core": 25,
+    "n_peripheral": 18,
+    "n_matched": 35,
+    "match_rate": 81.4
+  },
+  {
+    "domain": "wordnet",
+    "timestamp": "2026-02-21T08:11:11.392525+00:00",
+    "n_words": 25,
+    "n_core": 14,
+    "n_peripheral": 11,
+    "n_matched": 18,
+    "match_rate": 72.0
+  },
+  {
+    "domain": "wrestling",
+    "timestamp": "2026-02-21T08:11:11.392525+00:00",
+    "n_words": 39,
+    "n_core": 25,
+    "n_peripheral": 14,
+    "n_matched": 18,
+    "match_rate": 46.2
+  },
+  {
+    "domain": "writing",
+    "timestamp": "2026-02-21T08:11:11.392525+00:00",
+    "n_words": 56,
+    "n_core": 33,
+    "n_peripheral": 23,
+    "n_matched": 42,
+    "match_rate": 75.0
+  },
+  {
+    "domain": "yiddish",
+    "timestamp": "2026-02-21T08:11:11.392525+00:00",
+    "n_words": 101,
+    "n_core": 77,
+    "n_peripheral": 24,
+    "n_matched": 59,
+    "match_rate": 58.4
+  },
+  {
+    "domain": "zen",
+    "timestamp": "2026-02-21T08:11:36.517582+00:00",
+    "n_words": 29,
+    "n_core": 19,
+    "n_peripheral": 10,
+    "n_matched": 9,
+    "match_rate": 31.0
+  },
+  {
+    "domain": "zoology",
+    "timestamp": "2026-02-21T08:11:36.517582+00:00",
+    "n_words": 125,
+    "n_core": 96,
+    "n_peripheral": 29,
+    "n_matched": 109,
+    "match_rate": 87.2
+  },
+  {
+    "domain": "zoroastrianism",
+    "timestamp": "2026-02-21T08:11:36.517582+00:00",
+    "n_words": 47,
+    "n_core": 29,
+    "n_peripheral": 19,
+    "n_matched": 21,
+    "match_rate": 44.7
+  }
+]

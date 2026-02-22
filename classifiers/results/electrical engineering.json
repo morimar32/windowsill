@@ -1,0 +1,146 @@
+{
+  "domain": "electrical engineering",
+  "n_positive": 22,
+  "n_negative": 110,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.5038095238095239,
+    "f1": 0.6365079365079366,
+    "auc_pr": 0.7784051569345687
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.6734360410831
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7916666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8769230769230769
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.55
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 707,
+      "importance": 0.06134763322770596,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.049680759012699124,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.0383268540725112,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 522,
+      "importance": 0.03683109534904361,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 504,
+      "importance": 0.03286212980747223,
+      "reef_name": "filth and physical decay"
+    },
+    {
+      "dim_id": 432,
+      "importance": 0.030982246994972228,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.03085857108235359,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 560,
+      "importance": 0.029451587796211244,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.02871624454855919,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.025929533876478672,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.02488292455673218,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.02480297312140465,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.024265248142182828,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.024241825006902216,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 590,
+      "importance": 0.023086010292172433,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.019465823844075202,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 369,
+      "importance": 0.018978120968677105,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.015731848776340485,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 116,
+      "importance": 0.014567454159259797,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.01350455335341394,
+      "reef_name": "enormity and exaggeration"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "science fiction",
+  "n_positive": 51,
+  "n_negative": 255,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.93,
+    "recall": 0.6644688644688646,
+    "f1": 0.757904761904762,
+    "auc_pr": 0.9193685641326412
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9,
+      "recall": 0.5,
+      "f1": 0.6428571428571429,
+      "auc_pr": 0.8856964883630281
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9305555555555556
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.8461538461538461,
+      "f1": 0.88,
+      "auc_pr": 0.9821780783319243
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8412698412698412
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.9571428571428571
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 30,
+      "importance": 0.05751276984810829,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.04930609464645386,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.037607505731284616,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.037324425345286724,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.029102805256843566,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.02419431824237108,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.023621446266770364,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 164,
+      "importance": 0.02282950551016256,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.022624367754906415,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 50,
+      "importance": 0.02153851240873337,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 115,
+      "importance": 0.019571713544428347,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.018736465345136823,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 249,
+      "importance": 0.017950135469436645,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.015733107994310557,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.014726534485816956,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.014439277350902557,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.014407471171580255,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 278,
+      "importance": 0.014323548972606659,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.014137569069862365,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 617,
+      "importance": 0.013557957112789154,
+      "reef_name": "religious figures and illness"
+    }
+  ]
+}

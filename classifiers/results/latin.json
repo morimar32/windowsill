@@ -1,0 +1,146 @@
+{
+  "domain": "latin",
+  "n_positive": 67,
+  "n_negative": 335,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6868421052631579,
+    "recall": 0.3666666666666667,
+    "f1": 0.4597992530345472,
+    "auc_pr": 0.6460923821810558
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6842105263157895,
+      "recall": 0.5,
+      "f1": 0.5777777777777777,
+      "auc_pr": 0.6621914082176547
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3,
+      "f1": 0.375,
+      "auc_pr": 0.526996336996337
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.06666666666666667,
+      "f1": 0.11764705882352941,
+      "auc_pr": 0.48881968514358654
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.3,
+      "f1": 0.42857142857142855,
+      "auc_pr": 0.6421980702912906
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9102564102564102
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.03604872263967991,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.025526591716334222,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.02537672147154808,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 209,
+      "importance": 0.020143238408491016,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.017810462787747384,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.01708734420244582,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.01613173112273216,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.015433460474014282,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 348,
+      "importance": 0.013511152565479278,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 464,
+      "importance": 0.012855948507785797,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.011362214118707924,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.011191486939787864,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.010593455005437135,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.010395750543102622,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.009965358977206051,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.009846331411972642,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 187,
+      "importance": 0.00969584658741951,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.009555305307731032,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.009320088563254104,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 586,
+      "importance": 0.009134444152005016,
+      "reef_name": "financial holdings and assets"
+    }
+  ]
+}

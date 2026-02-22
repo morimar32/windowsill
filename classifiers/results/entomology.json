@@ -1,0 +1,146 @@
+{
+  "domain": "entomology",
+  "n_positive": 66,
+  "n_negative": 330,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9333333333333332,
+    "recall": 0.5130036630036628,
+    "f1": 0.6573835542121987,
+    "auc_pr": 0.7795225651175959
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8268321452825025
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.5384615384615384,
+      "f1": 0.6363636363636364,
+      "auc_pr": 0.5972933703663926
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5384615384615384,
+      "f1": 0.7,
+      "auc_pr": 0.8775824175824174
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.5714285714285714,
+      "f1": 0.6956521739130435,
+      "auc_pr": 0.7613677146014036
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4166666666666667,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.8345371777552629
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 578,
+      "importance": 0.07039963155984878,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.0418354082852602,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.027524788305163382,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.020646028727060183,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 151,
+      "importance": 0.018926411122083663,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.016451398376375437,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 303,
+      "importance": 0.014711868565063924,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 516,
+      "importance": 0.013859810988651588,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 76,
+      "importance": 0.013705539423972369,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.013285994622856378,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.012750008513103239,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.011224070191383361,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.010476763918995857,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.009961117804050446,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.008714456111192703,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 736,
+      "importance": 0.008692355523817242,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.008370787580497563,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 359,
+      "importance": 0.008213950088247657,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 86,
+      "importance": 0.00799979000876192,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.00767960415687412,
+      "reef_name": "urban landscape geography"
+    }
+  ]
+}

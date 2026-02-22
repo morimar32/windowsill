@@ -1,0 +1,146 @@
+{
+  "domain": "wit",
+  "n_positive": 37,
+  "n_negative": 185,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5444444444444445,
+    "recall": 0.3784033613445378,
+    "f1": 0.43476523476523476,
+    "auc_pr": 0.6478811251009038
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.47058823529411764,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7900933742882431
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8147759103641457
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.25,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.43333333333333335
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.49523809523809526
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.6,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.7059649122807017
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 81,
+      "importance": 0.06942898631095887,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.03520352263003588,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.02908264258876443,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 712,
+      "importance": 0.02541186474263668,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 572,
+      "importance": 0.02338207811117172,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.02130357762798667,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.021258212998509406,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.021213234588503837,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.020690581947565078,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 671,
+      "importance": 0.02027029488235712,
+      "reef_name": "proper nouns and organisms"
+    },
+    {
+      "dim_id": 140,
+      "importance": 0.020258116815239192,
+      "reef_name": "conflict and turmoil"
+    },
+    {
+      "dim_id": 385,
+      "importance": 0.019784411787986754,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 317,
+      "importance": 0.017585764825344085,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 650,
+      "importance": 0.017575567960739134,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 655,
+      "importance": 0.015903031826019286,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.01580661553889513,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.014389552175998688,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.013514989614486694,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 657,
+      "importance": 0.012875307537615299,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 101,
+      "importance": 0.01275130845606327,
+      "reef_name": "scattered erratic behavior"
+    }
+  ]
+}

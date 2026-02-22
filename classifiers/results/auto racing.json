@@ -1,0 +1,146 @@
+{
+  "domain": "auto racing",
+  "metrics": {
+    "precision": 0.78,
+    "recall": 0.4866666666666667,
+    "f1": 0.5595238095238095,
+    "auc_pr": 0.7447369522000122
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8,
+      "recall": 0.25,
+      "f1": 0.38095238095238093,
+      "auc_pr": 0.6667072477725484
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.630787037037037
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.7
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.75,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8928571428571428
+    }
+  ],
+  "n_positive": 32,
+  "n_negative": 160,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 491,
+      "importance": 0.05578348636627197,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.04846752658486366,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 676,
+      "importance": 0.027516353875398636,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.026761154970154168,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 292,
+      "importance": 0.025261025107465685,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 668,
+      "importance": 0.024062355607748033,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.023945535719394683,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 385,
+      "importance": 0.022303403913974763,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.021447059512138367,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 299,
+      "importance": 0.02073867628350854,
+      "reef_name": "hydration and breathing states"
+    },
+    {
+      "dim_id": 352,
+      "importance": 0.02049274565652013,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.018494060751982032,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.017996668815612793,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.017912013828754424,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.015103340335190295,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 275,
+      "importance": 0.014570999890565872,
+      "reef_name": "sensory observation instruments"
+    },
+    {
+      "dim_id": 615,
+      "importance": 0.01412250818684697,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.013928797841072083,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 487,
+      "importance": 0.013908284902572631,
+      "reef_name": "hazardous contamination hygiene"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.013727754354476929,
+      "reef_name": "horses and riding"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "taoism",
+  "n_positive": 25,
+  "n_negative": 125,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5333333333333333,
+    "recall": 0.31,
+    "f1": 0.38888888888888884,
+    "auc_pr": 0.7022849470711789
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.5814298691110285
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.7295238095238095
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.4,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.6408119658119659
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.25,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.5596590909090909
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 344,
+      "importance": 0.05562449097633362,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.04131513237953186,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 132,
+      "importance": 0.03593007028102875,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.035693387221544984,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.03215738628059626,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 102,
+      "importance": 0.03133998792618513,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.02638568818802014,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 408,
+      "importance": 0.026061252877116203,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 50,
+      "importance": 0.025255579501390457,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 297,
+      "importance": 0.02468033879995346,
+      "reef_name": "zoological and temporal"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.02249600291252136,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.02220297008752823,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 379,
+      "importance": 0.019058566773310304,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 432,
+      "importance": 0.018644375284202395,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 369,
+      "importance": 0.017983707785606384,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 483,
+      "importance": 0.017981668934226036,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 80,
+      "importance": 0.01753894127905369,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 719,
+      "importance": 0.016138719394803047,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 37,
+      "importance": 0.015952418744564056,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.01565278023481369,
+      "reef_name": "neurological biological processes"
+    }
+  ]
+}

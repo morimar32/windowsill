@@ -1,0 +1,146 @@
+{
+  "domain": "orthodox church",
+  "n_positive": 59,
+  "n_negative": 295,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8008302808302808,
+    "recall": 0.5466666666666666,
+    "f1": 0.6454712985672738,
+    "auc_pr": 0.7825212048125966
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7692307692307693,
+      "recall": 0.5,
+      "f1": 0.6060606060606061,
+      "auc_pr": 0.8407167367675176
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.7,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.8401723276723276
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8724450549450549
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.3333333333333333,
+      "f1": 0.42857142857142855,
+      "auc_pr": 0.5038353967415752
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8554365079365079
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 344,
+      "importance": 0.04769764989614487,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 703,
+      "importance": 0.046099354326725,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.04332538787275553,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.04325295276939869,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.032761193066835406,
+      "reef_name": "firearms and shooting"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.027038151770830153,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.0222458578646183,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.018898156937211752,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.015620257705450058,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 730,
+      "importance": 0.015557967498898507,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 252,
+      "importance": 0.015061466582119465,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.014815018465742468,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 369,
+      "importance": 0.01381335051264614,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.013803454069420695,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.012951431702822447,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.01272551241563633,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 193,
+      "importance": 0.012241970770992339,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.011875660764053464,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 77,
+      "importance": 0.01149451732635498,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 41,
+      "importance": 0.011361093446612357,
+      "reef_name": "food and consumable products"
+    }
+  ]
+}

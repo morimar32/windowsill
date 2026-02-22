@@ -1,0 +1,146 @@
+{
+  "domain": "ruminant",
+  "n_positive": 40,
+  "n_negative": 200,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8,
+    "recall": 0.3321428571428572,
+    "f1": 0.4690909090909091,
+    "auc_pr": 0.6170262773836017
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6794734142397691
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.375,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.6759352206932853
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6096363841044692
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.77703081232493
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.34305555555555556
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 30,
+      "importance": 0.032259916071780026,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 190,
+      "importance": 0.03181380778551102,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.027063893561717123,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.025286947563290595,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 638,
+      "importance": 0.023646369017660616,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.022723373398184775,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 406,
+      "importance": 0.022035831661196426,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 307,
+      "importance": 0.021098649501800536,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 297,
+      "importance": 0.02100153029896319,
+      "reef_name": "zoological and temporal"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.018407077062875032,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.017571741715073586,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.014571462199091912,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 275,
+      "importance": 0.014554252964444458,
+      "reef_name": "sensory observation instruments"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.013538861949928104,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.012620881944894791,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.012441273778676987,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 101,
+      "importance": 0.01210971549153328,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 715,
+      "importance": 0.011079307622276246,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 477,
+      "importance": 0.010926523245871067,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.01079123541712761,
+      "reef_name": "human roles and occupations"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "contract",
+  "n_positive": 62,
+  "n_negative": 310,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6255555555555555,
+    "recall": 0.33304029304029303,
+    "f1": 0.40055555555555544,
+    "auc_pr": 0.690850207185106
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.1794871794871795,
+      "f1": 0.2916666666666667,
+      "auc_pr": 0.6851759192888376
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.687816091954023
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1": 0.6,
+      "auc_pr": 0.7116666666666667
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.4889801131180441
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.8806122448979592
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 461,
+      "importance": 0.03852560967206955,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.028421013258048335,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.02645835466682911,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.024363140435889365,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 658,
+      "importance": 0.02137160114943981,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.02049766043201089,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.02014183485880494,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.01742478208616376,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.017222635634243488,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.017164033278822897,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.013750666379928589,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.013727413187734783,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 138,
+      "importance": 0.012877863855101169,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.012484818603843451,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 71,
+      "importance": 0.012169156270101667,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.01186365382745862,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.011669659940525889,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 135,
+      "importance": 0.011494487710297107,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 447,
+      "importance": 0.011099152310634963,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.010731617431156337,
+      "reef_name": "persons and identities"
+    }
+  ]
+}

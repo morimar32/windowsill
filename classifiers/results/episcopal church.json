@@ -1,0 +1,146 @@
+{
+  "domain": "episcopal church",
+  "n_positive": 55,
+  "n_negative": 275,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8028571428571428,
+    "recall": 0.5016666666666667,
+    "f1": 0.6079254079254078,
+    "auc_pr": 0.759740139721804
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5,
+      "recall": 0.4166666666666667,
+      "f1": 0.45454545454545453,
+      "auc_pr": 0.5969264162541473
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8084656084656084
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.625,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8552579365079365
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4666666666666667,
+      "f1": 0.6363636363636364,
+      "auc_pr": 0.7922407140713043
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7458100233100232
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 330,
+      "importance": 0.03455849370220676,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.03332497632363811,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.03280113898217678,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.02935144214425236,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.019417756237089634,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.01818674700334668,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 321,
+      "importance": 0.017220474779605865,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.01689971275627613,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 524,
+      "importance": 0.0154086091555655,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.015394478477537632,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.014677329291589557,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.014666883932659403,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.013683090696576982,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 249,
+      "importance": 0.011885114759206773,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.01161207417026162,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.01155968855600804,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 745,
+      "importance": 0.011552793043665587,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 315,
+      "importance": 0.011523042619228364,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 515,
+      "importance": 0.011363809555768966,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.011334600858390331,
+      "reef_name": "orange and brown hues"
+    }
+  ]
+}

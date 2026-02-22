@@ -1,0 +1,146 @@
+{
+  "domain": "sanskrit",
+  "n_positive": 71,
+  "n_negative": 355,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8762004662004662,
+    "recall": 0.591655354449472,
+    "f1": 0.6963791120312859,
+    "auc_pr": 0.7955067191842238
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.48901740229393664
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6153846153846154,
+      "f1": 0.6956521739130435,
+      "auc_pr": 0.847659285159285
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.6470588235294118,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.9296314882228196
+    },
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.5625,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7850638040834613
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.7333333333333333,
+      "f1": 0.8148148148148148,
+      "auc_pr": 0.9261616161616162
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 102,
+      "importance": 0.06129939928650856,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.02898033130913973,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.02594503164291382,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 370,
+      "importance": 0.02215588390827179,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.0194842129945755,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.018882501125335693,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 173,
+      "importance": 0.018620019033551215,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.017946941219270228,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.016277017863467337,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.014292567037045956,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 596,
+      "importance": 0.013720333902165293,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.01258789983112365,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.011759917647577823,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 211,
+      "importance": 0.011673632264137267,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.011376926657976582,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 614,
+      "importance": 0.010981091693975032,
+      "reef_name": "social groups and identity"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.010732106864452362,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.010659354703966529,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 580,
+      "importance": 0.010381326638162136,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.010241821495583281,
+      "reef_name": "impossibility and implausibility"
+    }
+  ]
+}

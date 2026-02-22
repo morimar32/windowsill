@@ -1,0 +1,146 @@
+{
+  "domain": "fungi",
+  "n_positive": 63,
+  "n_negative": 315,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6285714285714287,
+    "recall": 0.3708913308913309,
+    "f1": 0.4345238095238095,
+    "auc_pr": 0.6301466423592553
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.4715170179804581
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.38461538461538464,
+      "f1": 0.5,
+      "auc_pr": 0.5338624189430641
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.66544468303089
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.5555555555555556,
+      "f1": 0.625,
+      "auc_pr": 0.7274481074481074
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.7142857142857143,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.7524609843937574
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 44,
+      "importance": 0.024255141243338586,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.02279478036798537,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.02183370478451252,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.019778252486139535,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.01892312956333626,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 301,
+      "importance": 0.016953247375204226,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.014405220607295632,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.014229392219567672,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.011398265510797501,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 457,
+      "importance": 0.010425617545843124,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 152,
+      "importance": 0.01027385932393372,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 133,
+      "importance": 0.009986854717135429,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.00968867731280625,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 345,
+      "importance": 0.009601273701991885,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 136,
+      "importance": 0.009486031159758568,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.00946162964683026,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.009407934779301286,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 190,
+      "importance": 0.009087543934583664,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 305,
+      "importance": 0.00906863547861576,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 194,
+      "importance": 0.00904416902922094,
+      "reef_name": "natural foods and organisms"
+    }
+  ]
+}

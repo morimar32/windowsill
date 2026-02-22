@@ -1,0 +1,146 @@
+{
+  "domain": "radiology",
+  "n_positive": 70,
+  "n_negative": 350,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9101515151515152,
+    "recall": 0.7249927849927851,
+    "f1": 0.7658119658119659,
+    "auc_pr": 0.8822644606398947
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.23809523809523808,
+      "f1": 0.38461538461538464,
+      "auc_pr": 0.6788372324984284
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.9333333333333333,
+      "recall": 0.7777777777777778,
+      "f1": 0.8484848484848485,
+      "auc_pr": 0.9641843374776813
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.9090909090909091,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.8785604734831041
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8897402597402596
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 279,
+      "importance": 0.06528378389775753,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 409,
+      "importance": 0.04041926972568035,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.03915788205340505,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 609,
+      "importance": 0.031918814033269884,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 461,
+      "importance": 0.025062419846653937,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.02206858729477972,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.018711526691913605,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.017336578108370304,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 758,
+      "importance": 0.016219360567629338,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.015805111220106482,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 349,
+      "importance": 0.015533652668818832,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.015371644776314497,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.014098298171302304,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 600,
+      "importance": 0.01384694752341602,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 270,
+      "importance": 0.013343164202524349,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 605,
+      "importance": 0.012220122351209284,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 185,
+      "importance": 0.012063004751689732,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.011577131878584623,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 470,
+      "importance": 0.010253885260317475,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 343,
+      "importance": 0.009822847438044846,
+      "reef_name": "german language terms"
+    }
+  ]
+}

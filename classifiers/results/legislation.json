@@ -1,0 +1,146 @@
+{
+  "domain": "legislation",
+  "n_positive": 81,
+  "n_negative": 405,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9675,
+    "recall": 0.7072261072261072,
+    "f1": 0.7993164730006835,
+    "auc_pr": 0.9093637402553693
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9375,
+      "recall": 0.38461538461538464,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.7956437648920411
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.8181818181818182,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8647476554453299
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5833333333333334,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.886427280939476
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.05706705972552299,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 702,
+      "importance": 0.030284436233341695,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.025713651441037655,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.0217121385037899,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.021642050333321096,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 761,
+      "importance": 0.018770239502191543,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.01866283342242241,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.018035809317370876,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.016901583434082566,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.014953458262607456,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 556,
+      "importance": 0.014360767882317304,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.014230911619961262,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 596,
+      "importance": 0.013726607896387577,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.013724342454224825,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.013562136830296367,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.01299588531255722,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 37,
+      "importance": 0.012433860049350187,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.011928539955988526,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.010899759549647569,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.010557563923066482,
+      "reef_name": "ornamental and delicate"
+    }
+  ]
+}

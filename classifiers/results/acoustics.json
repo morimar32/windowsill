@@ -1,0 +1,146 @@
+{
+  "domain": "acoustics",
+  "metrics": {
+    "precision": 0.975,
+    "recall": 0.7000000000000001,
+    "f1": 0.7992063492063493,
+    "auc_pr": 0.8806277293247881
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.875,
+      "recall": 0.35,
+      "f1": 0.5,
+      "auc_pr": 0.7276400711253654
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.8384615384615384
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.837037037037037
+    }
+  ],
+  "n_positive": 40,
+  "n_negative": 200,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 749,
+      "importance": 0.12824151813983917,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.050560109317302704,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.04838057495653629,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 538,
+      "importance": 0.04005798511207104,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 249,
+      "importance": 0.03758344352245331,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.03188184732571244,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.02839608578942716,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.02553999188821763,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 106,
+      "importance": 0.021191631630063056,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 600,
+      "importance": 0.02086070734076202,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 508,
+      "importance": 0.02053004652261734,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.01968987975269556,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 286,
+      "importance": 0.01850163155468181,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.016585583495907486,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 26,
+      "importance": 0.01613260954618454,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.014130330365151166,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.013050369918346405,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 219,
+      "importance": 0.012948358058929443,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 718,
+      "importance": 0.012662193179130555,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 352,
+      "importance": 0.012148020416498184,
+      "reef_name": "marsupials and amphibians"
+    }
+  ]
+}

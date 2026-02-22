@@ -1,0 +1,146 @@
+{
+  "domain": "cytology",
+  "n_positive": 73,
+  "n_negative": 365,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9339366515837103,
+    "recall": 0.6274509803921569,
+    "f1": 0.7228011204481792,
+    "auc_pr": 0.8088636803199721
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.4203294357148608
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9021183595593758
+    },
+    {
+      "precision": 0.8235294117647058,
+      "recall": 0.8235294117647058,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.8947114909312142
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.955093925682161
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.6470588235294118,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.8720651897122487
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 25,
+      "importance": 0.03955852799117565,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.039231226593255994,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.03851267136633396,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 611,
+      "importance": 0.023480768641456963,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 204,
+      "importance": 0.021066595008596777,
+      "reef_name": "gases and atomization"
+    },
+    {
+      "dim_id": 212,
+      "importance": 0.020015345327556132,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.019305049831746145,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 512,
+      "importance": 0.01562417857348919,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.014314285322325305,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.014181152620585636,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.01404668097384274,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.012662166007612542,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 712,
+      "importance": 0.012582173757255077,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.012429402855923399,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.012177297519519925,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.01074891835451126,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 748,
+      "importance": 0.010735740046948194,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 269,
+      "importance": 0.01045251740142703,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.00968432070221752,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 369,
+      "importance": 0.008969610184431076,
+      "reef_name": "agreement and specification"
+    }
+  ]
+}

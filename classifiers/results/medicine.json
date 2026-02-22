@@ -1,0 +1,146 @@
+{
+  "domain": "medicine",
+  "n_positive": 357,
+  "n_negative": 1785,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7105486976791325,
+    "recall": 0.5511801204186649,
+    "f1": 0.6080454557536084,
+    "auc_pr": 0.6808475143940351
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8307692307692308,
+      "recall": 0.35064935064935066,
+      "f1": 0.4931506849315068,
+      "auc_pr": 0.707838393996171
+    },
+    {
+      "precision": 0.6818181818181818,
+      "recall": 0.5660377358490566,
+      "f1": 0.6185567010309279,
+      "auc_pr": 0.6077515574145739
+    },
+    {
+      "precision": 0.7391304347826086,
+      "recall": 0.6415094339622641,
+      "f1": 0.6868686868686869,
+      "auc_pr": 0.6734398366153445
+    },
+    {
+      "precision": 0.6410256410256411,
+      "recall": 0.5102040816326531,
+      "f1": 0.5681818181818182,
+      "auc_pr": 0.6801170181623021
+    },
+    {
+      "precision": 0.66,
+      "recall": 0.6875,
+      "f1": 0.673469387755102,
+      "auc_pr": 0.7350907657817838
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 362,
+      "importance": 0.022815869934856892,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 602,
+      "importance": 0.01971351624233648,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.017376160062849522,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.01439243983477354,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.013611530748312362,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 748,
+      "importance": 0.011800097674131394,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.011754161905264482,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.011692200461402536,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.011394306272268295,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.009978717286139726,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 341,
+      "importance": 0.009809247794328258,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.009662552643567324,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.00844327851664275,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.008163113752380014,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 556,
+      "importance": 0.008037052722647786,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.008006495796144009,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 218,
+      "importance": 0.007854017498902976,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.007284023616011837,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 676,
+      "importance": 0.007181688142009079,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.006978998158592731,
+      "reef_name": "decay and dissolution"
+    }
+  ]
+}

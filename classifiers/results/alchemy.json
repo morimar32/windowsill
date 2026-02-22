@@ -1,0 +1,146 @@
+{
+  "domain": "alchemy",
+  "metrics": {
+    "precision": 0.4966666666666667,
+    "recall": 0.21523809523809528,
+    "f1": 0.28087976539589443,
+    "auc_pr": 0.5395106798512905
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.2,
+      "f1": 0.3225806451612903,
+      "auc_pr": 0.6287806761759756
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.75
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.14285714285714285,
+      "f1": 0.18181818181818182,
+      "auc_pr": 0.3349273569770464
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.376984126984127
+    },
+    {
+      "precision": 0.4,
+      "recall": 0.4,
+      "f1": 0.4,
+      "auc_pr": 0.6068612391193037
+    }
+  ],
+  "n_positive": 47,
+  "n_negative": 235,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 21,
+      "importance": 0.03208718411624432,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.03111587422899902,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 653,
+      "importance": 0.029106701165437697,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.022095850855112075,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 554,
+      "importance": 0.02200440037995577,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.020076421648263933,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.017381282032874878,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 468,
+      "importance": 0.016007399000227452,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.015063059329986573,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.014014652953483165,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 424,
+      "importance": 0.013170873001217841,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 361,
+      "importance": 0.0122822480276227,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 76,
+      "importance": 0.01219499483704567,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.012074887752532959,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.011300567165017128,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.010820014565251768,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 602,
+      "importance": 0.010596773028373719,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 538,
+      "importance": 0.010069147497415543,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.009902139054611325,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 110,
+      "importance": 0.009745252132415772,
+      "reef_name": "agents and actors"
+    }
+  ]
+}

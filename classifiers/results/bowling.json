@@ -1,0 +1,146 @@
+{
+  "domain": "bowling",
+  "metrics": {
+    "precision": 0.8833333333333332,
+    "recall": 0.6587912087912088,
+    "f1": 0.6713793103448276,
+    "auc_pr": 0.766340082994201
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.11538461538461539,
+      "f1": 0.20689655172413793,
+      "auc_pr": 0.49653846730905726
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.6476619476619476
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1": 0.8,
+      "auc_pr": 0.7708333333333333
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.9166666666666666
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    }
+  ],
+  "n_positive": 45,
+  "n_negative": 225,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 607,
+      "importance": 0.044794498942792416,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.041093906434252855,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 382,
+      "importance": 0.033813645411282775,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 359,
+      "importance": 0.02522045522928238,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 251,
+      "importance": 0.02398625239729881,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.021827936917543412,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.02158227302134037,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.02065998858306557,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.019945295806974173,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 637,
+      "importance": 0.01808339066337794,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 208,
+      "importance": 0.016847896174294875,
+      "reef_name": "central anatomical structures"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.016284133982844652,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 209,
+      "importance": 0.01604396551847458,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.01578817404806614,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 379,
+      "importance": 0.015314286574721336,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.013674308359622956,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.01270463913679123,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.012180965440347791,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.011828459054231643,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 314,
+      "importance": 0.011359147354960441,
+      "reef_name": "religious extremism and conflict"
+    }
+  ]
+}

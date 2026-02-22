@@ -1,0 +1,146 @@
+{
+  "domain": "ichthyology",
+  "n_positive": 53,
+  "n_negative": 265,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8333333333333333,
+    "recall": 0.31361416361416367,
+    "f1": 0.43606060606060604,
+    "auc_pr": 0.6345895427135269
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.5103516939260357
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.23076923076923078,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.5680374223267902
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.2222222222222222,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.5468631897203325
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.6428571428571429,
+      "f1": 0.75,
+      "auc_pr": 0.8254197665688348
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.722275641025641
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 90,
+      "importance": 0.025904886471107603,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 276,
+      "importance": 0.025037662591785192,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.019346693716943263,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.01917894931975752,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.015017150901257992,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.014120122767053545,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 202,
+      "importance": 0.013419163040816784,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.012839747429825365,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 339,
+      "importance": 0.012326713046059012,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.01216938397847116,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.011957405786961316,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.011746225506067276,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 187,
+      "importance": 0.01172199733555317,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.011609048733953386,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 648,
+      "importance": 0.011258405796252192,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.011023528990335763,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.01059297788888216,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 515,
+      "importance": 0.010407141194446013,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.010399669269099831,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 762,
+      "importance": 0.010361670644488185,
+      "reef_name": "taxonomic family names"
+    }
+  ]
+}

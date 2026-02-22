@@ -1,0 +1,146 @@
+{
+  "domain": "metallurgy",
+  "n_positive": 58,
+  "n_negative": 290,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9194444444444445,
+    "recall": 0.5303703703703704,
+    "f1": 0.6611111111111111,
+    "auc_pr": 0.8112095321672523
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.2962962962962963,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.6643204093295987
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8088257575757576
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5555555555555556,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8660714285714285
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8834967320261438
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 412,
+      "importance": 0.03958137035369873,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.03579300553537905,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 332,
+      "importance": 0.030137983709573747,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 338,
+      "importance": 0.025142574682831764,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.022445844241883606,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 390,
+      "importance": 0.022284936159849167,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.02116199489682913,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 269,
+      "importance": 0.01993823432130739,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.019669911824166775,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 153,
+      "importance": 0.016509130224585535,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 576,
+      "importance": 0.015851651690900324,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.014802727103233337,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.01363279577344656,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 626,
+      "importance": 0.012683652341365814,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 316,
+      "importance": 0.012559694144874812,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.01209256798028946,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.01149696446955204,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 511,
+      "importance": 0.011220550024881959,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.011127871414646506,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 406,
+      "importance": 0.011011061258614063,
+      "reef_name": "water and fluid substances"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "dialect",
+  "n_positive": 34,
+  "n_negative": 170,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5999999999999999,
+    "recall": 0.280672268907563,
+    "f1": 0.3574603174603174,
+    "auc_pr": 0.5338335089305845
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.11764705882352941,
+      "f1": 0.2,
+      "auc_pr": 0.5271185765958897
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.5972222222222222
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.08225806451612903
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6322115384615384
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8303571428571428
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 57,
+      "importance": 0.043849772214889525,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.03786842655390501,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.031555260764434934,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.029963546246290208,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.027398809790611267,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.02503062952309847,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.024922113178763538,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.024369897274300455,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.023496031202375887,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 703,
+      "importance": 0.022138537652790547,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 152,
+      "importance": 0.02193212234415114,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.018295168620534243,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.017420396697707473,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.01741856914013624,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.015051567554473877,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.014708156883716583,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.014508524537086486,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 307,
+      "importance": 0.014000036101788283,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 442,
+      "importance": 0.01371328950044699,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 74,
+      "importance": 0.01359161757864058,
+      "reef_name": "roles and agents"
+    }
+  ]
+}

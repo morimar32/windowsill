@@ -1,0 +1,146 @@
+{
+  "domain": "boat",
+  "metrics": {
+    "precision": 0.8468662372110648,
+    "recall": 0.6402222222222222,
+    "f1": 0.7238824398685566,
+    "auc_pr": 0.8441094380926331
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9310344827586207,
+      "recall": 0.54,
+      "f1": 0.6835443037974683,
+      "auc_pr": 0.8483694514256402
+    },
+    {
+      "precision": 0.7333333333333333,
+      "recall": 0.7333333333333333,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.8276050511439506
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.6111111111111112,
+      "f1": 0.7096774193548387,
+      "auc_pr": 0.8465257276181646
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6666666666666666,
+      "f1": 0.75,
+      "auc_pr": 0.8951561790329906
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.65,
+      "f1": 0.7428571428571429,
+      "auc_pr": 0.8028907812424193
+    }
+  ],
+  "n_positive": 121,
+  "n_negative": 605,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.03136334745213389,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.026328593865036963,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.024909567087888718,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.020051291346317158,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.019895371794700623,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.018569036200642586,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 647,
+      "importance": 0.015647459775209427,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.015634564310312273,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 512,
+      "importance": 0.01550919059664011,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.015364867635071278,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.013510116143152118,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 93,
+      "importance": 0.012000031769275665,
+      "reef_name": "size and greatness"
+    },
+    {
+      "dim_id": 237,
+      "importance": 0.011107953172177077,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.010953777888789772,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.010643718880601227,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 551,
+      "importance": 0.010540914162993431,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.01050230920955073,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 388,
+      "importance": 0.010206232362543232,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.009948007017374038,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.009642969816923141,
+      "reef_name": "cultural stigma tolerance"
+    }
+  ]
+}

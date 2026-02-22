@@ -1,0 +1,146 @@
+{
+  "domain": "pharmacology",
+  "n_positive": 44,
+  "n_negative": 220,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8666666666666666,
+    "recall": 0.4087301587301587,
+    "f1": 0.5460008996851102,
+    "auc_pr": 0.6988639204221478
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4444444444444444,
+      "f1": 0.5333333333333333,
+      "auc_pr": 0.5431818181818181
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4444444444444444,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7851325145442793
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5833333333333334,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.8356884057971016
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.7511904761904762
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.2857142857142857,
+      "f1": 0.4,
+      "auc_pr": 0.579126387397064
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.07647529765963554,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 602,
+      "importance": 0.03140387265011668,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.02757529690861702,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 261,
+      "importance": 0.021101946569979192,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.020652817189693452,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 164,
+      "importance": 0.020163504779338835,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.019242898281663656,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.017281767213717103,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.0157189411111176,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.015715764719061553,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.01365975383669138,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 312,
+      "importance": 0.01315348360221833,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.012340610229875893,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.012004313291981816,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.011981794983148575,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.011515685450285673,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.011442232131958007,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.011206132918596267,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 438,
+      "importance": 0.01050573494285345,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.010330571234226227,
+      "reef_name": "botanical taxonomy families"
+    }
+  ]
+}

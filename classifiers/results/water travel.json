@@ -1,0 +1,146 @@
+{
+  "domain": "water travel",
+  "n_positive": 100,
+  "n_negative": 500,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8977602108036891,
+    "recall": 0.6508021390374331,
+    "f1": 0.7418326872599735,
+    "auc_pr": 0.8540674149238592
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9130434782608695,
+      "recall": 0.4117647058823529,
+      "f1": 0.5675675675675675,
+      "auc_pr": 0.8042931331202615
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7058823529411765,
+      "f1": 0.8275862068965517,
+      "auc_pr": 0.9703671664744329
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.8333333333333334,
+      "f1": 0.8695652173913043,
+      "auc_pr": 0.900925925925926
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7934813978292239
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6363636363636364,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8012694512694514
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 36,
+      "importance": 0.05148499384522438,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.029508362337946892,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.022053532535210252,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.02039672478567809,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.016408042202237995,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.01503472998738289,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.014611396472901106,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.014312785863876343,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.013816898688673973,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.01376533042639494,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 493,
+      "importance": 0.012781615555286407,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 483,
+      "importance": 0.012392932623333764,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.012156188872177153,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.012035497277975083,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.010665010544471443,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 657,
+      "importance": 0.010238422581460327,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 454,
+      "importance": 0.00961938053369522,
+      "reef_name": "german language terms"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.00945778280729428,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.00935970265418291,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.009155640006065368,
+      "reef_name": "scientific taxonomic terms"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "fine arts",
+  "n_positive": 113,
+  "n_negative": 565,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8697658862876254,
+    "recall": 0.5531868131868132,
+    "f1": 0.6651428571428571,
+    "auc_pr": 0.7625537369031787
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9565217391304348,
+      "recall": 0.4230769230769231,
+      "f1": 0.5866666666666667,
+      "auc_pr": 0.7848928755996911
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.6,
+      "f1": 0.72,
+      "auc_pr": 0.6977205256617021
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6,
+      "f1": 0.6857142857142857,
+      "auc_pr": 0.7329789107950873
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8677035927035928
+    },
+    {
+      "precision": 0.6923076923076923,
+      "recall": 0.6428571428571429,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7294727797558208
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 6,
+      "importance": 0.03130662096664309,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.028031432442367075,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.02434906056150794,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 115,
+      "importance": 0.01936042457818985,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 477,
+      "importance": 0.018982571543892844,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 611,
+      "importance": 0.017227551057294475,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.015357468917500228,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 649,
+      "importance": 0.014999938884284348,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 114,
+      "importance": 0.013517807330936193,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.013199629820883274,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.012552619830239564,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 522,
+      "importance": 0.012455059215426445,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.012148731481283903,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 294,
+      "importance": 0.012085945438593626,
+      "reef_name": "central anatomical structures"
+    },
+    {
+      "dim_id": 243,
+      "importance": 0.011616712249815465,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.011569798365235329,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 357,
+      "importance": 0.011374351661652326,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 60,
+      "importance": 0.011331538436934352,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.010700559848919511,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.00993975019082427,
+      "reef_name": "royalty and titles"
+    }
+  ]
+}

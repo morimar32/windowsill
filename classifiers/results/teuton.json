@@ -1,0 +1,146 @@
+{
+  "domain": "teuton",
+  "n_positive": 34,
+  "n_negative": 170,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.75,
+    "recall": 0.40857142857142853,
+    "f1": 0.5123076923076922,
+    "auc_pr": 0.7561967239110096
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.37798867798867797
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3,
+      "f1": 0.46153846153846156,
+      "auc_pr": 0.828992673992674
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.947845804988662
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.7661564625850339
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.86
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 611,
+      "importance": 0.05589044529478997,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 524,
+      "importance": 0.030071902088820934,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.02811367213726044,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 497,
+      "importance": 0.02741702419007197,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 432,
+      "importance": 0.027117678546346724,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 748,
+      "importance": 0.02653159722685814,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.025171378254890443,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.02443470908328891,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 374,
+      "importance": 0.021537363529205322,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 470,
+      "importance": 0.02025231271982193,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 161,
+      "importance": 0.020102704130113124,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 601,
+      "importance": 0.01906219362281263,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.01728586256504059,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 582,
+      "importance": 0.01679396991385147,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.016280424827709795,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.01591879837214947,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.015095624327659606,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.015035158395767212,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.014704426983371377,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.013717687129974366,
+      "reef_name": "chemical compounds and substances"
+    }
+  ]
+}

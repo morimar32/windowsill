@@ -1,0 +1,146 @@
+{
+  "domain": "cabinetwork",
+  "metrics": {
+    "precision": 0.5533333333333333,
+    "recall": 0.2942857142857143,
+    "f1": 0.35,
+    "auc_pr": 0.6838611154926945
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.14285714285714285,
+      "f1": 0.25,
+      "auc_pr": 0.7828877471734613
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.6634353741496599
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.4,
+      "f1": 0.5,
+      "auc_pr": 0.63
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.6763157894736842
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.6666666666666667
+    }
+  ],
+  "n_positive": 33,
+  "n_negative": 165,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 142,
+      "importance": 0.04058021462988108,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.03923411592841149,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 447,
+      "importance": 0.03416121155023575,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 180,
+      "importance": 0.028315810207277536,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 469,
+      "importance": 0.027827166393399237,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 338,
+      "importance": 0.026233602687716483,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 729,
+      "importance": 0.019903635187074543,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.01911596655845642,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.016687149927020074,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 63,
+      "importance": 0.015803718857932837,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 587,
+      "importance": 0.015061154472641647,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.01473659873008728,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 329,
+      "importance": 0.014683675765991212,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 705,
+      "importance": 0.014654808246996253,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.014472807571291924,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.01442486299201846,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.01391895009437576,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 58,
+      "importance": 0.013908418454229831,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 65,
+      "importance": 0.013662564381957055,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 250,
+      "importance": 0.01360870897769928,
+      "reef_name": "botany and plant science"
+    }
+  ]
+}

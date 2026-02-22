@@ -1,0 +1,146 @@
+{
+  "domain": "fairytale",
+  "n_positive": 24,
+  "n_negative": 120,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7333333333333333,
+    "recall": 0.34523809523809523,
+    "f1": 0.45182072829131653,
+    "auc_pr": 0.8591130694702123
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.14285714285714285,
+      "f1": 0.23529411764705882,
+      "auc_pr": 0.6991007008864152
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.6464646464646464
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.95
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 310,
+      "importance": 0.0529235377907753,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.0460230952128768,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.042193242348730564,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 186,
+      "importance": 0.03701972663402557,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.02844567857682705,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 440,
+      "importance": 0.027208705060184003,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 550,
+      "importance": 0.02514226681087166,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 719,
+      "importance": 0.024296203535050152,
+      "reef_name": "electrical and elemental materials"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.02338559478521347,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 10,
+      "importance": 0.022711713518947362,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 522,
+      "importance": 0.021769769629463552,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.021630509570240975,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.02020143922418356,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 585,
+      "importance": 0.01989801675081253,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.016996769607067107,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.016788366436958312,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.01596098467707634,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 292,
+      "importance": 0.015706463158130644,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 515,
+      "importance": 0.014980348944664,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.014730255305767059,
+      "reef_name": "bacteria and microbiology"
+    }
+  ]
+}

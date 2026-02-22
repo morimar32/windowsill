@@ -1,0 +1,146 @@
+{
+  "domain": "legend",
+  "n_positive": 96,
+  "n_negative": 480,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9257142857142858,
+    "recall": 0.6987684438323825,
+    "f1": 0.7890650828431938,
+    "auc_pr": 0.9085783948638664
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9,
+      "recall": 0.6923076923076923,
+      "f1": 0.782608695652174,
+      "auc_pr": 0.9416094331651607
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8666666666666667,
+      "f1": 0.896551724137931,
+      "auc_pr": 0.9368739501476073
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5333333333333333,
+      "f1": 0.6956521739130435,
+      "auc_pr": 0.8348871063576946
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.7058823529411765,
+      "f1": 0.75,
+      "auc_pr": 0.8971463419924538
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6956521739130435,
+      "f1": 0.8205128205128205,
+      "auc_pr": 0.9323751426564151
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 450,
+      "importance": 0.036203330382704735,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.03169463202357292,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 293,
+      "importance": 0.02517763115465641,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.02406115047633648,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.019958772510290147,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.019130135793238877,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 671,
+      "importance": 0.018704664055258037,
+      "reef_name": "proper nouns and organisms"
+    },
+    {
+      "dim_id": 667,
+      "importance": 0.01843395484611392,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.017345602298155426,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.01702617864939384,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 135,
+      "importance": 0.015907367412000894,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.015455433214083315,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 498,
+      "importance": 0.01446850816719234,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.01222488647326827,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 585,
+      "importance": 0.011839690804481506,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.011742048151791095,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 686,
+      "importance": 0.011059536784887313,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 368,
+      "importance": 0.010791149642318486,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.010761158913373947,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 36,
+      "importance": 0.01053200513124466,
+      "reef_name": "balance and adjustment"
+    }
+  ]
+}

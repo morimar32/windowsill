@@ -1,0 +1,146 @@
+{
+  "domain": "spanish",
+  "n_positive": 56,
+  "n_negative": 280,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8699999999999999,
+    "recall": 0.6778499278499278,
+    "f1": 0.7467402163054337,
+    "auc_pr": 0.8589933719805615
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.4444444444444444,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7709642209642209
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.9090909090909091,
+      "f1": 0.8695652173913043,
+      "auc_pr": 0.8977453102453103
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.7857142857142857,
+      "f1": 0.8461538461538461,
+      "auc_pr": 0.9393442995927468
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9466352513227514
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.5,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.7402777777777778
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 3,
+      "importance": 0.07838444113731384,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 203,
+      "importance": 0.047153661213815215,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 63,
+      "importance": 0.03714248146861791,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 130,
+      "importance": 0.03590912604704499,
+      "reef_name": "perception and assumption"
+    },
+    {
+      "dim_id": 186,
+      "importance": 0.018345537781715392,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.01782773332670331,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.017817655741237105,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 481,
+      "importance": 0.017318423342658207,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 243,
+      "importance": 0.01729591852054,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.017019466310739518,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 730,
+      "importance": 0.01650116597302258,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.01458045095205307,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.014065214979927987,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.01335149435326457,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.013232120186148676,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.012884380808100105,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.012687409482896327,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.01190640302374959,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.011714828171534464,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.011628399044275284,
+      "reef_name": "fish and wildlife"
+    }
+  ]
+}

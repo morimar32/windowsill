@@ -1,0 +1,146 @@
+{
+  "domain": "statistics",
+  "n_positive": 82,
+  "n_negative": 410,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8214069264069265,
+    "recall": 0.6261050061050061,
+    "f1": 0.6871708683473389,
+    "auc_pr": 0.8408632623010295
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9333333333333333,
+      "recall": 0.3888888888888889,
+      "f1": 0.5490196078431373,
+      "auc_pr": 0.8338464318034211
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.7744444444444444
+    },
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.8888888888888888,
+      "f1": 0.8,
+      "auc_pr": 0.8912490922294845
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5384615384615384,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8890861275476658
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.7142857142857143,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8156902154801313
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 300,
+      "importance": 0.04575890600681305,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.03999174013733864,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.022133358602877705,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.02074614085140638,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.01785785410320386,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.01733249225653708,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 638,
+      "importance": 0.01639115149155259,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.014910234324634074,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.014541994780302048,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.014423277677269652,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 298,
+      "importance": 0.01405403888784349,
+      "reef_name": "explosive violent intensity"
+    },
+    {
+      "dim_id": 732,
+      "importance": 0.013254249934107065,
+      "reef_name": "filth and physical decay"
+    },
+    {
+      "dim_id": 471,
+      "importance": 0.013193694315850735,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.012943803297821433,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.01211898224428296,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.011770983226597309,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 256,
+      "importance": 0.01148663302010391,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 444,
+      "importance": 0.011402241885662079,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.010256736353039742,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.010171084571629763,
+      "reef_name": "british monarchy nobility"
+    }
+  ]
+}

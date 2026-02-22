@@ -1,0 +1,146 @@
+{
+  "domain": "anthropology",
+  "metrics": {
+    "precision": 0.9568181818181818,
+    "recall": 0.6613379602853288,
+    "f1": 0.7747336155305795,
+    "auc_pr": 0.8603603090616219
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.47619047619047616,
+      "f1": 0.6451612903225806,
+      "auc_pr": 0.8372507250109098
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.7692307692307693,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8889504716130101
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5384615384615384,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6954358119553701
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7894736842105263,
+      "f1": 0.8823529411764706,
+      "auc_pr": 0.9841841445719559
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7333333333333333,
+      "f1": 0.8461538461538461,
+      "auc_pr": 0.8959803921568628
+    }
+  ],
+  "n_positive": 81,
+  "n_negative": 405,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 124,
+      "importance": 0.029207519814372064,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.027833892963826656,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.0243414874188602,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.023815429769456387,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.02284517684020102,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.021353879570961,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.0202834089519456,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 367,
+      "importance": 0.018899336270987988,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 199,
+      "importance": 0.018794549535959958,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 115,
+      "importance": 0.01710679493844509,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 395,
+      "importance": 0.015310170873999596,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 543,
+      "importance": 0.014744733832776547,
+      "reef_name": "metallic sheen quality"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.013854756951332092,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 227,
+      "importance": 0.011766558885574341,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.011083699762821198,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 600,
+      "importance": 0.010968994474387728,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.010722377337515354,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.01019435040652752,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 155,
+      "importance": 0.010050020692870022,
+      "reef_name": "conflict and turmoil"
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.00980368500459008,
+      "reef_name": "organization and arrangement"
+    }
+  ]
+}

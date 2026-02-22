@@ -1,0 +1,145 @@
+{
+  "domain": "german",
+  "n_positive": 39,
+  "n_negative": 195,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8833333333333334,
+    "recall": 0.6232323232323231,
+    "f1": 0.7191213327436238,
+    "auc_pr": 0.8358910180233711
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5555555555555556,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8279820261437909
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578947,
+      "auc_pr": 0.9112554112554114
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6666666666666666,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8082732082732083
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6319444444444444
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 725,
+      "importance": 0.05781872747465968,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.05633065330330282,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 727,
+      "importance": 0.042206375300884245
+    },
+    {
+      "dim_id": 68,
+      "importance": 0.03616736717522144,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.03218993730843067,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.03004037932259962,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 66,
+      "importance": 0.02690274976193905,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.025254849903285505,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.021317864954471587,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 78,
+      "importance": 0.02069417634920683,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.020355620980262758,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 551,
+      "importance": 0.017838282883167265,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 518,
+      "importance": 0.016379031538963317,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 408,
+      "importance": 0.015768161253072323,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.014906404830981046,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.014837022125720977,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 619,
+      "importance": 0.014150021970272065,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.014123889128677547,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 553,
+      "importance": 0.01377430115826428,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.013287411537021399,
+      "reef_name": "arabic islamic terms"
+    }
+  ]
+}

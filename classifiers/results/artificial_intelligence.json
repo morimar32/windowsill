@@ -1,0 +1,140 @@
+{
+  "domain": "artificial_intelligence",
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.4895833333333333,
+    "f1": 0.5972222222222222,
+    "auc_pr": 0.7747294121284677
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.125,
+      "f1": 0.2222222222222222,
+      "auc_pr": 0.7239176485138706
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.625
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.75
+    }
+  ],
+  "n_positive": 23,
+  "n_negative": 115,
+  "n_folds": 4,
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.06423817074391991,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.053746616176795214,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.04336669249460101,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.04087676480412483,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 223,
+      "importance": 0.036163420882076025,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.03564058989286423,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.031826610618736595,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.03034262591972947,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 7,
+      "importance": 0.03028432244900614,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.029177452437579632,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 472,
+      "importance": 0.025220481678843498,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.024260591715574265,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 224,
+      "importance": 0.021237035281956196,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.0203412128716991,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 89,
+      "importance": 0.01957644196227193,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 440,
+      "importance": 0.019392814312595874,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 173,
+      "importance": 0.0192898940294981,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.01789020956493914,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.017530368641018867,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.017181033559609205,
+      "reef_name": "taxonomic scientific nomenclature"
+    }
+  ]
+}

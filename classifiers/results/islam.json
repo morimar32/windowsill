@@ -1,0 +1,146 @@
+{
+  "domain": "islam",
+  "n_positive": 90,
+  "n_negative": 450,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9204545454545455,
+    "recall": 0.6555797101449274,
+    "f1": 0.7318507074321028,
+    "auc_pr": 0.8367749038628123
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.2222222222222222,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.5692516367347843
+    },
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.5333333333333333,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7889510027010027
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1": 0.875,
+      "auc_pr": 0.9254502442002442
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7777777777777778,
+      "f1": 0.875,
+      "auc_pr": 0.9267226708747178
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8695652173913043,
+      "f1": 0.9302325581395349,
+      "auc_pr": 0.9734989648033125
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 491,
+      "importance": 0.062341757118701935,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.06148330420255661,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 384,
+      "importance": 0.02525972854346037,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.020077155157923698,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.019610795378684997,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.018989373371005057,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 382,
+      "importance": 0.01818167194724083,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.01813157070428133,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.01648879130370915,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.014996062824502587,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.013528658356517554,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 364,
+      "importance": 0.013280135550303385,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.013024253631010651,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.011907257372513413,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.011662255803821608,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.011242444161325693,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 449,
+      "importance": 0.010820326581597327,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.010723748384043575,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.010456167068332434,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 489,
+      "importance": 0.009998746472410858,
+      "reef_name": "botanical plant anatomy"
+    }
+  ]
+}

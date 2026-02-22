@@ -1,0 +1,146 @@
+{
+  "domain": "obstetrics",
+  "n_positive": 70,
+  "n_negative": 350,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9714285714285713,
+    "recall": 0.5371794871794872,
+    "f1": 0.6739130434782609,
+    "auc_pr": 0.7953252865987193
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.6123658252809107
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7692307692307693,
+      "f1": 0.8695652173913043,
+      "auc_pr": 0.8928571428571426
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.870046783625731
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5384615384615384,
+      "f1": 0.7,
+      "auc_pr": 0.846493623221958
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.46153846153846156,
+      "f1": 0.6,
+      "auc_pr": 0.7548630580078544
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 19,
+      "importance": 0.033242784440517426,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.029694436490535735,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 389,
+      "importance": 0.024297611974179744,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 295,
+      "importance": 0.020854201540350913,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.018991559016285464,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.01869423855096102,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 7,
+      "importance": 0.018610547587741166,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 611,
+      "importance": 0.018591868877410888,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 32,
+      "importance": 0.01753579033538699,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.01541651487350464,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 751,
+      "importance": 0.013946697860956193,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.013889005780220032,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 165,
+      "importance": 0.012993712909519672,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.012377719487994909,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 373,
+      "importance": 0.01149464085465297,
+      "reef_name": "filth and physical decay"
+    },
+    {
+      "dim_id": 433,
+      "importance": 0.010990852117538452,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.01074294988065958,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 261,
+      "importance": 0.010462088463827967,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.0103324837051332,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 68,
+      "importance": 0.010140807926654815,
+      "reef_name": "timber and bridges"
+    }
+  ]
+}

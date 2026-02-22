@@ -1,0 +1,146 @@
+{
+  "domain": "corporate finance",
+  "n_positive": 46,
+  "n_negative": 230,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.86,
+    "recall": 0.6138888888888887,
+    "f1": 0.7047219447219448,
+    "auc_pr": 0.8067157509445447
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.625,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.7782429274570717
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8409090909090908
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9081196581196582
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.6666666666666666,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8050125313283207
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4444444444444444,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7012945469085821
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 264,
+      "importance": 0.043710483610630034,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 157,
+      "importance": 0.04110278636217117,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.03890955597162247,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 239,
+      "importance": 0.028491477109491826,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 273,
+      "importance": 0.02428610101342201,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 328,
+      "importance": 0.022207064554095268,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 657,
+      "importance": 0.020339462161064147,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.020086465030908586,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.019278372102417052,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 586,
+      "importance": 0.01653490848839283,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 20,
+      "importance": 0.016372971655800938,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.01599956825375557,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 267,
+      "importance": 0.0149607197730802,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.014834044873714447,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 381,
+      "importance": 0.013713447749614716,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 728,
+      "importance": 0.013305069506168365,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.012527179718017579,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.012497850228101015,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.012118070572614669,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.012033571396023035,
+      "reef_name": "symmetry and duality"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "genesis",
+  "n_positive": 91,
+  "n_negative": 455,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7782828282828282,
+    "recall": 0.5509999999999999,
+    "f1": 0.6245098039215686,
+    "auc_pr": 0.7377669189489124
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8636363636363636,
+      "recall": 0.38,
+      "f1": 0.5277777777777778,
+      "auc_pr": 0.7441747882047699
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6666666666666666,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.7737602448386762
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.625,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.6555007492507493
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.5833333333333334,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7459928711694249
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7694059412809414
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.03861868977546692,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.0349298913963139,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.030251267179846764,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.02514914131606929,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.021588657470420002,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.02060210853815079,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.015583881735801696,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.013257769867777824,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.012336087855510413,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 667,
+      "importance": 0.012264911047532223,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.01153543870896101,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 497,
+      "importance": 0.010224841185845435,
+      "reef_name": "visual aesthetics and appearance"
+    },
+    {
+      "dim_id": 165,
+      "importance": 0.010183022153796628,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.009894703165628016,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.009768072156293783,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.00975696299574338,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 185,
+      "importance": 0.009501360170543195,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 60,
+      "importance": 0.009226660989224911,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 431,
+      "importance": 0.009034022042760626,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 349,
+      "importance": 0.008838383294641972,
+      "reef_name": "cross-cultural hybridization"
+    }
+  ]
+}

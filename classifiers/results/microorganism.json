@@ -1,0 +1,146 @@
+{
+  "domain": "microorganism",
+  "n_positive": 48,
+  "n_negative": 240,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6933333333333334,
+    "recall": 0.39062049062049065,
+    "f1": 0.49264705882352944,
+    "auc_pr": 0.669857113549501
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.4666666666666667
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.45454545454545453,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.6768002606712284
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.35714285714285715,
+      "f1": 0.5,
+      "auc_pr": 0.6987375609058493
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.36363636363636365,
+      "f1": 0.5,
+      "auc_pr": 0.594382666805348
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7777777777777778,
+      "f1": 0.875,
+      "auc_pr": 0.9126984126984127
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 173,
+      "importance": 0.049050379218533634,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.04757018005475402,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.028568404167890547,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.027368278661742806,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.022127696499228477,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.022072454914450645,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 674,
+      "importance": 0.02179983416572213,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 455,
+      "importance": 0.018526976741850377,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 581,
+      "importance": 0.016798088036011904,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 90,
+      "importance": 0.015775055065751074,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.015107925981283188,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.014965989720076322,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 205,
+      "importance": 0.014901253720745444,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 706,
+      "importance": 0.01430134930415079,
+      "reef_name": "explosive violent intensity"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.01408630758523941,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.013181489205453544,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.012577201426029205,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 86,
+      "importance": 0.01227917755022645,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 338,
+      "importance": 0.011037484176631552,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.010331941547337919,
+      "reef_name": "vehicles and physical placement"
+    }
+  ]
+}

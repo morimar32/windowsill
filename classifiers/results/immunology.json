@@ -1,0 +1,146 @@
+{
+  "domain": "immunology",
+  "n_positive": 71,
+  "n_negative": 355,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8344444444444445,
+    "recall": 0.6505602240896359,
+    "f1": 0.7156620553359684,
+    "auc_pr": 0.8382985263561398
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.25,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.6262579991730262
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.9166666666666666,
+      "f1": 0.9565217391304348,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.7647058823529411,
+      "f1": 0.8125,
+      "auc_pr": 0.9436654418852561
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.7416857858390117
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.5714285714285714,
+      "f1": 0.6956521739130435,
+      "auc_pr": 0.8798834048834048
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 63,
+      "importance": 0.08662906363606453,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.04876826778054237,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 739,
+      "importance": 0.03892670869827271,
+      "reef_name": "energetic positive qualities"
+    },
+    {
+      "dim_id": 711,
+      "importance": 0.032216091826558116,
+      "reef_name": "rare technical adjectives"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.031395981460809706,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.017900663557520603,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.01652862913906574,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.01620254684239626,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.016036169789731502,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 317,
+      "importance": 0.01596377491950989,
+      "reef_name": "prickling tactile sensations"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.013852735981345177,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 431,
+      "importance": 0.012984134955331683,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 735,
+      "importance": 0.01273248139768839,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.012351413071155549,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 86,
+      "importance": 0.01191424352582544,
+      "reef_name": "philosophical ideals humanity"
+    },
+    {
+      "dim_id": 556,
+      "importance": 0.011288389022229239,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 565,
+      "importance": 0.010946217458695173,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.01083620593417436,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.010586490482091903,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 647,
+      "importance": 0.010498115234076977,
+      "reef_name": "behavioral activity and engagement"
+    }
+  ]
+}

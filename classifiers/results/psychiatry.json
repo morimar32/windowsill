@@ -1,0 +1,146 @@
+{
+  "domain": "psychiatry",
+  "n_positive": 86,
+  "n_negative": 430,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7415584415584415,
+    "recall": 0.4542272823107737,
+    "f1": 0.5561904761904761,
+    "auc_pr": 0.7141820601035094
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.25806451612903225,
+      "f1": 0.38095238095238093,
+      "auc_pr": 0.6484333875478578
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.5882352941176471,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.846042476615232
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.6446557756542277
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6470588235294118,
+      "f1": 0.7857142857142857,
+      "auc_pr": 0.9016555340084752
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.4444444444444444,
+      "f1": 0.5,
+      "auc_pr": 0.5301231266917541
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 54,
+      "importance": 0.03493262827396393,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.032473320700228216,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.022000190615653992,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 368,
+      "importance": 0.020365216489881276,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.019884948432445527,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.019478553719818593,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 333,
+      "importance": 0.018737207911908627,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 451,
+      "importance": 0.017158690840005875,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 310,
+      "importance": 0.015184419043362141,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.014474490284919738,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.013920476287603378,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 755,
+      "importance": 0.013890984654426574,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 138,
+      "importance": 0.013820028491318226,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 197,
+      "importance": 0.01323863912257366,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.013209535414353013,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.012900204514153302,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 688,
+      "importance": 0.012354262487497181,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.011758267134428024,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.011216459795832634,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.010903370659798383,
+      "reef_name": "chemical compounds and hydrocarbons"
+    }
+  ]
+}

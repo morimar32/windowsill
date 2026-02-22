@@ -1,0 +1,146 @@
+{
+  "domain": "navy",
+  "n_positive": 69,
+  "n_negative": 345,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9800000000000001,
+    "recall": 0.7546416546416547,
+    "f1": 0.8511651469098277,
+    "auc_pr": 0.9313733107447296
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.7407407407407407,
+      "f1": 0.851063829787234,
+      "auc_pr": 0.9294010605604803
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.8181818181818182,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8828671328671328
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9132130789107533
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.948051948051948
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9833333333333335
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 36,
+      "importance": 0.07012537270784377,
+      "reef_name": "balance and adjustment"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.03476042449474335,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.03470905493013561,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 353,
+      "importance": 0.03160685170441866,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 531,
+      "importance": 0.031013503018766642,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 637,
+      "importance": 0.023437409847974777,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.02098543765023351,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.02048732216353528,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 380,
+      "importance": 0.019717678427696228,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 132,
+      "importance": 0.018445378832984714,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.017629389138892292,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.016878181695938112,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.016121798753738405,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.015108970925211906,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.014778725802898407,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 568,
+      "importance": 0.014270031685009598,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.014157423935830592,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 421,
+      "importance": 0.013074363069608807,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 184,
+      "importance": 0.012909771676640957,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.01218766337260604,
+      "reef_name": "abstract quality and condition"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "jamaica",
+  "n_positive": 27,
+  "n_negative": 135,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9199999999999999,
+    "recall": 0.3271428571428571,
+    "f1": 0.4333333333333333,
+    "auc_pr": 0.6617127092484235
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.14285714285714285,
+      "f1": 0.25,
+      "auc_pr": 0.6297498797498797
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.14285714285714285,
+      "f1": 0.25,
+      "auc_pr": 0.595063666492238
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8928571428571428
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.45517857142857143
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1": 0.6,
+      "auc_pr": 0.7357142857142858
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 153,
+      "importance": 0.05008584900060668,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.0379462543874979,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 102,
+      "importance": 0.03376731388270855,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.033646917622536424,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 101,
+      "importance": 0.0269306359346956,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.023655336908996107,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 168,
+      "importance": 0.02284131683409214,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 281,
+      "importance": 0.02080507166683674,
+      "reef_name": "violent destruction toxicity"
+    },
+    {
+      "dim_id": 351,
+      "importance": 0.019938891823403537,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.01976774539798498,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.01755967256613076,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.016644253581762313,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 742,
+      "importance": 0.01611061409348622,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.01593531370162964,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.014678640104830266,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.01446027122437954,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.013911798596382141,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.013307576836086809,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 675,
+      "importance": 0.013044403493404388,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 669,
+      "importance": 0.012663360591977835,
+      "reef_name": "timber and forest wood"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "commerce",
+  "n_positive": 154,
+  "n_negative": 770,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8440336134453782,
+    "recall": 0.7908128908128907,
+    "f1": 0.7780464021189973,
+    "auc_pr": 0.8953059858622534
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.37037037037037035,
+      "f1": 0.5405405405405406,
+      "auc_pr": 0.8914753848427297
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.9090909090909091,
+      "f1": 0.8,
+      "auc_pr": 0.8258231667322576
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7857142857142857,
+      "f1": 0.88,
+      "auc_pr": 0.9910714285714284
+    },
+    {
+      "precision": 0.7058823529411765,
+      "recall": 1.0,
+      "f1": 0.8275862068965517,
+      "auc_pr": 0.8918893062275416
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.8888888888888888,
+      "f1": 0.8421052631578947,
+      "auc_pr": 0.8762706429373097
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 531,
+      "importance": 0.054964984953403476,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.028100232034921645,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.025648584333248438,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.023944892885629086,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 53,
+      "importance": 0.02330280877649784,
+      "reef_name": "professional employment roles"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.021834731695707887,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.018735062796622515,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.018558983504772187,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.01759188622236252,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.01514812484383583,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.014926616012235171,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.014846486784517766,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.014465456176549197,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.014019199958420358,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 193,
+      "importance": 0.012203648732975126,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.01152143051076564,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 539,
+      "importance": 0.010648262855829671,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.010435690917074681,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.010371497948653996,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.010351458797231317,
+      "reef_name": "unpleasant and unsuitable"
+    }
+  ]
+}

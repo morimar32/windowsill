@@ -1,0 +1,146 @@
+{
+  "domain": "commercial enterprise",
+  "n_positive": 126,
+  "n_negative": 630,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8347338935574229,
+    "recall": 0.7267556659027247,
+    "f1": 0.7556522241924293,
+    "auc_pr": 0.8242823335394144
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9117647058823529,
+      "recall": 0.41333333333333333,
+      "f1": 0.5688073394495413,
+      "auc_pr": 0.8106702037022705
+    },
+    {
+      "precision": 0.9285714285714286,
+      "recall": 0.8125,
+      "f1": 0.8666666666666667,
+      "auc_pr": 0.9163305546577605
+    },
+    {
+      "precision": 0.9333333333333333,
+      "recall": 0.8235294117647058,
+      "f1": 0.875,
+      "auc_pr": 0.9350956680890268
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.7272727272727273,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.9116161616161618
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.8571428571428571,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.5476990796318526
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 398,
+      "importance": 0.04121891856193542,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.037841622158885,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.0280549188144505,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 351,
+      "importance": 0.02566954866051674,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.018735366221517325,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 695,
+      "importance": 0.01773142032325268,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.0170848753885366,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.014986344776116312,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.014529343880712985,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.013519641943275928,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.011927885317709297,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.010635779472067952,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.010608528027660213,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.010090541501995176,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.009628549218177795,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.009386080477270298,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.008990616491064429,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.008935326779464958,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.008663125577913888,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.008638665173202753,
+      "reef_name": "light and brightness"
+    }
+  ]
+}

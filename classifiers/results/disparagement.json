@@ -1,0 +1,146 @@
+{
+  "domain": "disparagement",
+  "n_positive": 129,
+  "n_negative": 645,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6460927960927961,
+    "recall": 0.31740313350220467,
+    "f1": 0.41458682215078213,
+    "auc_pr": 0.6411995032966991
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8095238095238095,
+      "recall": 0.2982456140350877,
+      "f1": 0.4358974358974359,
+      "auc_pr": 0.6599392891290761
+    },
+    {
+      "precision": 0.6153846153846154,
+      "recall": 0.5,
+      "f1": 0.5517241379310345,
+      "auc_pr": 0.7167181106564668
+    },
+    {
+      "precision": 0.25,
+      "recall": 0.058823529411764705,
+      "f1": 0.09523809523809523,
+      "auc_pr": 0.4736523561786743
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.3181818181818182,
+      "f1": 0.45161290322580644,
+      "auc_pr": 0.6646468565036397
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.4117647058823529,
+      "f1": 0.5384615384615384,
+      "auc_pr": 0.6910409040156379
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 25,
+      "importance": 0.026971733756363393,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.02118722051382065,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 47,
+      "importance": 0.015240643545985222,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 521,
+      "importance": 0.015013405075296759,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 693,
+      "importance": 0.014033278077840805,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.013347767133382149,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 664,
+      "importance": 0.011194852739572525,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.010803978308103979,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 757,
+      "importance": 0.010410795884672553,
+      "reef_name": "horses and riding"
+    },
+    {
+      "dim_id": 388,
+      "importance": 0.010400795750319958,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 168,
+      "importance": 0.009935251343995333,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 367,
+      "importance": 0.009607591480016709,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.009465387853560969,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 204,
+      "importance": 0.009312112425686792,
+      "reef_name": "gases and atomization"
+    },
+    {
+      "dim_id": 313,
+      "importance": 0.008982872124761343,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.008878502430161462,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.008820958132855595,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 605,
+      "importance": 0.00795031562447548,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.007798070693388582,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 217,
+      "importance": 0.007573586702346802,
+      "reef_name": "lines shading gradation"
+    }
+  ]
+}

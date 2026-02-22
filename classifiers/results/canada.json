@@ -1,0 +1,146 @@
+{
+  "domain": "canada",
+  "metrics": {
+    "precision": 0.875,
+    "recall": 0.5753496503496504,
+    "f1": 0.6830827067669173,
+    "auc_pr": 0.8704052848256613
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9636536994660565
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6363636363636364,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.9281486190577101
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.375,
+      "f1": 0.5,
+      "auc_pr": 0.6548611111111111
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.9305555555555555
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6153846153846154,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.8748074389378737
+    }
+  ],
+  "n_positive": 56,
+  "n_negative": 280,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 441,
+      "importance": 0.034030091715976596,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 44,
+      "importance": 0.03388100415468216,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 569,
+      "importance": 0.0285997879691422,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 680,
+      "importance": 0.02853007576195523,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.027815756481140853,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.024930722638964654,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.0248777694767341,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 261,
+      "importance": 0.021541536366567016,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 193,
+      "importance": 0.018218965514097362,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.018167950958013535,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 527,
+      "importance": 0.017779789865016937,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.017497383535373955,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.015260271728038788,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.014972131699323654,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.014865059964358806,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.01468918997561559,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.013867789693176747,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 619,
+      "importance": 0.013037641346454621,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 729,
+      "importance": 0.012416170910000801,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 692,
+      "importance": 0.012358046881854535,
+      "reef_name": "impossibility and implausibility"
+    }
+  ]
+}

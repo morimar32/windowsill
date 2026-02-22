@@ -1,0 +1,146 @@
+{
+  "domain": "car",
+  "metrics": {
+    "precision": 0.7934343434343434,
+    "recall": 0.5893535327151627,
+    "f1": 0.6715724300629959,
+    "auc_pr": 0.7790828295981459
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7727272727272727,
+      "recall": 0.5483870967741935,
+      "f1": 0.6415094339622641,
+      "auc_pr": 0.8201156172496767
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.46153846153846156,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.6619463869463869
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5,
+      "f1": 0.6363636363636364,
+      "auc_pr": 0.7220416279626806
+    },
+    {
+      "precision": 0.7777777777777778,
+      "recall": 0.7368421052631579,
+      "f1": 0.7567567567567568,
+      "auc_pr": 0.8577450272664968
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7,
+      "f1": 0.7777777777777778,
+      "auc_pr": 0.8335654885654885
+    }
+  ],
+  "n_positive": 87,
+  "n_negative": 435,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 763,
+      "importance": 0.04091658256947994,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.03515256053069606,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.03126258528791368,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.025880826450884343,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.022140334360301495,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 116,
+      "importance": 0.021166317537426947,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 106,
+      "importance": 0.021090557985007762,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.01604363601654768,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.01568585563218221,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.01389109135052422,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.013397395348874852,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 187,
+      "importance": 0.01245105667039752,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.01243477274547331,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.01200916925445199,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.010784071311354637,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.01005074307322502,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.009765497595071792,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 382,
+      "importance": 0.009708032011985779,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 410,
+      "importance": 0.009400209784507752,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 309,
+      "importance": 0.00895293226931244,
+      "reef_name": "grip and manual control"
+    }
+  ]
+}

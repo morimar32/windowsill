@@ -1,0 +1,49 @@
+{
+  "domain": "abbreviation",
+  "timestamp": "2026-02-21T07:28:46.303340+00:00",
+  "n_words": 19,
+  "core": [
+    "abbr",
+    "abbreviated",
+    "acronym",
+    "ampersand",
+    "clipping",
+    "contraction",
+    "ellipsis",
+    "initialism",
+    "portmanteau",
+    "shortened",
+    "shorthand",
+    "truncate",
+    "truncated",
+    "truncation"
+  ],
+  "peripheral": [
+    "colloquial",
+    "informal",
+    "notation",
+    "shortening",
+    "symbolic"
+  ],
+  "words": [
+    "abbr",
+    "abbreviated",
+    "acronym",
+    "ampersand",
+    "clipping",
+    "colloquial",
+    "contraction",
+    "ellipsis",
+    "informal",
+    "initialism",
+    "notation",
+    "portmanteau",
+    "shortened",
+    "shortening",
+    "shorthand",
+    "symbolic",
+    "truncate",
+    "truncated",
+    "truncation"
+  ]
+}

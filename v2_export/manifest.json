@@ -1,0 +1,28 @@
+{
+  "version": "6.0",
+  "format": "msgpack",
+  "build_timestamp": "2026-02-22T17:49:41Z",
+  "files": {
+    "word_lookup.bin": "f35fe59823ef3dc760da936b0119bcb7319e769e37d93a2c6d286c6db7d5176f",
+    "word_reefs.bin": "65078451c8711f5961b825bed1cff4dc47a277022083495a0545781cd183dc17",
+    "reef_meta.bin": "d865fa516059859ce51c2f6fad37c25e77d94b6364da697eff6a98e66a6cbe95",
+    "island_meta.bin": "2af558c0e7359e4f0eb2d2315f465da7bf67f9360be59b601654a7b4e9a2b17b",
+    "background.bin": "c8926976fbc4d8b012c43bf9d15268462f513a31248f8a268250409c8e719051",
+    "compounds.bin": "2bebf687f276c3d21145d57dd18815d06d2edfd275bf417b3d19a3cbd0e5c425",
+    "constants.bin": "cdcedb0efb693129bc67baae8c5782f74d53c2438e4d154fa2429468846ef18f",
+    "reef_edges.bin": "9e076ceaf246b6003d9c2680a2b4cf0bffd069805902b0b5edeebf49039fe4bd",
+    "word_reef_detail.bin": "aa4dc376eaec53fb6b5972fbb37d32fa6ae2a1a9c1db0f5dc61318b0358401e1",
+    "sub_reef_meta.bin": "53ae2449aada1c89b86d5b864d3ecf7fbf3823566023d800773b6c10f6f81bd2"
+  },
+  "stats": {
+    "n_reefs": 444,
+    "n_islands": 444,
+    "n_archs": 11,
+    "n_words": 158060,
+    "n_lookup_entries": 186184,
+    "n_words_with_reefs": 126163,
+    "n_compounds": 69793,
+    "n_sub_reefs": 5150,
+    "n_edges": 0
+  }
+}

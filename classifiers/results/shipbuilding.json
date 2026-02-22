@@ -1,0 +1,146 @@
+{
+  "domain": "shipbuilding",
+  "n_positive": 33,
+  "n_negative": 165,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7,
+    "recall": 0.35857142857142854,
+    "f1": 0.45311942959001783,
+    "auc_pr": 0.6557536952350617
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.14285714285714285,
+      "f1": 0.23529411764705882,
+      "auc_pr": 0.5785881009949333
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.25,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.7708333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.848611111111111
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.4,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.4432900432900433
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.6374458874458875
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 421,
+      "importance": 0.08475496768951415,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.03427949231117964,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.03357047885656357,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 224,
+      "importance": 0.032075369358062746,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.027229165332391857,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.026816717814654112,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 268,
+      "importance": 0.02669319645501673,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 446,
+      "importance": 0.024677073350176215,
+      "reef_name": "commotion and outbursts"
+    },
+    {
+      "dim_id": 587,
+      "importance": 0.024108392815105618,
+      "reef_name": "violent brutality and rage"
+    },
+    {
+      "dim_id": 397,
+      "importance": 0.020081171207129954,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.015599907003343105,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 250,
+      "importance": 0.015363500826060772,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 196,
+      "importance": 0.015187341161072255,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 535,
+      "importance": 0.014150661253370344,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 530,
+      "importance": 0.014027771167457103,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.013851578440517187,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.013339466380421073,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.012851440906524658,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.012040911242365837,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.011815429851412772,
+      "reef_name": "enormity and exaggeration"
+    }
+  ]
+}

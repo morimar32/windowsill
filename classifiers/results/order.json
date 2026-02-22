@@ -1,0 +1,146 @@
+{
+  "domain": "order",
+  "n_positive": 52,
+  "n_negative": 260,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8051282051282052,
+    "recall": 0.46064039408866997,
+    "f1": 0.5663614163614163,
+    "auc_pr": 0.6694907837591473
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6923076923076923,
+      "recall": 0.3103448275862069,
+      "f1": 0.42857142857142855,
+      "auc_pr": 0.6711465872506783
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8571428571428571,
+      "f1": 0.9230769230769231,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 0.25,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.4375
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.6796491228070175
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2857142857142857,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.5591582087380407
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 595,
+      "importance": 0.03487212397158146,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 653,
+      "importance": 0.029778074659407138,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 599,
+      "importance": 0.020881515368819235,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.020620146952569484,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 238,
+      "importance": 0.020024226256646217,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.018850471219047905,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.017721004830673338,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.017318025906570257,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 335,
+      "importance": 0.017219576798379422,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 135,
+      "importance": 0.01718197597656399,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.01588334101252258,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.014534468948841094,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.014486897550523282,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.01447028391994536,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.013732117996551097,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.01308404104784131,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.012937154271639884,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 650,
+      "importance": 0.012419200595468282,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 581,
+      "importance": 0.011677022627554833,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 493,
+      "importance": 0.011305816992535255,
+      "reef_name": "extreme violence and brutality"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "archaism",
+  "metrics": {
+    "precision": 0.6867611336032389,
+    "recall": 0.3939107898204008,
+    "f1": 0.4856418217730976,
+    "auc_pr": 0.5959599974515963
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.631578947368421,
+      "recall": 0.13636363636363635,
+      "f1": 0.22429906542056074,
+      "auc_pr": 0.5034046706578805
+    },
+    {
+      "precision": 0.7,
+      "recall": 0.4375,
+      "f1": 0.5384615384615384,
+      "auc_pr": 0.5893916426862036
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.391304347826087,
+      "f1": 0.5142857142857142,
+      "auc_pr": 0.6339363216783992
+    },
+    {
+      "precision": 0.6153846153846154,
+      "recall": 0.42105263157894735,
+      "f1": 0.5,
+      "auc_pr": 0.5643237605526218
+    },
+    {
+      "precision": 0.7368421052631579,
+      "recall": 0.5833333333333334,
+      "f1": 0.6511627906976745,
+      "auc_pr": 0.6887435916828766
+    }
+  ],
+  "n_positive": 170,
+  "n_negative": 850,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 182,
+      "importance": 0.020136270299553873,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 179,
+      "importance": 0.01483797151595354,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.01451897006481886,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 745,
+      "importance": 0.012494099885225296,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 58,
+      "importance": 0.012178868241608142,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.011347065307199955,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 364,
+      "importance": 0.01040830947458744,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 698,
+      "importance": 0.010020717448787764,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.009907317510806025,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.009824053384363651,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 420,
+      "importance": 0.009348518028855324,
+      "reef_name": "color and hue"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.009054592365282587,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.008593256585299969,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 418,
+      "importance": 0.008427248800580855,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.008419612504076213,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 319,
+      "importance": 0.00830412032082677,
+      "reef_name": "zoological taxonomy wildlife"
+    },
+    {
+      "dim_id": 391,
+      "importance": 0.007873007170564961,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 227,
+      "importance": 0.0076709853936336005,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 683,
+      "importance": 0.0076425951207056645,
+      "reef_name": "playful adventurous activity"
+    },
+    {
+      "dim_id": 173,
+      "importance": 0.007091453741304576,
+      "reef_name": "internal anatomical structures"
+    }
+  ]
+}

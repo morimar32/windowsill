@@ -1,0 +1,146 @@
+{
+  "domain": "chess",
+  "metrics": {
+    "precision": 0.503095238095238,
+    "recall": 0.4137931034482759,
+    "f1": 0.38657087593257805,
+    "auc_pr": 0.5502322558680015
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.06896551724137931,
+      "f1": 0.1276595744680851,
+      "auc_pr": 0.6831313231335951
+    },
+    {
+      "precision": 0.625,
+      "recall": 0.8333333333333334,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.7073599880203654
+    },
+    {
+      "precision": 0.2,
+      "recall": 0.16666666666666666,
+      "f1": 0.18181818181818182,
+      "auc_pr": 0.2828921904082695
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.1111111111111111
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 1.0,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.9666666666666666
+    }
+  ],
+  "n_positive": 105,
+  "n_negative": 525,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 39,
+      "importance": 0.036938707903027536,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.031364595890045165,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.02708542123436928,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.017601776495575906,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 126,
+      "importance": 0.014946837723255158,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 277,
+      "importance": 0.01356926430016756,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 112,
+      "importance": 0.012719620764255524,
+      "reef_name": "sports and water recreation"
+    },
+    {
+      "dim_id": 167,
+      "importance": 0.01250685517443344,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 592,
+      "importance": 0.012325813248753547,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 573,
+      "importance": 0.012234580656513571,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 9,
+      "importance": 0.012202914245426655,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.012058995943516494,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 128,
+      "importance": 0.011682382167782635,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.011294466734398156,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.010803918456076644,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 693,
+      "importance": 0.010774784535169602,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.010494486776588019,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 667,
+      "importance": 0.01011158898472786,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.009468113677576185,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 50,
+      "importance": 0.009345016164297703,
+      "reef_name": "marsupials and amphibians"
+    }
+  ]
+}

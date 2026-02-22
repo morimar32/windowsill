@@ -1,0 +1,146 @@
+{
+  "domain": "business",
+  "metrics": {
+    "precision": 0.8434419381787801,
+    "recall": 0.663603779732812,
+    "f1": 0.7274920634920635,
+    "auc_pr": 0.889032458295574
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9473684210526315,
+      "recall": 0.5806451612903226,
+      "f1": 0.72,
+      "auc_pr": 0.9143559906392018
+    },
+    {
+      "precision": 0.7142857142857143,
+      "recall": 0.45454545454545453,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.8143468830634606
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9776315789473684
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.8888888888888888,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.7871572871572872
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.7272727272727273,
+      "f1": 0.8,
+      "auc_pr": 0.9516705516705517
+    }
+  ],
+  "n_positive": 77,
+  "n_negative": 385,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.08192496993578971,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.04816335421055555,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.046519385278224946,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 500,
+      "importance": 0.029682854562997817,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.028894559195032345,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.024323897529393436,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.023491171561181544,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.020600616931915283,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 681,
+      "importance": 0.020254749245941638,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.016895988117903472,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 723,
+      "importance": 0.01688676215708256,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.015994984982535244,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 765,
+      "importance": 0.015173649974167347,
+      "reef_name": "social groups and identity"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.015099853067658842,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 382,
+      "importance": 0.014970509419799782,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.01469965004362166,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 708,
+      "importance": 0.01281256377696991,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 349,
+      "importance": 0.012006860645487904,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.011103877890855074,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 380,
+      "importance": 0.011030288413167,
+      "reef_name": "renewal and recreation"
+    }
+  ]
+}

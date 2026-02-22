@@ -1,0 +1,146 @@
+{
+  "domain": "norse mythology",
+  "n_positive": 70,
+  "n_negative": 350,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9006593406593406,
+    "recall": 0.6091727716727717,
+    "f1": 0.7220098522167487,
+    "auc_pr": 0.8625403310493404
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8,
+      "recall": 0.4444444444444444,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6505291005291006
+    },
+    {
+      "precision": 0.8461538461538461,
+      "recall": 0.6875,
+      "f1": 0.7586206896551724,
+      "auc_pr": 0.8795420572074983
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9666666666666668
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7857142857142857,
+      "f1": 0.88,
+      "auc_pr": 0.9859693877551019
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.46153846153846156,
+      "f1": 0.6,
+      "auc_pr": 0.8299944430883344
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 350,
+      "importance": 0.06569145396351814,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 256,
+      "importance": 0.028243060410022735,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 304,
+      "importance": 0.024955012602731586,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 178,
+      "importance": 0.020809408836066724,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.01714567802846432,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 568,
+      "importance": 0.016503674956038595,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 213,
+      "importance": 0.016414848947897555,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 465,
+      "importance": 0.01634538060752675,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.015985493594780565,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.015846245433203877,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.015829428005963563,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 705,
+      "importance": 0.013935336470603943,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 368,
+      "importance": 0.01346836518496275,
+      "reef_name": "timber and bridges"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.013030000030994415,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 614,
+      "importance": 0.012731033749878407,
+      "reef_name": "social groups and identity"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.012431423226371408,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 450,
+      "importance": 0.012098629120737314,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 385,
+      "importance": 0.011251855012960731,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 257,
+      "importance": 0.010892358142882586,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.00977904126048088,
+      "reef_name": "words starting with ci"
+    }
+  ]
+}

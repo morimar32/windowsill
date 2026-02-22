@@ -1,0 +1,146 @@
+{
+  "domain": "marxism",
+  "n_positive": 24,
+  "n_negative": 120,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8583333333333332,
+    "recall": 0.6083333333333334,
+    "f1": 0.6741702741702742,
+    "auc_pr": 0.8664224664224663
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.625,
+      "recall": 0.8333333333333334,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.7759615384615385
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.3333333333333333,
+      "f1": 0.4444444444444444,
+      "auc_pr": 0.8555555555555555
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.375,
+      "f1": 0.5454545454545454,
+      "auc_pr": 0.8672619047619048
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333333
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 398,
+      "importance": 0.11951611340045928,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 56,
+      "importance": 0.07282909229397774,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 149,
+      "importance": 0.050759615004062654,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 275,
+      "importance": 0.04928790042176843,
+      "reef_name": "sensory observation instruments"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.03757491030264646,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.03244038643315435,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 423,
+      "importance": 0.03203306496143341,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 89,
+      "importance": 0.029762597382068635,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.020392262376844883,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 289,
+      "importance": 0.01866040099412203,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.018559198081493377,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 682,
+      "importance": 0.018203373719006776,
+      "reef_name": "abstract quality and condition"
+    },
+    {
+      "dim_id": 428,
+      "importance": 0.018147309124469758,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.016499898955225946,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.015565934777259826,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 592,
+      "importance": 0.015095637738704681,
+      "reef_name": "portable power equipment"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.014992080628871918,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.014950098097324371,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.014897437393665313,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 339,
+      "importance": 0.014642608165740967,
+      "reef_name": "communal harmony"
+    }
+  ]
+}

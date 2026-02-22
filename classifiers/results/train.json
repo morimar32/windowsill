@@ -1,0 +1,146 @@
+{
+  "domain": "train",
+  "n_positive": 49,
+  "n_negative": 245,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.925,
+    "recall": 0.6696031746031745,
+    "f1": 0.7585797562268151,
+    "auc_pr": 0.9024672002332894
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5416666666666666,
+      "f1": 0.7027027027027027,
+      "auc_pr": 0.8786391930084855
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9266666666666666
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.7777777777777778,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.9467813051146385
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.42857142857142855,
+      "f1": 0.6,
+      "auc_pr": 0.760248836376656
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 763,
+      "importance": 0.0912417933344841,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.052319880947470664,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 354,
+      "importance": 0.05209618657827377,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 199,
+      "importance": 0.027040868252515792,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.025493584119249135,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.024459558352828027,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 572,
+      "importance": 0.019720059633255006,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 254,
+      "importance": 0.018375885486602784,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.018119078176096082,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.0166558051481843,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.016275495290756226,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 243,
+      "importance": 0.013987779751187191,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 536,
+      "importance": 0.013470260426402092,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.012789850251283496,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.012151245400309563,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.011725980788469315,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 418,
+      "importance": 0.011255178600549698,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.011048499797470867,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.010738192778080701,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.010114246606826782,
+      "reef_name": "disorientation and mental disturbance"
+    }
+  ]
+}

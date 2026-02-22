@@ -1,0 +1,146 @@
+{
+  "domain": "history",
+  "n_positive": 90,
+  "n_negative": 450,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8164285714285715,
+    "recall": 0.5553333333333333,
+    "f1": 0.6312084131898373,
+    "auc_pr": 0.8222878184404682
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.26,
+      "f1": 0.4126984126984127,
+      "auc_pr": 0.8562280687057137
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.6666666666666666,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8033881323355008
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.6666666666666666,
+      "f1": 0.631578947368421,
+      "auc_pr": 0.700998075998076
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.5833333333333334,
+      "f1": 0.7,
+      "auc_pr": 0.9012910156292508
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8495337995337994
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 604,
+      "importance": 0.04672573932912201,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.0397751085460186,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.021190166287124158,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 285,
+      "importance": 0.02078765076585114,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.02029849886894226,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.018435142189264297,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.018179416039492934,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.018151888716965915,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 255,
+      "importance": 0.017619792371988297,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 725,
+      "importance": 0.01705092340707779,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.01688198745250702,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 568,
+      "importance": 0.015699270358891227,
+      "reef_name": "scientific taxonomic terms"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.014390775375068188,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 589,
+      "importance": 0.013814764097332954,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 641,
+      "importance": 0.013591234013438225,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.013390989508479834,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 538,
+      "importance": 0.013371434819418937,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 554,
+      "importance": 0.012608224526047707,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.012200387606753793,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.011417229473590852,
+      "reef_name": "emotional distress and sorrow"
+    }
+  ]
+}

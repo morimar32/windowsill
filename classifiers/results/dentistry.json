@@ -1,0 +1,146 @@
+{
+  "domain": "dentistry",
+  "n_positive": 66,
+  "n_negative": 330,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8121212121212121,
+    "recall": 0.4696425796425796,
+    "f1": 0.5722305764411028,
+    "auc_pr": 0.7366844802642705
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.7624189833154246
+    },
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.6153846153846154,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8089889818248248
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.2,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.42898989898989903
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7272727272727273,
+      "f1": 0.8421052631578947,
+      "auc_pr": 0.8524350649350649
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.5555555555555556,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8305894722561389
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 374,
+      "importance": 0.03619527528062463,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 352,
+      "importance": 0.03210123833268881,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 11,
+      "importance": 0.02668268382549286,
+      "reef_name": "physical fluid states"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.02638767547905445,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 264,
+      "importance": 0.02414587903767824,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 193,
+      "importance": 0.022372831730172037,
+      "reef_name": "admirable excellence and splendor"
+    },
+    {
+      "dim_id": 360,
+      "importance": 0.020345137640833854,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 242,
+      "importance": 0.019122648669872434,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 640,
+      "importance": 0.018802457954734564,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.01861588768661022,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.01801857128739357,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 334,
+      "importance": 0.015225600823760033,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 408,
+      "importance": 0.014117795368656516,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.013391150650568307,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.012250468879938126,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 238,
+      "importance": 0.01073921732022427,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 521,
+      "importance": 0.010733720744610764,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 501,
+      "importance": 0.01057843929156661,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 96,
+      "importance": 0.010266154631972313,
+      "reef_name": "physical pressure activation"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.010251391213387251,
+      "reef_name": "taxonomic families genera"
+    }
+  ]
+}

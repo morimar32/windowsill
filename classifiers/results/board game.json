@@ -1,0 +1,146 @@
+{
+  "domain": "board game",
+  "metrics": {
+    "precision": 0.6,
+    "recall": 0.2246498599439776,
+    "f1": 0.30905982905982904,
+    "auc_pr": 0.6443285330944676
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.14705882352941177,
+      "f1": 0.2564102564102564,
+      "auc_pr": 0.6961982569396942
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.40818250377073906
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.6111111111111112
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.14285714285714285,
+      "f1": 0.2222222222222222,
+      "auc_pr": 0.6728174603174604
+    }
+  ],
+  "n_positive": 50,
+  "n_negative": 250,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 350,
+      "importance": 0.048088958114385606,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.04325631596148014,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 83,
+      "importance": 0.025971807236783207,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.021424362296238543,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.01935339723713696,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 312,
+      "importance": 0.017782600689679386,
+      "reef_name": "anatomical structures and mechanics"
+    },
+    {
+      "dim_id": 347,
+      "importance": 0.017559113760944454,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 684,
+      "importance": 0.0170531265437603,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 752,
+      "importance": 0.016598872467875482,
+      "reef_name": "mapping and geographical classification"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.014903276262339204,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 199,
+      "importance": 0.01483730726176873,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 277,
+      "importance": 0.014773859083652497,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 541,
+      "importance": 0.012891325121745466,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 82,
+      "importance": 0.012635620683431626,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 644,
+      "importance": 0.012544364877976477,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.011857165372930467,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.011726193985668942,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 90,
+      "importance": 0.011515088379383087,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 93,
+      "importance": 0.011203916370868683,
+      "reef_name": "size and greatness"
+    },
+    {
+      "dim_id": 401,
+      "importance": 0.011029381491243839,
+      "reef_name": "athletic vigor and activity"
+    }
+  ]
+}

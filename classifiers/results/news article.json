@@ -1,0 +1,146 @@
+{
+  "domain": "news article",
+  "n_positive": 29,
+  "n_negative": 145,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.7809523809523808,
+    "f1": 0.8697563874034462,
+    "auc_pr": 0.9403052503052501
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.7,
+      "f1": 0.8235294117647058,
+      "auc_pr": 0.9833333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091,
+      "auc_pr": 0.976190476190476
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9428571428571428
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.799145299145299
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 38,
+      "importance": 0.10627606958150863,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 148,
+      "importance": 0.08224101215600968,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 570,
+      "importance": 0.054564866423606875,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.03704490326344967,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.03532768189907074,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.03112688660621643,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 648,
+      "importance": 0.030164216831326484,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 609,
+      "importance": 0.025905766512732954,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.023458364605903625,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 470,
+      "importance": 0.022044285223819314,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.020335240103304387,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.019814187288284303,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 271,
+      "importance": 0.019633635878562927,
+      "reef_name": "internal anatomical structures"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.01943003535270691,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 753,
+      "importance": 0.019396165013313295,
+      "reef_name": "medical pathology conditions"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.01834788965061307,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 202,
+      "importance": 0.01744869500398636,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.016316568478941917,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.014961034059524536,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.013969218358397484,
+      "reef_name": "outdoor sports combat"
+    }
+  ]
+}

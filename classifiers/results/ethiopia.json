@@ -1,0 +1,146 @@
+{
+  "domain": "ethiopia",
+  "n_positive": 24,
+  "n_negative": 120,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8933333333333333,
+    "recall": 0.49000000000000005,
+    "f1": 0.6019047619047619,
+    "auc_pr": 0.816456043956044
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.6
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8583333333333332
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "auc_pr": 0.8833333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.9102564102564102
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.8303571428571428
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 392,
+      "importance": 0.060924903489649296,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.049795064330101016,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.04291150569915771,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.04079571450129151,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.03753720596432686,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 236,
+      "importance": 0.03530954122543335,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.03519926955923438,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.02931341826915741,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 153,
+      "importance": 0.029283829592168333,
+      "reef_name": "roles and agents"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.027948424220085144,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 189,
+      "importance": 0.026504158973693848,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 405,
+      "importance": 0.026299497100990266,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.024612762778997422,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 705,
+      "importance": 0.01977530214935541,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.019310085475444792,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 603,
+      "importance": 0.01880917346570641,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.017814263654872774,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.01581190663855523,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 272,
+      "importance": 0.015418516099452972,
+      "reef_name": "military tactics warfare"
+    },
+    {
+      "dim_id": 635,
+      "importance": 0.015057004988193512,
+      "reef_name": "absorption and displacement processes"
+    }
+  ]
+}

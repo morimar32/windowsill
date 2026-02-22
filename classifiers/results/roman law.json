@@ -1,0 +1,146 @@
+{
+  "domain": "roman law",
+  "n_positive": 30,
+  "n_negative": 150,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8,
+    "recall": 0.3207692307692308,
+    "f1": 0.4,
+    "auc_pr": 0.5963279491598842
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.15384615384615385,
+      "f1": 0.26666666666666666,
+      "auc_pr": 0.6216135147205584
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.2,
+      "f1": 0.3333333333333333,
+      "auc_pr": 0.43972431077694235
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.8470695970695971
+    },
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.07323232323232323
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 633,
+      "importance": 0.04698686525225639,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.02907037250697613,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.028955691307783128,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 580,
+      "importance": 0.026454957271926104,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.02505739629268646,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 106,
+      "importance": 0.0247531495988369,
+      "reef_name": "medical procedures and treatments"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.02415572479367256,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.021782385418191552,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 489,
+      "importance": 0.02037125243805349,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.020194293186068534,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.01910464745014906,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.018289519078098237,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 700,
+      "importance": 0.017406557896174492,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.017315374314785005,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 60,
+      "importance": 0.016766402684152127,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.016025030543096362,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 223,
+      "importance": 0.015482659637928008,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 387,
+      "importance": 0.015259860455989838,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 430,
+      "importance": 0.014881918113678694,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.014282117830589414,
+      "reef_name": "names and proper nouns"
+    }
+  ]
+}

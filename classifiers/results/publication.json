@@ -1,0 +1,146 @@
+{
+  "domain": "publication",
+  "n_positive": 27,
+  "n_negative": 135,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.52,
+    "recall": 0.2523809523809524,
+    "f1": 0.31714285714285717,
+    "auc_pr": 0.46138109698120655
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.6,
+      "recall": 0.42857142857142855,
+      "f1": 0.5,
+      "auc_pr": 0.4916512059369202
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.3717948717948718
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.711111111111111
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.16666666666666666,
+      "f1": 0.2857142857142857,
+      "auc_pr": 0.44388675760159135
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.28846153846153844
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 764,
+      "importance": 0.03718580044806004,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 249,
+      "importance": 0.03339739516377449,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 747,
+      "importance": 0.03260438106954098,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.02896523177623749,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 653,
+      "importance": 0.02258431613445282,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.02224305747076869,
+      "reef_name": "biological tissue and organisms"
+    },
+    {
+      "dim_id": 413,
+      "importance": 0.018433087971061468,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 473,
+      "importance": 0.018005377426743508,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 3,
+      "importance": 0.0175578226801008,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 699,
+      "importance": 0.01699952855706215,
+      "reef_name": "collaborative partnership"
+    },
+    {
+      "dim_id": 25,
+      "importance": 0.016650818288326263,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 475,
+      "importance": 0.016628706920892,
+      "reef_name": "biological taxonomy classification"
+    },
+    {
+      "dim_id": 62,
+      "importance": 0.01634632647037506,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 76,
+      "importance": 0.015794523060321808,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 367,
+      "importance": 0.0147873530164361,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 267,
+      "importance": 0.01469495901837945,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 323,
+      "importance": 0.013317366875708104,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.013298428058624268,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 740,
+      "importance": 0.013226731168106198,
+      "reef_name": "hazardous contamination hygiene"
+    },
+    {
+      "dim_id": 194,
+      "importance": 0.013105276599526405,
+      "reef_name": "natural foods and organisms"
+    }
+  ]
+}

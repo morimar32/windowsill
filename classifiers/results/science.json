@@ -1,0 +1,146 @@
+{
+  "domain": "science",
+  "n_positive": 89,
+  "n_negative": 445,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8165656565656565,
+    "recall": 0.5692197802197803,
+    "f1": 0.6574876104287869,
+    "auc_pr": 0.8063327873890911
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.32,
+      "f1": 0.47058823529411764,
+      "auc_pr": 0.7613654500563253
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5714285714285714,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7785544708290795
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.625,
+      "f1": 0.7142857142857143,
+      "auc_pr": 0.8511018661850704
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.7142857142857143,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.8128375592661305
+    },
+    {
+      "precision": 0.7272727272727273,
+      "recall": 0.6153846153846154,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8278045906088503
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 132,
+      "importance": 0.036445998959243296,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 580,
+      "importance": 0.021458794269710778,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.018784945644438267,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 528,
+      "importance": 0.018040080182254316,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.01756943154032342,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.01676674112677574,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 660,
+      "importance": 0.016186847258359192,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 459,
+      "importance": 0.015412142151035368,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 245,
+      "importance": 0.015222290554083884,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.014857833413407207,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.014576163794845342,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.013994111446663737,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.01342085301876068,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.013404948048992083,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 179,
+      "importance": 0.012957492457644548,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.012184120900928973,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 327,
+      "importance": 0.010940103232860566,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.010584577766712755,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.01024640779942274,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 761,
+      "importance": 0.009552693588193505,
+      "reef_name": "rooms furniture and fixtures"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "driving",
+  "n_positive": 96,
+  "n_negative": 480,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9037777777777777,
+    "recall": 0.7305385790679908,
+    "f1": 0.7983535762483132,
+    "auc_pr": 0.8858667795121521
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.88,
+      "recall": 0.43137254901960786,
+      "f1": 0.5789473684210527,
+      "auc_pr": 0.8227675715865403
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.7272727272727273,
+      "f1": 0.8,
+      "auc_pr": 0.8922248803827753
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.7857142857142857,
+      "f1": 0.8461538461538461,
+      "auc_pr": 0.9257104007104006
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.875,
+      "f1": 0.9333333333333333,
+      "auc_pr": 0.9583333333333333
+    },
+    {
+      "precision": 0.8333333333333334,
+      "recall": 0.8333333333333334,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.8302977115477116
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 34,
+      "importance": 0.05323568917810917,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.028842058405280112,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.028782324492931367,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 615,
+      "importance": 0.023164836317300798,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.02314084808458574,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.021948705334216355,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.02164875529706478,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.01987236988497898,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.019097682321444154,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.015483912802301348,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.01518058143556118,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.015077113779261709,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.013997988228220492,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 654,
+      "importance": 0.013948364742100238,
+      "reef_name": "outdoor terrain features"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.01186949573457241,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 444,
+      "importance": 0.011708073830232025,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.010196218499913812,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.00979200684087118,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.009781485999701545,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 563,
+      "importance": 0.009430035203695297,
+      "reef_name": "omission and reduction"
+    }
+  ]
+}

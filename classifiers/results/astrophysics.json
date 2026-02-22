@@ -1,0 +1,146 @@
+{
+  "domain": "astrophysics",
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.7141558441558442,
+    "f1": 0.8272204266321914,
+    "auc_pr": 0.9475206139912024
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5454545454545454,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.8692102015631429
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8571428571428571,
+      "f1": 0.9230769230769231,
+      "auc_pr": 0.9999999999999998
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8181818181818182,
+      "f1": 0.9,
+      "auc_pr": 0.8683928683928686
+    }
+  ],
+  "n_positive": 38,
+  "n_negative": 190,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 30,
+      "importance": 0.09856247901916504,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 547,
+      "importance": 0.037887368351221085,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.034316128399223086,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 445,
+      "importance": 0.0333315521478653,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.02931226771324873,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 97,
+      "importance": 0.02724649477750063,
+      "reef_name": "audiovisual measurement devices"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.025487827695906164,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 733,
+      "importance": 0.02455042554065585,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 275,
+      "importance": 0.024319714275770822,
+      "reef_name": "sensory observation instruments"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.02248882232233882,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.021048863232135773,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 594,
+      "importance": 0.01756379324942827,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.016386699536815284,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.016225719451904298,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.01543987337499857,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 181,
+      "importance": 0.015112890675663949,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 116,
+      "importance": 0.014733360707759857,
+      "reef_name": "machinery and motors"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.014407316222786903,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 729,
+      "importance": 0.014215959655120968,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 446,
+      "importance": 0.012906065955758095,
+      "reef_name": "commotion and outbursts"
+    }
+  ]
+}

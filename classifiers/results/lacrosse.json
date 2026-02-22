@@ -1,0 +1,146 @@
+{
+  "domain": "lacrosse",
+  "n_positive": 23,
+  "n_negative": 115,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7,
+    "recall": 0.3142857142857143,
+    "f1": 0.38666666666666666,
+    "auc_pr": 0.6662253007618371
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.07142857142857142,
+      "f1": 0.13333333333333333,
+      "auc_pr": 0.7922376149202965
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.8333333333333333
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.8666666666666667
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.6388888888888888
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.2
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 607,
+      "importance": 0.06894754734821618,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.04932616353034973,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 359,
+      "importance": 0.04602492954581976,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 471,
+      "importance": 0.043456295132637025,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.03448208728805184,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 403,
+      "importance": 0.034328971849754454,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 50,
+      "importance": 0.033658960415050385,
+      "reef_name": "marsupials and amphibians"
+    },
+    {
+      "dim_id": 229,
+      "importance": 0.029505762690678238,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 237,
+      "importance": 0.02765914648771286,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.026221633469685913,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.02478550672531128,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 84,
+      "importance": 0.024613333959132434,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 582,
+      "importance": 0.023414811864495278,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 37,
+      "importance": 0.02009351262822747,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.019637910556048153,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.0174233078956604,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 49,
+      "importance": 0.01728410869836807,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.01615567794069648,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 6,
+      "importance": 0.01493644705042243,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.01476350319571793,
+      "reef_name": "impossibility and implausibility"
+    }
+  ]
+}

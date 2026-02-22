@@ -1,0 +1,146 @@
+{
+  "domain": "trademark",
+  "n_positive": 103,
+  "n_negative": 515,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6835714285714285,
+    "recall": 0.2822217599334304,
+    "f1": 0.3926280347332979,
+    "auc_pr": 0.6058170524008324
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.26666666666666666,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.5300981576562972
+    },
+    {
+      "precision": 0.6,
+      "recall": 0.2608695652173913,
+      "f1": 0.36363636363636365,
+      "auc_pr": 0.5456374333785964
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.3333333333333333,
+      "f1": 0.42105263157894735,
+      "auc_pr": 0.5841907653557967
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.3684210526315789,
+      "f1": 0.5185185185185185,
+      "auc_pr": 0.778746712317079
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.18181818181818182,
+      "f1": 0.2962962962962963,
+      "auc_pr": 0.5904121932963923
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 276,
+      "importance": 0.022390759130939842,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 581,
+      "importance": 0.017204112191393506,
+      "reef_name": "stance and movement awkwardness"
+    },
+    {
+      "dim_id": 5,
+      "importance": 0.016153757460415363,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 767,
+      "importance": 0.011340361947441124,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 89,
+      "importance": 0.010941601870581508,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.010717625170946122,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 489,
+      "importance": 0.010479613000643439,
+      "reef_name": "botanical plant anatomy"
+    },
+    {
+      "dim_id": 481,
+      "importance": 0.010267959849443287,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.010121889182482847,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 21,
+      "importance": 0.009676095377653838,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.009245130751514808,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.008867365939659066,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.008285748586058617,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.007830011844635009,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.00768617419525981,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 523,
+      "importance": 0.007500947083099163,
+      "reef_name": "cardiovascular medical systems"
+    },
+    {
+      "dim_id": 511,
+      "importance": 0.007331440399866551,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.007215245919360314,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 433,
+      "importance": 0.007214879244565963,
+      "reef_name": "manner and liveliness"
+    },
+    {
+      "dim_id": 236,
+      "importance": 0.00711625199764967,
+      "reef_name": "riding equipment gear"
+    }
+  ]
+}

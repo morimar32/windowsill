@@ -1,0 +1,140 @@
+{
+  "domain": "synecdoche",
+  "n_positive": 25,
+  "n_negative": 125,
+  "n_folds": 4,
+  "metrics": {
+    "precision": 0.5,
+    "recall": 0.2013888888888889,
+    "f1": 0.25,
+    "auc_pr": 0.4315104735558659
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.5,
+      "recall": 0.05555555555555555,
+      "f1": 0.1,
+      "auc_pr": 0.44112125930282875
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.5515873015873016
+    },
+    {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "auc_pr": 0.16666666666666666
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.5666666666666667
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 308,
+      "importance": 0.07756448769941926,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 400,
+      "importance": 0.04019187390804291,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 513,
+      "importance": 0.03433610871434212,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 258,
+      "importance": 0.03076192387379706,
+      "reef_name": "nationalities and demonyms"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.03006976004689932,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.0288431984372437,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 636,
+      "importance": 0.028684362769126892,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.02616036683320999,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.026026546955108643,
+      "reef_name": "decay and dissolution"
+    },
+    {
+      "dim_id": 700,
+      "importance": 0.025533865205943584,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 507,
+      "importance": 0.024661722593009472,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.023461822791432496,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 585,
+      "importance": 0.02034558728337288,
+      "reef_name": "separation and distinction"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.01955464854836464,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 483,
+      "importance": 0.01954194507561624,
+      "reef_name": "water and fluid substances"
+    },
+    {
+      "dim_id": 759,
+      "importance": 0.01696012355387211,
+      "reef_name": "portable physical objects"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.016888892278075218,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.016519332770258188,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 651,
+      "importance": 0.016374017111957073,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 304,
+      "importance": 0.014117193408310413,
+      "reef_name": "taxonomic family names"
+    }
+  ]
+}

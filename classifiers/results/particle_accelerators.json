@@ -1,0 +1,146 @@
+{
+  "domain": "particle_accelerators",
+  "n_positive": 28,
+  "n_negative": 140,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.61,
+    "recall": 0.4793939393939394,
+    "f1": 0.5088888888888888,
+    "auc_pr": 0.7863012943374367
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.25,
+      "recall": 0.2,
+      "f1": 0.2222222222222222,
+      "auc_pr": 0.46715686274509804
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.36363636363636365,
+      "f1": 0.5333333333333333,
+      "auc_pr": 0.8766151212075977
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4,
+      "auc_pr": 0.7544011544011543
+    },
+    {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1": 0.8888888888888888,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1": 0.5,
+      "auc_pr": 0.8333333333333333
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 211,
+      "importance": 0.09591883147368208,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 35,
+      "importance": 0.05262521579861641,
+      "reef_name": "biological taxonomy genus"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.04881822168827057,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 704,
+      "importance": 0.03593596518039703,
+      "reef_name": "biological taxonomy terms"
+    },
+    {
+      "dim_id": 378,
+      "importance": 0.030018983967602254,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 594,
+      "importance": 0.028067346662282944,
+      "reef_name": "seductive sensual allure"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.025633996166288853,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 135,
+      "importance": 0.024764353036880495,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 563,
+      "importance": 0.023878882825374603,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 460,
+      "importance": 0.02310911347158253,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 279,
+      "importance": 0.022071667574346067,
+      "reef_name": "spatial positioning and movement"
+    },
+    {
+      "dim_id": 691,
+      "importance": 0.021920770406723022,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 230,
+      "importance": 0.019422969850711524,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 63,
+      "importance": 0.017373995552770794,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 651,
+      "importance": 0.01695439163595438,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.016889806464314462,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.016149553656578063,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 206,
+      "importance": 0.015661586076021194,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 417,
+      "importance": 0.014619972184300422,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.013524848222732543,
+      "reef_name": "perception and awareness"
+    }
+  ]
+}

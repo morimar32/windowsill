@@ -1,0 +1,140 @@
+{
+  "domain": "auction",
+  "metrics": {
+    "precision": 0.8875,
+    "recall": 0.7003205128205128,
+    "f1": 0.7486111111111111,
+    "auc_pr": 0.8656318794327844
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.38461538461538464,
+      "f1": 0.5555555555555556,
+      "auc_pr": 0.7870373216527062
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9166666666666667
+    },
+    {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.95
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.8088235294117647
+    }
+  ],
+  "n_positive": 27,
+  "n_negative": 135,
+  "n_folds": 4,
+  "top_features": [
+    {
+      "dim_id": 733,
+      "importance": 0.09806259861215949,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 404,
+      "importance": 0.05108640788239427,
+      "reef_name": "financial holdings and assets"
+    },
+    {
+      "dim_id": 595,
+      "importance": 0.035022181808017194,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 430,
+      "importance": 0.03270020708441734,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.029620622983202338,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 66,
+      "importance": 0.02865215204656124,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.026998601853847504,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 202,
+      "importance": 0.02631190326064825,
+      "reef_name": "musical instruments and performance"
+    },
+    {
+      "dim_id": 729,
+      "importance": 0.025005914736539125,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.02345983497798443,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 225,
+      "importance": 0.023028595373034477,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 76,
+      "importance": 0.02237877866718918,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 393,
+      "importance": 0.021558571606874466,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 530,
+      "importance": 0.0210861514788121,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.021029189229011536,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 285,
+      "importance": 0.018816363997757435,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 319,
+      "importance": 0.018268654122948647,
+      "reef_name": "zoological taxonomy wildlife"
+    },
+    {
+      "dim_id": 48,
+      "importance": 0.017385827522957698,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.017297750571742654,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.017253743018954992,
+      "reef_name": "chemical compounds and hydrocarbons"
+    }
+  ]
+}

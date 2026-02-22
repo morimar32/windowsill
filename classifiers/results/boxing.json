@@ -1,0 +1,146 @@
+{
+  "domain": "boxing",
+  "metrics": {
+    "precision": 0.856969696969697,
+    "recall": 0.4716666666666667,
+    "f1": 0.5857286504345327,
+    "auc_pr": 0.7621923867105295
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.225,
+      "f1": 0.35294117647058826,
+      "auc_pr": 0.6524367577480595
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.782125350140056
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.7091628959276018
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 0.7763278388278388
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.8909090909090909
+    }
+  ],
+  "n_positive": 67,
+  "n_negative": 335,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 428,
+      "importance": 0.045336457714438436,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 306,
+      "importance": 0.03537544086575508,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.02643130482174456,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 175,
+      "importance": 0.02203738745301962,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 302,
+      "importance": 0.020584554970264436,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 664,
+      "importance": 0.019106482341885566,
+      "reef_name": "geographic regions countries"
+    },
+    {
+      "dim_id": 224,
+      "importance": 0.015438223085948267,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 381,
+      "importance": 0.014891626633470878,
+      "reef_name": "attribution and correspondence"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.01431863298639655,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.014161456190049649,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 186,
+      "importance": 0.013855124195106327,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.013783975411206484,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.01364936181344092,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.013448900217190385,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 240,
+      "importance": 0.012645384296774864,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 403,
+      "importance": 0.01209184741601348,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 401,
+      "importance": 0.011500288918614387,
+      "reef_name": "athletic vigor and activity"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.010647196881473064,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.010231928492430598,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 308,
+      "importance": 0.010034612333402037,
+      "reef_name": "legal and textual authority"
+    }
+  ]
+}

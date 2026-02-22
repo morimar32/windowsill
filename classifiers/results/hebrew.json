@@ -1,0 +1,146 @@
+{
+  "domain": "hebrew",
+  "n_positive": 37,
+  "n_negative": 185,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.95,
+    "recall": 0.7067099567099566,
+    "f1": 0.7966310160427807,
+    "auc_pr": 0.9255313144541564
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5454545454545454,
+      "f1": 0.7058823529411765,
+      "auc_pr": 0.9750688705234161
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9106753812636168
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5714285714285714,
+      "f1": 0.7272727272727273,
+      "auc_pr": 0.8125472411186696
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.9293650793650794
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 638,
+      "importance": 0.051960013806819916,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.0517228537471965,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 392,
+      "importance": 0.0508150465786457,
+      "reef_name": "arabic islamic terms"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.032669071294367316,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 92,
+      "importance": 0.031241375859826802,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 712,
+      "importance": 0.02919610794633627,
+      "reef_name": "interior domestic spaces"
+    },
+    {
+      "dim_id": 293,
+      "importance": 0.028044520411640406,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 358,
+      "importance": 0.02712530195713043,
+      "reef_name": "proper nouns and organisms"
+    },
+    {
+      "dim_id": 255,
+      "importance": 0.026581603102385998,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.02441575229167938,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.023883846309036016,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.02364835888147354,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.022202692553400995,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.02118261083960533,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 186,
+      "importance": 0.01911909431219101,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.01799118146300316,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.017990933917462825,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 123,
+      "importance": 0.017497503757476808,
+      "reef_name": "religious figures and illness"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.015885318676009775,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 109,
+      "importance": 0.015726565942168237,
+      "reef_name": "biological tissue and organisms"
+    }
+  ]
+}

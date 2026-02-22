@@ -1,0 +1,146 @@
+{
+  "domain": "zoology",
+  "n_positive": 174,
+  "n_negative": 870,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8425098039215687,
+    "recall": 0.4550227269011298,
+    "f1": 0.5829119286510591,
+    "auc_pr": 0.7325732695074816
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.2894736842105263,
+      "f1": 0.44,
+      "auc_pr": 0.6736960285824654
+    },
+    {
+      "precision": 0.95,
+      "recall": 0.5135135135135135,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7910651672551571
+    },
+    {
+      "precision": 0.7058823529411765,
+      "recall": 0.41379310344827586,
+      "f1": 0.5217391304347826,
+      "auc_pr": 0.6797188766218716
+    },
+    {
+      "precision": 0.84,
+      "recall": 0.525,
+      "f1": 0.6461538461538462,
+      "auc_pr": 0.8220295526392725
+    },
+    {
+      "precision": 0.8,
+      "recall": 0.5333333333333333,
+      "f1": 0.64,
+      "auc_pr": 0.6963567224386413
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 539,
+      "importance": 0.016893420740962027,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 720,
+      "importance": 0.015061991871334612,
+      "reef_name": "political impropriety and moral failing"
+    },
+    {
+      "dim_id": 107,
+      "importance": 0.01459865439683199,
+      "reef_name": "honor dignity courtesy"
+    },
+    {
+      "dim_id": 656,
+      "importance": 0.013373299408704043,
+      "reef_name": "words starting with ci"
+    },
+    {
+      "dim_id": 15,
+      "importance": 0.013242096081376076,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 280,
+      "importance": 0.009878592233872042,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.00985801313072443,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 151,
+      "importance": 0.009477166971191765,
+      "reef_name": "religious extremism and conflict"
+    },
+    {
+      "dim_id": 547,
+      "importance": 0.009391172439791262,
+      "reef_name": "terrestrial environment and phenomena"
+    },
+    {
+      "dim_id": 578,
+      "importance": 0.009212393732741474,
+      "reef_name": "countries and regions"
+    },
+    {
+      "dim_id": 22,
+      "importance": 0.009118398046121001,
+      "reef_name": "farm animals livestock"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.00898644421249628,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.008340811217203736,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 222,
+      "importance": 0.008256869297474623,
+      "reef_name": "quantity and magnitude"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.008166214637458324,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 624,
+      "importance": 0.007931153662502766,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 524,
+      "importance": 0.007892689108848572,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.007799156941473484,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 23,
+      "importance": 0.0077623790952202395,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 583,
+      "importance": 0.0076742318633478135,
+      "reef_name": "taxonomic scientific nomenclature"
+    }
+  ]
+}

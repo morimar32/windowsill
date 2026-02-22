@@ -1,0 +1,146 @@
+{
+  "domain": "factory",
+  "n_positive": 29,
+  "n_negative": 145,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.6880952380952381,
+    "recall": 0.6247619047619047,
+    "f1": 0.5849206349206348,
+    "auc_pr": 0.8015775121237306
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.3,
+      "f1": 0.42857142857142855,
+      "auc_pr": 0.6625124875124876
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.8113378684807255
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.16666666666666666,
+      "f1": 0.25,
+      "auc_pr": 0.5673705379587732
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.8,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9666666666666668
+    },
+    {
+      "precision": 0.3333333333333333,
+      "recall": 1.0,
+      "f1": 0.5,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 652,
+      "importance": 0.06418176777660847,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 429,
+      "importance": 0.04750731773674488,
+      "reef_name": "ancient mesoamerican civilizations"
+    },
+    {
+      "dim_id": 341,
+      "importance": 0.04620127305388451,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 232,
+      "importance": 0.037892861664295195,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.03782644495368004,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.03180787842720747,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.021959653496742247,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 567,
+      "importance": 0.021924734115600586,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.021797987073659895,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 420,
+      "importance": 0.021489225327968597,
+      "reef_name": "color and hue"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.021406568121165037,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 176,
+      "importance": 0.020702938735485076,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 20,
+      "importance": 0.020596834551542997,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 221,
+      "importance": 0.019661925989203154,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 199,
+      "importance": 0.019241665897425264,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 132,
+      "importance": 0.01890866309404373,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.01854262491688132,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.01725454144179821,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 300,
+      "importance": 0.01568833044730127,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 645,
+      "importance": 0.015681907907128333,
+      "reef_name": "decay and dissolution"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "grammar",
+  "n_positive": 105,
+  "n_negative": 525,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8571911421911423,
+    "recall": 0.6880584415584415,
+    "f1": 0.7474858354637057,
+    "auc_pr": 0.8884599812972664
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9545454545454546,
+      "recall": 0.42,
+      "f1": 0.5833333333333334,
+      "auc_pr": 0.8475703760873726
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.7142857142857143,
+      "f1": 0.6896551724137931,
+      "auc_pr": 0.8106790463933322
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.6363636363636364,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.9089761248852158
+    },
+    {
+      "precision": 0.9230769230769231,
+      "recall": 0.8571428571428571,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9532356532356532
+    },
+    {
+      "precision": 0.8666666666666667,
+      "recall": 0.8125,
+      "f1": 0.8387096774193549,
+      "auc_pr": 0.9218387058847585
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 356,
+      "importance": 0.047071573138237,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.03696528794243932,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 544,
+      "importance": 0.03038499439135194,
+      "reef_name": "communication and transmission"
+    },
+    {
+      "dim_id": 19,
+      "importance": 0.020258878637105227,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.018190125143155454,
+      "reef_name": "enormity and exaggeration"
+    },
+    {
+      "dim_id": 145,
+      "importance": 0.01765354573726654,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 301,
+      "importance": 0.01762567544938065,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 622,
+      "importance": 0.016236216574907304,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 711,
+      "importance": 0.014846605944330803,
+      "reef_name": "rare technical adjectives"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.014134809095412492,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.014114347472786903,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 742,
+      "importance": 0.012963130758726038,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 231,
+      "importance": 0.012847104854881764,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 247,
+      "importance": 0.012594323232769966,
+      "reef_name": "outdoor observation timing"
+    },
+    {
+      "dim_id": 486,
+      "importance": 0.01234779532533139,
+      "reef_name": "abstract qualities and discretion"
+    },
+    {
+      "dim_id": 451,
+      "importance": 0.011599436402320862,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 223,
+      "importance": 0.01143389604985714,
+      "reef_name": "manner and degree adverbs"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.011293195933103562,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 328,
+      "importance": 0.010806297006638488,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 91,
+      "importance": 0.01046708207577467,
+      "reef_name": "firearms and shooting"
+    }
+  ]
+}

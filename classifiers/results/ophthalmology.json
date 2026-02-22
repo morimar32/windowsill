@@ -1,0 +1,146 @@
+{
+  "domain": "ophthalmology",
+  "n_positive": 97,
+  "n_negative": 485,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9047619047619048,
+    "recall": 0.6953641456582632,
+    "f1": 0.7815942678011644,
+    "auc_pr": 0.917068934019766
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1": 0.8,
+      "auc_pr": 0.8897850796203202
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.5714285714285714,
+      "f1": 0.6857142857142857,
+      "auc_pr": 0.8872637050667294
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.6470588235294118,
+      "f1": 0.7586206896551724,
+      "auc_pr": 0.9041037163528514
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9240981240981241
+    },
+    {
+      "precision": 0.95,
+      "recall": 0.7916666666666666,
+      "f1": 0.8636363636363636,
+      "auc_pr": 0.9800940449608049
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 179,
+      "importance": 0.05732968151569366,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 10,
+      "importance": 0.03767177611589432,
+      "reef_name": "botany and plant science"
+    },
+    {
+      "dim_id": 448,
+      "importance": 0.028860274888575076,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 722,
+      "importance": 0.02051344085484743,
+      "reef_name": "outdoor sports combat"
+    },
+    {
+      "dim_id": 754,
+      "importance": 0.019522224471438678,
+      "reef_name": "symmetry and duality"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.018669965118169783,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 150,
+      "importance": 0.018174971267580987,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 228,
+      "importance": 0.015628484182525427,
+      "reef_name": "celestial and astronomical"
+    },
+    {
+      "dim_id": 155,
+      "importance": 0.014588118426036089,
+      "reef_name": "conflict and turmoil"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.014165127789601684,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.013799425750039517,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.013279567705467343,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 253,
+      "importance": 0.012854072079062463,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 259,
+      "importance": 0.011605512781534344,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.011290806997567415,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 409,
+      "importance": 0.010957001708447933,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 435,
+      "importance": 0.010955686122179032,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.01065072197234258,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 482,
+      "importance": 0.010127857327461243,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 160,
+      "importance": 0.01003617505193688,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

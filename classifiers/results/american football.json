@@ -1,0 +1,146 @@
+{
+  "domain": "american football",
+  "metrics": {
+    "precision": 0.8577777777777778,
+    "recall": 0.5700929152148665,
+    "f1": 0.6596358543417368,
+    "auc_pr": 0.8309062598880717
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9,
+      "recall": 0.21951219512195122,
+      "f1": 0.35294117647058826,
+      "auc_pr": 0.7129324881986897
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.6666666666666666,
+      "f1": 0.7619047619047619,
+      "auc_pr": 0.8810185185185185
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5,
+      "f1": 0.6,
+      "auc_pr": 0.7718253968253969
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7142857142857143,
+      "f1": 0.8333333333333334,
+      "auc_pr": 0.9478458049886621
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "auc_pr": 0.8409090909090909
+    }
+  ],
+  "n_positive": 70,
+  "n_negative": 350,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 14,
+      "importance": 0.03512539610965178,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 346,
+      "importance": 0.03329263823106885,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 162,
+      "importance": 0.023864179849624634,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 560,
+      "importance": 0.02354492638260126,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 631,
+      "importance": 0.023365095257759094,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 601,
+      "importance": 0.019598887860774995,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 236,
+      "importance": 0.018994121765717863,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 517,
+      "importance": 0.018787512183189393,
+      "reef_name": "light and brightness"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.01838098328735214,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 675,
+      "importance": 0.018271981086581946,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 607,
+      "importance": 0.016969302331563085,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 52,
+      "importance": 0.016791373025625944,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 723,
+      "importance": 0.015010318858549,
+      "reef_name": "automation and scheduling"
+    },
+    {
+      "dim_id": 103,
+      "importance": 0.013451734464615584,
+      "reef_name": "titled men and astronomers"
+    },
+    {
+      "dim_id": 541,
+      "importance": 0.013277065940201283,
+      "reef_name": "deception and elusiveness"
+    },
+    {
+      "dim_id": 423,
+      "importance": 0.012909979652613401,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.01281149834394455,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 350,
+      "importance": 0.012395640820614062,
+      "reef_name": "food and consumable products"
+    },
+    {
+      "dim_id": 467,
+      "importance": 0.011889086663722992,
+      "reef_name": "cultural stigma tolerance"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.01164014048408717,
+      "reef_name": "abstract philosophical concepts"
+    }
+  ]
+}

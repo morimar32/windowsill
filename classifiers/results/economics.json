@@ -1,0 +1,146 @@
+{
+  "domain": "economics",
+  "n_positive": 55,
+  "n_negative": 275,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8142857142857143,
+    "recall": 0.6258620689655172,
+    "f1": 0.6803939962476547,
+    "auc_pr": 0.7370070660257848
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.3793103448275862,
+      "f1": 0.5365853658536586,
+      "auc_pr": 0.8197125710561657
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.7794079794079795
+    },
+    {
+      "precision": 0.9166666666666666,
+      "recall": 0.9166666666666666,
+      "f1": 0.9166666666666666,
+      "auc_pr": 0.818322187072187
+    },
+    {
+      "precision": 0.5714285714285714,
+      "recall": 0.6666666666666666,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.6425925925925926
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.625
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.058028243482112885,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.039077698811888696,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.03739838600158692,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.03736319988965988,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 30,
+      "importance": 0.025962347537279128,
+      "reef_name": "prehistoric animals taxonomy"
+    },
+    {
+      "dim_id": 85,
+      "importance": 0.025078237056732178,
+      "reef_name": "architectural structures monuments"
+    },
+    {
+      "dim_id": 144,
+      "importance": 0.019721199292689562,
+      "reef_name": "taxonomic family names"
+    },
+    {
+      "dim_id": 324,
+      "importance": 0.018717486184323208,
+      "reef_name": "mystical elusive qualities"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.017360708117485045,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 8,
+      "importance": 0.016955184936523437,
+      "reef_name": "british monarchy nobility"
+    },
+    {
+      "dim_id": 375,
+      "importance": 0.01628156006336212,
+      "reef_name": "renewal and recreation"
+    },
+    {
+      "dim_id": 27,
+      "importance": 0.014800897985696792,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 545,
+      "importance": 0.014632911887019873,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 331,
+      "importance": 0.013630128698423505,
+      "reef_name": "vehicles and physical placement"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.012730017700232566,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 44,
+      "importance": 0.01259782481356524,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 663,
+      "importance": 0.012459461763501167,
+      "reef_name": "air and atmospheric conditions"
+    },
+    {
+      "dim_id": 156,
+      "importance": 0.012373044900596143,
+      "reef_name": "grip and manual control"
+    },
+    {
+      "dim_id": 419,
+      "importance": 0.01203210949897766,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 1,
+      "importance": 0.011536642909049988,
+      "reef_name": "enormity and exaggeration"
+    }
+  ]
+}

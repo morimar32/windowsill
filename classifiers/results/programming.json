@@ -1,0 +1,146 @@
+{
+  "domain": "programming",
+  "n_positive": 60,
+  "n_negative": 300,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9071428571428571,
+    "recall": 0.4928571428571429,
+    "f1": 0.6235321821036106,
+    "auc_pr": 0.8075540025137912
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.7857142857142857,
+      "recall": 0.3142857142857143,
+      "f1": 0.4489795918367347,
+      "auc_pr": 0.7781432704422132
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5,
+      "f1": 0.6,
+      "auc_pr": 0.7343304843304843
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3,
+      "f1": 0.46153846153846156,
+      "auc_pr": 0.7683731808731808
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.7569230769230768
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 428,
+      "importance": 0.05268155621015467,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 2,
+      "importance": 0.032541694678366186,
+      "reef_name": "approval and decision-making"
+    },
+    {
+      "dim_id": 557,
+      "importance": 0.027938232570886613,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 57,
+      "importance": 0.02709247749298811,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 591,
+      "importance": 0.026233640522696076,
+      "reef_name": "timber and forest wood"
+    },
+    {
+      "dim_id": 142,
+      "importance": 0.023722690576687456,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.022156309359706937,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 265,
+      "importance": 0.021360961720347404,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 689,
+      "importance": 0.02084039025940001,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 511,
+      "importance": 0.020250745117664337,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 325,
+      "importance": 0.017990870773792265,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.01796327605843544,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 642,
+      "importance": 0.01794821098446846,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 601,
+      "importance": 0.01789103224873543,
+      "reef_name": "international travel movement"
+    },
+    {
+      "dim_id": 474,
+      "importance": 0.017612149473279715,
+      "reef_name": "fraud and deception"
+    },
+    {
+      "dim_id": 297,
+      "importance": 0.017141451966017483,
+      "reef_name": "zoological and temporal"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.014813876710832119,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 14,
+      "importance": 0.013791102170944213,
+      "reef_name": "riding equipment gear"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.013485999405384063,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.013413972035050393,
+      "reef_name": "disorientation and mental disturbance"
+    }
+  ]
+}

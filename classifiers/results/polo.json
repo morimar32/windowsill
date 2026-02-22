@@ -1,0 +1,140 @@
+{
+  "domain": "polo",
+  "n_positive": 26,
+  "n_negative": 130,
+  "n_folds": 4,
+  "metrics": {
+    "precision": 1.0,
+    "recall": 0.47275641025641024,
+    "f1": 0.6176470588235294,
+    "auc_pr": 0.8347588997260049
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.3076923076923077,
+      "f1": 0.47058823529411764,
+      "auc_pr": 0.7973689322373532
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.5932539682539683
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9484126984126984
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 1.0
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 691,
+      "importance": 0.0696271569468081,
+      "reef_name": "wind and weather"
+    },
+    {
+      "dim_id": 471,
+      "importance": 0.05974683165550232,
+      "reef_name": "shape and spatial properties"
+    },
+    {
+      "dim_id": 24,
+      "importance": 0.057244641706347466,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 457,
+      "importance": 0.055352095514535904,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.036823639646172523,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 619,
+      "importance": 0.0335240961285308,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 251,
+      "importance": 0.03210995811969042,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 566,
+      "importance": 0.03179710591211915,
+      "reef_name": "urban landscape geography"
+    },
+    {
+      "dim_id": 88,
+      "importance": 0.03139382984954864,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 652,
+      "importance": 0.030860548838973045,
+      "reef_name": "cheerful warmhearted joy"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.028415768407285213,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 559,
+      "importance": 0.0209464430809021,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.02025515105924569,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 13,
+      "importance": 0.01608239347115159,
+      "reef_name": "perception and awareness"
+    },
+    {
+      "dim_id": 237,
+      "importance": 0.015189401776297018,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 549,
+      "importance": 0.015003585256636143,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 694,
+      "importance": 0.013784096576273441,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 206,
+      "importance": 0.013067761625279672,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 361,
+      "importance": 0.011860561557114124,
+      "reef_name": "power and handling"
+    },
+    {
+      "dim_id": 590,
+      "importance": 0.011641120538115501,
+      "reef_name": "taxonomic families genera"
+    }
+  ]
+}

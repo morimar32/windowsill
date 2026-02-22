@@ -1,0 +1,146 @@
+{
+  "domain": "investing",
+  "n_positive": 58,
+  "n_negative": 290,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.7847619047619048,
+    "recall": 0.4523232323232323,
+    "f1": 0.5543317843680821,
+    "auc_pr": 0.7027329818959306
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.2727272727272727,
+      "f1": 0.41379310344827586,
+      "auc_pr": 0.7064795639609744
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5,
+      "f1": 0.5714285714285714,
+      "auc_pr": 0.6813492063492064
+    },
+    {
+      "precision": 0.4,
+      "recall": 0.4444444444444444,
+      "f1": 0.42105263157894735,
+      "auc_pr": 0.6268518518518518
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75,
+      "auc_pr": 0.8146127946127946
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.4444444444444444,
+      "f1": 0.6153846153846154,
+      "auc_pr": 0.6843714927048261
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 157,
+      "importance": 0.034794457629323004,
+      "reef_name": "animal taxonomy classification"
+    },
+    {
+      "dim_id": 146,
+      "importance": 0.0262294567306526,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.023511748015880584,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 638,
+      "importance": 0.02184269856661558,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 494,
+      "importance": 0.02167864718940109,
+      "reef_name": "botanical taxonomy terms"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.019830708421068266,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 711,
+      "importance": 0.019700466841459274,
+      "reef_name": "rare technical adjectives"
+    },
+    {
+      "dim_id": 46,
+      "importance": 0.017923170002177358,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 319,
+      "importance": 0.016240010783076287,
+      "reef_name": "zoological taxonomy wildlife"
+    },
+    {
+      "dim_id": 34,
+      "importance": 0.01611895002424717,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 738,
+      "importance": 0.015680484287440778,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.012801365554332733,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 560,
+      "importance": 0.012348829989787192,
+      "reef_name": "practical suitability quality"
+    },
+    {
+      "dim_id": 416,
+      "importance": 0.012264155223965645,
+      "reef_name": "return and resurgence"
+    },
+    {
+      "dim_id": 386,
+      "importance": 0.012102210009470583,
+      "reef_name": "proper nouns and organisms"
+    },
+    {
+      "dim_id": 95,
+      "importance": 0.011981980910059064,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 177,
+      "importance": 0.011858996748924256,
+      "reef_name": "anger and ancient symbols"
+    },
+    {
+      "dim_id": 273,
+      "importance": 0.011652854166459291,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 127,
+      "importance": 0.01163926575682126,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 493,
+      "importance": 0.01094770128838718,
+      "reef_name": "extreme violence and brutality"
+    }
+  ]
+}

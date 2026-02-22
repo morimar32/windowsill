@@ -1,0 +1,146 @@
+{
+  "domain": "fashion",
+  "n_positive": 89,
+  "n_negative": 445,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8333333333333333,
+    "recall": 0.647979797979798,
+    "f1": 0.7121819425444598,
+    "auc_pr": 0.8604674911707789
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.5357142857142857,
+      "f1": 0.6976744186046512,
+      "auc_pr": 0.9287876635293989
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.8690476190476191
+    },
+    {
+      "precision": 0.6666666666666666,
+      "recall": 0.5454545454545454,
+      "f1": 0.6,
+      "auc_pr": 0.7267854455601491
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.7777777777777778,
+      "f1": 0.875,
+      "auc_pr": 0.9085858585858586
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.7142857142857143,
+      "f1": 0.5882352941176471,
+      "auc_pr": 0.869130869130869
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 531,
+      "importance": 0.04020034894347191,
+      "reef_name": "agreement and specification"
+    },
+    {
+      "dim_id": 183,
+      "importance": 0.03316487753763795,
+      "reef_name": "taxonomic families genera"
+    },
+    {
+      "dim_id": 627,
+      "importance": 0.028811375424265862,
+      "reef_name": "clothing and photography"
+    },
+    {
+      "dim_id": 274,
+      "importance": 0.027877704193815588,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 697,
+      "importance": 0.027001164620742202,
+      "reef_name": "medical conditions diseases"
+    },
+    {
+      "dim_id": 242,
+      "importance": 0.025001487135887145,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 113,
+      "importance": 0.022930253110826016,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 398,
+      "importance": 0.02200378952547908,
+      "reef_name": "behavioral activity and engagement"
+    },
+    {
+      "dim_id": 620,
+      "importance": 0.02024932075291872,
+      "reef_name": "classical composers and voices"
+    },
+    {
+      "dim_id": 80,
+      "importance": 0.01980859749019146,
+      "reef_name": "fish and wildlife"
+    },
+    {
+      "dim_id": 441,
+      "importance": 0.017124855518341066,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 356,
+      "importance": 0.016986124007962643,
+      "reef_name": "triggering conditions and intensification"
+    },
+    {
+      "dim_id": 139,
+      "importance": 0.013915290031582117,
+      "reef_name": "geographic places and regions"
+    },
+    {
+      "dim_id": 273,
+      "importance": 0.01357864229939878,
+      "reef_name": "economic flows and elevation"
+    },
+    {
+      "dim_id": 64,
+      "importance": 0.012900012114550918,
+      "reef_name": "scientific mathematical disciplines"
+    },
+    {
+      "dim_id": 214,
+      "importance": 0.012806389783509075,
+      "reef_name": "greetings and positive acknowledgment"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.0127689915796509,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 320,
+      "importance": 0.012621611868962646,
+      "reef_name": "small physical objects"
+    },
+    {
+      "dim_id": 571,
+      "importance": 0.012516864854842425,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.0112572330981493,
+      "reef_name": "persons and identities"
+    }
+  ]
+}

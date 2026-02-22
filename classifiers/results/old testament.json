@@ -1,0 +1,146 @@
+{
+  "domain": "old testament",
+  "n_positive": 139,
+  "n_negative": 695,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8773726273726273,
+    "recall": 0.7050722610722611,
+    "f1": 0.7779773070275494,
+    "auc_pr": 0.8501703582406736
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8181818181818182,
+      "recall": 0.5,
+      "f1": 0.6206896551724138,
+      "auc_pr": 0.6870175025595681
+    },
+    {
+      "precision": 0.85,
+      "recall": 0.6538461538461539,
+      "f1": 0.7391304347826086,
+      "auc_pr": 0.8697941933491089
+    },
+    {
+      "precision": 0.9,
+      "recall": 0.72,
+      "f1": 0.8,
+      "auc_pr": 0.9146447461531659
+    },
+    {
+      "precision": 0.9615384615384616,
+      "recall": 0.8333333333333334,
+      "f1": 0.8928571428571429,
+      "auc_pr": 0.9391893425255493
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.8181818181818182,
+      "f1": 0.8372093023255814,
+      "auc_pr": 0.8402060066159752
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 24,
+      "importance": 0.05351371541619301,
+      "reef_name": "names and proper nouns"
+    },
+    {
+      "dim_id": 662,
+      "importance": 0.022351786121726037,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 182,
+      "importance": 0.02166177351027727,
+      "reef_name": "distress and damage relief"
+    },
+    {
+      "dim_id": 124,
+      "importance": 0.01901813019067049,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 520,
+      "importance": 0.016764280013740064,
+      "reef_name": "high pressure acceleration"
+    },
+    {
+      "dim_id": 717,
+      "importance": 0.016679203556850552,
+      "reef_name": "animals and people"
+    },
+    {
+      "dim_id": 395,
+      "importance": 0.01558040216914378,
+      "reef_name": "sleeping quarters and containers"
+    },
+    {
+      "dim_id": 638,
+      "importance": 0.014851216971874238,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 763,
+      "importance": 0.012652318924665451,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 526,
+      "importance": 0.011870940611697734,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 552,
+      "importance": 0.01171895801089704,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 251,
+      "importance": 0.010422238055616618,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 491,
+      "importance": 0.009435373480664566,
+      "reef_name": "combustible liquids and fuels"
+    },
+    {
+      "dim_id": 550,
+      "importance": 0.008899507555179298,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 149,
+      "importance": 0.00875999741256237,
+      "reef_name": "food and abolition movements"
+    },
+    {
+      "dim_id": 355,
+      "importance": 0.008701124764047562,
+      "reef_name": "abstract philosophical concepts"
+    },
+    {
+      "dim_id": 170,
+      "importance": 0.008688214793801307,
+      "reef_name": "persons and identities"
+    },
+    {
+      "dim_id": 724,
+      "importance": 0.008407489990349858,
+      "reef_name": "shelter occupants and inhabitants"
+    },
+    {
+      "dim_id": 625,
+      "importance": 0.00815637707710266,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 139,
+      "importance": 0.008141146542038768,
+      "reef_name": "geographic places and regions"
+    }
+  ]
+}

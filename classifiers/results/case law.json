@@ -1,0 +1,146 @@
+{
+  "domain": "case law",
+  "metrics": {
+    "precision": 0.8173881673881673,
+    "recall": 0.6611111111111111,
+    "f1": 0.7028385065227171,
+    "auc_pr": 0.8225398972413179
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9545454545454546,
+      "recall": 0.375,
+      "f1": 0.5384615384615384,
+      "auc_pr": 0.8320281513685883
+    },
+    {
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "f1": 0.8888888888888888,
+      "auc_pr": 0.9888888888888892
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.6666666666666666,
+      "f1": 0.75,
+      "auc_pr": 0.9170113836780505
+    },
+    {
+      "precision": 0.6363636363636364,
+      "recall": 0.875,
+      "f1": 0.7368421052631579,
+      "auc_pr": 0.6768543956043956
+    },
+    {
+      "precision": 0.75,
+      "recall": 0.5,
+      "f1": 0.6,
+      "auc_pr": 0.6979166666666666
+    }
+  ],
+  "n_positive": 88,
+  "n_negative": 440,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 625,
+      "importance": 0.047272551571950316,
+      "reef_name": "omission and reduction"
+    },
+    {
+      "dim_id": 171,
+      "importance": 0.029791708290576934,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 633,
+      "importance": 0.02757577779702842,
+      "reef_name": "physiological bodily mechanics"
+    },
+    {
+      "dim_id": 39,
+      "importance": 0.024790434166789055,
+      "reef_name": "ornamental and delicate"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.022187862009741367,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 0,
+      "importance": 0.01932927086018026,
+      "reef_name": "extreme violence and brutality"
+    },
+    {
+      "dim_id": 310,
+      "importance": 0.018011330626904964,
+      "reef_name": "metallic colors and classical"
+    },
+    {
+      "dim_id": 33,
+      "importance": 0.014628680609166621,
+      "reef_name": "botanical taxonomy families"
+    },
+    {
+      "dim_id": 165,
+      "importance": 0.014486420154571533,
+      "reef_name": "scattered erratic behavior"
+    },
+    {
+      "dim_id": 626,
+      "importance": 0.0143102765083313,
+      "reef_name": "electronic sensing systems"
+    },
+    {
+      "dim_id": 604,
+      "importance": 0.014224163722246885,
+      "reef_name": "geological earth features"
+    },
+    {
+      "dim_id": 463,
+      "importance": 0.014012382284272462,
+      "reef_name": "impossibility and implausibility"
+    },
+    {
+      "dim_id": 38,
+      "importance": 0.013729204598348588,
+      "reef_name": "death and melancholy"
+    },
+    {
+      "dim_id": 412,
+      "importance": 0.012942850636318327,
+      "reef_name": "radiant celestial luminosity"
+    },
+    {
+      "dim_id": 339,
+      "importance": 0.012085963413119316,
+      "reef_name": "communal harmony"
+    },
+    {
+      "dim_id": 509,
+      "importance": 0.011760616023093463,
+      "reef_name": "european cities and locations"
+    },
+    {
+      "dim_id": 242,
+      "importance": 0.010633327453979291,
+      "reef_name": "legal and textual authority"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.009500787271826993,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 432,
+      "importance": 0.00938443448394537,
+      "reef_name": "logical certainty and agreement"
+    },
+    {
+      "dim_id": 380,
+      "importance": 0.009243300731759519,
+      "reef_name": "renewal and recreation"
+    }
+  ]
+}

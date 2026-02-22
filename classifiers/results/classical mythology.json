@@ -1,0 +1,146 @@
+{
+  "domain": "classical mythology",
+  "n_positive": 152,
+  "n_negative": 760,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.8579937304075234,
+    "recall": 0.6656446930801769,
+    "f1": 0.735638907014818,
+    "auc_pr": 0.8533962121703954
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.37037037037037035,
+      "f1": 0.5263157894736842,
+      "auc_pr": 0.8382653378835592
+    },
+    {
+      "precision": 0.7586206896551724,
+      "recall": 0.7096774193548387,
+      "f1": 0.7333333333333333,
+      "auc_pr": 0.8571265518137728
+    },
+    {
+      "precision": 0.8636363636363636,
+      "recall": 0.76,
+      "f1": 0.8085106382978723,
+      "auc_pr": 0.7894235457627354
+    },
+    {
+      "precision": 0.8620689655172413,
+      "recall": 0.6756756756756757,
+      "f1": 0.7575757575757576,
+      "auc_pr": 0.8897808085034817
+    },
+    {
+      "precision": 0.896551724137931,
+      "recall": 0.8125,
+      "f1": 0.8524590163934426,
+      "auc_pr": 0.8923848168884279
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 21,
+      "importance": 0.034604326263070105,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 707,
+      "importance": 0.03247699774801731,
+      "reef_name": "words starting with a"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.024346823431551458,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 600,
+      "importance": 0.015167984773870557,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 526,
+      "importance": 0.015016789035871624,
+      "reef_name": "proper nouns and names"
+    },
+    {
+      "dim_id": 761,
+      "importance": 0.014743557199835777,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 672,
+      "importance": 0.01460629123612307,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 87,
+      "importance": 0.014024058601353317,
+      "reef_name": "agents and role occupants"
+    },
+    {
+      "dim_id": 117,
+      "importance": 0.012195229064673185,
+      "reef_name": "flow and accumulation"
+    },
+    {
+      "dim_id": 687,
+      "importance": 0.010389460995793343,
+      "reef_name": "absorption and displacement processes"
+    },
+    {
+      "dim_id": 618,
+      "importance": 0.010260481399018317,
+      "reef_name": "workers and manual labor"
+    },
+    {
+      "dim_id": 158,
+      "importance": 0.010218800324946643,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 246,
+      "importance": 0.010196124576032162,
+      "reef_name": "embryonic development reproduction"
+    },
+    {
+      "dim_id": 391,
+      "importance": 0.010101699829101562,
+      "reef_name": "bacteria and microbiology"
+    },
+    {
+      "dim_id": 45,
+      "importance": 0.00981359698344022,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 397,
+      "importance": 0.009330924693495035,
+      "reef_name": "labels and identifiers"
+    },
+    {
+      "dim_id": 217,
+      "importance": 0.009271219791844486,
+      "reef_name": "lines shading gradation"
+    },
+    {
+      "dim_id": 731,
+      "importance": 0.008875137660652399,
+      "reef_name": "technical terminology"
+    },
+    {
+      "dim_id": 639,
+      "importance": 0.0087305290508084,
+      "reef_name": "trees and outdoor canopy"
+    },
+    {
+      "dim_id": 581,
+      "importance": 0.008581927325576545,
+      "reef_name": "stance and movement awkwardness"
+    }
+  ]
+}

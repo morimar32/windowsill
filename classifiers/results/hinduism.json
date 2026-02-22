@@ -1,0 +1,146 @@
+{
+  "domain": "hinduism",
+  "n_positive": 72,
+  "n_negative": 360,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.9282467532467532,
+    "recall": 0.6861344537815126,
+    "f1": 0.755038584603802,
+    "auc_pr": 0.9311052442611242
+  },
+  "fold_metrics": [
+    {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "auc_pr": 0.8184865573023468
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.9854554865424434
+    },
+    {
+      "precision": 0.8571428571428571,
+      "recall": 0.8571428571428571,
+      "f1": 0.8571428571428571,
+      "auc_pr": 0.9300922291993721
+    },
+    {
+      "precision": 0.9090909090909091,
+      "recall": 0.8333333333333334,
+      "f1": 0.8695652173913043,
+      "auc_pr": 0.9722222222222224
+    },
+    {
+      "precision": 0.875,
+      "recall": 0.8235294117647058,
+      "f1": 0.8484848484848485,
+      "auc_pr": 0.949269726039236
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 102,
+      "importance": 0.09564783275127411,
+      "reef_name": "foreign words and terms"
+    },
+    {
+      "dim_id": 330,
+      "importance": 0.04656162410974503,
+      "reef_name": "chemical compounds and substances"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.03744743913412094,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 613,
+      "importance": 0.03341500433161855,
+      "reef_name": "academic schooling education"
+    },
+    {
+      "dim_id": 365,
+      "importance": 0.033144208043813704,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 537,
+      "importance": 0.027240737900137903,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 444,
+      "importance": 0.026239605387672782,
+      "reef_name": "transformation and creation"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.02115091234445572,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 28,
+      "importance": 0.01956514045596123,
+      "reef_name": "chemical compounds and hydrocarbons"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.01760137751698494,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 98,
+      "importance": 0.016169409081339837,
+      "reef_name": "pitch and electrical measurement"
+    },
+    {
+      "dim_id": 73,
+      "importance": 0.015418315108399838,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 67,
+      "importance": 0.014259668067097664,
+      "reef_name": "scientific nomenclature latin"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.012954590143635869,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 16,
+      "importance": 0.011767106410115958,
+      "reef_name": "human roles and occupations"
+    },
+    {
+      "dim_id": 231,
+      "importance": 0.011617554211989045,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 511,
+      "importance": 0.011392589507158846,
+      "reef_name": "agents and actors"
+    },
+    {
+      "dim_id": 256,
+      "importance": 0.010975845743087121,
+      "reef_name": "proper nouns abbreviations"
+    },
+    {
+      "dim_id": 462,
+      "importance": 0.010968848131597042,
+      "reef_name": "commotion and outbursts"
+    },
+    {
+      "dim_id": 20,
+      "importance": 0.010044269135687501,
+      "reef_name": "automation and scheduling"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "domain": "buddhism",
+  "metrics": {
+    "precision": 0.95,
+    "recall": 0.45499999999999996,
+    "f1": 0.5971794871794872,
+    "auc_pr": 0.867915400037196
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.75,
+      "recall": 0.15,
+      "f1": 0.25,
+      "auc_pr": 0.7785708618442369
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.3333333333333333,
+      "f1": 0.5,
+      "auc_pr": 1.0
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1": 0.8,
+      "auc_pr": 0.7940891472868217
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.625,
+      "f1": 0.7692307692307693,
+      "auc_pr": 0.9029761904761905
+    },
+    {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6666666666666666,
+      "auc_pr": 0.8639408005787316
+    }
+  ],
+  "n_positive": 50,
+  "n_negative": 250,
+  "n_folds": 5,
+  "top_features": [
+    {
+      "dim_id": 519,
+      "importance": 0.0600741907954216,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 479,
+      "importance": 0.025673331553116442,
+      "reef_name": "devotion and compassion"
+    },
+    {
+      "dim_id": 291,
+      "importance": 0.02544742755126208,
+      "reef_name": "orange and brown hues"
+    },
+    {
+      "dim_id": 18,
+      "importance": 0.022428738698363305,
+      "reef_name": "noble elegance refined"
+    },
+    {
+      "dim_id": 701,
+      "importance": 0.02115838279714808,
+      "reef_name": "feminine and botanical"
+    },
+    {
+      "dim_id": 709,
+      "importance": 0.02032026038505137,
+      "reef_name": "disorientation and mental disturbance"
+    },
+    {
+      "dim_id": 372,
+      "importance": 0.017830278165638445,
+      "reef_name": "masculine persons and roles"
+    },
+    {
+      "dim_id": 484,
+      "importance": 0.015100758639164269,
+      "reef_name": "immaterial abstract qualities"
+    },
+    {
+      "dim_id": 423,
+      "importance": 0.014809161517769098,
+      "reef_name": "pleasant joyful feelings"
+    },
+    {
+      "dim_id": 344,
+      "importance": 0.014469937048852443,
+      "reef_name": "royalty and titles"
+    },
+    {
+      "dim_id": 40,
+      "importance": 0.014331047981977462,
+      "reef_name": "decorative coloration and adornment"
+    },
+    {
+      "dim_id": 550,
+      "importance": 0.01396305738016963,
+      "reef_name": "treasured small things"
+    },
+    {
+      "dim_id": 263,
+      "importance": 0.013830550946295261,
+      "reef_name": "rooms furniture and fixtures"
+    },
+    {
+      "dim_id": 582,
+      "importance": 0.013742159982211889,
+      "reef_name": "breath rest stillness"
+    },
+    {
+      "dim_id": 17,
+      "importance": 0.012958938628435135,
+      "reef_name": "emotional distress and sorrow"
+    },
+    {
+      "dim_id": 376,
+      "importance": 0.012580652534961701,
+      "reef_name": "organization and arrangement"
+    },
+    {
+      "dim_id": 326,
+      "importance": 0.012163655459880829,
+      "reef_name": "smell and vapor"
+    },
+    {
+      "dim_id": 556,
+      "importance": 0.012162880273535848,
+      "reef_name": "disease and infection"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.012025259248912335,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 254,
+      "importance": 0.011947318119928241,
+      "reef_name": "psychological disturbance and cruelty"
+    }
+  ]
+}

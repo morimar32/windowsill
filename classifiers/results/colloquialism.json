@@ -1,0 +1,146 @@
+{
+  "domain": "colloquialism",
+  "n_positive": 620,
+  "n_negative": 3100,
+  "n_folds": 5,
+  "metrics": {
+    "precision": 0.5429454688333193,
+    "recall": 0.4172136095195052,
+    "f1": 0.4349397923981055,
+    "auc_pr": 0.5138289874117612
+  },
+  "fold_metrics": [
+    {
+      "precision": 0.8878504672897196,
+      "recall": 0.20084566596194503,
+      "f1": 0.3275862068965517,
+      "auc_pr": 0.7513317534152668
+    },
+    {
+      "precision": 0.43243243243243246,
+      "recall": 0.47058823529411764,
+      "f1": 0.4507042253521127,
+      "auc_pr": 0.36334343254384754
+    },
+    {
+      "precision": 0.4222222222222222,
+      "recall": 0.5277777777777778,
+      "f1": 0.4691358024691358,
+      "auc_pr": 0.4844466122855911
+    },
+    {
+      "precision": 0.4722222222222222,
+      "recall": 0.4146341463414634,
+      "f1": 0.44155844155844154,
+      "auc_pr": 0.45814271957544406
+    },
+    {
+      "precision": 0.5,
+      "recall": 0.4722222222222222,
+      "f1": 0.4857142857142857,
+      "auc_pr": 0.5118804192386568
+    }
+  ],
+  "top_features": [
+    {
+      "dim_id": 25,
+      "importance": 0.0244177658110857,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 519,
+      "importance": 0.021502357069402935,
+      "reef_name": "misidentification and naming errors"
+    },
+    {
+      "dim_id": 506,
+      "importance": 0.01592393349856138,
+      "reef_name": "cross-cultural hybridization"
+    },
+    {
+      "dim_id": 54,
+      "importance": 0.013060648087412119,
+      "reef_name": "sensory stimulation arousal"
+    },
+    {
+      "dim_id": 464,
+      "importance": 0.011358578759245574,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 47,
+      "importance": 0.011159202642738819,
+      "reef_name": "unpleasant and unsuitable"
+    },
+    {
+      "dim_id": 111,
+      "importance": 0.010692533012479544,
+      "reef_name": "musty smells and textures"
+    },
+    {
+      "dim_id": 81,
+      "importance": 0.01028509195894003,
+      "reef_name": "geometric and anatomical"
+    },
+    {
+      "dim_id": 29,
+      "importance": 0.009882520249811932,
+      "reef_name": "psychological disturbance and cruelty"
+    },
+    {
+      "dim_id": 313,
+      "importance": 0.00921312691643834,
+      "reef_name": "excessive intensity heaviness"
+    },
+    {
+      "dim_id": 210,
+      "importance": 0.009198206011205912,
+      "reef_name": "physical flexibility capability"
+    },
+    {
+      "dim_id": 485,
+      "importance": 0.008740722597576678,
+      "reef_name": "color and pigmentation"
+    },
+    {
+      "dim_id": 597,
+      "importance": 0.00868472522124648,
+      "reef_name": "botanical and anatomical terminology"
+    },
+    {
+      "dim_id": 262,
+      "importance": 0.008438761346042156,
+      "reef_name": "occupations and professions"
+    },
+    {
+      "dim_id": 651,
+      "importance": 0.008066359940858091,
+      "reef_name": "surface covering and coating"
+    },
+    {
+      "dim_id": 138,
+      "importance": 0.008044909127056599,
+      "reef_name": "birds and small animals"
+    },
+    {
+      "dim_id": 12,
+      "importance": 0.007379035360645503,
+      "reef_name": "biological reproduction and development"
+    },
+    {
+      "dim_id": 411,
+      "importance": 0.00707216940500075,
+      "reef_name": "taxonomic scientific nomenclature"
+    },
+    {
+      "dim_id": 260,
+      "importance": 0.006913803082716186,
+      "reef_name": "neurological biological processes"
+    },
+    {
+      "dim_id": 373,
+      "importance": 0.0061575316984090024,
+      "reef_name": "filth and physical decay"
+    }
+  ]
+}
