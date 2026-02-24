@@ -10,13 +10,11 @@ For a human-readable overview, see [README.md](README.md).
 - [Database Schema](#database-schema)
 - [Pipeline Stages](#pipeline-stages)
   - [Stage 1: Extract](#stage-1-extract)
-  - [Stage 2: Transform (XGBoost)](#stage-2-transform-xgboost)
-  - [Stage 3: Reef Subdivision](#stage-3-reef-subdivision)
-  - [Stage 4: Archipelago Clustering](#stage-4-archipelago-clustering)
-  - [Stage 5: Scoring](#stage-5-scoring)
-  - [Stage 6: Export (Load)](#stage-6-export-load)
+  - [Stage 2: Transform](#stage-2-transform)
+  - [Stage 3: Export (Load)](#stage-3-export-load)
 - [Scoring Formulas](#scoring-formulas)
 - [Feature Engineering (777 Features)](#feature-engineering-777-features)
+- [Domain-Name Cosine Similarity](#domain-name-cosine-similarity)
 - [Clustering Algorithms](#clustering-algorithms)
 - [Export Format v6.0](#export-format-v60)
 - [Configuration Reference](#configuration-reference)
@@ -27,7 +25,7 @@ For a human-readable overview, see [README.md](README.md).
 
 ## Architecture Overview
 
-Windowsill is a six-stage pipeline that transforms raw word embeddings into a scored domain taxonomy, exported as compact binary files for the Lagoon search scoring library.
+Windowsill is a three-stage pipeline that transforms raw word embeddings into a scored domain taxonomy, exported as compact binary files for the Lagoon search scoring library.
 
 ```
 WordNet vocab + Claude domain words
@@ -36,16 +34,15 @@ WordNet vocab + Claude domain words
   [extract.py]  ──> v2.db (words, embeddings, variants, domains)
         |
         v
-  [transform.py] ──> XGBoost classifiers (models/*.json)
-        |               augmented_domains table updated with predictions
-        v
-  [reef.py]     ──> domain_reefs, domain_reef_stats (sub-domain clusters)
-        |
-        v
-  [archipelago.py] ──> domain_archipelagos, domain_archipelago_stats
-        |
-        v
-  [score.py]    ──> domain_word_scores (materialized scores)
+  [transform.py] ──> 8-step pipeline:
+        |             1. XGBoost classifiers (models/*.json)
+        |             2. IDF score adjustment
+        |             3. Domain-name cosine similarity
+        |             4. Ubiquity pruning
+        |             5. Domainless tagging
+        |             6. Reef subdivision (domain_reefs)
+        |             7. Archipelago clustering (domain_archipelagos)
+        |             8. Scoring (domain_word_scores)
         |
         v
   [load.py]     ──> v2_export/*.bin (10 msgpack files + manifest.json)
@@ -54,9 +51,9 @@ WordNet vocab + Claude domain words
   [Lagoon]      ──> real-time domain scoring of free text
 ```
 
-The hierarchy is: **words** belong to **domains** (444), domains contain **sub-reefs** (5,150), and domains are grouped into **archipelagos** (11).
+The hierarchy is: **words** belong to **domains** (444), domains contain **sub-reefs** (4,723), and domains are grouped into **archipelagos** (10).
 
-In the export format, domains are called "reefs" and archipelagos are called "archs" (legacy naming from the v1 pipeline where the hierarchy was dimensions → reefs → islands → archipelagos).
+In the export format, domains are called "reefs" and archipelagos are called "archs" (legacy naming from the v1 pipeline where the hierarchy was dimensions -> reefs -> islands -> archipelagos).
 
 ---
 
@@ -84,6 +81,7 @@ CREATE TABLE words (
     is_wordnet INTEGER DEFAULT 1,   -- 1 = from WordNet, 0 = Claude-generated
     n_synsets  INTEGER DEFAULT 0,   -- WordNet synset count
     n_domains  INTEGER DEFAULT 0,   -- distinct domain count from augmented_domains
+    is_polysemy INTEGER DEFAULT 0,  -- flagged as polysemous
     embedding  BLOB                 -- float32 x 768 = 3072 bytes
 )
 ```
@@ -131,17 +129,18 @@ CREATE TABLE wordnet_domains (
 
 Ground-truth domain associations from WordNet's topic and usage domain pointers.
 
-#### augmented_domains (820,804 rows)
+#### augmented_domains (~646K rows)
 ```sql
 CREATE TABLE augmented_domains (
-    domain        TEXT NOT NULL,
-    word          TEXT NOT NULL,
-    word_id       INTEGER,            -- NULL if word not in vocabulary
-    matched_word  TEXT,               -- actual matched word (may differ from input)
-    source        TEXT NOT NULL,       -- "wordnet", "claude_augmented", "xgboost", "pipeline", "morphy"
-    confidence    TEXT,               -- "core" or "peripheral" for Claude words
-    has_embedding INTEGER DEFAULT 0,
-    score         REAL,               -- XGBoost prediction probability (for source=xgboost)
+    domain          TEXT NOT NULL,
+    word            TEXT NOT NULL,
+    word_id         INTEGER,            -- NULL if word not in vocabulary
+    matched_word    TEXT,               -- actual matched word (may differ from input)
+    source          TEXT NOT NULL,       -- "wordnet", "claude_augmented", "xgboost", "pipeline", "morphy"
+    confidence      TEXT,               -- "core" or "peripheral" for Claude words
+    has_embedding   INTEGER DEFAULT 0,
+    score           REAL,               -- XGBoost prediction probability (for source=xgboost)
+    domain_name_cos REAL,               -- cos(word_embedding, domain_name_embedding)
     PRIMARY KEY (domain, word)
 )
 ```
@@ -149,12 +148,15 @@ CREATE TABLE augmented_domains (
 The central domain membership table. Sources:
 - `wordnet`: from wordnet_domains table
 - `claude_augmented`: Claude-generated domain vocabularies
+- `domain_name`: domain self-name insertion (domain name matched to vocabulary)
 - `xgboost`: XGBoost classifier predictions above threshold
 - `pipeline`/`morphy`: morphological variant expansion
 
+The `domain_name_cos` column is populated by transform.py step 3 and stores the cosine similarity between each word's embedding and its domain name's embedding. This captures "if someone says this word, which domain comes to mind first?" -- a signal nearly orthogonal to centroid_sim (Pearson r=0.073).
+
 ### Clustering Tables
 
-#### domain_reefs (807,988 rows)
+#### domain_reefs (627,543 rows)
 ```sql
 CREATE TABLE domain_reefs (
     domain       TEXT NOT NULL,
@@ -167,7 +169,7 @@ CREATE TABLE domain_reefs (
 )
 ```
 
-#### domain_reef_stats (5,150 rows)
+#### domain_reef_stats (4,723 rows)
 ```sql
 CREATE TABLE domain_reef_stats (
     domain     TEXT NOT NULL,
@@ -191,7 +193,7 @@ CREATE TABLE domain_archipelagos (
 )
 ```
 
-#### domain_archipelago_stats (11 rows)
+#### domain_archipelago_stats (10 rows)
 ```sql
 CREATE TABLE domain_archipelago_stats (
     archipelago_id  INTEGER NOT NULL PRIMARY KEY,
@@ -204,7 +206,7 @@ CREATE TABLE domain_archipelago_stats (
 
 ### Scoring Table
 
-#### domain_word_scores (807,988 rows)
+#### domain_word_scores (627,543 rows)
 ```sql
 CREATE TABLE domain_word_scores (
     domain          TEXT NOT NULL,
@@ -213,15 +215,17 @@ CREATE TABLE domain_word_scores (
     source          TEXT NOT NULL,
     source_quality  REAL NOT NULL,      -- 1.0 for curated, xgb_score for ML
     centroid_sim    REAL,               -- cosine sim to sub-reef centroid (default 0.8)
+    domain_name_cos REAL,               -- cosine sim to domain name embedding
+    effective_sim   REAL,               -- (1-alpha)*centroid_sim + alpha*domain_name_cos
     n_word_domains  INTEGER NOT NULL,   -- how many domains this word appears in
     idf             REAL NOT NULL,      -- log2(N/n), floored at 0.1
-    domain_score    REAL NOT NULL,      -- idf * source_quality * centroid_sim
-    reef_score      REAL NOT NULL,      -- source_quality * centroid_sim
+    domain_score    REAL NOT NULL,      -- idf * source_quality * effective_sim
+    reef_score      REAL NOT NULL,      -- source_quality * effective_sim
     PRIMARY KEY (domain, word_id)
 )
 ```
 
-This is the final pre-computed table that `load.py` reads for export.
+This is the final pre-computed table that `load.py` reads for export. The `domain_score` column is the primary weight exported to Lagoon.
 
 ---
 
@@ -229,7 +233,7 @@ This is the final pre-computed table that `load.py` reads for export.
 
 ### Stage 1: Extract
 
-**Entry point:** `extract.py` (13 internal steps)
+**Entry point:** `extract.py` (14 internal steps)
 
 Builds `v2.db` from scratch:
 
@@ -244,18 +248,23 @@ Builds `v2.db` from scratch:
 9. Compute FNV-1a word hashes
 10. Expand morphy variants (WordNet morphological analysis)
 11. Populate `wordnet_domains` from WordNet topic/usage domain pointers
-12. Load `augmented_domains` (WordNet domains + Claude domains)
+12. Load `augmented_domains` (WordNet domains + Claude domains + domain self-names)
 13. Backfill `n_domains` per word
+14. Flag polysemous words
 
 **Key dependency:** `lib/vocab.py` imports `embedder` for embedding computation. The `embedder` module uses sentence-transformers with nomic-embed-text-v1.5 (Matryoshka 768-dim). This is only needed when building the database from scratch.
 
-### Stage 2: Transform (XGBoost)
+### Stage 2: Transform
 
-**Entry point:** `transform.py`
+**Entry point:** `transform.py` (8 steps, unified pipeline)
+
+Runs all post-extraction processing. Can also run a single domain for XGBoost only (`python transform.py "medicine"`).
+
+#### Step 1: XGBoost Training + Inference
 
 Trains one binary XGBoost classifier per domain and runs inference on all words.
 
-#### Training pipeline:
+**Training pipeline:**
 1. Load all word embeddings, compute z-scores using `dim_stats`
 2. Build global feature matrix (775 columns -- see [Feature Engineering](#feature-engineering-777-features))
 3. For each domain with >= `AUGMENT_MIN_DOMAIN_WORDS` (20) positive examples:
@@ -265,12 +274,15 @@ Trains one binary XGBoost classifier per domain and runs inference on all words.
    - Train XGBoost with StratifiedGroupKFold CV (morphological groups prevent data leakage)
    - Save model to `models/{domain}.json`
 
-#### Inference pipeline:
+**Inference pipeline:**
 1. Load each trained model
 2. Score all words (build domain-specific features per domain)
 3. Insert predictions above `XGBOOST_SCORE_THRESHOLD` (0.4) into `augmented_domains`
 
-#### IDF Post-Processing (`post_process_xgb.py`):
+**Excluded domains:** 9 stylistic/pragmatic/meta-linguistic categories (slang, euphemism, dialect, etc.) are excluded from XGBoost training/inference because membership cannot be determined from embedding proximity. They keep only their curated seeds (WordNet + Claude). See `XGBOOST_EXCLUDE_DOMAINS` in config.py.
+
+#### Step 2: IDF Post-Processing (`post_process_xgb.py`)
+
 For XGBoost predictions with raw_score < 0.7:
 ```
 idf = log2(N_total_domains / n_word_domains) / log2(N_total_domains)
@@ -278,13 +290,28 @@ adjusted_score = raw_score * idf
 ```
 High-confidence predictions (>= 0.7) pass through unchanged. Words appearing in many domains get penalized. After adjustment, rows below 0.4 are pruned.
 
-Domainless words (simple single words with embeddings that aren't in any domain) are tagged with pseudo-domain "domainless".
+#### Step 3: Domain-Name Cosine Similarity
 
-### Stage 3: Reef Subdivision
+See [Domain-Name Cosine Similarity](#domain-name-cosine-similarity) for full details.
 
-**Entry point:** `reef.py`
+Embeds all 444 domain names using the same nomic-embed-text-v1.5 model (with `"classification: "` prefix), L2-normalizes them, then for each domain computes the cosine similarity between every word's embedding and the domain name's embedding. Results stored in `augmented_domains.domain_name_cos`.
 
-Subdivides each domain into semantic sub-reefs using Leiden community detection.
+This step uses `emb_normalized` and `wid_to_row` which are still in memory from step 1 (freed after step 5).
+
+#### Step 4: Ubiquity Pruning
+
+Penalizes/prunes XGBoost predictions for words appearing in `POLYSEMY_DOMAIN_THRESHOLD`+ (20) domains:
+- Score < `UBIQUITY_SCORE_FLOOR` (0.80): DELETE
+- Score between floor and `UBIQUITY_SCORE_CEILING` (0.95): multiply by `UBIQUITY_PENALTY` (0.5)
+- Score >= ceiling: untouched
+
+#### Step 5: Domainless Tagging
+
+Tags simple single words with embeddings that don't belong to any real domain as "domainless". Their word_ids are stored in `constants.bin["domainless_word_ids"]` for Lagoon to handle specially (they contribute to tokenization but not domain scoring).
+
+#### Step 6: Reef Subdivision
+
+Subdivides each domain into semantic sub-reefs using Leiden community detection. See [Clustering Algorithms](#clustering-algorithms).
 
 For each domain with >= `REEF_MIN_DOMAIN_SIZE` (10) core words (score >= `REEF_SCORE_THRESHOLD` 0.6):
 
@@ -292,23 +319,15 @@ For each domain with >= `REEF_MIN_DOMAIN_SIZE` (10) core words (score >= `REEF_S
    ```
    sim = 0.7 * embedding_cosine + 0.3 * pmi_cosine
    ```
-   PMI vectors encode domain co-membership patterns (see [Clustering Algorithms](#clustering-algorithms))
-
 2. **Build kNN graph** (k=15), symmetrized
-
 3. **Run Leiden clustering** (resolution=1.0, min_community_size=3)
-
 4. **Compute sub-reef centroids** from core members
-
 5. **Assign non-core words** to nearest centroid (if cosine >= 0.05)
-
 6. **Store results** in `domain_reefs` and `domain_reef_stats`
 
-### Stage 4: Archipelago Clustering
+#### Step 7: Archipelago Clustering
 
-**Entry point:** `archipelago.py`
-
-Groups the 444 domains into ~11 higher-level archipelagos.
+Groups the 444 domains into ~10 higher-level archipelagos.
 
 1. **Compute domain embeddings** as weighted average of sub-reef centroids (weighted by sub-reef size)
 2. **Compute PMI matrix** from word-domain co-memberships
@@ -316,24 +335,24 @@ Groups the 444 domains into ~11 higher-level archipelagos.
 4. **kNN graph** (k=10) + **Leiden clustering** (resolution=1.0, min_community_size=2)
 5. **Store results** in `domain_archipelagos` and `domain_archipelago_stats`
 
-### Stage 5: Scoring
-
-**Entry point:** `score.py`
+#### Step 8: Scoring
 
 Materializes `domain_word_scores` from `augmented_domains` + `domain_reefs`.
 
 For each (domain, word_id) pair:
 1. Resolve `source_quality` (1.0 for curated, xgb_score for ML predictions)
 2. Look up `centroid_sim` from `domain_reefs` (default 0.8 if no reef assignment)
-3. Compute `idf = max(log2(N_total / n_word_domains), 0.1)`
-4. Compute `domain_score = idf * source_quality * centroid_sim`
-5. Compute `reef_score = source_quality * centroid_sim`
+3. Look up `domain_name_cos` from `augmented_domains`
+4. Compute `effective_sim = (1-alpha) * centroid_sim + alpha * domain_name_cos` (alpha=0.3; falls back to centroid_sim when domain_name_cos is NULL)
+5. Compute `idf = max(log2(N_total / n_word_domains), 0.1)`
+6. Compute `domain_score = idf * source_quality * effective_sim`
+7. Compute `reef_score = source_quality * effective_sim`
 
 Pairs are deduplicated by (domain, word_id), keeping the highest source_quality.
 
-Includes 17 built-in test queries for verification (e.g., "DNA genetic mutation heredity" should surface biology/genetics domains in top 10).
+Includes 17 built-in test queries for verification (e.g., "DNA genetic mutation heredity" should surface biology/genetics domains in top 10). Currently 15/17 pass.
 
-### Stage 6: Export (Load)
+### Stage 3: Export (Load)
 
 **Entry point:** `load.py`
 
@@ -357,9 +376,21 @@ idf = max(log2(n_total_domains / n_word_domains), 0.1)
 ```
 Words in fewer domains score higher. Floored at 0.1.
 
+### Effective Similarity (domain-name cosine blending)
+```python
+alpha = 0.3  # DOMAIN_NAME_COS_ALPHA
+if domain_name_cos is not None:
+    effective_sim = (1 - alpha) * centroid_sim + alpha * domain_name_cos
+else:
+    effective_sim = centroid_sim  # backward-compatible fallback
+```
+Blends two nearly orthogonal signals:
+- **centroid_sim**: "does this word statistically belong in this domain cluster?"
+- **domain_name_cos**: "if someone says this word, which domain comes to mind first?"
+
 ### Domain Score
 ```python
-domain_score = idf * source_quality * centroid_sim
+domain_score = idf * source_quality * effective_sim
 ```
 This is the primary weight exported to Lagoon. Quantized as:
 ```python
@@ -369,9 +400,9 @@ Where `WEIGHT_SCALE = 100.0`.
 
 ### Reef Score
 ```python
-reef_score = source_quality * centroid_sim
+reef_score = source_quality * effective_sim
 ```
-Used internally for clustering quality assessment.
+Used internally for ranking quality assessment.
 
 ### IDF Quantization (for word lookup)
 ```python
@@ -446,6 +477,39 @@ eval_metric = "logloss"
 
 ---
 
+## Domain-Name Cosine Similarity
+
+A scoring signal added in transform.py step 3 that captures "default implied association" between words and domain names.
+
+### Motivation
+
+The original scoring pipeline used only `centroid_sim` (cosine similarity of a word to its sub-reef centroid). This captures "does this word statistically belong in this domain cluster?" but misses "if someone says this word, which domain comes to mind first?"
+
+Example: "violin" had `centroid_sim` of 0.873 for "italian" (highest -- it clusters well with Italian cultural words) but only 0.856 for "music". However, `cos(embed("violin"), embed("music"))` = 0.831 vs `cos(embed("violin"), embed("italian"))` = 0.700. Nobody hears "violin" and thinks "Italian" first.
+
+The two signals have a Pearson correlation of only 0.073 -- nearly independent -- making them ideal for blending.
+
+### Implementation
+
+1. **Embed domain names:** Load the nomic-embed-text-v1.5 model, embed all 444 domain names with `"classification: "` prefix, L2-normalize
+2. **Vectorized cosine per domain:** For each domain, gather all word embeddings (from `emb_normalized` already in memory), compute `word_embs @ domain_emb` in a single matrix-vector multiply
+3. **Batch UPDATE:** Store results in `augmented_domains.domain_name_cos`
+4. **Blending at scoring time (step 8):** `effective_sim = 0.7 * centroid_sim + 0.3 * domain_name_cos`
+
+### Global Impact
+
+- 100% of scored pairs have domain_name_cos (no NULLs for words with embeddings)
+- ~15% of words had their #1 domain change due to blending
+- The signal overwhelmingly dampens rather than boosts -- most words score lower against the domain name than against the cluster centroid
+- Domains with concrete, intuitive names benefit most (music, anatomy, astronomy)
+- Domains with abstract/compound names are dampened most (street name, trade name, user_experience)
+
+### alpha=0.3 Rationale
+
+Empirical testing across test words (violin, bishop, rook, python, cell) showed alpha=0.3 produces the best reranking. Lower values don't fix violin; higher values over-weight the domain name signal and break cluster coherence. Both signals are cosine similarities in the same 768-dim embedding space, so blending is mathematically principled.
+
+---
+
 ## Clustering Algorithms
 
 ### PMI (Pointwise Mutual Information)
@@ -515,14 +579,14 @@ For each cluster (sub-reef or archipelago):
 
 **Format:** MessagePack binary files, deserialized by Lagoon.
 
-### Terminology Mapping (DB → Export)
+### Terminology Mapping (DB -> Export)
 
 | Database concept | Export concept | Reason |
 |-----------------|---------------|--------|
-| Domain (444) | Reef | Lagoon's hierarchy: reef → island → arch |
+| Domain (444) | Reef | Lagoon's hierarchy: reef -> island -> arch |
 | Domain (same) | Island | 1:1 with reef in v2 (no separate island layer) |
-| Sub-reef (5,150) | Sub-reef | Subdivision within a domain |
-| Archipelago (11) | Arch | Top-level grouping |
+| Sub-reef (4,723) | Sub-reef | Subdivision within a domain |
+| Archipelago (10) | Arch | Top-level grouping |
 
 ### File Descriptions
 
@@ -540,7 +604,7 @@ Hash table for O(1) word lookup. Priority resolution: base words > morphy varian
     ...
 ]
 ```
-Indexed by word_id. Each entry lists domain memberships with quantized weights (u16).
+Indexed by word_id. Each entry lists domain memberships with quantized weights (u16). `weight_q = round(domain_score * 100)`. The `domain_score` already incorporates the domain-name cosine blending via `effective_sim`.
 
 #### reef_meta.bin (~72 KB)
 ```python
@@ -567,7 +631,7 @@ Indexed by word_id. Each entry lists domain memberships with quantized weights (
 ```python
 [{"parent_island_id": int, "n_words": int, "name": str}, ...]
 ```
-5,150 sub-reef records with Leiden cluster labels as names.
+4,723 sub-reef records with Leiden cluster labels as names.
 
 #### background.bin (~8 KB)
 ```python
@@ -577,17 +641,17 @@ Per-reef background model for z-score normalization in Lagoon. Computed by sampl
 
 **Background adjustment algorithm:**
 1. Identify "unreliable" reefs: expected sample hit rate < 30 occurrences
-2. Fit power-law regression on reliable reefs: `log(std) = a * log(mean) + b` (defaults: a=0.513, b=1.482)
+2. Fit power-law regression on reliable reefs: `log(std) = a * log(mean) + b`
 3. Replace unreliable stds with regression prediction (floored at median reliable std)
-4. Specificity modulation: `adjusted_std[r] = std[r] / (1.0 + 0.3 * avg_specificity[r])`
+4. Floor all bg_std values at `BG_STD_FLOOR` (1.0) to cap z-score sensitivity
 
 #### constants.bin (~131 KB)
 ```python
 {
     "N_REEFS": 444,
     "N_ISLANDS": 444,
-    "N_ARCHS": 11,
-    "N_SUB_REEFS": 5150,
+    "N_ARCHS": 10,
+    "N_SUB_REEFS": 4723,
     "avg_reef_words": float,
     "IDF_SCALE": 51,
     "WEIGHT_SCALE": 100.0,
@@ -624,12 +688,12 @@ Indexed by word_id. Sub-reef level detail for words that have sub-reef assignmen
     "stats": {
         "n_reefs": 444,
         "n_islands": 444,
-        "n_archs": 11,
+        "n_archs": 10,
         "n_words": 158060,
         "n_lookup_entries": 186184,
-        "n_words_with_reefs": 126163,
+        "n_words_with_reefs": 115641,
         "n_compounds": 69793,
-        "n_sub_reefs": 5150,
+        "n_sub_reefs": 4723,
         "n_edges": 0
     }
 }
@@ -648,6 +712,11 @@ def pack_hierarchy_addr(arch_id, reef_id):
 All constants in `config.py`:
 
 ```python
+# Embedding model
+MODEL_NAME       = "nomic-ai/nomic-embed-text-v1.5"
+EMBEDDING_PREFIX = "classification: "
+MATRYOSHKA_DIM   = 768
+
 # FNV-1a u64 hashing
 FNV1A_OFFSET = 14695981039346656037
 FNV1A_PRIME  = 1099511628211
@@ -661,6 +730,16 @@ AUGMENT_NEG_RATIO        = 5       # negative:positive sampling ratio
 
 # XGBoost threshold
 XGBOOST_SCORE_THRESHOLD  = 0.4    # min score for domain membership
+
+# Polysemy filter
+POLYSEMY_DOMAIN_THRESHOLD = 20    # words in >= this many curated domains are flagged
+
+# XGBoost-excluded domains (9 stylistic/pragmatic categories)
+XGBOOST_EXCLUDE_DOMAINS = frozenset({
+    "african american vernacular english", "descriptive linguistics",
+    "euphemism", "formality", "phonology", "regionalism",
+    "slang", "trope", "dialect",
+})
 
 # Reef subdivision (Leiden clustering within domains)
 REEF_SCORE_THRESHOLD       = 0.6  # min xgb score for core words
@@ -678,6 +757,17 @@ ARCH_LEIDEN_RESOLUTION     = 1.0
 ARCH_MIN_COMMUNITY_SIZE    = 2
 ARCH_CHARACTERISTIC_DOMAINS_N = 10
 
+# Background model
+BG_STD_FLOOR               = 1.0  # floor on adjusted bg_std
+
+# Ubiquity pruning (post-XGBoost)
+UBIQUITY_SCORE_FLOOR       = 0.80  # below: DELETE
+UBIQUITY_SCORE_CEILING     = 0.95  # floor to ceiling: penalize
+UBIQUITY_PENALTY           = 0.5   # score multiplier
+
+# Domain-name cosine blending
+DOMAIN_NAME_COS_ALPHA      = 0.3  # effective_sim = (1-alpha)*centroid_sim + alpha*domain_name_cos
+
 # Export
 EXPORT_WEIGHT_THRESHOLD    = 0.01  # min weight to include in export
 ```
@@ -693,7 +783,7 @@ Lagoon is the downstream consumer -- a Python search scoring library at `../lago
 - **Z-score normalization:** Compare accumulated scores against `background.bin` (bg_mean, bg_std) to produce z-scores
 - **Ranking:** Return domains ranked by z-score
 
-The export format is designed for fast deserialization and O(1) lookups. All numeric values are pre-quantized to minimize runtime computation.
+The export format is designed for fast deserialization and O(1) lookups. All numeric values are pre-quantized to minimize runtime computation. The `domain_score` values in `word_reefs.bin` already incorporate the domain-name cosine blending, so Lagoon needs no knowledge of the blending formula.
 
 ---
 
@@ -713,7 +803,7 @@ Used for all word lookups. Deterministic, fast, good distribution. The same hash
 ### Embedding Model
 - **Model:** nomic-embed-text-v1.5
 - **Dimensions:** 768 (Matryoshka)
-- **Prefix:** `"search_document: "` for indexing, `"search_query: "` for queries
+- **Prefix:** `"classification: "` for all embeddings (words and domain names)
 - **Storage:** float32 blobs in SQLite (3072 bytes per word)
 
 ### Z-Score Dimension Membership
@@ -740,10 +830,13 @@ XGBoost cross-validation uses morphological equivalence classes (union-find on s
 
 ### Background Model Sampling
 The background model represents "what does a random query look like?" for each domain:
-- 1000 random samples of 15 single words each
+- 1000 random samples of 15 single words each (frequency-weighted)
 - Per-domain mean and std of raw accumulated scores
 - Unreliable domains (low expected hit rate) get regression-predicted stds
-- Specificity modulation: more specific domains get tighter (lower) stds, making it easier to achieve a significant z-score
+- All stds floored at `BG_STD_FLOOR` (1.0) to cap z-score sensitivity
 
 ### The "domainless" Pseudo-Domain
 Words with embeddings that don't belong to any real domain are tagged as "domainless" in `augmented_domains`. Their word_ids are stored in `constants.bin["domainless_word_ids"]` for Lagoon to handle specially (they contribute to tokenization but not domain scoring).
+
+### Memory Management in transform.py
+The transform pipeline keeps `emb_normalized` and `wid_to_row` (large numpy arrays) in memory through steps 1-5 (XGBoost needs them for training, domain-name cos needs them for cosine computation). They're freed with `del` after step 5 (domainless tagging), before the heavy clustering steps that allocate their own matrices.

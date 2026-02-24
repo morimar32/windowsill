@@ -1,28 +1,28 @@
 {
   "version": "6.0",
   "format": "msgpack",
-  "build_timestamp": "2026-02-22T17:49:41Z",
+  "build_timestamp": "2026-02-24T07:13:38Z",
   "files": {
-    "word_lookup.bin": "f35fe59823ef3dc760da936b0119bcb7319e769e37d93a2c6d286c6db7d5176f",
-    "word_reefs.bin": "65078451c8711f5961b825bed1cff4dc47a277022083495a0545781cd183dc17",
-    "reef_meta.bin": "d865fa516059859ce51c2f6fad37c25e77d94b6364da697eff6a98e66a6cbe95",
-    "island_meta.bin": "2af558c0e7359e4f0eb2d2315f465da7bf67f9360be59b601654a7b4e9a2b17b",
-    "background.bin": "c8926976fbc4d8b012c43bf9d15268462f513a31248f8a268250409c8e719051",
+    "word_lookup.bin": "7a636855da09f11f0da1d5bb063badbd2af917ac82531f9377bf851e5c99b680",
+    "word_reefs.bin": "4c892d5388ae8abe7f0ab0c90967d050dcf830e9a03d2092cff43ef4dea9f713",
+    "reef_meta.bin": "8426a662d81301ad562cf89d162a0112c8f75c4578e13eba5aff9c66f8bcf631",
+    "island_meta.bin": "abdcea6d88ef1b20450b6c38c386014b0f46b5b4118a4caf90a8db775000846c",
+    "background.bin": "6dfcefc6d8b850d3092b28cfdc69a787b99a10d298ec59760ed0a6573d58c5b1",
     "compounds.bin": "2bebf687f276c3d21145d57dd18815d06d2edfd275bf417b3d19a3cbd0e5c425",
-    "constants.bin": "cdcedb0efb693129bc67baae8c5782f74d53c2438e4d154fa2429468846ef18f",
+    "constants.bin": "6b3e4daa79f81518e8e4a5bf0485755a027eeb75dad00f91bae554fb2fbd9ef5",
     "reef_edges.bin": "9e076ceaf246b6003d9c2680a2b4cf0bffd069805902b0b5edeebf49039fe4bd",
     "word_reef_detail.bin": "aa4dc376eaec53fb6b5972fbb37d32fa6ae2a1a9c1db0f5dc61318b0358401e1",
-    "sub_reef_meta.bin": "53ae2449aada1c89b86d5b864d3ecf7fbf3823566023d800773b6c10f6f81bd2"
+    "sub_reef_meta.bin": "1c77355decb76a3146cd713a357382e21051b64322c4ffb5c97715a69ca31b17"
   },
   "stats": {
     "n_reefs": 444,
     "n_islands": 444,
-    "n_archs": 11,
+    "n_archs": 10,
     "n_words": 158060,
     "n_lookup_entries": 186184,
-    "n_words_with_reefs": 126163,
+    "n_words_with_reefs": 115511,
     "n_compounds": 69793,
-    "n_sub_reefs": 5150,
+    "n_sub_reefs": 4702,
     "n_edges": 0
   }
 }

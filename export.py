@@ -185,24 +185,34 @@ def compute_background_model(word_reefs, words, n_reefs, n_samples=1000,
                               words_per_sample=15, seed=42):
     """Compute background mean and std for z-score normalization.
 
-    Samples random sets of single words, scores them, and records
-    per-reef statistics.
+    Samples random sets of single words weighted by reef-association count
+    (proxy for word frequency — common words appear in more reefs), scores
+    them, and records per-reef statistics.
     """
     # Get single-word IDs that have reef entries
-    single_word_ids = [
-        wid for wid, info in words.items()
-        if info["word_count"] == 1 and wid in word_reefs
-    ]
+    single_word_ids = []
+    sample_weights = []
+    for wid, info in words.items():
+        if info["word_count"] == 1 and wid in word_reefs:
+            single_word_ids.append(wid)
+            sample_weights.append(len(word_reefs[wid]))
+
     single_word_ids = np.array(single_word_ids)
+    sample_weights = np.array(sample_weights, dtype=np.float64)
+    sample_weights /= sample_weights.sum()  # normalize to probabilities
 
     assert len(single_word_ids) >= words_per_sample, \
         f"Not enough single words ({len(single_word_ids)}) for background sampling"
+
+    print(f"  Frequency-weighted sampling: {len(single_word_ids)} single words, "
+          f"weight range [{sample_weights.min():.6f}, {sample_weights.max():.6f}]")
 
     rng = np.random.default_rng(seed)
     all_scores = np.zeros((n_samples, n_reefs))
 
     for i in tqdm(range(n_samples), desc="Background model"):
-        sample = rng.choice(single_word_ids, size=words_per_sample, replace=False)
+        sample = rng.choice(single_word_ids, size=words_per_sample,
+                            replace=False, p=sample_weights)
         for word_id in sample:
             for entry in word_reefs[int(word_id)]:
                 reef_id, weight_q = entry[0], entry[1]
@@ -311,6 +321,17 @@ def adjust_background_model(bg_mean, bg_std, reef_records, reef_stats,
             avg_spec = reef_records[rid].get("avg_specificity", 0.0) if isinstance(reef_records[rid], dict) else reef_records[rid].avg_specificity
             spec_factor = 1.0 + 0.3 * avg_spec
             adjusted_std[rid] = adjusted_std[rid] / spec_factor
+
+    # --- Step 5: Apply bg_std floor to cap z-score sensitivity ---
+    # Without a floor, niche reefs with tiny std get disproportionate z-score
+    # amplification (1/std), causing them to dominate over legitimate reefs.
+    floored = 0
+    for rid in range(n_reefs):
+        if adjusted_std[rid] < config.BG_STD_FLOOR:
+            adjusted_std[rid] = config.BG_STD_FLOOR
+            floored += 1
+    if floored:
+        print(f"  Floored {floored} reef bg_std values to {config.BG_STD_FLOOR}")
 
     print(f"  Adjusted bg_std range: [{min(adjusted_std):.4f}, {max(adjusted_std):.4f}]")
     return adjusted_std

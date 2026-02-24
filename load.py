@@ -11,6 +11,7 @@ Usage:
 import argparse
 import math
 import os
+import shutil
 import sys
 import time
 from collections import defaultdict
@@ -38,6 +39,9 @@ from lib import db
 from word_list import fnv1a_u64
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "v2.db")
+LAGOON_DATA_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "lagoon", "src", "lagoon", "data"
+)
 FORMAT_VERSION = "6.0"
 
 
@@ -592,6 +596,17 @@ def export(args):
         )
         if verify_errors > 0:
             sys.exit(1)
+
+    # Copy to lagoon
+    lagoon_dir = os.path.normpath(LAGOON_DATA_DIR)
+    if os.path.isdir(lagoon_dir):
+        print(f"\nCopying export files to {lagoon_dir}/...")
+        for fname in EXPORT_FILES + ["manifest.json"]:
+            src = os.path.join(args.output, fname)
+            shutil.copy2(src, lagoon_dir)
+        print(f"  Copied {len(EXPORT_FILES) + 1} files")
+    else:
+        print(f"\nWARNING: lagoon data dir not found at {lagoon_dir}, skipping copy")
 
 
 def _patch_constants_with_domainless(output_dir, domainless_word_ids):

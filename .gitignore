@@ -225,3 +225,4 @@ research/
 
 # export artifacts (but allow export/changes.md)
 export/
+v2_export/

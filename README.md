@@ -2,7 +2,7 @@
 
 what you can see shifts when you switch from a 🔭 to a 🪟
 
-A vector space distillation engine that decomposes word embeddings into a domain-aware vocabulary engine that maps 158K English words to 444 semantic domains using transformer embeddings, XGBoost classifiers, and graph clustering. Produces compact binary files consumed by [Lagoon](https://github.com/morimar32/lagoon) for real-time domain scoring of free text.
+A vector space distillation engine that maps 158K English words to 444 semantic domains using transformer embeddings, XGBoost classifiers, domain-name cosine blending, and graph clustering. Produces compact binary files consumed by [Lagoon](https://github.com/morimar32/lagoon) for real-time domain scoring of free text.
 
 ## What This Does
 
@@ -11,24 +11,36 @@ Windowsill takes the WordNet vocabulary plus Claude-generated domain words, embe
 1. **WordNet domains** provide ground-truth word-domain associations (~10K pairs)
 2. **Claude augmentation** generates 100-200 discriminative words per domain, classified as core/peripheral
 3. **XGBoost classifiers** (one per domain, 777 features) extend coverage to the full vocabulary
-4. **Leiden clustering** subdivides each domain into semantic sub-reefs and groups domains into archipelagos
-5. **IDF-weighted scoring** produces a final domain_score per word-domain pair
-6. **MessagePack export** serializes everything into 10 binary files (format v6.0) for Lagoon
+4. **Domain-name cosine similarity** computes `cos(word_embedding, domain_name_embedding)` for every word-domain pair -- a "default implied association" signal blended into scoring
+5. **Leiden clustering** subdivides each domain into semantic sub-reefs and groups domains into archipelagos
+6. **Blended scoring** produces a final domain_score per word-domain pair using `effective_sim = 0.7 * centroid_sim + 0.3 * domain_name_cos`
+7. **MessagePack export** serializes everything into 10 binary files (format v6.0) for Lagoon
 
 The result: given any English word, Lagoon can instantly look up which domains it belongs to and with what strength.
 
 ## Pipeline
 
-Six entry points, run in order:
+Two entry points:
 
 ```
 extract.py       Build v2.db: load words, embeddings, variants, WordNet domains, Claude domains
-transform.py     Train XGBoost classifiers, run inference, post-process with IDF adjustment
-reef.py          Subdivide domains into sub-reefs via hybrid similarity + Leiden clustering
-archipelago.py   Group domains into ~11 archipelagos (higher-level topic families)
-score.py         Pre-compute domain_score and reef_score for all word-domain pairs
+transform.py     Full 8-step pipeline: XGBoost, IDF, domain-name cos, ubiquity, domainless,
+                 reef clustering, archipelago clustering, scoring
 load.py          Export to Lagoon v6.0 format (10 msgpack .bin files + manifest)
 ```
+
+`transform.py` orchestrates everything after extraction. The 8 steps run sequentially:
+
+| Step | Name | What it does |
+|------|------|--------------|
+| 1 | XGBoost | Train/load classifiers, inference, insert into augmented_domains |
+| 2 | IDF | Adjust low-confidence xgb scores, prune below 0.4 |
+| 3 | Domain Name Cos | Embed 444 domain names, compute cos(word, domain_name), store in augmented_domains |
+| 4 | Ubiquity | Prune/penalize words appearing in 20+ domains |
+| 5 | Domainless | Tag words with no domain |
+| 6 | Reef | Leiden subdivision per domain -> centroid_sim |
+| 7 | Archipelago | Group domains into higher-level topic families |
+| 8 | Scoring | Blend centroid_sim + domain_name_cos -> effective_sim -> domain_score |
 
 ### Quick Start
 
@@ -36,19 +48,16 @@ load.py          Export to Lagoon v6.0 format (10 msgpack .bin files + manifest)
 python3 -m venv ws && source ws/bin/activate
 pip3 install -r requirements.txt
 
-python extract.py         # ~5 min, builds v2.db (~1 GB)
-python transform.py       # ~2 hrs (GPU), trains 444 XGBoost models
-python reef.py            # ~2 min, Leiden clustering per domain
-python archipelago.py     # ~30s, domain-level clustering
-python score.py           # ~1 min, materialize scores
-python load.py --output v2_export --verify   # ~30s, export + verify
+python extract.py         # ~40s, builds v2.db (~1 GB)
+python transform.py       # ~2 hrs (GPU), trains 444 XGBoost models + full pipeline
+load.py --output v2_export --verify   # ~7s, export + verify
 ```
 
-The export produces `v2_export/` with 10 `.bin` files (~14 MB total) and a `manifest.json`.
+The export produces `v2_export/` with 10 `.bin` files (~12 MB total) and a `manifest.json`.
 
 ### Verification
 
-`score.py --stats` and `load.py --verify` both run 17 built-in test queries (e.g., "python snake reptile" should rank fauna/zoology domains in top 10). Current status: 17/17 pass.
+`transform.py` runs 17 built-in test queries at the end of step 8 (e.g., "python snake reptile" should rank fauna/zoology domains in top 10). `load.py --verify` checks deserialization and checksums. Current status: 15/17 pass.
 
 ## Current Stats
 
@@ -57,50 +66,57 @@ The export produces `v2_export/` with 10 `.bin` files (~14 MB total) and a `mani
 | Vocabulary | 158,060 words |
 | Embedding dimensions | 768 (nomic-embed-text-v1.5) |
 | Domains | 444 |
-| Archipelagos | 11 |
-| Sub-reefs | 5,150 |
-| Scored word-domain pairs | 807,988 |
+| Archipelagos | 10 |
+| Sub-reefs | 4,723 |
+| Scored word-domain pairs | 627,543 |
 | Word variants (morphy + base) | 509,579 |
 | Lookup entries (incl. snowball stems) | 186,184 |
-| Words with domain assignments | 126,163 |
+| Words with domain assignments | 115,641 |
 | Compound words | 69,793 |
 | Database size | ~1 GB (SQLite) |
-| Export size | ~14 MB (msgpack) |
+| Export size | ~12 MB (msgpack) |
 | Export format | v6.0 |
 
 ## File Layout
 
 ```
 # Entry points (run in order)
-extract.py              Database bootstrap (13 steps)
-transform.py            XGBoost training + inference + IDF post-processing
+extract.py              Database bootstrap (14 steps)
+transform.py            Full 8-step pipeline (XGBoost -> IDF -> domain_name_cos ->
+                        ubiquity -> domainless -> reef -> archipelago -> scoring)
+load.py                 Export to Lagoon v6.0 msgpack format
+
+# Standalone scripts (also callable independently)
 reef.py                 Domain subdivision via Leiden clustering
 archipelago.py          Domain-level archipelago clustering
-score.py                Pre-compute domain_word_scores
-load.py                 Export to Lagoon v6.0 msgpack format
+score.py                Pre-compute domain_word_scores (with --stats flag for verification)
 
 # Supporting modules
 config.py               All tunable constants
+embedder.py             Embedding model loading + batch encoding (sentence-transformers)
 export.py               Shared export utilities (used by load.py)
 word_list.py            FNV-1a hashing, WordNet extraction
 xgb.py                  Single-domain XGBoost training inspector
 post_process_xgb.py     IDF score adjustment for XGBoost predictions
 
 # Library
-lib/db.py               SQLite schema, connection, embedding pack/unpack
+lib/db.py               SQLite schema, connection, migrations, embedding pack/unpack
 lib/vocab.py            Word loading, embedding, dim_stats, variants
 lib/domains.py          Domain table loading (WordNet + Claude)
 lib/claude.py           Claude API: domain discovery + word generation
 lib/xgboost.py          XGBoost feature engineering + training
-lib/scoring.py          Score formulas (IDF, source quality, domain_score)
+lib/scoring.py          Score formulas (IDF, source quality, effective_sim, domain_score)
+lib/score_pipeline.py   Scoring orchestration: load, dedup, compute, persist, verify
 lib/reef.py             Hybrid similarity, kNN graph, Leiden clustering
+lib/reef_pipeline.py    Reef subdivision orchestration
 lib/archipelago.py      Domain embedding aggregation + clustering
+lib/arch_pipeline.py    Archipelago clustering orchestration
 
 # Data artifacts
 v2.db                   SQLite database (~1 GB)
-models/                 777 XGBoost model JSON files (one per domain)
+models/                 444+ XGBoost model JSON files (one per domain)
 augmented_domains/      Claude-generated domain vocabularies
-classifiers/            XGBoost training artifacts
+intermediates/          Embedding checkpoint files
 v2_export/              Exported binary files for Lagoon
 ```
 
@@ -108,6 +124,7 @@ v2_export/              Exported binary files for Lagoon
 
 - **nomic-embed-text-v1.5**: 768-dim Matryoshka embeddings, good balance of quality and size
 - **XGBoost** over neural classifiers: fast training, interpretable feature importance, handles class imbalance well with scale_pos_weight
+- **Domain-name cosine blending** (alpha=0.3): captures "if someone says this word, which domain comes to mind?" -- nearly orthogonal to centroid_sim (Pearson r=0.073), dramatically improves intuitive rankings (e.g., violin -> music instead of italian)
 - **Leiden algorithm** over Louvain: better community quality, resolution parameter for tuning granularity
 - **Hybrid similarity** (70% embedding cosine + 30% PMI): captures both semantic similarity and co-membership patterns
 - **SQLite** over DuckDB: simpler deployment, adequate for the data volume

@@ -16,7 +16,7 @@ _here = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(_here, "v2.db")
 AUGMENTED_DIR = os.path.join(_here, "augmented_domains")
 
-TOTAL_STEPS = 13
+TOTAL_STEPS = 14
 
 
 def main():
@@ -75,11 +75,16 @@ def main():
     domains.create_augmented_domains_table(con)
     domains.load_wordnet_domains(con)
     domains.load_claude_domains(con, AUGMENTED_DIR)
+    domains.insert_domain_names(con)
     domains.print_coverage_report(con)
 
     # 13. Backfill domain counts (must come after augmented_domains)
     print(f"\n[13/{TOTAL_STEPS}] Backfilling domain counts...")
     vocab.backfill_domain_counts(con)
+
+    # 14. Flag polysemous words (must come after domain counts)
+    print(f"\n[14/{TOTAL_STEPS}] Flagging polysemous words...")
+    vocab.flag_polysemy_words(con)
 
     con.close()
 
