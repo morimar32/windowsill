@@ -20,7 +20,7 @@ from word_list import fnv1a_u64
 # Constants
 # ---------------------------------------------------------------------------
 IDF_SCALE = 51
-WEIGHT_SCALE = 100.0      # final_calc_weight * 100 → u16
+WEIGHT_SCALE = 255.0      # per-reef percentile * 255 → u8
 SUB_REEF_SENTINEL = 0xFFFF
 
 EXPORT_FILES = [

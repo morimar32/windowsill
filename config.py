@@ -43,7 +43,6 @@ POLYSEMY_EXPLICIT_WORDS = frozenset({
 # seeds (WordNet + Claude).
 XGBOOST_EXCLUDE_DOMAINS = frozenset({
     "african american vernacular english",
-    "descriptive linguistics",
     "euphemism",
     "formality",
     "phonology",
@@ -70,7 +69,7 @@ ARCH_MIN_COMMUNITY_SIZE = 2         # Smaller communities become noise
 ARCH_CHARACTERISTIC_DOMAINS_N = 10  # Top centroid-closest domains per archipelago
 
 # Background model
-BG_STD_FLOOR = 1.0              # Floor on adjusted bg_std to cap z-score sensitivity
+BG_STD_FLOOR = 0.1              # Floor on adjusted bg_std to cap z-score sensitivity
 
 # Ubiquity pruning (post-XGBoost: words appearing in many domains)
 # Words in POLYSEMY_DOMAIN_THRESHOLD+ domains get cleaned up:
@@ -79,7 +78,12 @@ UBIQUITY_SCORE_CEILING = 0.95    # Floor to ceiling: penalize
 UBIQUITY_PENALTY = 0.5           # Score multiplier for penalized range
 
 # Domain-name cosine blending
-DOMAIN_NAME_COS_ALPHA = 0.3   # effective_sim = (1-α)*centroid_sim + α*domain_name_cos
+DOMAIN_NAME_COS_ALPHA = 0.5   # effective_sim = (1-α)*centroid_sim + α*domain_name_cos
+
+# Domain-name cosine floor for xgboost entries
+# XGBoost entries below this threshold are excluded from scoring.
+# Curated sources (wordnet, claude_augmented) are not filtered.
+DOMAIN_NAME_COS_FLOOR = 0.65
 
 # Export thresholds
 EXPORT_WEIGHT_THRESHOLD = 0.01

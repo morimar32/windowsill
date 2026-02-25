@@ -22,7 +22,7 @@ _here = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(_here, "v2.db")
 MODELS_DIR = os.path.join(_here, "models")
 
-TOTAL_STEPS = 8  # XGBoost, IDF, domain_name_cos, ubiquity, domainless, reef, archipelago, scoring
+TOTAL_STEPS = 9  # XGBoost, IDF, domain_name_cos, DNC floor, ubiquity, domainless, reef, archipelago, scoring
 
 
 def run_domain(domain, pos_wids, all_wids, X_global, raw_embeddings,
@@ -265,7 +265,31 @@ def step_domain_name_cos(con, emb_normalized, wid_to_row):
 
 
 # ---------------------------------------------------------------------------
-# Step 4: Ubiquity pruning
+# Step 4: DNC floor pruning
+# ---------------------------------------------------------------------------
+
+def step_dnc_floor(con):
+    """Delete xgboost entries with domain_name_cos below threshold."""
+    floor = config.DOMAIN_NAME_COS_FLOOR
+    print(f"\nPruning xgboost rows with domain_name_cos < {floor}...")
+    t0 = time.time()
+    deleted = con.execute("""
+        DELETE FROM augmented_domains
+        WHERE source = 'xgboost'
+          AND domain_name_cos IS NOT NULL
+          AND domain_name_cos < ?
+    """, (floor,)).rowcount
+    con.commit()
+    remaining = con.execute(
+        "SELECT COUNT(*) FROM augmented_domains WHERE source = 'xgboost'"
+    ).fetchone()[0]
+    print(f"  DNC floor ({floor}): deleted {deleted:,} xgboost rows")
+    print(f"  Remaining xgboost rows: {remaining:,}")
+    print(f"  ({time.time() - t0:.1f}s)")
+
+
+# ---------------------------------------------------------------------------
+# Step 5: Ubiquity pruning
 # ---------------------------------------------------------------------------
 
 def step_ubiquity(con):
@@ -330,7 +354,7 @@ def step_ubiquity(con):
 
 
 # ---------------------------------------------------------------------------
-# Step 5: Tag domainless words
+# Step 6: Tag domainless words
 # ---------------------------------------------------------------------------
 
 def step_domainless(con):
@@ -457,7 +481,7 @@ def main():
                   emb_normalized, wid_to_row, group_map, word_texts,
                   known_wids_by_domain, args.threshold)
 
-    # Steps 2-8 only run for full pipeline (all domains)
+    # Steps 2-9 only run for full pipeline (all domains)
     if args.domain:
         con.close()
         return
@@ -479,18 +503,26 @@ def main():
     step_domain_name_cos(con, emb_normalized, wid_to_row)
 
     # =====================================================================
-    # Step 4: Ubiquity pruning
+    # Step 4: DNC floor pruning
     # =====================================================================
     print(f"\n{'=' * 75}")
-    print(f"[4/{TOTAL_STEPS}] Ubiquity pruning")
+    print(f"[4/{TOTAL_STEPS}] DNC floor pruning")
+    print(f"{'=' * 75}")
+    step_dnc_floor(con)
+
+    # =====================================================================
+    # Step 5: Ubiquity pruning
+    # =====================================================================
+    print(f"\n{'=' * 75}")
+    print(f"[5/{TOTAL_STEPS}] Ubiquity pruning")
     print(f"{'=' * 75}")
     step_ubiquity(con)
 
     # =====================================================================
-    # Step 5: Tag domainless words
+    # Step 6: Tag domainless words
     # =====================================================================
     print(f"\n{'=' * 75}")
-    print(f"[5/{TOTAL_STEPS}] Domainless tagging")
+    print(f"[6/{TOTAL_STEPS}] Domainless tagging")
     print(f"{'=' * 75}")
     step_domainless(con)
 
@@ -498,26 +530,26 @@ def main():
     del X_global, raw_embeddings, emb_normalized
 
     # =====================================================================
-    # Step 6: Reef clustering
+    # Step 7: Reef clustering
     # =====================================================================
     print(f"\n{'=' * 75}")
-    print(f"[6/{TOTAL_STEPS}] Reef clustering")
+    print(f"[7/{TOTAL_STEPS}] Reef clustering")
     print(f"{'=' * 75}")
     reef_pipeline.run_all(con)
 
     # =====================================================================
-    # Step 7: Archipelago clustering
+    # Step 8: Archipelago clustering
     # =====================================================================
     print(f"\n{'=' * 75}")
-    print(f"[7/{TOTAL_STEPS}] Archipelago clustering")
+    print(f"[8/{TOTAL_STEPS}] Archipelago clustering")
     print(f"{'=' * 75}")
     arch_pipeline.run_all(con)
 
     # =====================================================================
-    # Step 8: Scoring
+    # Step 9: Scoring
     # =====================================================================
     print(f"\n{'=' * 75}")
-    print(f"[8/{TOTAL_STEPS}] Scoring + verification")
+    print(f"[9/{TOTAL_STEPS}] Scoring + verification")
     print(f"{'=' * 75}")
     score_pipeline.run_all(con)
 

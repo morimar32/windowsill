@@ -1,8 +1,10 @@
-"""Export v2 data to lagoon format (v6.0).
+"""Export v2 data to lagoon format (v7.0).
 
 Reads from v2.db (SQLite) and produces MessagePack-serialized .bin files
 plus a manifest.json. Domains become reefs, archipelagos become archs,
 reefs-within-domains become sub-reefs.
+
+Weights are per-reef percentile ranks quantized to u8 [0, 255].
 
 Usage:
     python load.py [--output DIR] [--verify] [--bg-samples N]
@@ -19,6 +21,8 @@ from collections import defaultdict
 import numpy as np
 from nltk.stem.snowball import SnowballStemmer
 from tqdm import tqdm
+
+from scipy.stats import rankdata
 
 import config
 from export import (
@@ -42,7 +46,7 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "v2.db")
 LAGOON_DATA_DIR = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "lagoon", "src", "lagoon", "data"
 )
-FORMAT_VERSION = "6.0"
+FORMAT_VERSION = "7.0"
 
 
 def pack_hierarchy_addr(arch_id, reef_id):
@@ -287,25 +291,39 @@ def build_word_reefs(con, id_remap):
             "name": label or "",
         })
 
-    # Build word_reefs
-    word_reefs_dict = defaultdict(list)
+    # Pass 1: collect entries grouped by export_reef_id for percentile ranking
+    reef_entries = defaultdict(list)  # export_reef_id → [(word_id, sub_reef_id, domain_score)]
     for domain, word_id, db_reef_id, domain_score in score_rows:
         if domain not in reef_remap:
             continue
         export_reef_id = reef_remap[domain]
-        weight_q = max(0, min(65535, round(domain_score * WEIGHT_SCALE)))
-        if weight_q == 0:
-            continue
 
         # Map sub-reef
         if db_reef_id >= 0 and (domain, db_reef_id) in sub_reef_remap:
-            export_sub_reef_id = sub_reef_remap[(domain, db_reef_id)]
+            export_sub = sub_reef_remap[(domain, db_reef_id)]
         else:
-            export_sub_reef_id = SUB_REEF_SENTINEL
+            export_sub = SUB_REEF_SENTINEL
 
-        word_reefs_dict[word_id].append(
-            (export_reef_id, weight_q, export_sub_reef_id)
-        )
+        reef_entries[export_reef_id].append((word_id, export_sub, domain_score))
+
+    # Pass 2: per-reef min-max normalized domain_score → u8 weight_q
+    # Per-reef min-max normalization preserves within-reef dynamic range
+    # while making the [0, 255] scale comparable across reefs.
+    word_reefs_dict = defaultdict(list)
+    for reef_id, entries in reef_entries.items():
+        scores = [e[2] for e in entries]
+        s_min = min(scores)
+        s_max = max(scores)
+        s_range = s_max - s_min
+        for word_id, sub_reef_id, raw_score in entries:
+            if s_range > 0:
+                norm = (raw_score - s_min) / s_range
+            else:
+                norm = 1.0  # all scores equal → all max
+            wq = max(0, min(255, round(norm * 255)))
+            if wq == 0:
+                continue
+            word_reefs_dict[word_id].append((reef_id, wq, sub_reef_id))
 
     # Sort entries by reef_id within each word
     word_reefs = {}
@@ -623,7 +641,7 @@ def _patch_constants_with_domainless(output_dir, domainless_word_ids):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Export v2 data to lagoon format (v6.0)"
+        description="Export v2 data to lagoon format (v7.0)"
     )
     parser.add_argument(
         "--output", default="./v2_export",

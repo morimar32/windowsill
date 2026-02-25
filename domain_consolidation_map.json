@@ -1,0 +1,239 @@
+{
+  "bacteria": "biology",
+  "cell": "biology",
+  "cytology": "biology",
+  "fungi": "biology",
+  "fungus": "biology",
+  "histology": "biology",
+  "living thing": "biology",
+  "microbiology": "biology",
+  "microorganism": "biology",
+  "molecular biology": "biology",
+  "organism": "biology",
+  "virology": "biology",
+  "virus": "biology",
+
+  "plant": "botany",
+
+  "animal": "zoology",
+  "cockfighting": "zoology",
+  "entomology": "zoology",
+  "falconry": "zoology",
+  "game bird": "zoology",
+  "hunt": "zoology",
+  "ichthyology": "zoology",
+  "insect": "zoology",
+  "invertebrate": "zoology",
+  "mammal": "zoology",
+  "ornithology": "zoology",
+
+  "operation": "medicine",
+  "pathology": "medicine",
+  "surgery": "medicine",
+
+  "orthopedics": "anatomy",
+  "vertebrate": "anatomy",
+
+  "drug": "pharmacology",
+  "trade name": "pharmacology",
+
+  "pregnancy": "obstetrics",
+
+  "animal husbandry": "livestock",
+
+  "gardening": "vegetation",
+
+  "fine arts": "art",
+  "photography": "art",
+  "printing": "art",
+
+  "cabinetwork": "carpentry",
+
+  "astrophysics": "astronomy",
+  "celestial body": "astronomy",
+  "cosmology": "astronomy",
+
+  "chemical analysis": "physical chemistry",
+
+  "solution": "chemistry",
+
+  "electrical engineering": "electricity",
+
+  "sewing": "handicraft",
+
+  "microscopy": "optics",
+
+  "quarrying": "mining",
+
+  "anglican church": "religion",
+  "apocrypha": "religion",
+  "bible": "religion",
+  "christian theology": "religion",
+  "christianity": "religion",
+  "church service": "religion",
+  "episcopal church": "religion",
+  "islam": "religion",
+  "jainism": "religion",
+  "judaism": "religion",
+  "luke": "religion",
+  "new testament": "religion",
+  "old testament": "religion",
+  "orthodox church": "religion",
+  "protestant church": "religion",
+  "roman catholic": "religion",
+  "shariah": "religion",
+  "sikhism": "religion",
+  "theology": "religion",
+  "voodoo": "religion",
+  "zoroastrianism": "religion",
+
+  "antiquity": "mythology",
+  "classical mythology": "mythology",
+  "folklore": "mythology",
+  "greek mythology": "mythology",
+  "legend": "mythology",
+  "roman mythology": "mythology",
+
+  "teuton": "german",
+
+  "counterpoint": "music",
+
+  "descriptive linguistics": "linguistics",
+  "historical linguistics": "linguistics",
+  "prosody": "linguistics",
+
+  "poetry": "literature",
+  "rhyme": "literature",
+  "writing": "literature",
+
+  "broadcast medium": "broadcasting",
+  "communications": "broadcasting",
+  "radio": "broadcasting",
+  "telecommunication": "broadcasting",
+  "telegraphy": "broadcasting",
+  "television": "broadcasting",
+
+  "a cappella singing": "singing",
+  "concert": "singing",
+  "jazz": "singing",
+  "rock 'n' roll": "singing",
+
+  "dramaturgy": "movie",
+  "film": "movie",
+  "performing arts": "movie",
+
+  "ballet": "dance",
+  "dancing": "dance",
+
+  "podcasting": "recording",
+
+  "american football": "sport",
+  "badminton": "sport",
+  "baseball": "sport",
+  "basketball": "sport",
+  "bowling": "sport",
+  "boxing": "sport",
+  "court game": "sport",
+  "cricket": "sport",
+  "fencing": "sport",
+  "field hockey": "sport",
+  "football": "sport",
+  "golf": "sport",
+  "ice hockey": "sport",
+  "lacrosse": "sport",
+  "professional basketball": "sport",
+  "rugby": "sport",
+  "skiing": "sport",
+  "soccer": "sport",
+  "softball": "sport",
+  "squash": "sport",
+  "table tennis": "sport",
+  "tennis": "sport",
+  "tenpins": "sport",
+  "wrestling": "sport",
+
+  "billiards": "game",
+  "board game": "game",
+  "bridge": "game",
+  "card game": "game",
+  "checkers": "game",
+  "chess": "game",
+  "poker": "game",
+
+  "war": "military",
+
+  "quoits": "ball game",
+
+  "polo": "horse racing",
+
+  "election": "politics",
+  "government": "politics",
+  "legislation": "politics",
+  "legislature": "politics",
+  "order": "politics",
+  "parliament": "politics",
+
+  "case law": "law",
+  "civil law": "law",
+  "contract": "law",
+  "criminal law": "law",
+  "justice": "law",
+  "maritime law": "law",
+  "tort": "law",
+
+  "ethics": "philosophy",
+  "metaphysics": "philosophy",
+
+  "foreign service": "diplomacy",
+
+  "psychotherapy": "psychology",
+
+  "boat": "navigation",
+  "sailing": "navigation",
+  "sailing vessel": "navigation",
+  "seafaring": "navigation",
+  "ship": "navigation",
+  "shipbuilding": "navigation",
+  "vessel": "navigation",
+  "water travel": "navigation",
+
+  "auto racing": "motor vehicle",
+  "car": "motor vehicle",
+  "driving": "motor vehicle",
+  "racing": "motor vehicle",
+
+  "air travel": "aircraft",
+  "airplane": "aircraft",
+
+  "bus": "transportation",
+
+  "drones": "robotics",
+
+  "computer technology": "computer science",
+  "databases": "computer science",
+  "programming": "computer science",
+  "web_development": "computer science",
+
+  "algebra": "mathematics",
+  "matrix algebra": "mathematics",
+
+  "devops": "cloud_computing",
+
+  "data_science": "machine_learning",
+
+  "accounting": "finance",
+  "banking": "finance",
+  "bookkeeping": "finance",
+  "corporate finance": "finance",
+  "fintech": "finance",
+  "investing": "finance",
+  "investment": "finance",
+  "stock exchange": "finance",
+  "tax": "finance",
+
+  "commercial enterprise": "business",
+
+  "colloquialism": "slang",
+
+  "superlative": "comparative"
+}

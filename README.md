@@ -2,7 +2,7 @@
 
 what you can see shifts when you switch from a 🔭 to a 🪟
 
-A vector space distillation engine that maps 158K English words to 444 semantic domains using transformer embeddings, XGBoost classifiers, domain-name cosine blending, and graph clustering. Produces compact binary files consumed by [Lagoon](https://github.com/morimar32/lagoon) for real-time domain scoring of free text.
+A vector space distillation engine that maps 158K English words to 258 semantic domains using transformer embeddings, XGBoost classifiers, domain-name cosine blending, and graph clustering. Produces compact binary files consumed by [Lagoon](https://github.com/morimar32/lagoon) for real-time domain scoring of free text.
 
 ## What This Does
 
@@ -12,35 +12,39 @@ Windowsill takes the WordNet vocabulary plus Claude-generated domain words, embe
 2. **Claude augmentation** generates 100-200 discriminative words per domain, classified as core/peripheral
 3. **XGBoost classifiers** (one per domain, 777 features) extend coverage to the full vocabulary
 4. **Domain-name cosine similarity** computes `cos(word_embedding, domain_name_embedding)` for every word-domain pair -- a "default implied association" signal blended into scoring
-5. **Leiden clustering** subdivides each domain into semantic sub-reefs and groups domains into archipelagos
-6. **Blended scoring** produces a final domain_score per word-domain pair using `effective_sim = 0.7 * centroid_sim + 0.3 * domain_name_cos`
-7. **MessagePack export** serializes everything into 10 binary files (format v6.0) for Lagoon
+5. **Domain consolidation** merges 444 raw WordNet domains down to 258 via a curated mapping (e.g., "baseball", "softball", "cricket" → "ball game")
+6. **Leiden clustering** subdivides each domain into semantic sub-reefs and groups domains into archipelagos
+7. **Blended scoring** produces a final domain_score per word-domain pair using `effective_sim = 0.7 * centroid_sim + 0.3 * domain_name_cos`
+8. **Per-reef min-max normalization** maps each reef's [score_min, score_max] → [0, 255] (u8), preserving within-reef dynamic range
+9. **MessagePack export** serializes everything into 10 binary files (format v7.0) for Lagoon
 
 The result: given any English word, Lagoon can instantly look up which domains it belongs to and with what strength.
 
 ## Pipeline
 
-Two entry points:
+Three entry points:
 
 ```
-extract.py       Build v2.db: load words, embeddings, variants, WordNet domains, Claude domains
-transform.py     Full 8-step pipeline: XGBoost, IDF, domain-name cos, ubiquity, domainless,
-                 reef clustering, archipelago clustering, scoring
-load.py          Export to Lagoon v6.0 format (10 msgpack .bin files + manifest)
+extract.py              Build v2.db: load words, embeddings, variants, WordNet domains, Claude domains
+apply_consolidation.py  Merge 444 raw domains → 258 via domain_consolidation_map.json
+transform.py            Full 9-step pipeline: XGBoost, IDF, domain-name cos, ubiquity, domainless,
+                        reef clustering, archipelago clustering, scoring, consolidation application
+load.py                 Export to Lagoon v7.0 format (10 msgpack .bin files + manifest)
 ```
 
-`transform.py` orchestrates everything after extraction. The 8 steps run sequentially:
+`transform.py` orchestrates everything after extraction. The 9 steps run sequentially:
 
 | Step | Name | What it does |
 |------|------|--------------|
 | 1 | XGBoost | Train/load classifiers, inference, insert into augmented_domains |
 | 2 | IDF | Adjust low-confidence xgb scores, prune below 0.4 |
-| 3 | Domain Name Cos | Embed 444 domain names, compute cos(word, domain_name), store in augmented_domains |
+| 3 | Domain Name Cos | Embed 258 domain names, compute cos(word, domain_name), store in augmented_domains |
 | 4 | Ubiquity | Prune/penalize words appearing in 20+ domains |
 | 5 | Domainless | Tag words with no domain |
 | 6 | Reef | Leiden subdivision per domain -> centroid_sim |
 | 7 | Archipelago | Group domains into higher-level topic families |
 | 8 | Scoring | Blend centroid_sim + domain_name_cos -> effective_sim -> domain_score |
+| 9 | Consolidation | Apply domain_consolidation_map.json (444 → 258 domains) |
 
 ### Quick Start
 
@@ -49,15 +53,16 @@ python3 -m venv ws && source ws/bin/activate
 pip3 install -r requirements.txt
 
 python extract.py         # ~40s, builds v2.db (~1 GB)
-python transform.py       # ~2 hrs (GPU), trains 444 XGBoost models + full pipeline
-load.py --output v2_export --verify   # ~7s, export + verify
+python apply_consolidation.py  # ~1s, merges 444 → 258 domains
+python transform.py       # ~2 hrs (GPU), trains 258 XGBoost models + full pipeline
+python load.py --output v2_export --verify   # ~7s, export + verify
 ```
 
 The export produces `v2_export/` with 10 `.bin` files (~12 MB total) and a `manifest.json`.
 
 ### Verification
 
-`transform.py` runs 17 built-in test queries at the end of step 8 (e.g., "python snake reptile" should rank fauna/zoology domains in top 10). `load.py --verify` checks deserialization and checksums. Current status: 15/17 pass.
+`transform.py` runs 17 built-in test queries at the end of step 8 (e.g., "python snake reptile" should rank fauna/zoology domains in top 10). `load.py --verify` checks deserialization and checksums.
 
 ## Current Stats
 
@@ -65,26 +70,27 @@ The export produces `v2_export/` with 10 `.bin` files (~12 MB total) and a `mani
 |--------|-------|
 | Vocabulary | 158,060 words |
 | Embedding dimensions | 768 (nomic-embed-text-v1.5) |
-| Domains | 444 |
-| Archipelagos | 10 |
-| Sub-reefs | 4,723 |
-| Scored word-domain pairs | 627,543 |
+| Domains | 258 (consolidated from 444 WordNet categories) |
+| Archipelagos | 8 |
+| Sub-reefs | 2,534 |
+| Words with domain assignments | 89,715 |
 | Word variants (morphy + base) | 509,579 |
 | Lookup entries (incl. snowball stems) | 186,184 |
-| Words with domain assignments | 115,641 |
 | Compound words | 69,793 |
 | Database size | ~1 GB (SQLite) |
 | Export size | ~12 MB (msgpack) |
-| Export format | v6.0 |
+| Export format | v7.0 |
+| Weight encoding | u8 per-reef min-max normalized [0, 255] |
 
 ## File Layout
 
 ```
 # Entry points (run in order)
 extract.py              Database bootstrap (14 steps)
-transform.py            Full 8-step pipeline (XGBoost -> IDF -> domain_name_cos ->
-                        ubiquity -> domainless -> reef -> archipelago -> scoring)
-load.py                 Export to Lagoon v6.0 msgpack format
+apply_consolidation.py  Merge 444 raw WordNet domains → 258 via domain_consolidation_map.json
+transform.py            Full 9-step pipeline (XGBoost -> IDF -> domain_name_cos ->
+                        ubiquity -> domainless -> reef -> archipelago -> scoring -> consolidation)
+load.py                 Export to Lagoon v7.0 msgpack format
 
 # Standalone scripts (also callable independently)
 reef.py                 Domain subdivision via Leiden clustering
@@ -113,11 +119,12 @@ lib/archipelago.py      Domain embedding aggregation + clustering
 lib/arch_pipeline.py    Archipelago clustering orchestration
 
 # Data artifacts
-v2.db                   SQLite database (~1 GB)
-models/                 444+ XGBoost model JSON files (one per domain)
-augmented_domains/      Claude-generated domain vocabularies
-intermediates/          Embedding checkpoint files
-v2_export/              Exported binary files for Lagoon
+v2.db                           SQLite database (~1 GB)
+domain_consolidation_map.json   Curated 444→258 domain merge mapping
+models/                         258 XGBoost model JSON files (one per domain)
+augmented_domains/              Claude-generated domain vocabularies
+intermediates/                  Embedding checkpoint files
+v2_export/                      Exported binary files for Lagoon (v7.0)
 ```
 
 ## Key Technical Choices

@@ -13,10 +13,35 @@ import os
 import time
 from collections import defaultdict
 
+from lagoon import STOP_WORDS
+
 from lib import db
 from lib.scoring import compute_scores
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "v2.db")
+
+
+def sync_stop_words(con):
+    """Sync words.is_stop with lagoon's canonical STOP_WORDS list.
+
+    Updates the DB so is_stop=1 for any word matching the lagoon stop words,
+    and is_stop=0 for all others. Single-letter words (except 'a', 'i') are
+    already filtered out during word list creation, but this catches multi-char
+    stop words like 'well', 'back', 'just', etc.
+    """
+    # Reset all to 0
+    con.execute("UPDATE words SET is_stop = 0")
+
+    # Set is_stop=1 for matching words
+    stop_list = sorted(STOP_WORDS)
+    placeholders = ",".join("?" * len(stop_list))
+    updated = con.execute(
+        f"UPDATE words SET is_stop = 1 WHERE word IN ({placeholders})",
+        stop_list,
+    ).rowcount
+    con.commit()
+    print(f"  Synced is_stop: {updated} words flagged as stop words "
+          f"(from {len(STOP_WORDS)} lagoon STOP_WORDS)")
 
 # 17 test queries: query words → list of keyword substrings that must appear
 # in at least one top-10 domain name
@@ -45,7 +70,7 @@ def load_data(con):
     """Load augmented_domains and domain_reefs for scoring.
 
     Returns:
-        ad_rows: list of (domain, word_id, source, xgb_score)
+        ad_rows: list of (domain, word_id, source, xgb_score, domain_name_cos)
         reef_map: dict {(domain, word_id): (reef_id, centroid_sim)}
         n_total_domains: int
     """
@@ -53,11 +78,14 @@ def load_data(con):
     t0 = time.time()
 
     ad_rows = con.execute("""
-        SELECT domain, word_id, source, score
-        FROM augmented_domains
-        WHERE word_id IS NOT NULL AND domain != 'domainless'
+        SELECT ad.domain, ad.word_id, ad.source, ad.score, ad.domain_name_cos
+        FROM augmented_domains ad
+        JOIN words w ON ad.word_id = w.word_id
+        WHERE ad.word_id IS NOT NULL
+          AND ad.domain != 'domainless'
+          AND w.is_stop = 0
     """).fetchall()
-    print(f"  {len(ad_rows):,} augmented_domains rows")
+    print(f"  {len(ad_rows):,} augmented_domains rows (stop words excluded)")
 
     reef_rows = con.execute("""
         SELECT domain, word_id, reef_id, centroid_sim
@@ -79,7 +107,7 @@ def load_data(con):
 def compute_n_word_domains(ad_rows):
     """Count distinct domains per word_id."""
     counts = defaultdict(set)
-    for domain, word_id, _source, _score in ad_rows:
+    for domain, word_id, _source, _score, _dnc in ad_rows:
         counts[word_id].add(domain)
     return {wid: len(domains) for wid, domains in counts.items()}
 
@@ -94,17 +122,18 @@ def deduplicate_pairs(ad_rows, reef_map, n_word_domains, n_total_domains):
     from lib.scoring import resolve_source_quality
 
     # Group by (domain, word_id), keep best source_quality
-    best = {}  # (domain, word_id) -> (source, xgb_score, source_quality)
-    for domain, word_id, source, xgb_score in ad_rows:
+    # Also track domain_name_cos (same for all sources of a pair)
+    best = {}  # (domain, word_id) -> (source, xgb_score, source_quality, domain_name_cos)
+    for domain, word_id, source, xgb_score, domain_name_cos in ad_rows:
         sq = resolve_source_quality(source, xgb_score)
         key = (domain, word_id)
         if key not in best or sq > best[key][2]:
-            best[key] = (source, xgb_score, sq)
+            best[key] = (source, xgb_score, sq, domain_name_cos)
 
     # Compute scores
     rows = []
     n_no_reef = 0
-    for (domain, word_id), (source, xgb_score, _sq) in best.items():
+    for (domain, word_id), (source, xgb_score, _sq, domain_name_cos) in best.items():
         reef_info = reef_map.get((domain, word_id))
         if reef_info:
             reef_id, centroid_sim = reef_info
@@ -116,8 +145,9 @@ def deduplicate_pairs(ad_rows, reef_map, n_word_domains, n_total_domains):
             n_no_reef += 1
 
         n_wd = n_word_domains.get(word_id, 1)
-        domain_score, reef_score, idf, source_quality = compute_scores(
-            source, xgb_score, centroid_sim, n_wd, n_total_domains
+        domain_score, reef_score, idf, source_quality, _effective_sim = compute_scores(
+            source, xgb_score, centroid_sim, n_wd, n_total_domains,
+            domain_name_cos=domain_name_cos,
         )
         rows.append((domain, word_id, reef_id, source, source_quality,
                       centroid_sim, n_wd, idf, domain_score, reef_score))
@@ -261,6 +291,9 @@ def main():
         run_verification(con)
         con.close()
         return
+
+    # Sync stop words before scoring
+    sync_stop_words(con)
 
     # Full computation
     ad_rows, reef_map, n_total_domains = load_data(con)
