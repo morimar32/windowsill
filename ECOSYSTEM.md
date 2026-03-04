@@ -2,6 +2,7 @@
 
 This document defines the architecture, responsibilities, and data contracts across the three-layer stack. Read this before working on any cross-cutting concern.
 
+
 ## The Stack
 
 ```
@@ -45,6 +46,11 @@ Windowsill does NOT:
 - Know what text will be scored at runtime
 - Make contextual decisions that depend on the interaction between words in a specific input
 
+Project Path: /home/morimar/dev/python/windowsill
+to learn more read:
+- /home/morimar/dev/python/windowsill/README.md
+- /home/morimar/dev/python/windowsill/DETAILS.md
+
 ### Lagoon (scoring library)
 
 **Responsibility:** Given pre-computed weights, score arbitrary text contextually.
@@ -64,6 +70,10 @@ Lagoon does NOT:
 - Store documents or make routing decisions (that's a downstream consumer)
 - Know how the weights were calculated (it's a black box -- the weight IS the answer)
 
+Project Path: /home/morimar/dev/python/lagoon
+to learn more read:
+- /home/morimar/dev/python/lagoon/README.md
+
 ### Shoal (application)
 
 **Responsibility:** A specific retrieval engine (the "R" in RAG) built on lagoon.
@@ -77,6 +87,10 @@ Shoal owns:
 Shoal does NOT:
 - Modify lagoon's scoring behavior
 - Compute weights or manage the taxonomy
+
+Project Path: /home/morimar/dev/python/shoal
+to learn more read:
+- /home/morimar/dev/python/shoal/README.md
 
 ## The Data Contract: Windowsill -> Lagoon
 

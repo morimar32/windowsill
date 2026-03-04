@@ -9,14 +9,18 @@ For a human-readable overview, see [README.md](README.md).
 - [Architecture Overview](#architecture-overview)
 - [Database Schema](#database-schema)
 - [Pipeline Stages](#pipeline-stages)
-  - [Stage 1: Extract](#stage-1-extract)
-  - [Stage 2: Transform](#stage-2-transform)
-  - [Stage 3: Export (Load)](#stage-3-export-load)
+  - [Stage 1: Hierarchy Population](#stage-1-hierarchy-population)
+  - [Stage 2: Vocabulary & Embeddings](#stage-2-vocabulary--embeddings)
+  - [Stage 3: Seed Population](#stage-3-seed-population)
+  - [Stage 4: Classification & Clustering](#stage-4-classification--clustering)
+  - [Stage 5: Stats & Export Promotion](#stage-5-stats--export-promotion)
+  - [Stage 6: Binary Export](#stage-6-binary-export)
 - [Scoring Formulas](#scoring-formulas)
-- [Feature Engineering (777 Features)](#feature-engineering-777-features)
-- [Domain-Name Cosine Similarity](#domain-name-cosine-similarity)
+- [Feature Engineering (776 Features)](#feature-engineering-776-features)
+- [Name Cosine Blending](#name-cosine-blending)
 - [Clustering Algorithms](#clustering-algorithms)
-- [Export Format v6.0](#export-format-v60)
+- [Export Promotion Rules](#export-promotion-rules)
+- [Export Format v3.1](#export-format-v31)
 - [Configuration Reference](#configuration-reference)
 - [Lagoon Integration](#lagoon-integration)
 - [Important Implementation Details](#important-implementation-details)
@@ -25,422 +29,489 @@ For a human-readable overview, see [README.md](README.md).
 
 ## Architecture Overview
 
-Windowsill is a three-stage pipeline that transforms raw word embeddings into a scored domain taxonomy, exported as compact binary files for the Lagoon search scoring library.
+Windowsill is a multi-stage pipeline that builds a four-tier semantic hierarchy from word embeddings, then distills it into compact binary files for the Lagoon scoring library.
 
 ```
-WordNet vocab + Claude domain words
+WordNet vocab (147K lemmas)
+  + WDH seed words (10K+ pairs)
+  + Claude seed words (100-150 per town)
         |
         v
-  [extract.py]  ──> v2.db (words, embeddings, variants, domains)
+  [load.sh steps 1-11]  ──> windowsill.db
+        |                    (words, embeddings, hierarchy, seeds)
+        |
+  [steps 12-16]          ──> + XGBoost predictions
+        |                    + Leiden-clustered reefs
+        |                    + ReefWords (450K associations)
+        |
+  [steps 17-19]          ──> ReefWordExports (30K rows)
+        |                    TownWordExports (241K rows)
+        |                    IslandWordExports (145K rows)
+        |
+  [export.py]            ──> v3/exports/*.bin (11 msgpack files + manifest.json)
         |
         v
-  [transform.py] ──> 8-step pipeline:
-        |             1. XGBoost classifiers (models/*.json)
-        |             2. IDF score adjustment
-        |             3. Domain-name cosine similarity
-        |             4. Ubiquity pruning
-        |             5. Domainless tagging
-        |             6. Reef subdivision (domain_reefs)
-        |             7. Archipelago clustering (domain_archipelagos)
-        |             8. Scoring (domain_word_scores)
-        |
-        v
-  [load.py]     ──> v2_export/*.bin (10 msgpack files + manifest.json)
-        |
-        v
-  [Lagoon]      ──> real-time domain scoring of free text
+  [Lagoon]               ──> real-time domain scoring of free text
 ```
 
-The hierarchy is: **words** belong to **domains** (444), domains contain **sub-reefs** (4,723), and domains are grouped into **archipelagos** (10).
+The four-tier hierarchy:
 
-In the export format, domains are called "reefs" and archipelagos are called "archs" (legacy naming from the v1 pipeline where the hierarchy was dimensions -> reefs -> islands -> archipelagos).
+```
+Archipelagos (6)   — broad knowledge families
+  └── Islands (44)   — major disciplines (41 topical + 3 bucket)
+        └── Towns (332)  — specific subfields
+              └── Reefs (3,919)  — Leiden-discovered subclusters
+```
+
+Three curated levels (archipelago, island, town) provide the named, stable structure. One discovered level (reef) provides fine-grained subclustering within towns. Each word exports at exactly one level (reef, town, or island) based on its specificity and spread across the hierarchy.
 
 ---
 
 ## Database Schema
 
-All data lives in `v2.db` (SQLite, ~1 GB). Schema defined in `lib/db.py`.
+All data lives in `v3/windowsill.db` (SQLite, ~780 MB). Schema defined in `v3/schema.sql`.
 
-### Core Tables
+### Hierarchy Tables
 
-#### words (158,060 rows)
+#### Archipelagos (6 rows)
 ```sql
-CREATE TABLE words (
-    word_id    INTEGER PRIMARY KEY,
-    word       TEXT NOT NULL,
-    pos        TEXT,                -- dominant POS: n, v, a, r, or NULL
-    category   TEXT,                -- single, compound, phrasal_verb, named_entity, taxonomic
-    word_count INTEGER DEFAULT 1,   -- number of space-separated tokens
-    word_hash  INTEGER,             -- FNV-1a u64 hash of word text
-    total_dims INTEGER DEFAULT 0,   -- count of z-score dimensions where word is a member
-    is_noun    INTEGER DEFAULT 0,
-    is_verb    INTEGER DEFAULT 0,
-    is_adj     INTEGER DEFAULT 0,
-    is_adv     INTEGER DEFAULT 0,
-    is_stop    INTEGER DEFAULT 0,   -- flagged as stop word
-    is_wordnet INTEGER DEFAULT 1,   -- 1 = from WordNet, 0 = Claude-generated
-    n_synsets  INTEGER DEFAULT 0,   -- WordNet synset count
-    n_domains  INTEGER DEFAULT 0,   -- distinct domain count from augmented_domains
-    is_polysemy INTEGER DEFAULT 0,  -- flagged as polysemous
-    embedding  BLOB                 -- float32 x 768 = 3072 bytes
-)
+CREATE TABLE Archipelagos (
+    archipelago_id  INTEGER PRIMARY KEY,
+    name            TEXT NOT NULL UNIQUE,
+    island_count    INTEGER DEFAULT 0,
+    town_count      INTEGER DEFAULT 0,
+    reef_count      INTEGER DEFAULT 0,
+    word_count      INTEGER DEFAULT 0
+);
 ```
 
-Embeddings are stored as raw float32 bytes. Use `lib.db.pack_embedding(ndarray)` to serialize and `lib.db.unpack_embedding(blob)` to deserialize.
-
-#### dim_stats (768 rows)
+#### Islands (44 rows)
 ```sql
-CREATE TABLE dim_stats (
-    dim_id      INTEGER PRIMARY KEY,  -- 0..767
-    mean        REAL,                 -- mean activation across all words
-    std         REAL,                 -- standard deviation
-    threshold   REAL,                 -- mean + 2.0 * std (z-score membership cutoff)
-    n_members   INTEGER,              -- words exceeding threshold
-    selectivity REAL                  -- 1.0 - (n_members / total_words)
-)
+CREATE TABLE Islands (
+    island_id       INTEGER PRIMARY KEY,
+    archipelago_id  INTEGER NOT NULL REFERENCES Archipelagos,
+    name            TEXT NOT NULL,
+    is_bucket       INTEGER NOT NULL DEFAULT 0,  -- 1 = non-topical (e.g. Linguistic Register)
+    town_count      INTEGER DEFAULT 0,
+    reef_count      INTEGER DEFAULT 0,
+    word_count      INTEGER DEFAULT 0,
+    noun_frac       REAL,
+    verb_frac       REAL,
+    adj_frac        REAL,
+    adv_frac        REAL,
+    avg_specificity REAL,
+    UNIQUE (archipelago_id, name)
+);
 ```
 
-#### word_variants (509,579 rows)
+Bucket islands (is_bucket=1) contain non-topical vocabulary: Languages, Regional, Miscellaneous. These words are identified and exported separately, but excluded from topical scoring.
+
+#### Towns (332 rows)
 ```sql
-CREATE TABLE word_variants (
-    variant_hash INTEGER NOT NULL,    -- FNV-1a u64 of variant text (stored as signed i64)
-    variant      TEXT NOT NULL,
-    word_id      INTEGER NOT NULL,
-    source       TEXT NOT NULL,        -- "base", "morphy", or "snowball"
-    PRIMARY KEY (variant_hash, word_id)
-)
+CREATE TABLE Towns (
+    town_id         INTEGER PRIMARY KEY,
+    island_id       INTEGER NOT NULL REFERENCES Islands,
+    name            TEXT NOT NULL,
+    is_capital      INTEGER DEFAULT 0,  -- 1 = catch-all town for island
+    model_f1        REAL,               -- XGBoost validation F1
+    reef_count      INTEGER DEFAULT 0,
+    word_count      INTEGER DEFAULT 0,
+    noun_frac       REAL,
+    verb_frac       REAL,
+    adj_frac        REAL,
+    adv_frac        REAL,
+    avg_specificity REAL,
+    UNIQUE (island_id, name)
+);
 ```
 
-Note: SQLite stores the u64 hash as signed i64. The export pipeline converts back: `vh & 0xFFFFFFFFFFFFFFFF`.
+Capital towns (is_capital=1) are catch-all towns within an island for words that don't fit any specific town. Their seeds go through a triage process in `detect_island_words.py`.
 
-### Domain Tables
-
-#### wordnet_domains (10,463 rows)
+#### Reefs (3,919 rows)
 ```sql
-CREATE TABLE wordnet_domains (
-    domain      TEXT NOT NULL,
-    word_id     INTEGER NOT NULL,
-    word        TEXT NOT NULL,
-    synset_name TEXT NOT NULL,
-    gloss       TEXT NOT NULL,
-    PRIMARY KEY (domain, word_id, synset_name)
-)
+CREATE TABLE Reefs (
+    reef_id         INTEGER PRIMARY KEY,
+    town_id         INTEGER NOT NULL REFERENCES Towns,
+    name            TEXT,           -- set after Leiden clustering (top 3 words)
+    centroid        BLOB,           -- L2-normalized float32 embedding
+    word_count      INTEGER DEFAULT 0,
+    core_word_count INTEGER DEFAULT 0,
+    avg_specificity REAL,
+    noun_frac       REAL,
+    verb_frac       REAL,
+    adj_frac        REAL,
+    adv_frac        REAL
+);
 ```
 
-Ground-truth domain associations from WordNet's topic and usage domain pointers.
+### Dictionary Tables
 
-#### augmented_domains (~646K rows)
+#### Words (149,691 rows)
 ```sql
-CREATE TABLE augmented_domains (
-    domain          TEXT NOT NULL,
+CREATE TABLE Words (
+    word_id         INTEGER PRIMARY KEY,
     word            TEXT NOT NULL,
-    word_id         INTEGER,            -- NULL if word not in vocabulary
-    matched_word    TEXT,               -- actual matched word (may differ from input)
-    source          TEXT NOT NULL,       -- "wordnet", "claude_augmented", "xgboost", "pipeline", "morphy"
-    confidence      TEXT,               -- "core" or "peripheral" for Claude words
-    has_embedding   INTEGER DEFAULT 0,
-    score           REAL,               -- XGBoost prediction probability (for source=xgboost)
-    domain_name_cos REAL,               -- cos(word_embedding, domain_name_embedding)
-    PRIMARY KEY (domain, word)
-)
+    word_hash       INTEGER NOT NULL,   -- FNV-1a u64 (stored as signed i64)
+    pos             TEXT,               -- dominant POS: noun, verb, adj, adv
+    specificity     INTEGER,            -- based on total reef_count
+    cosine_sim      REAL,               -- best cosine to any assigned reef centroid
+    idf             REAL,               -- log2(N_total_reefs / reef_count)
+    embedding       BLOB,               -- float32 x 768 = 3072 bytes
+    word_count      INTEGER DEFAULT 1,  -- number of space-separated tokens
+    category        TEXT,               -- single, compound, phrasal_verb
+    is_stop         INTEGER DEFAULT 0,
+    reef_count      INTEGER DEFAULT 0,
+    town_count      INTEGER DEFAULT 0,
+    island_count    INTEGER DEFAULT 0
+);
 ```
 
-The central domain membership table. Sources:
-- `wordnet`: from wordnet_domains table
-- `claude_augmented`: Claude-generated domain vocabularies
-- `domain_name`: domain self-name insertion (domain name matched to vocabulary)
+Embeddings are stored as raw float32 bytes (3072 bytes per word). All words are embedded with `"clustering: "` prefix using nomic-embed-text-v1.5.
+
+#### ReefWords (449,925 rows)
+```sql
+CREATE TABLE ReefWords (
+    reef_id         INTEGER NOT NULL REFERENCES Reefs,
+    word_id         INTEGER NOT NULL REFERENCES Words,
+    pos             TEXT,               -- contextual POS (overrides Words.pos)
+    specificity     INTEGER,            -- within this reef
+    cosine_sim      REAL,               -- cosine to this reef's centroid
+    idf             REAL,               -- within this reef's context
+    island_idf      REAL,               -- log2(island_total_reefs / word_reefs_in_island)
+    source          TEXT NOT NULL,       -- curated, xgboost
+    source_quality  REAL NOT NULL DEFAULT 1.0,
+    is_core         INTEGER DEFAULT 0,  -- 1 = Leiden core member
+    PRIMARY KEY (reef_id, word_id)
+);
+```
+
+The central word-domain association table. Sources:
+- `curated`: from WordNet domains (via WDH) + Claude-generated seeds
 - `xgboost`: XGBoost classifier predictions above threshold
-- `pipeline`/`morphy`: morphological variant expansion
 
-The `domain_name_cos` column is populated by transform.py step 3 and stores the cosine similarity between each word's embedding and its domain name's embedding. This captures "if someone says this word, which domain comes to mind first?" -- a signal nearly orthogonal to centroid_sim (Pearson r=0.073).
+### Export Tables
 
-### Clustering Tables
+Three export tables form a promotion chain. Each word appears at **exactly one** level:
 
-#### domain_reefs (627,543 rows)
+#### ReefWordExports (~30K rows)
 ```sql
-CREATE TABLE domain_reefs (
-    domain       TEXT NOT NULL,
-    reef_id      INTEGER NOT NULL,    -- sub-reef ID within domain (0-based)
-    word_id      INTEGER NOT NULL,
-    word         TEXT NOT NULL,
-    is_core      INTEGER NOT NULL,    -- 1 = Leiden core member, 0 = assigned to nearest
-    centroid_sim REAL,                -- cosine similarity to sub-reef centroid
-    PRIMARY KEY (domain, word_id)
-)
+CREATE TABLE ReefWordExports (
+    reef_id         INTEGER NOT NULL REFERENCES Reefs,
+    word_id         INTEGER NOT NULL REFERENCES Words,
+    idf             REAL,
+    centroid_sim    REAL,           -- cosine to reef centroid
+    name_cos        REAL,           -- cosine to hierarchy name embedding
+    effective_sim   REAL,           -- blended similarity
+    specificity     INTEGER,
+    source_quality  REAL,
+    export_weight   INTEGER NOT NULL CHECK (export_weight BETWEEN 0 AND 255),
+    PRIMARY KEY (reef_id, word_id)
+);
 ```
 
-#### domain_reef_stats (4,723 rows)
+#### TownWordExports (~241K rows)
 ```sql
-CREATE TABLE domain_reef_stats (
-    domain     TEXT NOT NULL,
-    reef_id    INTEGER NOT NULL,
-    n_core     INTEGER NOT NULL,
-    n_assigned INTEGER NOT NULL,
-    n_total    INTEGER NOT NULL,
-    label      TEXT,                  -- top 3 words joined with underscores
-    top_words  TEXT,                  -- JSON array of top-10 characteristic words
-    centroid   BLOB,                  -- L2-normalized float32 embedding
-    PRIMARY KEY (domain, reef_id)
-)
+CREATE TABLE TownWordExports (
+    town_id         INTEGER NOT NULL REFERENCES Towns,
+    word_id         INTEGER NOT NULL REFERENCES Words,
+    idf             REAL,
+    centroid_sim    REAL,
+    name_cos        REAL,
+    effective_sim   REAL,
+    specificity     INTEGER,
+    source_quality  REAL,
+    export_weight   INTEGER NOT NULL CHECK (export_weight BETWEEN 0 AND 255),
+    export_town_weight INTEGER NOT NULL DEFAULT 128,
+    PRIMARY KEY (town_id, word_id)
+);
 ```
 
-#### domain_archipelagos (444 rows)
+#### IslandWordExports (~145K rows)
 ```sql
-CREATE TABLE domain_archipelagos (
-    domain          TEXT NOT NULL PRIMARY KEY,
-    archipelago_id  INTEGER NOT NULL,
-    centroid_sim    REAL              -- cosine similarity to archipelago centroid
-)
+CREATE TABLE IslandWordExports (
+    island_id       INTEGER NOT NULL REFERENCES Islands,
+    word_id         INTEGER NOT NULL REFERENCES Words,
+    idf             REAL,
+    centroid_sim    REAL,
+    name_cos        REAL,
+    effective_sim   REAL,
+    specificity     INTEGER,
+    source_quality  REAL,
+    export_weight   INTEGER NOT NULL CHECK (export_weight BETWEEN 0 AND 255),
+    export_island_weight INTEGER NOT NULL DEFAULT 128,
+    PRIMARY KEY (island_id, word_id)
+);
 ```
 
-#### domain_archipelago_stats (10 rows)
+### Pipeline Support Tables
+
+#### SeedWords
+Town-level seed vocabulary before XGBoost expansion. Populated from WDH, Claude API, and Wikipedia.
+
+#### AugmentedTowns
+XGBoost predictions above threshold, per town. Populated by `train_town_xgboost.py`.
+
+#### IslandWords
+Words that are non-discriminative across towns within an island. Detected by cosine-std analysis and XGBoost post-filtering. These feed into IslandWordExports.
+
+#### DimStats (768 rows)
+Per-embedding-dimension statistics for z-score feature computation.
+
+#### WordIslandStats
+Per (word, island) concentration metrics, populated by `compute_word_stats.py`.
+
+#### WordVariants
+Morphological and stemming variants for tokenization. Feeds into EquivalencesExport.
+
+### Views
+
+#### ExportIndex
+Unified view across all three export tables, resolving every exported word to its full hierarchy path. This is the primary query target for search validation:
+
 ```sql
-CREATE TABLE domain_archipelago_stats (
-    archipelago_id  INTEGER NOT NULL PRIMARY KEY,
-    n_domains       INTEGER NOT NULL,
-    label           TEXT,             -- top 3 domains joined with underscores
-    top_domains     TEXT,             -- JSON array of top-10 domains
-    centroid        BLOB              -- L2-normalized float32 embedding
-)
+-- Single word lookup
+SELECT * FROM ExportIndex
+WHERE word_id = (SELECT word_id FROM Words WHERE word = 'violin')
+ORDER BY export_weight DESC;
+
+-- Multi-word search (accumulate per island)
+SELECT island, SUM(export_weight) AS score
+FROM WordSearch
+WHERE word IN ('hockey', 'stick', 'ice', 'rink')
+GROUP BY island_id
+ORDER BY score DESC LIMIT 10;
 ```
 
-### Scoring Table
+#### WordSearch
+Joins ExportIndex with word text for human-readable results.
 
-#### domain_word_scores (627,543 rows)
-```sql
-CREATE TABLE domain_word_scores (
-    domain          TEXT NOT NULL,
-    word_id         INTEGER NOT NULL,
-    reef_id         INTEGER NOT NULL,   -- sub-reef within domain (-1 if no reef)
-    source          TEXT NOT NULL,
-    source_quality  REAL NOT NULL,      -- 1.0 for curated, xgb_score for ML
-    centroid_sim    REAL,               -- cosine sim to sub-reef centroid (default 0.8)
-    domain_name_cos REAL,               -- cosine sim to domain name embedding
-    effective_sim   REAL,               -- (1-alpha)*centroid_sim + alpha*domain_name_cos
-    n_word_domains  INTEGER NOT NULL,   -- how many domains this word appears in
-    idf             REAL NOT NULL,      -- log2(N/n), floored at 0.1
-    domain_score    REAL NOT NULL,      -- idf * source_quality * effective_sim
-    reef_score      REAL NOT NULL,      -- source_quality * effective_sim
-    PRIMARY KEY (domain, word_id)
-)
-```
+#### HierarchyPath
+Full hierarchy path for any reef (archipelago > island > town > reef with word counts).
 
-This is the final pre-computed table that `load.py` reads for export. The `domain_score` column is the primary weight exported to Lagoon.
+#### Compounds
+Multi-word expressions for Aho-Corasick tokenization in Lagoon.
 
 ---
 
 ## Pipeline Stages
 
-### Stage 1: Extract
+### Stage 1: Hierarchy Population
 
-**Entry point:** `extract.py` (14 internal steps)
+**Scripts:** `schema.sql`, `populate_archipelagos_islands.sql`, `populate_towns.sql`, `populate_bucket_islands.sql`
 
-Builds `v2.db` from scratch:
+Creates the database and populates the three curated hierarchy levels. The hierarchy is grounded in the FBK WordNet Domain Hierarchy (WDH) for archipelagos and islands, extended for modern topics. Towns are curated from Wikipedia category analysis and domain expertise.
 
-1. Create fresh database with schema
-2. Load WordNet vocabulary + compute embeddings via nomic-embed-text-v1.5 (`lib/vocab.py`)
-3. Load Claude-generated domain words, embed any unmatched ones
-4. Compute `dim_stats`: per-dimension mean, std, threshold (mean + 2.0*std), member count
-5. Compute `total_dims` per word (how many dimensions each word is a member of)
-6. Backfill POS and category from WordNet
-7. Flag stop words
-8. Compute synset counts
-9. Compute FNV-1a word hashes
-10. Expand morphy variants (WordNet morphological analysis)
-11. Populate `wordnet_domains` from WordNet topic/usage domain pointers
-12. Load `augmented_domains` (WordNet domains + Claude domains + domain self-names)
-13. Backfill `n_domains` per word
-14. Flag polysemous words
+Six archipelagos: Applied Science, Pure Science, Social Science, Humanities, Free Time, Doctrines.
 
-**Key dependency:** `lib/vocab.py` imports `embedder` for embedding computation. The `embedder` module uses sentence-transformers with nomic-embed-text-v1.5 (Matryoshka 768-dim). This is only needed when building the database from scratch.
+44 islands: 41 topical + 3 bucket (Languages, Regional, Miscellaneous).
 
-### Stage 2: Transform
+332 towns: ~308 topical + 24 bucket.
 
-**Entry point:** `transform.py` (8 steps, unified pipeline)
+All hierarchy data is defined in SQL INSERT scripts for version control and manual review. Scripts use subselects with readable labels instead of hardcoded IDs.
 
-Runs all post-extraction processing. Can also run a single domain for XGBoost only (`python transform.py "medicine"`).
+### Stage 2: Vocabulary & Embeddings
 
-#### Step 1: XGBoost Training + Inference
+**Scripts:** `load_wordnet_vocab.py`, `reembed_words.py`, `compute_dimstats.py`
 
-Trains one binary XGBoost classifier per domain and runs inference on all words.
+1. **Load vocabulary:** Extracts ~147K unique lemmas from NLTK WordNet 3.0. Computes POS, word_count, category, and FNV-1a word hashes.
 
-**Training pipeline:**
-1. Load all word embeddings, compute z-scores using `dim_stats`
-2. Build global feature matrix (775 columns -- see [Feature Engineering](#feature-engineering-777-features))
-3. For each domain with >= `AUGMENT_MIN_DOMAIN_WORDS` (20) positive examples:
-   - Positive set: domain members with embeddings
-   - Negative set: random non-members at `AUGMENT_NEG_RATIO` (5:1) ratio
-   - Add 2 domain-specific features (centroid cosine + KNN-5 mean cosine)
-   - Train XGBoost with StratifiedGroupKFold CV (morphological groups prevent data leakage)
-   - Save model to `models/{domain}.json`
+2. **Embed words:** Uses nomic-embed-text-v1.5 with `"clustering: "` prefix (better suited for topical clustering than `"classification: "`). GPU-accelerated, ~1 min on RTX 4070 Ti. Supports checkpointing and `--missing-only` for incremental embedding.
 
-**Inference pipeline:**
-1. Load each trained model
-2. Score all words (build domain-specific features per domain)
-3. Insert predictions above `XGBOOST_SCORE_THRESHOLD` (0.4) into `augmented_domains`
+3. **Dimension statistics:** Computes per-dimension mean, std, threshold (mean + 2.0*std), member count, and selectivity. Used for z-score feature engineering in XGBoost.
 
-**Excluded domains:** 9 stylistic/pragmatic/meta-linguistic categories (slang, euphemism, dialect, etc.) are excluded from XGBoost training/inference because membership cannot be determined from embedding proximity. They keep only their curated seeds (WordNet + Claude). See `XGBOOST_EXCLUDE_DOMAINS` in config.py.
+### Stage 3: Seed Population
 
-#### Step 2: IDF Post-Processing (`post_process_xgb.py`)
+**Scripts:** `import_wdh.py`, `populate_claude_seeds.sql`, `populate_compound_seeds.sql`, `link_seed_words.py`, `generate_seeds.py`, `generate_compound_seeds.py`, `sanity_check_seeds.py`, `detect_island_words.py`, `flag_stop_words.py --baseline`
 
-For XGBoost predictions with raw_score < 0.7:
+Seeds are the starting vocabulary for each town, before XGBoost expansion.
+
+1. **WDH import:** Maps 168 WDH domain labels to (island, town) pairs via the SKI cross-version bridge (WN 2.0 offsets → WN 3.0 synsets → lemmas). Resolution rate: ~98.3%.
+
+2. **Claude seeds:** 80-150 discriminative single words per town, generated via Claude API with hierarchy context. Words are classified as core (unmistakably belongs to town) or peripheral (could appear in related towns). Claude is given sibling town context to ensure discrimination.
+
+3. **Compound seeds:** Multi-word expressions generated separately.
+
+4. **Linking:** `link_seed_words.py` matches seed words against the vocabulary table and sets word_ids. New words inserted during seeding are re-embedded.
+
+5. **Sanity check:** Deduplicates words across sibling towns within the same island.
+
+6. **Island word detection** (`detect_island_words.py`): Two-phase cleanup:
+   - **Phase 1 (Capital triage):** For each capital town, computes cosine-std of seeds against non-capital town centroids. Generic seeds (std < NC p25) are promoted to IslandWords. Misplaced seeds (closer to a specific non-capital centroid) are moved.
+   - **Phase 2 (Cross-town):** For all remaining seeds, words with low cosine-std across all town centroids are non-discriminative and promoted to IslandWords.
+
+7. **Stop words:** Flags lagoon's function words (the, and, ...) in Words.is_stop.
+
+### Stage 4: Classification & Clustering
+
+**Scripts:** `train_town_xgboost.py`, `post_process_xgb.py`, `flag_stop_words.py --ubiquity`, `cluster_reefs.py`, `cluster_bucket_reefs.py`
+
+#### XGBoost Training (per island)
+
+Trains one binary classifier per town within each island.
+
+**Feature engineering (776 features):**
+- 768 z-score columns from embeddings
+- 4 POS flags (noun, verb, adj, adv)
+- 2 domain-specific: centroid cosine + KNN-5 mean cosine
+
+**Negative sampling strategy:**
+- 50% hard negatives from sibling towns in same island
+- 50% easy negatives from global vocabulary
+- 5:1 negative-to-positive ratio
+
+**Post-training filters:**
+1. **Island-level word detection:** Words predicted by ≥80% of towns in an island are non-discriminative → promoted to IslandWords, removed from AugmentedTowns.
+2. **Capital starving:** For capital towns, predictions where any sibling also has the word are removed. Capitals get only words that no specific town claimed.
+
+**Hyperparameters:** Same as v2 production (max_depth=8, n_estimators=2000, learning_rate=0.08, CUDA-accelerated).
+
+**Model validation:** StratifiedGroupKFold (7-fold) cross-validation with morphological group awareness. F1 stored in Towns.model_f1.
+
+#### XGBoost Post-Processing
+
+For predictions with raw_score < 0.7:
 ```
-idf = log2(N_total_domains / n_word_domains) / log2(N_total_domains)
-adjusted_score = raw_score * idf
+idf = log2(N_towns / n_word_towns) / log2(N_towns)
+adjusted = raw_score * idf
 ```
-High-confidence predictions (>= 0.7) pass through unchanged. Words appearing in many domains get penalized. After adjustment, rows below 0.4 are pruned.
+High-confidence predictions (≥ 0.7) pass through unchanged. Rows below 0.4 are pruned.
 
-#### Step 3: Domain-Name Cosine Similarity
+#### Ubiquity Pruning
 
-See [Domain-Name Cosine Similarity](#domain-name-cosine-similarity) for full details.
+Words appearing in 20+ towns:
+- Score < 0.80: DELETE
+- Score 0.80-0.95: multiply by 0.5
+- Score ≥ 0.95: untouched
 
-Embeds all 444 domain names using the same nomic-embed-text-v1.5 model (with `"classification: "` prefix), L2-normalizes them, then for each domain computes the cosine similarity between every word's embedding and the domain name's embedding. Results stored in `augmented_domains.domain_name_cos`.
+Additionally sets Words.is_stop for ubiquitous words.
 
-This step uses `emb_normalized` and `wid_to_row` which are still in memory from step 1 (freed after step 5).
+#### Reef Clustering (per island)
 
-#### Step 4: Ubiquity Pruning
+For each town with ≥10 total words:
 
-Penalizes/prunes XGBoost predictions for words appearing in `POLYSEMY_DOMAIN_THRESHOLD`+ (20) domains:
-- Score < `UBIQUITY_SCORE_FLOOR` (0.80): DELETE
-- Score between floor and `UBIQUITY_SCORE_CEILING` (0.95): multiply by `UBIQUITY_PENALTY` (0.5)
-- Score >= ceiling: untouched
+1. **Core/non-core split:** Seeds + high-confidence XGBoost (score ≥ 0.6) are core. Lower-confidence XGBoost predictions are non-core.
+2. **PMI computation:** Pointwise Mutual Information from town co-membership within the island.
+3. **Hybrid similarity:** `0.7 * embedding_cosine + 0.3 * pmi_cosine`
+4. **kNN graph** (k=15), symmetrized
+5. **Leiden clustering** (resolution=1.0, min_community_size=3)
+6. **Centroid computation** from core members
+7. **Non-core assignment** to nearest reef centroid
+8. **Persist** to Reefs + ReefWords tables
 
-#### Step 5: Domainless Tagging
+### Stage 5: Stats & Export Promotion
 
-Tags simple single words with embeddings that don't belong to any real domain as "domainless". Their word_ids are stored in `constants.bin["domainless_word_ids"]` for Lagoon to handle specially (they contribute to tokenization but not domain scoring).
+**Scripts:** `compute_word_stats.py`, `compute_hierarchy_stats.py`, `populate_exports.py`
 
-#### Step 6: Reef Subdivision
+#### Word Stats
 
-Subdivides each domain into semantic sub-reefs using Leiden community detection. See [Clustering Algorithms](#clustering-algorithms).
+Computes per-word: reef_count, town_count, island_count, IDF, specificity, best cosine_sim. Also populates WordIslandStats with per (word, island) concentration metrics.
 
-For each domain with >= `REEF_MIN_DOMAIN_SIZE` (10) core words (score >= `REEF_SCORE_THRESHOLD` 0.6):
+**Specificity categories** (from reef_count):
+| reef_count | specificity | Meaning |
+|------------|-------------|---------|
+| 1 | 3 | Highly specific |
+| 2-3 | 2 | Very specific |
+| 4-5 | 1 | Specific |
+| 6-10 | 0 | Moderate |
+| 11-20 | -1 | Generic |
+| 21+ | -2 | Very generic |
 
-1. **Compute hybrid similarity matrix:**
-   ```
-   sim = 0.7 * embedding_cosine + 0.3 * pmi_cosine
-   ```
-2. **Build kNN graph** (k=15), symmetrized
-3. **Run Leiden clustering** (resolution=1.0, min_community_size=3)
-4. **Compute sub-reef centroids** from core members
-5. **Assign non-core words** to nearest centroid (if cosine >= 0.05)
-6. **Store results** in `domain_reefs` and `domain_reef_stats`
+#### Export Promotion
 
-#### Step 7: Archipelago Clustering
+`populate_exports.py` classifies each word into exactly one export level, then computes and normalizes weights. See [Export Promotion Rules](#export-promotion-rules) and [Scoring Formulas](#scoring-formulas).
 
-Groups the 444 domains into ~10 higher-level archipelagos.
+### Stage 6: Binary Export
 
-1. **Compute domain embeddings** as weighted average of sub-reef centroids (weighted by sub-reef size)
-2. **Compute PMI matrix** from word-domain co-memberships
-3. **Build hybrid similarity** (same formula: 70% embedding + 30% PMI)
-4. **kNN graph** (k=10) + **Leiden clustering** (resolution=1.0, min_community_size=2)
-5. **Store results** in `domain_archipelagos` and `domain_archipelago_stats`
+**Script:** `export.py`
 
-#### Step 8: Scoring
-
-Materializes `domain_word_scores` from `augmented_domains` + `domain_reefs`.
-
-For each (domain, word_id) pair:
-1. Resolve `source_quality` (1.0 for curated, xgb_score for ML predictions)
-2. Look up `centroid_sim` from `domain_reefs` (default 0.8 if no reef assignment)
-3. Look up `domain_name_cos` from `augmented_domains`
-4. Compute `effective_sim = (1-alpha) * centroid_sim + alpha * domain_name_cos` (alpha=0.3; falls back to centroid_sim when domain_name_cos is NULL)
-5. Compute `idf = max(log2(N_total / n_word_domains), 0.1)`
-6. Compute `domain_score = idf * source_quality * effective_sim`
-7. Compute `reef_score = source_quality * effective_sim`
-
-Pairs are deduplicated by (domain, word_id), keeping the highest source_quality.
-
-Includes 17 built-in test queries for verification (e.g., "DNA genetic mutation heredity" should surface biology/genetics domains in top 10). Currently 15/17 pass.
-
-### Stage 3: Export (Load)
-
-**Entry point:** `load.py`
-
-Exports the database into 10 MessagePack binary files for Lagoon consumption. See [Export Format v6.0](#export-format-v60) for full details.
+Reads from the three export tables and serializes to 11 MessagePack binary files for Lagoon consumption. See [Export Format v3.1](#export-format-v31).
 
 ---
 
 ## Scoring Formulas
 
+### Raw Score
+
+```python
+raw_score = idf * source_quality * effective_sim
+```
+
+### IDF
+
+Two variants depending on export level:
+
+```python
+# Reef/town exports: reef-level IDF
+global_idf = log2(total_reefs / reef_count)   # range ~8-11
+
+# Island exports: island-level IDF (better differentiation)
+island_idf = log2(N_islands / n_islands)       # range ~2.6-5.5
+```
+
 ### Source Quality
+
 ```python
-if source in ("wordnet", "claude_augmented"):
-    source_quality = 1.0
-else:  # xgboost predictions
-    source_quality = max(xgb_score or 0.5, 0.1)
+source_quality = max(raw_source_quality, SOURCE_QUALITY_FLOOR)  # floor = 0.9
+
+# Raw source_quality values:
+#   1.0  — curated (WordNet + Claude seeds)
+#   0.9  — XGBoost core (score >= 0.6)
+#   0.7  — XGBoost non-core
 ```
 
-### IDF (Inverse Domain Frequency)
-```python
-idf = max(log2(n_total_domains / n_word_domains), 0.1)
-```
-Words in fewer domains score higher. Floored at 0.1.
+The floor of 0.9 softens the gap between XGBoost and curated words, preventing cross-island scoring artifacts.
 
-### Effective Similarity (domain-name cosine blending)
-```python
-alpha = 0.3  # DOMAIN_NAME_COS_ALPHA
-if domain_name_cos is not None:
-    effective_sim = (1 - alpha) * centroid_sim + alpha * domain_name_cos
-else:
-    effective_sim = centroid_sim  # backward-compatible fallback
-```
-Blends two nearly orthogonal signals:
-- **centroid_sim**: "does this word statistically belong in this domain cluster?"
-- **domain_name_cos**: "if someone says this word, which domain comes to mind first?"
+### Effective Similarity
 
-### Domain Score
+**Reef/town exports (three-signal blend):**
 ```python
-domain_score = idf * source_quality * effective_sim
+a1 = 0.2  # GROUP_NAME_COS_ALPHA (reef/town name weight)
+a2 = 0.3  # ISLAND_NAME_COS_ALPHA (island name weight)
+effective_sim = (1 - a1 - a2) * centroid_sim + a1 * group_name_cos + a2 * island_name_cos
+#             = 0.5 * centroid_sim + 0.2 * group_name_cos + 0.3 * island_name_cos
 ```
-This is the primary weight exported to Lagoon. Quantized as:
-```python
-weight_q = clamp(round(domain_score * WEIGHT_SCALE), 0, 65535)  # u16
-```
-Where `WEIGHT_SCALE = 100.0`.
 
-### Reef Score
+**Island exports (two-signal blend):**
 ```python
-reef_score = source_quality * effective_sim
+a = 0.5  # ISLAND_ONLY_ALPHA
+effective_sim = (1 - a) * centroid_sim + a * island_name_cos
+#             = 0.5 * centroid_sim + 0.5 * island_name_cos
 ```
-Used internally for ranking quality assessment.
 
-### IDF Quantization (for word lookup)
+**Constraint:** centroid_sim must be ≥ 50% of effective_sim at all levels. This is currently at exactly 50%.
+
+### Normalization
+
+**Reef/town exports:** Per-group min-max to [0, 255]. Each reef normalizes independently (for reef exports), each town for town exports.
+
+**Island exports:** Hybrid normalization to solve cross-island comparability:
 ```python
-idf_q = clamp(round(idf * IDF_SCALE), 0, 255)  # u8
+ISLAND_GLOBAL_BLEND = 0.8  # 80% global + 20% per-island
+w = round((1 - blend) * w_local + blend * w_global)
+w = round(w * exclusivity_factor(n_islands))
 ```
-Where `IDF_SCALE = 51`.
 
-### Specificity Categories
-Based on n_word_domains (number of domains a word appears in):
-```
-<= 3 domains:   specificity = 2  (highly specific)
-<= 10 domains:  specificity = 1
-<= 50 domains:  specificity = 0
-<= 150 domains: specificity = -1
-> 150 domains:  specificity = -2 (very generic)
-```
+Where `exclusivity_factor = 1 / n_islands^0.33` (cube root dampening).
+
+**Why hybrid normalization:** Pure per-island min-max makes cross-island weight comparison unreliable. Islands with wider raw score ranges (e.g., Biology with 7,822 island-level words) compress mid-range words more than narrow islands. The global component preserves absolute score ordering across islands.
 
 ---
 
-## Feature Engineering (777 Features)
+## Feature Engineering (776 Features)
 
-XGBoost classifiers use 777 features per word per domain.
+XGBoost classifiers use 776 features per word per town.
 
-### Global Features (775 columns, same for all domains)
+### Global Features (772 columns, same for all towns)
 
 **Embedding Z-scores (768 columns):**
 ```python
-z_score[i] = (embedding[i] - dim_mean[i]) / dim_std[i]
+z_score[d] = (embedding[d] - dim_mean[d]) / dim_std[d]
 ```
-Using `dim_stats` mean and std per dimension.
 
-**Metadata Features (7 columns):**
-- `total_dims`: number of dimension memberships
-- `is_noun`, `is_verb`, `is_adj`, `is_adv`: binary POS indicators
-- `n_synsets`: WordNet synset count
-- `n_domains`: domain count
+**POS Flags (4 columns):**
+- `is_noun`, `is_verb`, `is_adj`, `is_adv`: binary indicators derived from Words.pos
 
-### Domain-Specific Features (2 columns, recomputed per domain)
+### Town-Specific Features (2 columns, recomputed per town)
 
 **Centroid Cosine Similarity (1 column):**
 ```python
@@ -455,58 +526,28 @@ top5_mean = mean(top_5_values(cos_to_core, axis=1))
 ```
 
 ### Cross-Validation
-- **StratifiedGroupKFold** preserves label distribution and morphological groups
-- Groups: words linked via shared `variant_hash` values (morphy equivalence classes)
-- Union-find builds equivalence classes to prevent train/test leakage between word forms
 
-### XGBoost Hyperparameters
-```python
-objective = "binary:logistic"
-device = "cuda"
-max_depth = 8
-n_estimators = 2000
-learning_rate = 0.08
-subsample = 0.82
-colsample_bytree = 0.84
-scale_pos_weight = n_neg / n_pos
-reg_alpha = 0.12
-reg_lambda = 0.06
-early_stopping_rounds = 200
-eval_metric = "logloss"
-```
+StratifiedGroupKFold (7-fold) preserves label distribution. Groups are word_ids (not morphological equivalence classes as in v2, since WordVariants is populated later in the v3 pipeline).
 
 ---
 
-## Domain-Name Cosine Similarity
+## Name Cosine Blending
 
-A scoring signal added in transform.py step 3 that captures "default implied association" between words and domain names.
+A multi-level scoring signal that captures "if someone says this word, which domain comes to mind?" -- nearly orthogonal to centroid_sim (Pearson r ≈ 0.073).
 
-### Motivation
+### Three Signals
 
-The original scoring pipeline used only `centroid_sim` (cosine similarity of a word to its sub-reef centroid). This captures "does this word statistically belong in this domain cluster?" but misses "if someone says this word, which domain comes to mind first?"
-
-Example: "violin" had `centroid_sim` of 0.873 for "italian" (highest -- it clusters well with Italian cultural words) but only 0.856 for "music". However, `cos(embed("violin"), embed("music"))` = 0.831 vs `cos(embed("violin"), embed("italian"))` = 0.700. Nobody hears "violin" and thinks "Italian" first.
-
-The two signals have a Pearson correlation of only 0.073 -- nearly independent -- making them ideal for blending.
+1. **centroid_sim**: "Does this word statistically belong in this reef/town cluster?" Strongest, most reliable signal.
+2. **group_name_cos**: `cos(word_embedding, reef_or_town_name_embedding)`. Local topic steering.
+3. **island_name_cos**: `cos(word_embedding, island_name_embedding)`. Broad domain steering -- captures that "violin" should go to Music even if it clusters well with Italian cultural words.
 
 ### Implementation
 
-1. **Embed domain names:** Load the nomic-embed-text-v1.5 model, embed all 444 domain names with `"classification: "` prefix, L2-normalize
-2. **Vectorized cosine per domain:** For each domain, gather all word embeddings (from `emb_normalized` already in memory), compute `word_embs @ domain_emb` in a single matrix-vector multiply
-3. **Batch UPDATE:** Store results in `augmented_domains.domain_name_cos`
-4. **Blending at scoring time (step 8):** `effective_sim = 0.7 * centroid_sim + 0.3 * domain_name_cos`
+All hierarchy names (reef, town, island) are embedded at export time using the same nomic-embed-text-v1.5 model with `"clustering: "` prefix. Cosine similarities are computed per-word against each relevant name embedding.
 
-### Global Impact
+### Signal Independence
 
-- 100% of scored pairs have domain_name_cos (no NULLs for words with embeddings)
-- ~15% of words had their #1 domain change due to blending
-- The signal overwhelmingly dampens rather than boosts -- most words score lower against the domain name than against the cluster centroid
-- Domains with concrete, intuitive names benefit most (music, anatomy, astronomy)
-- Domains with abstract/compound names are dampened most (street name, trade name, user_experience)
-
-### alpha=0.3 Rationale
-
-Empirical testing across test words (violin, bishop, rook, python, cell) showed alpha=0.3 produces the best reranking. Lower values don't fix violin; higher values over-weight the domain name signal and break cluster coherence. Both signals are cosine similarities in the same 768-dim embedding space, so blending is mathematically principled.
+centroid_sim and name_cos are nearly independent signals (Pearson r ≈ 0.073), making them ideal for blending. The name signal overwhelmingly dampens rather than boosts -- most words score lower against the domain name than against the cluster centroid. Domains with concrete, intuitive names benefit most (music, anatomy, astronomy).
 
 ---
 
@@ -514,105 +555,79 @@ Empirical testing across test words (violin, bishop, rook, python, cell) showed 
 
 ### PMI (Pointwise Mutual Information)
 
-Global co-occurrence metric between domains, computed from word-domain memberships:
-
+Computed from word-town co-membership within an island:
 ```python
-P(d) = count_words_in(d) / total_vocab
-P(d1, d2) = count_words_in_both(d1, d2) / total_vocab
-PMI(d1, d2) = log2(P(d1,d2) / (P(d1) * P(d2)))
+P(t) = count_words_in(t) / total_vocab
+P(t1, t2) = count_words_in_both(t1, t2) / total_vocab
+PMI(t1, t2) = log2(P(t1,t2) / (P(t1) * P(t2)))
 ```
-
-Only positive PMI retained (negative clamped to 0). Produces a symmetric (n_domains x n_domains) matrix.
-
-**PMI word vectors:** For reef clustering within a domain, each word gets a PMI vector of length n_domains, where entry[i] = PMI(parent_domain, domain_i) if the word is also in domain_i, else 0.
+Only positive PMI retained. Produces a symmetric (n_towns × n_towns) matrix per island.
 
 ### Hybrid Similarity
 
-Used for both reef subdivision and archipelago clustering:
-
 ```python
-similarity = alpha * cosine_sim(embeddings) + (1 - alpha) * cosine_sim(pmi_vectors)
+similarity = 0.7 * cosine_sim(embeddings) + 0.3 * cosine_sim(pmi_vectors)
 ```
 
-- Reef level: `alpha = 0.7` (REEF_ALPHA)
-- Archipelago level: `alpha = 0.7` (ARCH_ALPHA)
-- Fallback: embedding-only cosine if a word/domain lacks PMI neighbors
-
-### kNN Graph Construction
+### kNN Graph + Leiden
 
 1. Compute pairwise hybrid similarity matrix
-2. For each node, keep top-k neighbors (excluding self)
-3. Symmetrize: union of directed k-nearest edges
-4. Deduplicate: keep maximum weight for duplicate edges
-5. Result: undirected weighted iGraph graph
-
-Parameters: k=15 for reefs, k=10 for archipelagos.
-
-### Leiden Community Detection
-
-Uses `leidenalg` with `RBConfigurationVertexPartition`:
-
-```python
-partition = la.find_partition(graph, RBConfigurationVertexPartition,
-                              weights="weight", resolution_parameter=resolution)
-```
-
-Post-processing:
-1. Communities smaller than `min_community_size` are merged into noise (label = -1)
-2. Remaining communities relabeled contiguously (0, 1, 2, ...)
-3. Returns: label array and modularity score
-
-Parameters:
-- Reefs: resolution=1.0, min_community_size=3
-- Archipelagos: resolution=1.0, min_community_size=2
-
-### Centroid Computation and Assignment
-
-For each cluster (sub-reef or archipelago):
-1. Centroid = L2-normalized mean of member embeddings
-2. Non-core words assigned to nearest centroid (if cosine >= 0.05)
-3. Unassigned words labeled as noise (reef_id = -1)
+2. For each node, keep top-k=15 neighbors
+3. Symmetrize (union of directed edges)
+4. Run Leiden clustering (resolution=1.0, min_community_size=3)
+5. Compute L2-normalized centroids from core members
+6. Assign non-core words to nearest centroid
 
 ---
 
-## Export Format v6.0
+## Export Promotion Rules
+
+Each word is classified into exactly one export level. No word appears in multiple export tables.
+
+| Condition | Level | Rationale |
+|-----------|-------|-----------|
+| spec ≥ 0, 1 town in island | reef | Specific, single-town |
+| spec ≥ 1, 2+ towns | town | Specific, multi-town |
+| spec = 0, 2+ towns | island | Moderate, multi-town |
+| spec = -1, 1 reef in island | reef | Singleton rescue |
+| spec = -1, 2+ reefs in island | island | Generic + spread |
+| spec ≤ -2 | island | Very generic |
+
+Current distribution: ~30K reef rows, ~241K town rows, ~145K island rows.
+
+---
+
+## Export Format v3.1
 
 **Format:** MessagePack binary files, deserialized by Lagoon.
 
-### Terminology Mapping (DB -> Export)
+### File Descriptions (11 files)
 
-| Database concept | Export concept | Reason |
-|-----------------|---------------|--------|
-| Domain (444) | Reef | Lagoon's hierarchy: reef -> island -> arch |
-| Domain (same) | Island | 1:1 with reef in v2 (no separate island layer) |
-| Sub-reef (4,723) | Sub-reef | Subdivision within a domain |
-| Archipelago (10) | Arch | Top-level grouping |
-
-### File Descriptions
-
-#### word_lookup.bin (~4.8 MB)
+#### word_lookup.bin
 ```python
-{word_hash: [word_hash, word_id, specificity, idf_q], ...}
+{u64_hash: [word_hash, word_id, specificity, idf_q], ...}
 ```
-Hash table for O(1) word lookup. Priority resolution: base words > morphy variants > snowball stems. Within same priority, higher specificity wins.
+Hash table for O(1) word lookup. Priority: base words > morphy variants > snowball stems. `idf_q = clamp(round(idf * 21), 0, 255)`.
 
-#### word_reefs.bin (~7.4 MB)
+#### word_islands.bin
 ```python
-[
-    [],                                    # word_id 0 (unused)
-    [[reef_id, weight_q, sub_reef_id], ...],  # word_id 1
-    ...
-]
+[[], [], [[island_id, weight_q], ...], ...]
 ```
-Indexed by word_id. Each entry lists domain memberships with quantized weights (u16). `weight_q = round(domain_score * 100)`. The `domain_score` already incorporates the domain-name cosine blending via `effective_sim`.
+Sparse list indexed by word_id. Each entry lists island memberships with u8 weights. MAX(export_weight) per (word, island) across all three export tables.
 
-#### reef_meta.bin (~72 KB)
+#### word_towns.bin
+```python
+[[], [], [[town_id, weight_q], ...], ...]
+```
+Sparse list indexed by word_id. Town-level associations. Island-level exports are distributed to all child towns. This is the primary scoring unit for Lagoon.
+
+#### island_meta.bin
 ```python
 [{
-    "hierarchy_addr": u32,    # pack: (arch_id << 16) | reef_id
+    "arch_id": int,
+    "name": str,
     "n_words": int,
-    "name": str,              # domain name
-    "valence": 0.0,           # placeholder (no valence in v2)
+    "iqf": int,             # placeholder
     "avg_specificity": float,
     "noun_frac": float,
     "verb_frac": float,
@@ -621,175 +636,193 @@ Indexed by word_id. Each entry lists domain memberships with quantized weights (
 }, ...]
 ```
 
-#### island_meta.bin (~11 KB)
+#### town_meta.bin
 ```python
-[{"arch_id": int, "name": str}, ...]
+[{
+    "island_id": int,
+    "name": str,
+    "n_words": int,
+    "tqf": int,             # placeholder
+    "avg_specificity": float,
+}, ...]
 ```
-1:1 with reef_meta in v2 (each domain is both a "reef" and an "island").
 
-#### sub_reef_meta.bin (~347 KB)
+#### reef_meta.bin
 ```python
-[{"parent_island_id": int, "n_words": int, "name": str}, ...]
+[{
+    "town_id": int,
+    "name": str,
+    "n_words": int,
+    "avg_specificity": float,
+}, ...]
 ```
-4,723 sub-reef records with Leiden cluster labels as names.
 
-#### background.bin (~8 KB)
-```python
-{"bg_mean": [float, ...], "bg_std": [float, ...]}
-```
-Per-reef background model for z-score normalization in Lagoon. Computed by sampling 1000 random 15-word queries and measuring per-reef score distributions.
-
-**Background adjustment algorithm:**
-1. Identify "unreliable" reefs: expected sample hit rate < 30 occurrences
-2. Fit power-law regression on reliable reefs: `log(std) = a * log(mean) + b`
-3. Replace unreliable stds with regression prediction (floored at median reliable std)
-4. Floor all bg_std values at `BG_STD_FLOOR` (1.0) to cap z-score sensitivity
-
-#### constants.bin (~131 KB)
+#### background.bin
 ```python
 {
-    "N_REEFS": 444,
-    "N_ISLANDS": 444,
-    "N_ARCHS": 10,
-    "N_SUB_REEFS": 4723,
-    "avg_reef_words": float,
-    "IDF_SCALE": 51,
-    "WEIGHT_SCALE": 100.0,
-    "FNV1A_OFFSET": 14695981039346656037,
-    "FNV1A_PRIME": 1099511628211,
-    "reef_total_dims": [0, ...],      # always 0 in v2
-    "reef_n_words": [n, ...],         # words per reef
-    "domainless_word_ids": [id, ...], # words not in any domain
+    "bg_mean": [float, ...],        # per-island background mean
+    "bg_std": [float, ...],         # per-island background std (adjusted)
+    "town_bg_mean": [float, ...],   # per-town background mean
+    "town_bg_std": [float, ...],    # per-town background std (adjusted)
 }
 ```
 
-#### compounds.bin (~1.4 MB)
+Background model for z-score normalization in Lagoon. Computed by sampling 1000 random 15-word queries, then adjusted via:
+1. Power-law regression on reliable islands (expected hits ≥ 30)
+2. Replace unreliable stds with regression predictions
+3. Specificity modulation: `std / (1 + 0.3 * avg_specificity)`
+4. Floor at BG_STD_FLOOR (0.1)
+
+Both island-level and town-level background models are computed.
+
+#### constants.bin
+```python
+{
+    "N_ISLANDS": 41,                    # topical islands
+    "N_TOWNS": 308,                     # topical towns
+    "N_REEFS": int,
+    "N_ARCHS": 6,
+    "IDF_SCALE": 21,
+    "WEIGHT_SCALE": 255.0,
+    "FNV1A_OFFSET": 14695981039346656037,
+    "FNV1A_PRIME": 1099511628211,
+    "island_n_words": [n, ...],
+    "town_n_words": [n, ...],
+    "domainless_word_ids": [...],       # words not in any topical island
+    "town_domainless_word_ids": [...],  # words not in any topical town
+    "bucket_only_word_ids": [...],      # words only in bucket islands
+    "bucket_island_names": [...],       # names of bucket islands
+}
+```
+
+#### compounds.bin
 ```python
 [[word_text, word_id], ...]
 ```
-69,793 multi-word expressions for Aho-Corasick tokenization in Lagoon.
+Multi-word expressions for Aho-Corasick tokenization in Lagoon.
 
-#### reef_edges.bin (~1 byte)
-Empty in v2 (no inter-reef edges at the domain level).
-
-#### word_reef_detail.bin (~158 KB)
+#### word_detail.bin
 ```python
-[[], [], [[island_id, sub_reef_id, weight_q], ...], ...]
+[[], [], [[island_id, town_id, reef_id, weight, level_code], ...], ...]
 ```
-Indexed by word_id. Sub-reef level detail for words that have sub-reef assignments.
+Sparse list indexed by word_id. Full hierarchy detail for each word. `level_code`: 0=reef, 1=town, 2=island. Sentinel -1 for missing town_id/reef_id at higher export levels.
+
+#### bucket_words.bin
+```python
+[[], [], [[bucket_idx, weight_q], ...], ...]
+```
+Sparse list indexed by word_id. Non-topical bucket island associations, exported separately for optional loading.
 
 #### manifest.json
 ```json
 {
-    "version": "6.0",
+    "version": "3.1",
     "format": "msgpack",
     "build_timestamp": "ISO-8601",
     "files": {"filename.bin": "sha256_hex", ...},
     "stats": {
-        "n_reefs": 444,
-        "n_islands": 444,
-        "n_archs": 10,
-        "n_words": 158060,
-        "n_lookup_entries": 186184,
-        "n_words_with_reefs": 115641,
-        "n_compounds": 69793,
-        "n_sub_reefs": 4723,
-        "n_edges": 0
+        "n_islands": 41,
+        "n_towns": 308,
+        "n_reefs": int,
+        "n_archs": 6,
+        "n_bucket_islands": 3,
+        "n_words": 149691,
+        "n_lookup_entries": int,
+        "n_topical_words": int,
+        "n_compounds": int,
+        ...
     }
 }
-```
-
-### Hierarchy Address Packing
-```python
-def pack_hierarchy_addr(arch_id, reef_id):
-    return (arch_id << 16) | reef_id  # u32: arch(16) | reef(16)
 ```
 
 ---
 
 ## Configuration Reference
 
-All constants in `config.py`:
+### Scoring Constants (in `populate_exports.py`)
 
 ```python
-# Embedding model
-MODEL_NAME       = "nomic-ai/nomic-embed-text-v1.5"
-EMBEDDING_PREFIX = "classification: "
-MATRYOSHKA_DIM   = 768
+GROUP_NAME_COS_ALPHA = 0.2    # weight of reef/town name cosine
+ISLAND_NAME_COS_ALPHA = 0.3   # weight of island name cosine (reef/town exports)
+ISLAND_ONLY_ALPHA = 0.5       # weight of island name cosine (island exports)
+SOURCE_QUALITY_FLOOR = 0.9    # min source_quality for scoring
+ISLAND_GLOBAL_BLEND = 0.8     # 80% global + 20% per-island normalization
+```
 
-# FNV-1a u64 hashing
-FNV1A_OFFSET = 14695981039346656037
-FNV1A_PRIME  = 1099511628211
+**Constraint:** `GROUP_NAME_COS_ALPHA + ISLAND_NAME_COS_ALPHA ≤ 0.5` (centroid_sim must be ≥ 50%).
 
-# Domain augmentation (Claude API)
-AUGMENT_CLAUDE_MODEL     = "claude-sonnet-4-5-20250929"
-AUGMENT_BATCH_SIZE       = 5       # domains per API call
-AUGMENT_API_DELAY        = 0.5     # seconds between calls
-AUGMENT_MIN_DOMAIN_WORDS = 20      # min matched words for XGBoost training
-AUGMENT_NEG_RATIO        = 5       # negative:positive sampling ratio
+### Embedding Model
 
-# XGBoost threshold
-XGBOOST_SCORE_THRESHOLD  = 0.4    # min score for domain membership
+```python
+MODEL_NAME = "nomic-ai/nomic-embed-text-v1.5"
+EMBEDDING_PREFIX = "clustering: "   # changed from "classification: " in v2
+EMBEDDING_DIM = 768
+```
 
-# Polysemy filter
-POLYSEMY_DOMAIN_THRESHOLD = 20    # words in >= this many curated domains are flagged
+### XGBoost
 
-# XGBoost-excluded domains (9 stylistic/pragmatic categories)
-XGBOOST_EXCLUDE_DOMAINS = frozenset({
-    "african american vernacular english", "descriptive linguistics",
-    "euphemism", "formality", "phonology", "regionalism",
-    "slang", "trope", "dialect",
-})
+```python
+NEG_RATIO = 5              # 50% hard (sibling), 50% easy (global)
+SCORE_THRESHOLD = 0.4      # min probability for predictions
+CORE_SCORE_THRESHOLD = 0.6 # core vs non-core in ReefWords
 
-# Reef subdivision (Leiden clustering within domains)
-REEF_SCORE_THRESHOLD       = 0.6  # min xgb score for core words
-REEF_ALPHA                 = 0.7  # hybrid: 70% embedding, 30% PMI
-REEF_KNN_K                 = 15   # kNN neighbors
-REEF_LEIDEN_RESOLUTION     = 1.0
-REEF_MIN_COMMUNITY_SIZE    = 3    # merge smaller communities into noise
-REEF_MIN_DOMAIN_SIZE       = 10   # skip domains with fewer core words
-REEF_CHARACTERISTIC_WORDS_N = 10  # top words per sub-reef label
+# Hyperparameters (same as v2)
+max_depth = 8, n_estimators = 2000, learning_rate = 0.08
+subsample = 0.82, colsample_bytree = 0.84
+reg_alpha = 0.12, reg_lambda = 0.06
+early_stopping_rounds = 200
+```
 
-# Archipelago clustering (domain-level)
-ARCH_ALPHA                 = 0.7  # hybrid: 70% embedding, 30% PMI
-ARCH_KNN_K                 = 10   # kNN neighbors
-ARCH_LEIDEN_RESOLUTION     = 1.0
-ARCH_MIN_COMMUNITY_SIZE    = 2
-ARCH_CHARACTERISTIC_DOMAINS_N = 10
+### Clustering
 
-# Background model
-BG_STD_FLOOR               = 1.0  # floor on adjusted bg_std
+```python
+ALPHA = 0.7                 # hybrid: 70% embedding, 30% PMI
+KNN_K = 15
+LEIDEN_RESOLUTION = 1.0
+MIN_COMMUNITY_SIZE = 3
+MIN_TOWN_SIZE = 10
+```
 
-# Ubiquity pruning (post-XGBoost)
-UBIQUITY_SCORE_FLOOR       = 0.80  # below: DELETE
-UBIQUITY_SCORE_CEILING     = 0.95  # floor to ceiling: penalize
-UBIQUITY_PENALTY           = 0.5   # score multiplier
+### Ubiquity Pruning
 
-# Domain-name cosine blending
-DOMAIN_NAME_COS_ALPHA      = 0.3  # effective_sim = (1-alpha)*centroid_sim + alpha*domain_name_cos
+```python
+UBIQUITY_TOWN_THRESHOLD = 20
+UBIQUITY_SCORE_FLOOR = 0.80
+UBIQUITY_SCORE_CEILING = 0.95
+UBIQUITY_PENALTY = 0.5
+```
 
-# Export
-EXPORT_WEIGHT_THRESHOLD    = 0.01  # min weight to include in export
+### Export
+
+```python
+FORMAT_VERSION = "3.1"
+IDF_SCALE = 21              # max idf ~11.94 → 251, fits u8
+WEIGHT_SCALE = 255.0
+BG_STD_FLOOR = 0.1
 ```
 
 ---
 
 ## Lagoon Integration
 
-Lagoon is the downstream consumer -- a Python search scoring library at `../lagoon/src/lagoon/`. It loads the 10 `.bin` files and provides:
+Lagoon is the downstream consumer -- a Python search scoring library. It loads the 11 `.bin` files and provides:
 
 - **Tokenization:** Aho-Corasick multi-word matching using `compounds.bin`, then FNV-1a lookup using `word_lookup.bin`
-- **Domain scoring:** For each query word, look up domain memberships from `word_reefs.bin`, accumulate weighted scores per domain
+- **Domain scoring:** For each query word, look up island/town memberships from `word_islands.bin` / `word_towns.bin`, accumulate weighted scores
 - **Z-score normalization:** Compare accumulated scores against `background.bin` (bg_mean, bg_std) to produce z-scores
-- **Ranking:** Return domains ranked by z-score
+- **Hierarchy-aware coherence:** Use island/town structure to detect coherent multi-level activations
 
-The export format is designed for fast deserialization and O(1) lookups. All numeric values are pre-quantized to minimize runtime computation. The `domain_score` values in `word_reefs.bin` already incorporate the domain-name cosine blending, so Lagoon needs no knowledge of the blending formula.
+The export format provides two scoring granularities:
+- **Island-level** (`word_islands.bin`): 41 scoring units, coarser but more stable
+- **Town-level** (`word_towns.bin`): 308 scoring units, finer discrimination
+
+All weights are pre-computed and quantized to u8. The `export_weight` values already incorporate IDF, source quality, centroid similarity, name cosine blending, normalization, and exclusivity -- so Lagoon uses them as-is with no re-derivation.
 
 ---
 
 ## Important Implementation Details
 
-### FNV-1a Hashing (`word_list.py`)
+### FNV-1a Hashing
 ```python
 def fnv1a_u64(s):
     h = FNV1A_OFFSET  # 14695981039346656037
@@ -798,45 +831,58 @@ def fnv1a_u64(s):
         h = (h * FNV1A_PRIME) & 0xFFFFFFFFFFFFFFFF
     return h
 ```
-Used for all word lookups. Deterministic, fast, good distribution. The same hash function must be used by Lagoon.
+SQLite stores as signed i64. Convert on read: `hash & 0xFFFFFFFFFFFFFFFF`.
 
-### Embedding Model
-- **Model:** nomic-embed-text-v1.5
-- **Dimensions:** 768 (Matryoshka)
-- **Prefix:** `"classification: "` for all embeddings (words and domain names)
-- **Storage:** float32 blobs in SQLite (3072 bytes per word)
+### Embedding Prefix Change
 
-### Z-Score Dimension Membership
-A word is a "member" of dimension d if:
+V3 uses `"clustering: "` instead of v2's `"classification: "`. This is nomic-embed-text-v1.5's intended prefix for clustering tasks and produces better topical grouping. All word embeddings and hierarchy name embeddings use the same prefix.
+
+### Capital Town Triage
+
+Capital towns are catch-all towns for generic island-level vocabulary. The `detect_island_words.py` script uses an adaptive threshold (NC p25 of cosine-std across non-capital town centroids) to identify generic capital seeds and promote them to IslandWords. Misplaced seeds are relocated to their best-matching non-capital town.
+
+### Post-Training Capital Starving
+
+After XGBoost training, `train_town_xgboost.py` performs a second pass: for capital towns, any prediction where a sibling town also has the word is removed. This ensures capitals only contain words that no specific town claimed.
+
+### Island-Level Word Detection (Two Sources)
+
+Words become island-level from two independent detections:
+1. **Pre-XGBoost** (`detect_island_words.py`): cosine-std analysis on seed words
+2. **Post-XGBoost** (`train_town_xgboost.py`): words predicted by ≥80% of towns in the island
+
+Both feed into the IslandWords table, which flows into IslandWordExports during the export phase.
+
+### Bucket Islands
+
+Three non-topical islands (Languages, Regional, Miscellaneous) are marked `is_bucket=1`. They:
+- Skip XGBoost training entirely
+- Are clustered separately by `cluster_bucket_reefs.py`
+- Are exported in a separate `bucket_words.bin` file
+- Are optionally loaded by Lagoon for annotation (not topical scoring)
+
+### Test Battery
+
+53 queries covering: shoal xfail regressions, core domain convergence, cross-domain disambiguation, low-health island stress tests, high-health island stress tests, and ambiguous word resolution. Current score: 47/53 pass (89%). The 6 failures are all upstream data gaps, not formula-fixable.
+
+### Weight Tuning Loop
+
+The fast iteration loop for weight quality:
 ```
-embedding[d] > dim_stats.mean[d] + 2.0 * dim_stats.std[d]
-```
-This produces ~1-2% membership rate per dimension, with `total_dims` averaging ~17.5 per word.
-
-### Word Priority in Lookup Table
-When multiple variants map to the same hash:
-1. Base words (priority 0) > morphy variants (priority 1) > snowball stems (priority 2)
-2. Within same priority: higher specificity wins
-3. Ensures the most informative word form is returned
-
-### Signed/Unsigned Hash Conversion
-SQLite stores integers as signed i64. FNV-1a produces u64 values. The export pipeline converts:
-```python
-unsigned_hash = signed_hash & 0xFFFFFFFFFFFFFFFF
+populate_exports.py   (~15s, idempotent, clears + rebuilds all export tables)
+test_battery.py       (~1s, 53 pass/fail queries with margin analysis)
 ```
 
-### Morphological Groups for CV
-XGBoost cross-validation uses morphological equivalence classes (union-find on shared variant_hash values) to prevent data leakage. Words like "run", "running", "ran" are always in the same CV fold.
+See `v3/tuning.md` for the full tuning guide including diagnostic queries, parameter sensitivity, and approaches tried and rejected.
 
-### Background Model Sampling
-The background model represents "what does a random query look like?" for each domain:
-- 1000 random samples of 15 single words each (frequency-weighted)
-- Per-domain mean and std of raw accumulated scores
-- Unreliable domains (low expected hit rate) get regression-predicted stds
-- All stds floored at `BG_STD_FLOOR` (1.0) to cap z-score sensitivity
+### Source Quality Distribution in ReefWords
 
-### The "domainless" Pseudo-Domain
-Words with embeddings that don't belong to any real domain are tagged as "domainless" in `augmented_domains`. Their word_ids are stored in `constants.bin["domainless_word_ids"]` for Lagoon to handle specially (they contribute to tokenization but not domain scoring).
+| Source | quality | Fraction |
+|--------|---------|----------|
+| WordNet/curated | 1.0 | 60% |
+| Claude augmented | 0.9 | 25% |
+| XGBoost predicted | 0.7 | 15% |
 
-### Memory Management in transform.py
-The transform pipeline keeps `emb_normalized` and `wid_to_row` (large numpy arrays) in memory through steps 1-5 (XGBoost needs them for training, domain-name cos needs them for cosine computation). They're freed with `del` after step 5 (domainless tagging), before the heavy clustering steps that allocate their own matrices.
+### WDH Bridge (WN 2.0 → 3.0)
+
+The FBK WordNet Domains use WN 2.0 synset offsets. NLTK ships WN 3.0 (NOT 3.1). The SKI (Sense Key Index) bridge maps 2.0→3.0 offsets with 98.3% resolution. Bridge data is in `v3/data/ski-pwn-sets.txt`.
